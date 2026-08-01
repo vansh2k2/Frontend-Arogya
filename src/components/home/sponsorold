@@ -1,0 +1,255 @@
+import { useState, useEffect } from 'react';
+import { Sparkles } from 'lucide-react';
+
+// Import all 28 sponsor icons
+import icon1 from '@/icons/icon1.png';
+import icon2 from '@/icons/icon2.png';
+import icon3 from '@/icons/icon3.jpg';
+import icon4 from '@/icons/icon4.png';
+import icon5 from '@/icons/icon5.jpg';
+import icon6 from '@/icons/icon6.jpg';
+import icon7 from '@/icons/icon7.png';
+import icon8 from '@/icons/icon8.png';
+import icon9 from '@/icons/icon9.jpg';
+import icon10 from '@/icons/icon10.jpeg';
+import icon11 from '@/icons/icon11.jpg';
+import icon12 from '@/icons/icon12.jpg';
+import icon13 from '@/icons/icon13.jpg';
+import icon14 from '@/icons/icon14.jpg';
+import icon15 from '@/icons/icon15.jpg';
+import icon16 from '@/icons/icon16.jpg';
+import icon17 from '@/icons/icon17.jpg';
+import icon18 from '@/icons/icon18.jpg';
+import icon19 from '@/icons/icon19.jpg';
+import icon20 from '@/icons/icon20.jpg';
+import icon21 from '@/icons/icon21.jpg';
+import icon22 from '@/icons/icon22.jpg';
+import icon23 from '@/icons/icon23.jpg';
+import icon24 from '@/icons/icon24.jpg';
+import icon25 from '@/icons/icon25.jpg';
+import icon26 from '@/icons/icon26.jpg';
+import icon27 from '@/icons/icon27.jpg';
+import icon28 from '@/icons/icon28.jpg';
+
+const sponsors = [
+  icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8, icon9, icon10,
+  icon11, icon12, icon13, icon14, icon15, icon16, icon17, icon18, icon19, icon20,
+  icon21, icon22, icon23, icon24, icon25, icon26, icon27, icon28
+];
+
+const SponsorsSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const section = document.getElementById('sponsors-section');
+    if (section) observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section id="sponsors-section" className="py-20 bg-gradient-to-b from-emerald-50/50 via-white to-green-50/30 relative overflow-hidden">
+      
+      {/* BACKGROUND DECORATIONS */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-10 left-20 w-64 h-64 bg-emerald-300/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-20 w-80 h-80 bg-green-300/10 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Section Header */}
+        <div 
+          className="text-center mb-12 transition-all duration-1000"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(-30px)'
+          }}
+        >
+          <div className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-emerald-500/10 to-green-500/10 border border-emerald-500/30 rounded-full mb-6 shadow-lg">
+            <Sparkles size={16} className="text-emerald-600" />
+            <span className="text-sm font-bold bg-gradient-to-r from-emerald-700 to-green-700 bg-clip-text text-transparent">
+              Our Partners
+            </span>
+          </div>
+
+          <h2 className="font-bold text-3xl md:text-4xl text-gray-900 mb-4">
+            Associates &{" "}
+            <span className="bg-secondary bg-clip-text text-transparent">
+              Supporting Partners
+            </span>
+          </h2>
+          <p className="text-gray-600 text-base max-w-2xl mx-auto">
+            Proud to be supported by leading organizations in healthcare and wellness
+          </p>
+        </div>
+
+        {/* MARQUEE CONTAINER - 2 Rows */}
+        <div className="space-y-6">
+          
+          {/* First Row - Left to Right */}
+          <div className="relative overflow-hidden py-4">
+            <div className="marquee-container">
+              <div className="marquee-content">
+                {/* First Set */}
+                {sponsors.slice(0, 14).map((icon, idx) => (
+                  <div key={`row1-${idx}`} className="sponsor-item group">
+                    <div className="relative w-44 h-32 bg-white/80 backdrop-blur-sm rounded-3xl p-5 shadow-xl hover:shadow-2xl transition-all duration-500 border-2 border-emerald-200/50 hover:border-emerald-400 overflow-hidden">
+                      {/* Animated gradient border glow */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/0 via-emerald-400/30 to-emerald-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                      
+                      {/* Shine effect */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/60 to-transparent -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-transform duration-1000 pointer-events-none"></div>
+                      
+                      <img
+                        src={icon}
+                        alt={`Sponsor ${idx + 1}`}
+                        className="w-full h-full object-contain filter-none group-hover:scale-110 transition-all duration-500"
+                      />
+                    </div>
+                  </div>
+                ))}
+                {/* Duplicate for seamless loop */}
+                {sponsors.slice(0, 14).map((icon, idx) => (
+                  <div key={`row1-dup-${idx}`} className="sponsor-item group">
+                    <div className="relative w-44 h-32 bg-white/80 backdrop-blur-sm rounded-3xl p-5 shadow-xl hover:shadow-2xl transition-all duration-500 border-2 border-emerald-200/50 hover:border-emerald-400 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/0 via-emerald-400/30 to-emerald-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/60 to-transparent -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-transform duration-1000 pointer-events-none"></div>
+                      <img
+                        src={icon}
+                        alt={`Sponsor ${idx + 1}`}
+                        className="w-full h-full object-contain filter-none group-hover:scale-110 transition-all duration-500"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Second Row - Right to Left */}
+          <div className="relative overflow-hidden py-4">
+            <div className="marquee-container-reverse">
+              <div className="marquee-content-reverse">
+                {/* Second Set */}
+                {sponsors.slice(14, 28).map((icon, idx) => (
+                  <div key={`row2-${idx}`} className="sponsor-item group">
+                    <div className="relative w-44 h-32 bg-white/80 backdrop-blur-sm rounded-3xl p-5 shadow-xl hover:shadow-2xl transition-all duration-500 border-2 border-green-200/50 hover:border-green-400 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-green-400/0 via-green-400/30 to-green-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/60 to-transparent -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-transform duration-1000 pointer-events-none"></div>
+                      <img
+                        src={icon}
+                        alt={`Sponsor ${idx + 15}`}
+                        className="w-full h-full object-contain filter-none group-hover:scale-110 transition-all duration-500"
+                      />
+                    </div>
+                  </div>
+                ))}
+                {/* Duplicate for seamless loop */}
+                {sponsors.slice(14, 28).map((icon, idx) => (
+                  <div key={`row2-dup-${idx}`} className="sponsor-item group">
+                    <div className="relative w-44 h-32 bg-white/80 backdrop-blur-sm rounded-3xl p-5 shadow-xl hover:shadow-2xl transition-all duration-500 border-2 border-green-200/50 hover:border-green-400 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-green-400/0 via-green-400/30 to-green-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/60 to-transparent -translate-x-full -translate-y-full group-hover:translate-x-full group-hover:translate-y-full transition-transform duration-1000 pointer-events-none"></div>
+                      <img
+                        src={icon}
+                        alt={`Sponsor ${idx + 15}`}
+                        className="w-full h-full object-contain filter-none group-hover:scale-110 transition-all duration-500"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* CTA */}
+        <div 
+          className="text-center mt-12 transition-all duration-1000"
+          style={{
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+            transitionDelay: '400ms'
+          }}
+        >
+          <p className="text-gray-600 mb-4 text-base">Interested in partnering with us?</p>
+          <a
+            href="/contact"
+            className="inline-block px-10 py-4 bg-gradient-to-r from-emerald-600 to-green-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl hover:from-emerald-700 hover:to-green-700 transition-all duration-300 hover:scale-105"
+          >
+            Become a Sponsor
+          </a>
+        </div>
+      </div>
+
+      <style jsx>{`
+        /* Marquee Animation - Left to Right */
+        .marquee-container {
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+        }
+
+        .marquee-content {
+          display: flex;
+          animation: marqueeLeft 40s linear infinite;
+          width: max-content;
+        }
+
+        .sponsor-item {
+          flex-shrink: 0;
+          padding: 0 16px;
+        }
+
+        @keyframes marqueeLeft {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+
+        /* Marquee Animation - Right to Left */
+        .marquee-container-reverse {
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+        }
+
+        .marquee-content-reverse {
+          display: flex;
+          animation: marqueeRight 40s linear infinite;
+          width: max-content;
+        }
+
+        @keyframes marqueeRight {
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0);
+          }
+        }
+
+        /* Pause on hover */
+        .marquee-container:hover .marquee-content,
+        .marquee-container-reverse:hover .marquee-content-reverse {
+          animation-play-state: paused;
+        }
+      `}</style>
+    </section>
+  );
+};
+
+export default SponsorsSection;

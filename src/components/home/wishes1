@@ -1,0 +1,131 @@
+import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
+
+const videos = [
+  "https://www.youtube.com/embed/StV_lChzEQw",
+  "https://www.youtube.com/embed/0b8kcCLTbNI",
+  "https://www.youtube.com/embed/4NxqqF2cmaY",
+  "https://www.youtube.com/embed/cRsj2xdo13A",
+  "https://www.youtube.com/embed/cJXbvaLeaOA",
+  "https://www.youtube.com/embed/7On089qRGdI",
+  "https://www.youtube.com/embed/zWZlo09Hpx4",
+  "https://www.youtube.com/embed/qPhjHk1CVwU",
+];
+
+// 3D Tilt Effect
+const cardHover = {
+  hover: {
+    scale: 1.03,
+    rotateX: 4,
+    rotateY: -4,
+    transition: { duration: 0.4 },
+  },
+};
+
+// Section reveal
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
+};
+
+// Stagger videos
+const container = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.15 },
+  },
+};
+
+// Each card animation
+const videoCard = {
+  hidden: { opacity: 0, y: 50, scale: 0.85, filter: "blur(8px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease: "easeOut" },
+  },
+};
+
+const WishesSection = () => {
+  return (
+    <section className="py-24 relative overflow-hidden bg-gradient-to-b from-white via-emerald-50/30 to-white">
+
+      {/* BACKGROUND DECORATION */}
+      <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
+        <div className="absolute -top-10 -left-10 w-[450px] h-[450px] bg-[#d9a520] blur-[140px] rounded-full"></div>
+        <div className="absolute bottom-0 right-0 w-[380px] h-[380px] bg-teal-400 blur-[160px] rounded-full"></div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+
+        {/* HEADER */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 px-5 py-2 bg-[#d9a520]/10 border border-[#d9a520]/30 rounded-full mb-5 shadow-lg">
+            <Sparkles className="h-4 w-4 text-[#d9a520]" />
+            <span className="text-xs font-bold text-[#d9a520] tracking-wide">
+              Video Wishes
+            </span>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 font-poppins">
+            Inspiring Messages from
+            <span className="text-[#d9a520]"> Esteemed Speakers</span>
+          </h2>
+
+          <p className="text-gray-600 max-w-2xl mx-auto mt-3">
+            Heartfelt blessings, guidance and motivational words from global dignitaries & medical leaders.
+          </p>
+        </motion.div>
+
+        {/* VIDEO GALLERY (NEW PREMIUM STRUCTURE) */}
+        <motion.div
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-12"
+        >
+          {videos.map((url, index) => (
+            <motion.div
+              key={index}
+              variants={videoCard}
+              whileHover="hover"
+              className="relative group rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(0,0,0,0.12)] bg-white/10 backdrop-blur-xl border border-white/30 hover:shadow-[0_12px_40px_rgba(0,0,0,0.2)] transition-all duration-500"
+            >
+              {/* GOLDEN SHINE ON HOVER */}
+              <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-20 transition-all duration-700"></div>
+
+              {/* Golden border highlight */}
+              <div className="absolute inset-0 border border-transparent group-hover:border-[#d9a520]/60 rounded-3xl transition-all duration-700"></div>
+
+              {/* Video */}
+              <motion.iframe
+                variants={cardHover}
+                className="w-full h-64 rounded-2xl z-10"
+                src={url}
+                title={`video-${index}`}
+                allowFullScreen
+              />
+
+              {/* Bottom Label (Premium touch) */}
+              <div className="absolute bottom-0 left-0 right-0 bg-white/70 backdrop-blur-md py-2 text-center text-sm font-semibold text-gray-800 shadow-md">
+                Special Wishes Video {index + 1}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+      </div>
+    </section>
+  );
+};
+
+export default WishesSection;

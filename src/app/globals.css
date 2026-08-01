@@ -1,26 +1,316 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
+
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: 0 0% 100%;
+    --foreground: 150 30% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 150 30% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 30% 10%;
+
+    --primary: 150 66% 19%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 43 74% 49%;
+    --secondary-foreground: 150 66% 10%;
+
+    --muted: 60 10% 96%;
+    --muted-foreground: 150 10% 40%;
+
+    --accent: 43 89% 38%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 20% 85%;
+    --input: 150 20% 85%;
+    --ring: 150 66% 19%;
+
+    --radius: 0.75rem;
+
+    /* Custom Arogya colors */
+    --arogya-green: 150 66% 19%;
+    --arogya-green-light: 150 40% 35%;
+    --arogya-gold: 43 74% 49%;
+    --arogya-gold-dark: 43 89% 38%;
+    --arogya-cream: 45 30% 97%;
+    --arogya-sage: 150 20% 92%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(150 66% 19%), hsl(150 50% 25%));
+    --gradient-gold: linear-gradient(135deg, hsl(43 74% 49%), hsl(43 89% 38%));
+    --gradient-hero: linear-gradient(135deg, hsl(150 66% 12%), hsl(150 66% 22%));
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%), hsl(60 10% 98%));
+
+    /* Shadows */
+    --shadow-card: 0 4px 20px -4px hsl(150 30% 10% / 0.1);
+    --shadow-card-hover: 0 12px 40px -8px hsl(150 30% 10% / 0.15);
+    --shadow-gold: 0 4px 20px -4px hsl(43 74% 49% / 0.3);
+    --shadow-glow: 0 0 30px hsl(43 74% 49% / 0.2);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 150 30% 6%;
+    --foreground: 60 10% 96%;
+
+    --card: 150 25% 10%;
+    --card-foreground: 60 10% 96%;
+
+    --popover: 150 25% 10%;
+    --popover-foreground: 60 10% 96%;
+
+    --primary: 150 50% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 43 74% 49%;
+    --secondary-foreground: 150 66% 10%;
+
+    --muted: 150 20% 15%;
+    --muted-foreground: 150 10% 60%;
+
+    --accent: 43 89% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 20% 20%;
+    --input: 150 20% 20%;
+    --ring: 150 50% 40%;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body {
+    @apply bg-background text-foreground font-inter antialiased overflow-x-hidden;
+    max-width: 100%;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-poppins;
+  }
 }
+
+@layer components {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-gold {
+    background: var(--gradient-gold);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .shadow-gold {
+    box-shadow: var(--shadow-gold);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .gold-border {
+    @apply border border-secondary/30;
+  }
+
+  .text-gradient-gold {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-gold);
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.4s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+
+  .animate-slide-right {
+    animation: slideRight 0.3s ease-out forwards;
+  }
+
+  .animate-slide-left {
+    animation: slideLeft 0.3s ease-out forwards;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  .hover-glow {
+    @apply transition-shadow duration-300 hover:shadow-gold;
+  }
+
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+
+  .animate-marquee-reverse {
+    animation: marquee-reverse 40s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* Carousel animations */
+@keyframes slideCarousel {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideCarouselOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.carousel-slide-enter {
+  animation: slideCarousel 0.7s ease-out forwards;
+}
+
+.carousel-slide-exit {
+  animation: slideCarouselOut 0.7s ease-out forwards;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.7);
+}
+

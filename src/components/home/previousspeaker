@@ -1,0 +1,96 @@
+import { motion } from "framer-motion";
+import previousSpeakers from "@/data/previousSpeakers";
+
+// ANIMATIONS
+const parentVariant = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12 },
+  },
+};
+
+const childVariant = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
+const PreviousSpeakersSection = () => {
+  return (
+    <section className="py-24 bg-background">
+      <div className="container mx-auto px-4">
+
+        {/* HEADER */}
+        <motion.div
+          initial={{ opacity: 0, y: -40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center mb-16"
+        >
+          <h2 className="font-poppins text-3xl md:text-4xl font-bold text-foreground">
+            PREVIOUS YEARS <span className="text-secondary">SPEAKERS</span>
+          </h2>
+        </motion.div>
+
+        {/* GRID */}
+        <motion.div
+          variants={parentVariant}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="
+            grid 
+            grid-cols-2 
+            md:grid-cols-3 
+            lg:grid-cols-4 
+            xl:grid-cols-6 
+            gap-10
+          "
+        >
+          {previousSpeakers.map((sp, index) => (
+            <motion.div
+              key={index}
+              variants={childVariant}
+              className="text-center bg-card rounded-xl shadow-md p-4 hover:shadow-lg transition group"
+            >
+              
+              {/* IMAGE CARD */}
+              <div className="w-full h-40 rounded-lg overflow-hidden shadow-md mb-4">
+                <img
+                  src={sp.image}
+                  alt={sp.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                />
+              </div>
+
+              {/* NAME */}
+              <h3 className="font-semibold text-[15px] text-foreground group-hover:text-primary transition">
+                {sp.name}
+              </h3>
+
+              {/* ROLE */}
+              <p className="text-secondary text-[13px] leading-tight mt-1">
+                {sp.role}
+              </p>
+
+              {/* ORG */}
+              <p className="text-muted-foreground text-[12px] leading-tight">
+                {sp.org}
+              </p>
+
+            </motion.div>
+          ))}
+        </motion.div>
+
+      </div>
+    </section>
+  );
+};
+
+export default PreviousSpeakersSection;

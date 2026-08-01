@@ -1,0 +1,103 @@
+import { motion } from "framer-motion";
+import previousSpeakers from "@/data/previousSpeakers";
+
+// ANIMATIONS
+const parentVariant = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.10 },
+  },
+};
+
+const childVariant = {
+  hidden: { opacity: 0, y: 25, scale: 0.95 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.45, ease: "easeOut" },
+  },
+};
+
+const PreviousSpeakersSection = () => {
+  return (
+    <section className="py-20 bg-gradient-to-b from-emerald-50/40 via-white to-emerald-50/20">
+      <div className="container mx-auto px-4">
+
+        {/* HEADER */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="font-poppins text-2xl md:text-3xl font-bold text-foreground">
+            PREVIOUS YEARS <span className="text-secondary">SPEAKERS</span>
+          </h2>
+        </motion.div>
+
+        {/* NEW STRUCTURE — COMPACT HORIZONTAL SPEAKER TILES */}
+        <motion.div
+          variants={parentVariant}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid gap-6 
+            grid-cols-1 
+            sm:grid-cols-2 
+            lg:grid-cols-3 
+            xl:grid-cols-4"
+        >
+          {previousSpeakers.map((sp, index) => (
+            <motion.div
+              key={index}
+              variants={childVariant}
+              className="
+                flex items-center gap-4 p-4 rounded-xl 
+                bg-white/60 backdrop-blur-lg shadow-md
+                border border-gray-200 
+                hover:shadow-xl hover:border-secondary/50
+                transition-all duration-300 group
+              "
+            >
+              {/* SMALL IMAGE */}
+              <div
+                className="
+                  w-14 h-14 rounded-full overflow-hidden 
+                  shadow-md border-2 border-secondary/20 
+                  group-hover:border-secondary transition
+                "
+              >
+                <img
+                  src={sp.image}
+                  alt={sp.name}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              {/* TEXT BLOCK */}
+              <div className="flex flex-col">
+                <h3 className="font-semibold text-sm text-foreground group-hover:text-primary transition">
+                  {sp.name}
+                </h3>
+
+                <p className="text-secondary text-[11px] leading-tight">
+                  {sp.role}
+                </p>
+
+                <p className="text-muted-foreground text-[10px] leading-tight">
+                  {sp.org}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+      </div>
+    </section>
+  );
+};
+
+export default PreviousSpeakersSection;

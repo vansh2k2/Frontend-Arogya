@@ -1,0 +1,103 @@
+import { motion } from "framer-motion";
+
+const videos = [
+  "https://www.youtube.com/embed/StV_lChzEQw",
+  "https://www.youtube.com/embed/0b8kcCLTbNI",
+  "https://www.youtube.com/embed/4NxqqF2cmaY",
+  "https://www.youtube.com/embed/cRsj2xdo13A",
+  "https://www.youtube.com/embed/cJXbvaLeaOA",
+  "https://www.youtube.com/embed/7On089qRGdI",
+  "https://www.youtube.com/embed/zWZlo09Hpx4",
+  "https://www.youtube.com/embed/qPhjHk1CVwU",
+];
+
+// **PARENT STAGGER EFFECT**
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.18, // one by one video reveal
+    },
+  },
+};
+
+// **INDIVIDUAL CARD ANIMATION**
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.85 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+const WishesSection = () => {
+  return (
+    <section className="py-24 bg-gradient-to-b from-background via-muted/40 to-background overflow-hidden">
+      <div className="container mx-auto px-4">
+
+        {/* HEADER */}
+        <motion.div
+          initial={{ opacity: 0, y: -40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center mb-16"
+        >
+          <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary text-sm font-semibold rounded-full mb-4">
+            Best Wishes
+          </span>
+
+          <h2 className="font-poppins text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Our Esteemed <span className="text-secondary">Chief Guest / Speakers</span> Wishes
+          </h2>
+
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Warm blessings and inspirational words from national and international guests
+          </p>
+        </motion.div>
+
+        {/* VIDEO GRID - USING STAGGER ANIMATION */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-10"
+        >
+          {videos.map((link, index) => (
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              className="
+                rounded-2xl overflow-hidden shadow-xl bg-card border border-border 
+                hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 
+                group relative
+              "
+            >
+              {/* Glow Hover */}
+              <div className="absolute inset-0 bg-secondary/10 opacity-0 group-hover:opacity-20 blur-2xl transition-all duration-500"></div>
+
+              {/* Video */}
+              <iframe
+                src={link}
+                title={`guest-video-${index}`}
+                className="w-full h-64 rounded-xl"
+                frameBorder="0"
+                allowFullScreen
+              ></iframe>
+            </motion.div>
+          ))}
+        </motion.div>
+
+      </div>
+    </section>
+  );
+};
+
+export default WishesSection;
