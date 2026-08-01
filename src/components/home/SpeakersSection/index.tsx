@@ -75,7 +75,7 @@ const SpeakersSection = () => {
   };
 
   return (
-    <section className="py-20 bg-white relative overflow-x-hidden">
+    <section className="py-20 bg-white relative ">
       
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-1/4 h-full bg-gradient-to-l from-emerald-50/20 to-transparent pointer-events-none" />

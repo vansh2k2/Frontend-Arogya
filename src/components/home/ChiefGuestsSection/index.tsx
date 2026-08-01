@@ -147,7 +147,7 @@ const ChiefGuestsSection = () => {
   return (
     <section
       id="chief-guests"
-      className="py-20 bg-white relative overflow-x-hidden border-t border-gray-100"
+      className="py-20 bg-white relative  border-t border-gray-100"
     >
       {/* Top-Right Background Decoration */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-emerald-50/50 to-transparent pointer-events-none" />

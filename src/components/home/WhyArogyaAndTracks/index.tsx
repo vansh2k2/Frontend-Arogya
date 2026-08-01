@@ -160,7 +160,7 @@ const WhyArogyaAndTracks = () => {
 
   return (
     <section 
-      className="relative bg-[#f7f4eb] overflow-x-hidden pt-2 pb-5 sm:pt-3 sm:pb-8 border-b border-[#ebdcb3]/20"
+      className="relative bg-[#f7f4eb]  pt-2 pb-5 sm:pt-3 sm:pb-8 border-b border-[#ebdcb3]/20"
       style={{
         backgroundImage: `url(${(leafsImage as any)?.src || (leafsImage as any)})`,
         backgroundPosition: '-45px center',

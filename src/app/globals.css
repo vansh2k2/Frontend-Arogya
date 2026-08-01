@@ -313,3 +313,9 @@
   background: hsl(var(--primary) / 0.7);
 }
 
+
+@layer utilities {
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}
+

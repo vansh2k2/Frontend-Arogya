@@ -188,7 +188,7 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="w-full bg-[#fdfaf5] relative pt-6 md:pt-8 pb-4 md:pb-6 overflow-x-hidden">
+    <section className="w-full bg-[#fdfaf5] relative pt-6 md:pt-8 pb-4 md:pb-6 ">
       {/* Background decorations */}
 
       <SectionContainer className="relative z-10">
@@ -241,7 +241,7 @@ const TestimonialsSection = () => {
           {/* Cards */}
           <div 
             ref={carouselRef}
-            className="flex overflow-x-auto hide-scrollbar gap-4 px-4 md:px-8 pb-4 pt-4 relative z-10"
+            className="flex overflow-x-auto gap-4 px-4 md:px-8 pb-4 pt-4 relative z-10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
             {Array.from({ length: 10 }).flatMap(() => textTestimonials).map((testimonial, idx) => (
               <div key={idx} className="bg-white rounded-2xl p-4 shadow-[rgba(0,0,0,0.02)_0px_1px_3px_0px,rgba(27,31,35,0.15)_0px_0px_0px_1px] border border-gray-100 min-w-[220px] md:min-w-[240px] lg:min-w-[220px] xl:min-w-[240px] flex-1 flex flex-col transition-transform duration-300 hover:-translate-y-1">
@@ -333,7 +333,7 @@ const TestimonialsSection = () => {
 
             <div 
               ref={videoCarouselRef}
-              className="flex gap-4 overflow-x-auto hide-scrollbar pb-2"
+              className="flex gap-4 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
             >
               {Array.from({ length: 10 }).flatMap(() => videoTestimonials).map((video, idx) => (
                 <div 
@@ -447,17 +447,6 @@ const TestimonialsSection = () => {
         </div>
         </SectionContainer>
       </div>
-      
-      {/* Required style for hiding scrollbars */}
-      <style dangerouslySetInnerHTML={{__html: `
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-        .hide-scrollbar {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}} />
 
       {/* Video Modal */}
       {activeVideo && (

@@ -5,7 +5,7 @@ import mainIcon from '@/assets/icons/main.png';
 import SectionContainer from '@/components/layout/SectionContainer';
 const PowerfulThemes = () => {
   return (
-    <section className="py-12 sm:py-16 bg-white overflow-x-hidden relative">
+    <section className="py-12 sm:py-16 bg-white  relative">
       <SectionContainer className="relative z-10 font-inter">
         <motion.div
           className="flex flex-col items-center mb-8 sm:mb-12 w-full text-center"

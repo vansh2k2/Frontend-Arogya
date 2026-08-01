@@ -5,7 +5,7 @@ import { Handshake } from "lucide-react";
 
 const SponsorsMarqueeSection = () => {
   return (
-    <section className="pt-10 pb-16 bg-gradient-to-b from-slate-50 to-white relative overflow-x-hidden">
+    <section className="pt-10 pb-16 bg-gradient-to-b from-slate-50 to-white relative ">
 
       {/* Medical Background Pattern */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none">

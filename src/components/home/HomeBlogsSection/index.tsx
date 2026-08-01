@@ -79,7 +79,7 @@ const HomeBlogsSection = () => {
   const featured = blogsData.slice(0, 3);
 
   return (
-    <section className="py-16 bg-slate-50 relative overflow-x-hidden">
+    <section className="py-16 bg-slate-50 relative ">
       <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-emerald-50/30 to-transparent pointer-events-none" />
 
       <div className="container mx-auto px-4 relative z-10">

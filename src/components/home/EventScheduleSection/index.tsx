@@ -14,7 +14,7 @@ const EventScheduleSection = () => {
   ];
 
   return (
-    <section ref={ref} className="py-12 bg-emerald-50/40 overflow-x-hidden relative">
+    <section ref={ref} className="py-12 bg-emerald-50/40  relative">
 
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.04]"

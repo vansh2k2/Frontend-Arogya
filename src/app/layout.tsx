@@ -25,7 +25,7 @@ const inter = Inter({
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`h-full antialiased ${poppins.variable} ${inter.variable}`}>
-      <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
+      <body className="min-h-full flex flex-col font-sans overflow-x-hidden" suppressHydrationWarning>
         <Providers>
           {children}
         </Providers>

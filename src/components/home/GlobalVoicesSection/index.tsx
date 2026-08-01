@@ -169,7 +169,7 @@ const GlobalVoicesSection = () => {
   };
 
   return (
-    <section className="w-full bg-[#f8f5f0] relative pt-12 md:pt-16 pb-4 md:pb-6 overflow-x-hidden">
+    <section className="w-full bg-[#f8f5f0] relative pt-12 md:pt-16 pb-4 md:pb-6 ">
       {/* Top Left Leaf Decoration */}
       <img
         src={settings.leftImage?.src || settings.leftImage}

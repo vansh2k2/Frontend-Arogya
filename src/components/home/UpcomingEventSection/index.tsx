@@ -261,7 +261,7 @@ const UpcomingEventSection = () => {
           animation: shimmer 2s infinite;
         }
       `}</style>
-      <section className="relative w-full py-0 bg-[#F8F9FA] overflow-x-hidden lg:bg-transparent">
+      <section className="relative w-full py-0 bg-[#F8F9FA]  lg:bg-transparent">
         {/* Background Image Container */}
         <div 
           className="absolute top-0 bottom-0 right-0 -left-[50px] z-0"

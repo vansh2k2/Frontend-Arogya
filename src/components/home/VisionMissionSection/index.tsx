@@ -55,13 +55,13 @@ const VisionMissionSection = () => {
   const paragraphs = message.split('\n').filter((p) => p.trim() !== '');
 
   return (
-    <div className="w-full relative mt-2 mb-8 font-inter overflow-x-hidden">
+    <div className="w-full relative mt-2 mb-8 font-inter ">
       
       <SectionContainer className="relative z-10">
         <div className="flex flex-col lg:flex-row gap-3 lg:gap-4">
         
         {/* OUR VISION CARD */}
-        <div className="w-full lg:w-[21%] bg-[#00291b] rounded-xl p-3 lg:p-4 flex flex-col relative overflow-x-hidden shadow-lg border border-[#0f5433]">
+        <div className="w-full lg:w-[21%] bg-[#00291b] rounded-xl p-3 lg:p-4 flex flex-col relative overflow-hidden shadow-lg border border-[#0f5433]">
           {/* Decorative faint leaves or abstract shapes in background if needed */}
           <div className="absolute -bottom-10 -left-10 opacity-10 pointer-events-none">
             <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.5">
@@ -94,7 +94,7 @@ const VisionMissionSection = () => {
         </div>
 
         {/* OUR MISSION CARD */}
-        <div className="w-full lg:w-[39%] bg-[#fcfbf8] rounded-xl py-3 px-2 lg:py-4 lg:px-2 flex flex-col shadow-lg border border-[#e2d4b7]/50 relative overflow-x-hidden">
+        <div className="w-full lg:w-[39%] bg-[#fcfbf8] rounded-xl py-3 px-2 lg:py-4 lg:px-2 flex flex-col shadow-lg border border-[#e2d4b7]/50 relative overflow-hidden">
           <div className="flex flex-col items-center mb-3 w-full text-center">
             <h3 className="text-[#032e1c] font-extrabold text-xl tracking-wider uppercase font-inter mb-2">OUR MISSION</h3>
             <div className="flex items-center gap-1.5 justify-center w-full">
@@ -147,7 +147,7 @@ const VisionMissionSection = () => {
         </div>
 
         {/* CHAIRMAN'S MESSAGE CARD */}
-        <div className="w-full lg:w-[40%] bg-[#f8f5f0] rounded-xl p-3 lg:p-4 flex flex-col shadow-lg border border-[#e2d4b7]/50 relative overflow-x-hidden">
+        <div className="w-full lg:w-[40%] bg-[#f8f5f0] rounded-xl p-3 lg:p-4 flex flex-col shadow-lg border border-[#e2d4b7]/50 relative overflow-hidden">
           {/* Leaf decoration right side — from backend or fallback */}
           <img
             src={(leafImg as any)?.src || (leafImg as any)}
@@ -168,7 +168,7 @@ const VisionMissionSection = () => {
 
           <div className="flex flex-col sm:flex-row gap-2 relative z-10 mt-0">
             <div className="w-full sm:w-[40%] shrink-0">
-              <div className="bg-gray-200 w-full h-[160px] rounded-lg overflow-x-hidden shadow-sm">
+              <div className="bg-gray-200 w-full h-[160px] rounded-lg overflow-hidden shadow-sm">
                 <img
                   src={(chairmanImg as any)?.src || (chairmanImg as any)}
                   alt={chairmanImgAlt}
