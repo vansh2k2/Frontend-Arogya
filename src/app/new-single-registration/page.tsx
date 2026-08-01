@@ -15,7 +15,7 @@ export const metadata = {
 export default function SingleRegistrationPage() {
   return (
     <Layout>
-      <div className="min-h-screen bg-white pb-20 relative overflow-x-hidden">
+      <div className="min-h-screen bg-white pb-10 relative overflow-x-hidden">
         
         {/* Reusing existing Hero with the exact required UI */}
         <RegisterNowHero />
@@ -39,7 +39,7 @@ export default function SingleRegistrationPage() {
         </SectionContainer>
 
         {/* BOTTOM BANNER: YOUR REGISTRATION INCLUDES */}
-        <SectionContainer className="mt-8">
+        <SectionContainer className="mt-4">
           <RegistrationFeatures />
         </SectionContainer>
 
