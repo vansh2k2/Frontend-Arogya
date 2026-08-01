@@ -147,7 +147,7 @@ const ChiefGuestsSection = () => {
   return (
     <section
       id="chief-guests"
-      className="py-20 bg-white relative overflow-hidden border-t border-gray-100"
+      className="py-20 bg-white relative overflow-x-hidden border-t border-gray-100"
     >
       {/* Top-Right Background Decoration */}
       <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-emerald-50/50 to-transparent pointer-events-none" />
@@ -202,8 +202,11 @@ const ChiefGuestsSection = () => {
                       alt={guest.name}
                       className="w-12 h-12 object-cover rounded-full ring-2 ring-gray-100"
                       onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'flex';
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        if (target.nextSibling) {
+                          (target.nextSibling as HTMLElement).style.display = 'flex';
+                        }
                       }}
                     />
                     <div

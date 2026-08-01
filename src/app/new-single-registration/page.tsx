@@ -39,7 +39,7 @@ export default function SingleRegistrationPage() {
         </SectionContainer>
 
         {/* BOTTOM BANNER: YOUR REGISTRATION INCLUDES */}
-        <SectionContainer className="mt-4">
+        <SectionContainer className="mt-0">
           <RegistrationFeatures />
         </SectionContainer>
 

@@ -45,7 +45,7 @@ const PreviousSpeakersSection = () => {
   return (
     <section
       id="previous-speakers-section"
-      className="pt-8 pb-14 relative overflow-hidden"
+      className="pt-8 pb-14 relative overflow-x-hidden"
       style={{ background: 'linear-gradient(120deg, #fff7ed 0%, #fff7ed 45%, #ecfdf5 55%, #ecfdf5 100%)' }}
     >
 

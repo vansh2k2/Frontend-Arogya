@@ -6,8 +6,8 @@ import arrowIcon from "@/assets/icons/arrow.png";
 
 const RegistrationFeatures = () => {
   return (
-    <div className="max-w-7xl w-full mx-auto mt-4 bg-white shadow-sm border border-[#e2f0e2] rounded-2xl p-8 lg:p-12">
-      <div className="flex items-center justify-center gap-2 md:gap-4 mb-10">
+    <div className="max-w-7xl w-full mx-auto mt-0 bg-white shadow-sm border border-[#e2f0e2] rounded-2xl p-4 lg:p-6">
+      <div className="flex items-center justify-center gap-2 md:gap-4 mb-5">
         <Image src={arrowIcon} className="w-8 h-8 md:w-10 md:h-10 object-contain" alt="arrow left" />
         <h2 className="text-center text-[#133513] text-xl md:text-2xl font-bold font-serif uppercase tracking-wide m-0">
           Your Registration Includes

@@ -5,7 +5,7 @@ import mainIcon from '@/assets/icons/main.png';
 import SectionContainer from '@/components/layout/SectionContainer';
 const PowerfulThemes = () => {
   return (
-    <section className="py-12 sm:py-16 bg-white overflow-hidden relative">
+    <section className="py-12 sm:py-16 bg-white overflow-x-hidden relative">
       <SectionContainer className="relative z-10 font-inter">
         <motion.div
           className="flex flex-col items-center mb-8 sm:mb-12 w-full text-center"
@@ -14,7 +14,7 @@ const PowerfulThemes = () => {
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
-          <img src={mainIcon?.src || mainIcon} alt="Logo" className="h-7 w-auto object-contain mb-2" />
+          <img src={(mainIcon as any)?.src || (mainIcon as any)} alt="Logo" className="h-7 w-auto object-contain mb-2" />
           <div className="flex items-center gap-2 sm:gap-3 w-full justify-center">
             <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
             <div className="h-[1px] bg-gradient-to-r from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px] sm:max-w-[120px]" />

@@ -13,7 +13,7 @@ export const metadata = {
 export default function NewGroupRegistration() {
   return (
     <Layout>
-      <div className="min-h-screen bg-white pb-20">
+      <div className="min-h-screen bg-white pb-10 relative overflow-x-hidden">
         
         {/* Reusing existing Hero with the exact required UI */}
         <RegisterNowHero />
@@ -36,7 +36,7 @@ export default function NewGroupRegistration() {
         </SectionContainer>
 
         {/* BOTTOM BANNER: YOUR REGISTRATION INCLUDES */}
-        <SectionContainer className="mt-8">
+        <SectionContainer className="mt-0">
           <RegistrationFeatures />
         </SectionContainer>
 

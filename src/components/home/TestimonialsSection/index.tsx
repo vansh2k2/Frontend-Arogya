@@ -188,7 +188,7 @@ const TestimonialsSection = () => {
   };
 
   return (
-    <section className="w-full bg-[#fdfaf5] relative pt-6 md:pt-8 pb-4 md:pb-6 overflow-hidden">
+    <section className="w-full bg-[#fdfaf5] relative pt-6 md:pt-8 pb-4 md:pb-6 overflow-x-hidden">
       {/* Background decorations */}
 
       <SectionContainer className="relative z-10">
