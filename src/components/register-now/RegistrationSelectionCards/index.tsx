@@ -3,10 +3,11 @@ import { ArrowRight, CheckCircle } from 'lucide-react';
 import singleImg from "@/assets/icons/single.png";
 import groupImg from "@/assets/icons/group.png";
 import sleafImg from "@/assets/icons/sleaf.png";
+import leafRightImg from "@/assets/icons/leafright.png";
 import SecureRegistrationBand from '../SecureRegistrationBand';
 import { motion } from 'framer-motion';
 
-const Sparkle = ({ style, color = '#173812' }) => (
+const Sparkle = ({ style, color = '#173812' }: { style?: React.CSSProperties; color?: string }) => (
   <span style={{ position:'absolute', pointerEvents:'none', fontSize:'13px', color,
     animation:'sparkleAnim 1.6s ease-in-out infinite', opacity:0, zIndex:20, ...style }}>✦</span>
 );
@@ -62,12 +63,29 @@ const RegistrationSelectionCards = ({ setRegistrationType }: { setRegistrationTy
   const router = useRouter();
   return (
     <div className="flex flex-col items-center justify-center w-full min-h-[500px] relative">
+      {/* Top-Right Animated Leaf Decoration */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.4, rotate: 30, x: 50, y: -40 }}
+        whileInView={{ opacity: 0.85, scale: 1, rotate: 0, x: 0, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 1.1, delay: 0.15, type: "spring", bounce: 0.45 }}
+        className="absolute -top-6 -right-4 sm:-right-8 md:-right-12 md:-top-10 w-28 sm:w-36 md:w-48 z-0 pointer-events-none select-none"
+      >
+        <motion.img
+          animate={{ y: [0, -6, 0], rotate: [0, 2, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          src={leafRightImg?.src || leafRightImg}
+          alt="Leaf Right"
+          className="w-full h-auto object-contain mix-blend-multiply"
+        />
+      </motion.div>
+
       <motion.h2
         initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
         whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="text-[#204e1f] text-2xl md:text-3xl font-extrabold mb-2 tracking-wide font-inter uppercase"
+        className="text-[#204e1f] text-2xl md:text-3xl font-extrabold mb-2 tracking-wide font-inter uppercase relative z-10"
       >
         DELEGATE REGISTRATION
       </motion.h2>
@@ -76,7 +94,7 @@ const RegistrationSelectionCards = ({ setRegistrationType }: { setRegistrationTy
         whileInView={{ opacity: 1, scaleX: 1 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-        className="flex items-center gap-2 mb-4 origin-center"
+        className="flex items-center gap-2 mb-4 origin-center relative z-10"
       >
         <div className="w-16 h-px bg-[#36682e]/50" />
         <div className="w-2 h-2 rounded-full bg-[#36682e]" />
@@ -87,7 +105,7 @@ const RegistrationSelectionCards = ({ setRegistrationType }: { setRegistrationTy
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-        className="text-black text-sm md:text-base font-medium font-inter text-center mb-6"
+        className="text-black text-sm md:text-base font-medium font-inter text-center mb-6 relative z-10"
       >
         Choose the type of registration that best describes you.
       </motion.p>
@@ -116,6 +134,18 @@ const RegistrationSelectionCards = ({ setRegistrationType }: { setRegistrationTy
           />
 
           <img src={sleafImg?.src || sleafImg} alt="" className="absolute bottom-0 left-0 w-16 md:w-24 opacity-90 pointer-events-none z-0" />
+
+          {/* Top-Right Card Leaf Decoration */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5, rotate: 20, x: 20, y: -20 }}
+            whileInView={{ opacity: 0.65, scale: 1, rotate: 0, x: 0, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, delay: 0.5, ease: "easeOut" }}
+            className="absolute top-0 right-0 w-16 md:w-20 opacity-60 pointer-events-none z-0"
+          >
+            <img src={leafRightImg?.src || leafRightImg} alt="" className="w-full h-auto object-contain mix-blend-multiply translate-x-3 -translate-y-3" />
+          </motion.div>
+
 
           <motion.img
             variants={childRise}
@@ -189,6 +219,17 @@ const RegistrationSelectionCards = ({ setRegistrationType }: { setRegistrationTy
           />
 
           <img src={sleafImg?.src || sleafImg} alt="" className="absolute bottom-0 left-0 w-16 md:w-24 opacity-90 pointer-events-none z-0" />
+
+          {/* Top-Right Card Leaf Decoration */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.5, rotate: 20, x: 20, y: -20 }}
+            whileInView={{ opacity: 0.65, scale: 1, rotate: 0, x: 0, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.9, delay: 0.5, ease: "easeOut" }}
+            className="absolute top-0 right-0 w-16 md:w-20 opacity-60 pointer-events-none z-0"
+          >
+            <img src={leafRightImg?.src || leafRightImg} alt="" className="w-full h-auto object-contain mix-blend-multiply translate-x-3 -translate-y-3" />
+          </motion.div>
 
           <motion.img
             variants={childRise}

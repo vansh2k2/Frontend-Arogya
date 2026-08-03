@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
       <Navbar />
       <SocialSidebar />
 
-      <main className="flex-1">
+      <main className="flex-1 overflow-x-clip">
         {children}
       </main>
 

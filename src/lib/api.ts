@@ -1,15 +1,15 @@
 const isDev = process.env.NODE_ENV === 'development';
+const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
 const BASE_API_URL = (
-  process.env.NEXT_PUBLIC_API_URL ||
-  (typeof window !== 'undefined'
-    ? window.location.hostname === 'localhost'
-      ? 'http://localhost:5001/api'
-      : '/api'
-    : isDev
+  isLocalhost
     ? 'http://localhost:5001/api'
-    : 'http://localhost:3000/api')
+    : (process.env.NEXT_PUBLIC_API_URL ||
+      (isDev ? 'http://localhost:5001/api' : '/api'))
 ).replace(/\/$/, '');
-console.log('--- API_URL EVALUATED:', BASE_API_URL); export const API_URL = BASE_API_URL.endsWith("/api") ? BASE_API_URL : `${BASE_API_URL}/api`;
+
+console.log('--- API_URL EVALUATED:', BASE_API_URL);
+export const API_URL = BASE_API_URL.endsWith("/api") ? BASE_API_URL : `${BASE_API_URL}/api`;
 export const SERVER_URL = API_URL.replace(/\/api$/, "") || (typeof window !== 'undefined' ? window.location.origin : '');
 
 export const heroApi = {
@@ -271,6 +271,42 @@ export const partnersPageApi = {
         }
     }
 };
+
+export const locationApi = {
+    getCountries: async () => {
+        try {
+            const response = await fetch(`${API_URL}/countries`);
+            const result = await response.json();
+            return Array.isArray(result.data) ? result.data : [];
+        } catch (error) {
+            console.warn("Error fetching countries:", error);
+            return [];
+        }
+    },
+    getStates: async (countryCode?: number | string) => {
+        try {
+            const url = countryCode ? `${API_URL}/states?countryCode=${countryCode}` : `${API_URL}/states`;
+            const response = await fetch(url);
+            const result = await response.json();
+            return Array.isArray(result.data) ? result.data : [];
+        } catch (error) {
+            console.warn("Error fetching states:", error);
+            return [];
+        }
+    },
+    getCities: async (stateCode?: number | string) => {
+        try {
+            const url = stateCode ? `${API_URL}/cities?stateCode=${stateCode}` : `${API_URL}/cities`;
+            const response = await fetch(url);
+            const result = await response.json();
+            return Array.isArray(result.data) ? result.data : [];
+        } catch (error) {
+            console.warn("Error fetching cities:", error);
+            return [];
+        }
+    }
+};
+
 
 
 

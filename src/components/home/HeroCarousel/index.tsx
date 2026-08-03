@@ -353,7 +353,7 @@ const HeroCarousel = () => {
 
       <section
         ref={wrapperRef}
-        className="relative w-full overflow-hidden bg-[#faf8f4] aspect-[0.82/1] sm:aspect-[16/8.9] md:aspect-[16/5.44] flex items-center"
+        className="relative w-full overflow-hidden bg-[#faf8f4] aspect-[0.82/1] sm:aspect-[16/8.9] md:aspect-[16/5.44] flex items-center font-inter"
       >
 
         {/* ── BACKGROUND LAYERS ── */}
@@ -370,9 +370,9 @@ const HeroCarousel = () => {
               alt={`Arogya Banner ${id + 1}`}
               className="w-full h-full object-cover select-none"
               style={{ willChange:'transform, filter' }}
-              loading={id === 0 ? 'eager' : 'lazy'}
-              decoding={id === 0 ? 'sync' : 'async'}
-              fetchPriority={id === 0 ? 'high' : 'low'}
+              loading={id < 2 ? 'eager' : 'lazy'}
+              decoding={id < 2 ? 'sync' : 'async'}
+              fetchPriority={id < 2 ? 'high' : 'low'}
             />
           </div>
         ))}

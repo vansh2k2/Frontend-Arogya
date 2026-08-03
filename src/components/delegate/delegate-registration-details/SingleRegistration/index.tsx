@@ -4,27 +4,27 @@ import { Calendar, MapPin, Users, Lightbulb, BookOpen, TrendingUp } from "lucide
 import leftImg from "@/assets/icons/left.png";
 import footerRightImg from "@/assets/icons/footerright.png";
 import leafrightImg from "@/assets/icons/leafright.png";
-import BottomData from "./BottomData";
+import BottomData from "../BottomData";
 import Link from "next/link";
 import { Checkbox } from "@/components/ui/checkbox";
 import gsap from "gsap";
 
 const SingleRegistration = () => {
-  const wrapperRef       = useRef(null);
-  const leftPanelRef     = useRef(null);
-  const headingRef       = useRef(null);
-  const taglineRef       = useRef(null);
-  const dateBlockRef     = useRef(null);
-  const locationBlockRef = useRef(null);
-  const illustrationRef  = useRef(null);
-  const whyCardRef       = useRef(null);
-  const whyItemsRef      = useRef([]);
-  const formPanelRef     = useRef(null);
-  const formTitleRef     = useRef(null);
-  const formRowsRef      = useRef([]);
-  const submitBtnRef     = useRef(null);
-  const leafRightRef     = useRef(null);
-  const footerRightRef   = useRef(null);
+  const wrapperRef       = useRef<HTMLDivElement | null>(null);
+  const leftPanelRef     = useRef<HTMLDivElement | null>(null);
+  const headingRef       = useRef<HTMLHeadingElement | null>(null);
+  const taglineRef       = useRef<HTMLParagraphElement | null>(null);
+  const dateBlockRef     = useRef<HTMLDivElement | null>(null);
+  const locationBlockRef = useRef<HTMLDivElement | null>(null);
+  const illustrationRef  = useRef<HTMLDivElement | null>(null);
+  const whyCardRef       = useRef<HTMLDivElement | null>(null);
+  const whyItemsRef      = useRef<(HTMLDivElement | null)[]>([]);
+  const formPanelRef     = useRef<HTMLDivElement | null>(null);
+  const formTitleRef     = useRef<HTMLDivElement | null>(null);
+  const formRowsRef      = useRef<(HTMLDivElement | null)[]>([]);
+  const submitBtnRef     = useRef<HTMLButtonElement | null>(null);
+  const leafRightRef     = useRef<HTMLImageElement | null>(null);
+  const footerRightRef   = useRef<HTMLImageElement | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -148,7 +148,7 @@ const SingleRegistration = () => {
       <SectionContainer className="relative z-10">
         <div className="flex w-full flex-col lg:flex-row gap-6 py-6 relative">
           {/* Decorative Leaf */}
-          <img ref={leafRightRef} style={{ opacity: 0 }} src={leafrightImg?.src || leafrightImg} alt="Leaf Right" className="absolute -right-28 -top-12 w-72 opacity-80 pointer-events-none z-20 mix-blend-multiply hidden lg:block" />
+          <img ref={leafRightRef} style={{ opacity: 0 }} src={typeof leafrightImg === "string" ? leafrightImg : leafrightImg.src} alt="Leaf Right" className="absolute -right-28 -top-12 w-72 opacity-80 pointer-events-none z-20 mix-blend-multiply hidden lg:block" />
 
           {/* ===== LEFT PANEL ===== */}
           <div ref={leftPanelRef} style={{ opacity: 0 }} className="w-[35%] flex-shrink-0 flex flex-col">
@@ -191,7 +191,7 @@ const SingleRegistration = () => {
             </div>
 
             <div ref={illustrationRef} style={{ opacity: 0 }} className="flex items-end justify-start overflow-hidden">
-              <img src={leftImg?.src || leftImg} alt="IHWE" className="h-full object-contain" />
+              <img src={typeof leftImg === "string" ? leftImg : leftImg.src} alt="IHWE" className="h-full object-contain" />
             </div>
 
             <div
@@ -206,7 +206,7 @@ const SingleRegistration = () => {
                 { icon: <BookOpen size={18} className="text-[#1a5c1a]" />, title: "Learn", desc: "Gain insights from world-class conferences & workshops" },
                 { icon: <TrendingUp size={18} className="text-[#1a5c1a]" />, title: "Grow", desc: "Expand your knowledge, business & opportunities" },
               ].map((item, i) => (
-                <div key={item.title} ref={el => (whyItemsRef.current[i] = el)} style={{ opacity: 0 }} className="flex gap-3 mb-4 items-start">
+                <div key={item.title} ref={el => { whyItemsRef.current[i] = el; }} style={{ opacity: 0 }} className="flex gap-3 mb-4 items-start">
                   <div className="w-9 h-9 bg-[#f0f7f0] rounded-lg flex items-center justify-center flex-shrink-0">
                     {item.icon}
                   </div>
@@ -232,7 +232,7 @@ const SingleRegistration = () => {
             </div>
 
             {/* Row 1 */}
-            <div ref={el => (formRowsRef.current[0] = el)} style={{ opacity: 0 }} className="flex gap-5 mb-5">
+            <div ref={el => { formRowsRef.current[0] = el; }} style={{ opacity: 0 }} className="flex gap-5 mb-5">
               <div className="flex flex-col gap-1.5 w-28 flex-shrink-0">
                 <label className="text-sm font-medium text-gray-800">Title <span className="text-red-500">*</span></label>
                 <select className="border border-gray-300 rounded-sm px-3 py-1.5 text-sm text-gray-600 focus:outline-none focus:border-[#1a5c1a]">
@@ -256,7 +256,7 @@ const SingleRegistration = () => {
             </div>
 
             {/* Row 2 */}
-            <div ref={el => (formRowsRef.current[1] = el)} style={{ opacity: 0 }} className="flex gap-5 mb-5">
+            <div ref={el => { formRowsRef.current[1] = el; }} style={{ opacity: 0 }} className="flex gap-5 mb-5">
               {["Mobile Number *", "WhatsApp Number"].map((label, i) => (
                 <div key={i} className="flex flex-col gap-1.5 flex-1">
                   <label className="text-sm font-medium text-gray-800">
@@ -274,7 +274,7 @@ const SingleRegistration = () => {
             </div>
 
             {/* Row 3 */}
-            <div ref={el => (formRowsRef.current[2] = el)} style={{ opacity: 0 }} className="flex gap-5 mb-5">
+            <div ref={el => { formRowsRef.current[2] = el; }} style={{ opacity: 0 }} className="flex gap-5 mb-5">
               <div className="flex flex-col gap-1.5 flex-1">
                 <label className="text-sm font-medium text-gray-800">Designation <span className="text-red-500">*</span></label>
                 <input type="text" placeholder="Enter your designation"
@@ -288,7 +288,7 @@ const SingleRegistration = () => {
             </div>
 
             {/* Row 4 */}
-            <div ref={el => (formRowsRef.current[3] = el)} style={{ opacity: 0 }} className="flex gap-5 mb-5">
+            <div ref={el => { formRowsRef.current[3] = el; }} style={{ opacity: 0 }} className="flex gap-5 mb-5">
               <div className="flex flex-col gap-1.5 flex-1">
                 <label className="text-sm font-medium text-gray-800">Country <span className="text-red-500">*</span></label>
                 <select className="border border-gray-300 rounded-sm px-3 py-1.5 text-sm focus:outline-none focus:border-[#1a5c1a]">
@@ -304,7 +304,7 @@ const SingleRegistration = () => {
             </div>
 
             {/* Row 5 */}
-            <div ref={el => (formRowsRef.current[4] = el)} style={{ opacity: 0 }} className="flex gap-5 mb-5">
+            <div ref={el => { formRowsRef.current[4] = el; }} style={{ opacity: 0 }} className="flex gap-5 mb-5">
               <div className="flex flex-col gap-1.5 flex-1">
                 <label className="text-sm font-medium text-gray-800">Industry Type <span className="text-red-500">*</span></label>
                 <select className="border border-gray-300 rounded-sm px-3 py-1.5 text-sm focus:outline-none focus:border-[#1a5c1a]">
@@ -320,7 +320,7 @@ const SingleRegistration = () => {
             </div>
 
             {/* Row 6 */}
-            <div ref={el => (formRowsRef.current[5] = el)} style={{ opacity: 0 }} className="flex flex-col gap-1.5 mb-5">
+            <div ref={el => { formRowsRef.current[5] = el; }} style={{ opacity: 0 }} className="flex flex-col gap-1.5 mb-5">
               <label className="text-sm font-medium text-gray-800">How did you hear about IHWE 2026? <span className="text-red-500">*</span></label>
               <select className="border border-gray-300 rounded-sm px-3 py-1.5 text-sm w-full focus:outline-none focus:border-[#1a5c1a]">
                 <option value="">Select an option</option>
@@ -332,7 +332,7 @@ const SingleRegistration = () => {
             </div>
 
             {/* Checkboxes */}
-            <div ref={el => (formRowsRef.current[6] = el)} style={{ opacity: 0 }} className="w-full space-y-2">
+            <div ref={el => { formRowsRef.current[6] = el; }} style={{ opacity: 0 }} className="w-full space-y-2">
               <label className="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded-sm cursor-pointer group hover:bg-slate-100 transition-all">
                 <Checkbox required className="mt-0.5 border-slate-400 peer-checked:bg-[#23471d]" />
                 <span className="text-[11px] font-medium text-black group-hover:text-black transition-colors leading-relaxed">
@@ -357,7 +357,7 @@ const SingleRegistration = () => {
             <button ref={submitBtnRef} style={{ opacity: 0 }} className="w-full mt-4 bg-[#1a5c1a] relative z-10 text-white font-medium py-2 rounded-lg text-sm hover:bg-[#145014] transition-colors">
               Register Now
             </button>
-            <img ref={footerRightRef} style={{ opacity: 0 }} src={footerRightImg?.src || footerRightImg} alt="background right" className="absolute right-0 bottom-0 h-[40%] object-contain pointer-events-none z-0 mix-blend-multiply " />
+            <img ref={footerRightRef} style={{ opacity: 0 }} src={typeof footerRightImg === "string" ? footerRightImg : footerRightImg.src} alt="background right" className="absolute right-0 bottom-0 h-[40%] object-contain pointer-events-none z-0 mix-blend-multiply " />
 
           </div>
         </div>
@@ -369,3 +369,4 @@ const SingleRegistration = () => {
 };
 
 export default SingleRegistration;
+

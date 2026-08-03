@@ -2,23 +2,22 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useLenis } from "lenis/react";
 
 const ScrollToTop = () => {
   const pathname = usePathname();
+  const lenis = useLenis();
 
   useEffect(() => {
-    // Scroll to top immediately on route change
-    window.scrollTo({
-      top: 0,
-      behavior: "instant"
-    });
-    // Fallback for lenis if it intercepts scroll
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 50);
-  }, [pathname]);
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
+  }, [pathname, lenis]);
 
   return null;
 };
 
 export default ScrollToTop;
+

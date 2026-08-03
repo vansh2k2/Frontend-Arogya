@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { CheckCircle, ArrowRight, HelpCircle, Mail, Phone } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Image from "next/image";
 import feesIcon from "../../assets/icons/fees.png";
@@ -11,9 +11,57 @@ import pp3Icon from "../../assets/icons/pp3.png";
 import pp4Icon from "../../assets/icons/pp4.png";
 import footerRightImg from "../../assets/icons/footerright.png";
 
-const RegistrationSidebar = () => {
-  const [selectedPass, setSelectedPass] = useState<string>("delegate");
+const SelectionBadge = ({ bgColor = "#012e17" }: { bgColor?: string }) => (
+  <AnimatePresence>
+    <motion.div
+      initial={{ scale: 0, opacity: 0, rotate: -45 }}
+      animate={{ scale: 1, opacity: 1, rotate: 0 }}
+      exit={{ scale: 0, opacity: 0, rotate: 45 }}
+      transition={{ type: "spring", stiffness: 450, damping: 18 }}
+      className="absolute -top-3 -right-3 z-30 flex items-center justify-center pointer-events-none"
+    >
+      {/* Outer Pulse Glow Ring */}
+      <motion.span
+        animate={{ scale: [1, 1.45, 1], opacity: [0.7, 0, 0.7] }}
+        transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+        className="absolute inset-0 rounded-full"
+        style={{ backgroundColor: bgColor }}
+      />
+      {/* Big Badge Container */}
+      <div 
+        className="relative w-9 h-9 rounded-full text-white flex items-center justify-center shadow-xl border-2 border-white"
+        style={{ backgroundColor: bgColor }}
+      >
+        <motion.svg
+          className="w-5 h-5 text-white"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <motion.path
+            d="M20 6L9 17l-5-5"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 0.35, delay: 0.05 }}
+          />
+        </motion.svg>
+      </div>
+    </motion.div>
+  </AnimatePresence>
+);
 
+interface RegistrationSidebarProps {
+  selectedPass?: string | null;
+  onSelectPass?: (passId: string) => void;
+}
+
+const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
+  selectedPass = null,
+  onSelectPass = () => {}
+}) => {
   return (
     <div className="flex flex-col gap-6 relative z-10">
       
@@ -42,6 +90,17 @@ const RegistrationSidebar = () => {
         </div>
         
         <div className="flex flex-col gap-4 p-5 pt-8">
+
+        {/* Notice if no pass selected */}
+        {!selectedPass ? (
+          <div className="bg-red-50 border-2 border-dashed border-red-400 text-red-700 py-2.5 px-4 rounded-xl text-center text-xs font-bold shadow-sm animate-pulse">
+            👉 Please click below to select your Pass *
+          </div>
+        ) : (
+          <div className="bg-green-50 border border-green-300 text-green-800 py-1.5 px-3 rounded-lg text-center text-xs font-semibold">
+            ✓ Pass Selected (Click any card to change)
+          </div>
+        )}
         
         {/* Card 1 */}
         <motion.div 
@@ -49,10 +108,11 @@ const RegistrationSidebar = () => {
           whileInView={{ opacity: 1, y: 0, rotateZ: 0, scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.1 }}
           viewport={{ once: true, margin: "-50px" }}
-          onClick={() => setSelectedPass('delegate')}
-          className={`bg-[#f5f6ee] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'delegate' ? 'border-[#012e17]' : 'border-gray-100 hover:border-[#2b5922]'}`} 
+          onClick={() => onSelectPass('delegate')}
+          className={`bg-[#f5f6ee] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'delegate' ? 'border-[#012e17] scale-[1.02] shadow-lg ring-2 ring-[#012e17]/20' : 'border-gray-100 hover:border-[#2b5922]'}`} 
           style={{ boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px' }}
         >
+          {selectedPass === 'delegate' && <SelectionBadge bgColor="#012e17" />}
           <Image src={pp1Icon} alt="Pass Icon" className="w-[58px] h-[58px] object-contain shrink-0 mt-1" />
           <div className="flex flex-col flex-grow">
             <div className="flex justify-between items-start">
@@ -64,9 +124,9 @@ const RegistrationSidebar = () => {
             
             <span className="text-black text-sm font-semibold mt-2 mb-1">Includes:</span>
             <ul className="flex flex-col gap-1.5 mb-2">
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#012e17] shrink-0 mt-0.5" /> Full-day Access</li>
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#012e17] shrink-0 mt-0.5" /> Lunch & Refreshments</li>
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#012e17] shrink-0 mt-0.5" /> Conference Kit</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#012e17] shrink-0 mt-0.5" /> Full-day Access</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#012e17] shrink-0 mt-0.5" /> Lunch & Refreshments</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#012e17] shrink-0 mt-0.5" /> Conference Kit</li>
             </ul>
           </div>
         </motion.div>
@@ -77,11 +137,12 @@ const RegistrationSidebar = () => {
           whileInView={{ opacity: 1, y: 0, rotateZ: 0, scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
           viewport={{ once: true, margin: "-50px" }}
-          onClick={() => setSelectedPass('delegate3days')}
-          className={`bg-[#fdf6ec] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'delegate3days' ? 'border-[#d18e26] scale-[1.02]' : 'border-gray-100 hover:border-[#d18e26]'}`} 
+          onClick={() => onSelectPass('delegate3days')}
+          className={`bg-[#fdf6ec] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'delegate3days' ? 'border-[#d18e26] scale-[1.03] shadow-lg ring-2 ring-[#d18e26]/20' : 'border-gray-100 hover:border-[#d18e26]'}`} 
           style={{ boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px' }}
         >
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#d18e26] text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-1 rounded-full shadow-sm whitespace-nowrap">
+          {selectedPass === 'delegate3days' && <SelectionBadge bgColor="#d18e26" />}
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#d18e26] text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-1 rounded-full shadow-sm whitespace-nowrap z-20">
             ★ Most Popular
           </div>
           <Image src={pp2Icon} alt="Pass Icon" className="w-[58px] h-[58px] object-contain shrink-0 mt-2" />
@@ -95,9 +156,9 @@ const RegistrationSidebar = () => {
             
             <span className="text-black text-sm font-semibold mt-2 mb-1">Includes:</span>
             <ul className="flex flex-col gap-1.5 mb-1">
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#d18e26] shrink-0 mt-0.5" /> All 3 Days Access</li>
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#d18e26] shrink-0 mt-0.5" /> Lunch & Refreshments</li>
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#d18e26] shrink-0 mt-0.5" /> Premium Conference Kit</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#d18e26] shrink-0 mt-0.5" /> All 3 Days Access</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#d18e26] shrink-0 mt-0.5" /> Lunch & Refreshments</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#d18e26] shrink-0 mt-0.5" /> Premium Conference Kit</li>
             </ul>
           </div>
         </motion.div>
@@ -108,10 +169,11 @@ const RegistrationSidebar = () => {
           whileInView={{ opacity: 1, y: 0, rotateZ: 0, scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.3 }}
           viewport={{ once: true, margin: "-50px" }}
-          onClick={() => setSelectedPass('paper')}
-          className={`bg-[#f4f5f9] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'paper' ? 'border-[#1b3c73] scale-[1.02]' : 'border-gray-100 hover:border-[#1b3c73]'}`} 
+          onClick={() => onSelectPass('paper')}
+          className={`bg-[#f4f5f9] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'paper' ? 'border-[#1b3c73] scale-[1.02] shadow-lg ring-2 ring-[#1b3c73]/20' : 'border-gray-100 hover:border-[#1b3c73]'}`} 
           style={{ boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px' }}
         >
+          {selectedPass === 'paper' && <SelectionBadge bgColor="#1b3c73" />}
           <Image src={pp3Icon} alt="Pass Icon" className="w-[58px] h-[58px] object-contain shrink-0 mt-1" />
           <div className="flex flex-col flex-grow">
             <div className="flex justify-between items-start">
@@ -123,9 +185,9 @@ const RegistrationSidebar = () => {
             
             <span className="text-black text-sm font-semibold mt-2 mb-1">Includes:</span>
             <ul className="flex flex-col gap-1.5 mb-2">
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Presentation Slot</li>
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Delegate Access included</li>
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Publication Opportunity</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Presentation Slot</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Delegate Access included</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Publication Opportunity</li>
             </ul>
           </div>
         </motion.div>
@@ -136,24 +198,25 @@ const RegistrationSidebar = () => {
           whileInView={{ opacity: 1, y: 0, rotateZ: 0, scale: 1 }}
           transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.4 }}
           viewport={{ once: true, margin: "-50px" }}
-          onClick={() => setSelectedPass('poster')}
-          className={`bg-[#f5f0f4] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'poster' ? 'border-[#1b3c73] scale-[1.02]' : 'border-gray-100 hover:border-[#1b3c73]'}`} 
+          onClick={() => onSelectPass('poster')}
+          className={`bg-[#f5f0f4] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'poster' ? 'border-[#702660] scale-[1.02] shadow-lg ring-2 ring-[#702660]/20' : 'border-gray-100 hover:border-[#702660]'}`} 
           style={{ boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px' }}
         >
+          {selectedPass === 'poster' && <SelectionBadge bgColor="#702660" />}
           <Image src={pp4Icon} alt="Pass Icon" className="w-[58px] h-[58px] object-contain shrink-0 mt-1" />
           <div className="flex flex-col flex-grow">
             <div className="flex justify-between items-start">
               <h3 className="text-black font-semibold text-lg uppercase leading-tight mt-1 whitespace-nowrap">Poster Presentation</h3>
               <div className="text-right">
-                <span className="text-[1.55rem] font-semibold text-[#1b3c73]">₹2,500</span>
+                <span className="text-[1.55rem] font-semibold text-[#702660]">₹2,500</span>
               </div>
             </div>
             
             <span className="text-black text-sm font-semibold mt-2 mb-1">Includes:</span>
             <ul className="flex flex-col gap-1.5 mb-2">
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Poster Display Area</li>
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Delegate Access included</li>
-              <li className="flex gap-2 text-sm text-gray-700 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Special Recognition</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#702660] shrink-0 mt-0.5" /> Poster Display Area</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#702660] shrink-0 mt-0.5" /> Delegate Access included</li>
+              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#702660] shrink-0 mt-0.5" /> Special Recognition</li>
             </ul>
           </div>
         </motion.div>

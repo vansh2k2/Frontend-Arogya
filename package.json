@@ -36,5 +36,11 @@
     "postcss": "^8.5.25",
     "tailwindcss": "^3.4.19",
     "typescript": "^6.0.3"
-  }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions",
+    "not dead"
+  ]
 }

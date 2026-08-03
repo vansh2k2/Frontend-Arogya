@@ -111,8 +111,7 @@ const VisionMissionSection = () => {
               <h4 className="text-[#032e1c] font-bold text-[9px] sm:text-[11px] tracking-wider mb-1.5 uppercase leading-snug font-inter">CONNECT</h4>
               <p className="text-black text-[8px] sm:text-[9px] leading-relaxed whitespace-nowrap">
                 To connect global<br/>
-                experts, institutions<br/>
-                and communities<br/>
+                experts & communities<br/>
                 across disciplines.
               </p>
             </div>
@@ -121,8 +120,10 @@ const VisionMissionSection = () => {
             <div className="flex flex-col items-center text-center px-1 sm:px-2">
               <img src={(c2Icon as any)?.src || (c2Icon as any)} alt="Collaborate" className="w-10 h-10 object-contain mb-1 shrink-0" />
               <h4 className="text-[#032e1c] font-bold text-[9px] sm:text-[11px] tracking-wider mb-1.5 uppercase leading-snug font-inter">COLLABORATE</h4>
-              <p className="text-black text-[8px] sm:text-[9px] leading-relaxed">
-                To foster meaningful collaborations and knowledge exchange for real-world impact.
+              <p className="text-black text-[8px] sm:text-[9px] leading-relaxed whitespace-nowrap">
+                To foster meaningful<br/>
+                collaborations for<br/>
+                real-world impact.
               </p>
             </div>
 
@@ -130,8 +131,10 @@ const VisionMissionSection = () => {
             <div className="flex flex-col items-center text-center px-1 sm:px-2">
               <img src={(c3Icon as any)?.src || (c3Icon as any)} alt="Innovate" className="w-10 h-10 object-contain mb-1 shrink-0" />
               <h4 className="text-[#032e1c] font-bold text-[9px] sm:text-[11px] tracking-wider mb-1.5 uppercase leading-snug font-inter">INNOVATE</h4>
-              <p className="text-black text-[8px] sm:text-[9px] leading-relaxed">
-                To promote research, innovation and technology for the evolution of healthcare.
+              <p className="text-black text-[8px] sm:text-[9px] leading-relaxed whitespace-nowrap">
+                To promote research<br/>
+                & technology for the<br/>
+                evolution of healthcare.
               </p>
             </div>
 
@@ -139,8 +142,10 @@ const VisionMissionSection = () => {
             <div className="flex flex-col items-center text-center px-1 sm:px-2">
               <img src={(c4Icon as any)?.src || (c4Icon as any)} alt="Transform" className="w-10 h-10 object-contain mb-1 shrink-0" />
               <h4 className="text-[#032e1c] font-bold text-[9px] sm:text-[11px] tracking-wider mb-1.5 uppercase leading-snug font-inter">TRANSFORM</h4>
-              <p className="text-black text-[8px] sm:text-[9px] leading-relaxed">
-                To transform lives through preventive, holistic and patient-centric care.
+              <p className="text-black text-[8px] sm:text-[9px] leading-relaxed whitespace-nowrap">
+                To transform lives<br/>
+                through preventive &<br/>
+                patient-centric care.
               </p>
             </div>
           </div>
