@@ -32,7 +32,7 @@ const formRowVariants = {
     y: 0,
     transition: {
       duration: 0.55,
-      ease: [0.34, 1.56, 0.64, 1],
+      ease: [0.34, 1.56, 0.64, 1] as any,
       staggerChildren: 0.08,
       delayChildren: 0.18,
     },
@@ -44,7 +44,7 @@ const formFieldVariants = {
     opacity: 1,
     x: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] as any },
   },
 };
 
@@ -632,7 +632,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
         id="success-card"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as any }}
         className="bg-[#f0f9f0] border-2 border-[#2b5922] p-6 md:p-10 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center my-6 relative overflow-hidden font-inter"
       >
         <div className="w-32 h-32 md:w-44 md:h-44 mb-1 flex items-center justify-center">
@@ -753,7 +753,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
       id="registration-form-container"
       initial={{ opacity: 0, rotateY: -78, x: -50, scale: 0.92 }}
       whileInView={{ opacity: 1, rotateY: 0, x: 0, scale: 1 }}
-      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] as any }}
       viewport={{ once: true, margin: "-50px" }}
       className="bg-[#f9fbfb] rounded-2xl overflow-hidden relative" 
       style={{ boxShadow: 'rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px', perspective: '1000px' }}

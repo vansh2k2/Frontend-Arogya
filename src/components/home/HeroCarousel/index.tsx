@@ -221,21 +221,24 @@ const HeroCarousel = () => {
     const preloadFirst = document.createElement('link');
     preloadFirst.rel = 'preload';
     preloadFirst.as = 'image';
-    preloadFirst.href = hero1;
+    preloadFirst.href = typeof hero1 === 'string' ? hero1 : (hero1 as any).src;
     preloadFirst.fetchPriority = 'high';
     document.head.prepend(preloadFirst);
 
     /* ── Preload remaining images during idle time ── */
-    const idleId = (window.requestIdleCallback || window.setTimeout)(() => {
+    const preloadFn = () => {
       [hero2, hero3, hero4].forEach((src) => {
         const link = document.createElement('link');
         link.rel = 'preload';
         link.as = 'image';
-        link.href = src;
+        link.href = typeof src === 'string' ? src : (src as any).src;
         link.fetchPriority = 'low';
         document.head.appendChild(link);
       });
-    }, { timeout: 3000 });
+    };
+    const idleId = window.requestIdleCallback 
+      ? window.requestIdleCallback(preloadFn, { timeout: 3000 })
+      : window.setTimeout(preloadFn, 3000);
 
     /* set all bg layers z-index=1, clip visible for cur=0, hidden for rest */
     bgLayers.current.forEach((el, i) => {
@@ -361,13 +364,13 @@ const HeroCarousel = () => {
         {SLIDES.map(({ id, img }) => (
           <div
             key={id}
-            ref={el => bgLayers.current[id] = el}
+            ref={el => { bgLayers.current[id] = el as any; }}
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: id === 0 ? 2 : 1, willChange:'clip-path, opacity, transform' }}
           >
             <img
-              ref={el => imgEls.current[id] = el}
-              src={img?.src || img}
+              ref={el => { imgEls.current[id] = el as any; }}
+              src={typeof img === 'string' ? img : (img as any).src}
               alt={`Arogya Banner ${id + 1}`}
               className="w-full h-full object-cover select-none"
               style={{ willChange:'transform, filter' }}
@@ -416,7 +419,7 @@ const HeroCarousel = () => {
             zIndex:5,
             background:'linear-gradient(90deg, rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.0) 100%)',
             transformOrigin:'left center',
-            scaleX:0,
+            transform: 'scaleX(0)',
           }}
         />
 
@@ -429,7 +432,7 @@ const HeroCarousel = () => {
           {SLIDES.map((slide) => (
             <div
               key={slide.id}
-              ref={el => panels.current[slide.id] = el}
+              ref={el => { panels.current[slide.id] = el as any; }}
               className="col-start-1 row-start-1 w-full max-w-xl md:max-w-2xl flex flex-col justify-center md:pl-4 lg:pl-6"
               style={{
                 visibility: cur === slide.id ? 'visible' : 'hidden',
