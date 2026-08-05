@@ -21,18 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const metadata: Metadata = {
-  title: "About Us",
-  description:
-    "Learn about the Arogya Sangoshthi Foundation — organizers of India's premier AYUSH & Integrated Healthcare Conference. Discover our mission, vision, and impact.",
-  alternates: { canonical: `${SITE_URL}/about` },
-  openGraph: {
-    title: "About Arogya Sangoshthi 2026",
-    description:
-      "Discover the mission and vision behind India's most transformative healthcare conference.",
-    url: `${SITE_URL}/about`,
-  },
-};
+
+
 
 // Lazy loading the below-the-fold components for performance
 const AboutFounder = dynamic(() => import('@/components/about/AboutFounder'));

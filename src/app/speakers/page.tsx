@@ -21,18 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const metadata: Metadata = {
-  title: "Speakers",
-  description:
-    "Meet world-renowned speakers and experts at Arogya Sangoshthi 2026 — India's premier AYUSH & Integrated Healthcare Conference, 21–23 August 2026, Pragati Maidan, New Delhi.",
-  alternates: { canonical: `${SITE_URL}/speakers` },
-  openGraph: {
-    title: "Speakers | Arogya Sangoshthi 2026",
-    description:
-      "100+ global healthcare leaders, researchers, and policy makers speaking at Arogya Sangoshthi 2026.",
-    url: `${SITE_URL}/speakers`,
-  },
-};
+
+
 
 // Lazy loading the below-the-fold components for performance
 const ExpertSpeakers = dynamic(() => import('@/components/speakers/ExpertSpeakers'));

@@ -21,18 +21,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const metadata: Metadata = {
-  title: "Contact Us",
-  description:
-    "Get in touch with Arogya Sangoshthi 2026 — for delegate registration, speaker inquiries, exhibition bookings, and general information. Pragati Maidan, New Delhi.",
-  alternates: { canonical: `${SITE_URL}/contact` },
-  openGraph: {
-    title: "Contact | Arogya Sangoshthi 2026",
-    description:
-      "Reach out to the Arogya Sangoshthi Foundation for registrations, speaker slots, and partnership opportunities.",
-    url: `${SITE_URL}/contact`,
-  },
-};
+
+
 
 // Lazy loading the below-the-fold components
 const ContactForm = dynamic(() => import('@/components/contact/ContactForm'));

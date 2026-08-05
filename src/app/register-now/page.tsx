@@ -22,18 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const metadata: Metadata = {
-  title: "Register Now",
-  description:
-    "Register for Arogya Sangoshthi 2026 — India's premier healthcare conference. Choose your delegate pass and secure your spot at Pragati Maidan, New Delhi, 21–23 August 2026.",
-  alternates: { canonical: `${SITE_URL}/register-now` },
-  openGraph: {
-    title: "Register Now | Arogya Sangoshthi 2026",
-    description:
-      "Book your delegate pass for India's most transformative healthcare conference. 21–23 August 2026, Pragati Maidan, New Delhi.",
-    url: `${SITE_URL}/register-now`,
-  },
-};
+
+
 
 
 
