@@ -5,13 +5,13 @@ import Link from 'next/link';
 import Marquee from 'react-fast-marquee';
 import { globalVoicesApi, SERVER_URL } from '@/lib/api';
 import { optimizeCloudinaryUrl } from '@/utils/imageOptimization';
-import h1Image from '@/assets/icons/h1.png';
+import h1Image from '@/assets/icons/h1.webp';
 import lightImage from '@/assets/image/light.webp';
-import s1 from '@/assets/icons/s1.png';
-import s2 from '@/assets/icons/s2.png';
-import s3 from '@/assets/icons/s3.png';
-import s4 from '@/assets/icons/s4.png';
-import leafright from '@/assets/icons/leafright.png';
+import s1 from '@/assets/icons/s1.webp';
+import s2 from '@/assets/icons/s2.webp';
+import s3 from '@/assets/icons/s3.webp';
+import s4 from '@/assets/icons/s4.webp';
+import leafright from '@/assets/icons/leafright.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 
 const Sparkle = ({ style, color = '#fff176' }) => (

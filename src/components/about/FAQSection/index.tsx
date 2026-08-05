@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, HelpCircle, PhoneCall } from "lucide-react";
 import { faqApi, SERVER_URL } from "@/lib/api";
 import leaf from "@/assets/icons/leafs.png";
-import footerRight from "@/assets/icons/footerright.png";
+import footerRight from "@/assets/icons/footerright.webp";
 import faqImg1 from "@/assets/image/image1.webp";
 import faqImg2 from "@/assets/image/image2.webp";
 import faqImg3 from "@/assets/image/image3.webp";

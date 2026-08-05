@@ -12,6 +12,20 @@ export default function NewGroupRegistration() {
   const [delegateCount, setDelegateCount] = useState(1);
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedPass, setSelectedPass] = useState<string | null>(null);
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
+
+  const handleSelectPass = (passId: string) => {
+    setSelectedPass(passId);
+    if (selectedDays.length === 0) {
+      setSelectedDays([1]);
+    }
+  };
+
+  const handleToggleDay = (dayNum: number) => {
+    setSelectedDays((prev) =>
+      prev.includes(dayNum) ? prev.filter((d) => d !== dayNum) : [...prev, dayNum]
+    );
+  };
 
   return (
     <Layout>
@@ -33,6 +47,8 @@ export default function NewGroupRegistration() {
                 setIsSuccess={setIsSuccess}
                 selectedPass={selectedPass}
                 setSelectedPass={setSelectedPass}
+                selectedDays={selectedDays}
+                setSelectedDays={setSelectedDays}
               />
             </div>
 
@@ -42,7 +58,9 @@ export default function NewGroupRegistration() {
                 <RegistrationSidebar
                   delegateCount={delegateCount}
                   selectedPass={selectedPass}
-                  onSelectPass={(passId: string) => setSelectedPass(passId)}
+                  onSelectPass={handleSelectPass}
+                  selectedDays={selectedDays}
+                  onToggleDay={handleToggleDay}
                 />
               </div>
             )}

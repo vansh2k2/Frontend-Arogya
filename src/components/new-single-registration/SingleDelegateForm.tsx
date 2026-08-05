@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { User, Mail, Briefcase, Building2, ShieldCheck, UploadCloud, ArrowRight, Loader2, CheckCircle, Smartphone, Tag, BadgePercent, Sparkles, FileText, X, Check } from "lucide-react";
+import { User, Mail, Briefcase, Building2, ShieldCheck, UploadCloud, ArrowRight, Loader2, CheckCircle, Smartphone, Tag, BadgePercent, Sparkles, FileText, X, Check, Calendar, Copy } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
@@ -10,6 +10,13 @@ import leafgImg from "../../assets/icons/leafg.png";
 import { useLocations } from "@/hooks/useLocations";
 import { useCategories } from "@/hooks/useCategories";
 import { API_URL } from "@/lib/api";
+import { toast } from "sonner";
+
+export const DAY_OPTIONS = [
+  { day: 1, label: "Day 1", date: "21 Aug (Fri)", bg: "#143111" },
+  { day: 2, label: "Day 2", date: "22 Aug (Sat)", bg: "#0B2C66" },
+  { day: 3, label: "Day 3", date: "23 Aug (Sun)", bg: "#6A3DF0" },
+];
 
 const formContainerVariants = {
   hidden: {},
@@ -51,11 +58,35 @@ const loadRazorpay = () => {
   });
 };
 
-export const PASS_OPTIONS: Record<string, { name: string; price: number }> = {
-  delegate: { name: "Delegate Pass", price: 1500 },
-  delegate3days: { name: "Delegate Pass", price: 3000 },
-  paper: { name: "Paper Presentation", price: 2500 },
-  poster: { name: "Poster Presentation", price: 2500 },
+export const PASS_OPTIONS: Record<string, { id: string; name: string; price: number; description: string; includes: string[] }> = {
+  "delegate": {
+    id: "delegate",
+    name: "Delegate Pass",
+    price: 1500,
+    description: "Daily Pass · Flat ₹1,500/day",
+    includes: ["Full-day Access", "Lunch & Refreshments", "Conference Kit"],
+  },
+  "delegate3days": {
+    id: "delegate3days",
+    name: "Delegate Pass (3 Days)",
+    price: 1000,
+    description: "All 3 Days Access · ₹3,000 for 3 days",
+    includes: ["Full 3-Day Access", "Lunch & Refreshments", "Premium Kit"],
+  },
+  "paper": {
+    id: "paper",
+    name: "Paper Presentation",
+    price: 2500,
+    description: "Daily Slot · Flat ₹2,500/day",
+    includes: ["Presentation Slot", "Delegate Access included", "Publication Opportunity"],
+  },
+  "poster": {
+    id: "poster",
+    name: "Poster Presentation",
+    price: 2500,
+    description: "Daily Display · Flat ₹2,500/day",
+    includes: ["Poster Display Area", "Delegate Access included", "Special Recognition"],
+  },
 };
 
 interface SingleDelegateFormProps {
@@ -63,13 +94,17 @@ interface SingleDelegateFormProps {
   setIsSuccess?: (val: boolean) => void;
   selectedPass?: string | null;
   setSelectedPass?: (val: string) => void;
+  selectedDays?: number[];
+  setSelectedDays?: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
   isSuccess: externalIsSuccess,
   setIsSuccess: externalSetIsSuccess,
   selectedPass = null,
-  setSelectedPass
+  setSelectedPass,
+  selectedDays: externalSelectedDays,
+  setSelectedDays: externalSetSelectedDays,
 }) => {
   const router = useRouter();
   const { categories, loading: loadingCategories } = useCategories('single');
@@ -80,6 +115,28 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
     specialization: "", dietary: "", assistance: "",
     agreeTerms: false
   });
+
+  const [registeredDelegate, setRegisteredDelegate] = useState<any>(null);
+  const [copiedId, setCopiedId] = useState(false);
+
+  // Selected Days State (Controlled or Uncontrolled)
+  const [internalSelectedDays, setInternalSelectedDays] = useState<number[]>([]);
+  const selectedDays = externalSelectedDays !== undefined ? externalSelectedDays : internalSelectedDays;
+  const setSelectedDays = externalSetSelectedDays || setInternalSelectedDays;
+
+  const toggleDay = (dayNum: number) => {
+    setSelectedDays((prev) =>
+      prev.includes(dayNum) ? prev.filter((d) => d !== dayNum) : [...prev, dayNum]
+    );
+    setSubmitError("");
+  };
+
+  // Sync selectedPass with selectedDays
+  useEffect(() => {
+    if (selectedPass && selectedDays.length === 0) {
+      setSelectedDays([1]);
+    }
+  }, [selectedPass]);
 
   // Alert State for OTP & Coupons
   const [otpAlert, setOtpAlert] = useState<{ show: boolean; message: string; type: "sent" | "verified" | "coupon" }>({
@@ -103,7 +160,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       if (file.size > 5 * 1024 * 1024) {
-        alert("File size exceeds 5MB limit.");
+        toast.error("File size exceeds 5MB limit.");
         return;
       }
       setUploadedFile(file);
@@ -155,11 +212,11 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
 
   const handleSendEmailOtp = async () => {
     if (!formData.email) {
-      alert("Please enter your email address first!");
+      toast.warning("Please enter your email address first!");
       return;
     }
     if (!formData.fullName) {
-      alert("Please enter your full name first!");
+      toast.warning("Please enter your full name first!");
       return;
     }
     setEmailOtpLoading(true);
@@ -175,11 +232,11 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
         setEmailTimer(30);
         showOtpAlert(data.message || "OTP sent successfully to Email.", "sent");
       } else {
-        alert(data.message || "Failed to send OTP.");
+        toast.error(data.message || "Failed to send OTP.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error sending OTP.");
+      toast.error("Error sending OTP.");
     } finally {
       setEmailOtpLoading(false);
     }
@@ -187,7 +244,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
 
   const handleVerifyEmailOtp = async () => {
     if (!emailOtpInput) {
-      alert("Please enter the OTP!");
+      toast.warning("Please enter the OTP!");
       return;
     }
     setEmailOtpLoading(true);
@@ -202,11 +259,11 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
         setEmailOtpVerified(true);
         showOtpAlert("Email OTP Verified!", "verified");
       } else {
-        alert(data.message || "Invalid OTP.");
+        toast.error(data.message || "Invalid OTP.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error verifying OTP.");
+      toast.error("Error verifying OTP.");
     } finally {
       setEmailOtpLoading(false);
     }
@@ -214,11 +271,11 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
 
   const handleSendMobileOtp = async () => {
     if (!formData.mobile) {
-      alert("Please enter your mobile number first!");
+      toast.warning("Please enter your mobile number first!");
       return;
     }
     if (!formData.fullName) {
-      alert("Please enter your full name first!");
+      toast.warning("Please enter your full name first!");
       return;
     }
     setMobileOtpLoading(true);
@@ -239,11 +296,11 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
         setMobileTimer(30);
         showOtpAlert(data.message || "OTP sent successfully to Mobile.", "sent");
       } else {
-        alert(data.message || "Failed to send OTP.");
+        toast.error(data.message || "Failed to send OTP.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error sending OTP.");
+      toast.error("Error sending OTP.");
     } finally {
       setMobileOtpLoading(false);
     }
@@ -251,7 +308,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
 
   const handleVerifyMobileOtp = async () => {
     if (!mobileOtpInput) {
-      alert("Please enter the OTP!");
+      toast.warning("Please enter the OTP!");
       return;
     }
     setMobileOtpLoading(true);
@@ -266,11 +323,11 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
         setMobileOtpVerified(true);
         showOtpAlert("Mobile OTP Verified!", "verified");
       } else {
-        alert(data.message || "Invalid OTP.");
+        toast.error(data.message || "Invalid OTP.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error verifying OTP.");
+      toast.error("Error verifying OTP.");
     } finally {
       setMobileOtpLoading(false);
     }
@@ -391,15 +448,22 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
 
     if (!selectedPass || !PASS_OPTIONS[selectedPass]) {
       setSubmitError("Please select a pass from the Registration Fees section on the right to proceed.");
-      alert("Please select a pass first from the Registration Fees section on the right!");
+      toast.warning("Please select a pass first from the Registration Fees section on the right!");
+      return;
+    }
+
+    if (selectedDays.length === 0) {
+      setSubmitError("Please select at least one Conference Day (Day 1, Day 2, or Day 3).");
+      toast.warning("Please select at least one Conference Day (Day 1, Day 2, or Day 3) to proceed!");
       return;
     }
 
     setIsSubmitting(true);
     try {
       const currentPass = PASS_OPTIONS[selectedPass];
-      const basePrice = currentPass.price;
-      const discount = appliedCoupon ? (basePrice * appliedCoupon.discountPercent) / 100 : 0;
+      const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
+      const basePrice = currentPass.price * daysMultiplier;
+      const discount = appliedCoupon ? Math.round((basePrice * appliedCoupon.discountPercent) / 100) : 0;
       const finalAmt = basePrice - discount;
       const priceStr = `₹${finalAmt.toLocaleString("en-IN")}`;
       const amountNum = finalAmt * 100;
@@ -432,7 +496,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Arogya Sangosthi 2026",
-        description: currentPass.name,
+        description: `${currentPass.name} (${selectedDays.length} ${selectedDays.length === 1 ? 'Day' : 'Days'})`,
         image: window.location.origin + "/logo.png",
         order_id: orderData.orderId,
         handler: async function (response: any) {
@@ -473,6 +537,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
               // 5. Save Registration Details
               const payload = {
                 planName: currentPass.name,
+                selectedDays: selectedDays,
                 title: formData.title || "Mr.",
                 fullName: formData.fullName,
                 email: formData.email,
@@ -506,6 +571,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
               const regData = await regRes.json();
 
               if (regData.success) {
+                setRegisteredDelegate(regData.data);
                 setIsSuccess(true);
               } else {
                 setSubmitError(regData.message || "Registration failed. Please try again.");
@@ -549,15 +615,27 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
   };
 
   if (isSuccess) {
+    const currentPass = (selectedPass && PASS_OPTIONS[selectedPass]) ? PASS_OPTIONS[selectedPass] : PASS_OPTIONS["delegate"];
+    const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
+    const basePrice = currentPass.price * daysMultiplier;
+    const discountAmount = appliedCoupon ? Math.round((basePrice * appliedCoupon.discountPercent) / 100) : 0;
+    const finalTotal = basePrice - discountAmount;
+    
+    // Delegate ID from server or fallback
+    const passCode = selectedPass?.includes('paper') ? 'PAP' : selectedPass?.includes('poster') ? 'POS' : 'DEL';
+    const dayCode = selectedDays.length === 3 || selectedDays.length === 0 ? 'AD' : selectedDays.length === 1 ? `D${selectedDays[0]}` : `D${[...selectedDays].sort().join('')}`;
+    const delegateId = registeredDelegate?.delegateId || `AGS18/SR/${passCode}/${dayCode}/${String(new Date().getDate()).padStart(2, '0')}/26/001`;
+    const txnId = registeredDelegate?.transactionId || "Online Verified";
+
     return (
       <motion.div
         id="success-card"
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-[#f0f9f0] border-2 border-[#2b5922] p-8 md:p-14 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center my-6 relative overflow-hidden font-inter"
+        className="bg-[#f0f9f0] border-2 border-[#2b5922] p-6 md:p-10 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center my-6 relative overflow-hidden font-inter"
       >
-        <div className="w-40 h-40 md:w-56 md:h-56 mb-2 flex items-center justify-center">
+        <div className="w-32 h-32 md:w-44 md:h-44 mb-1 flex items-center justify-center">
           <DotLottieReact
             src="https://lottie.host/ab646915-b3e2-48fa-8af7-245fd427baf7/DbbMej8R1U.lottie"
             loop
@@ -566,26 +644,83 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
           />
         </div>
 
-        <h2 className="text-2xl md:text-3xl font-extrabold text-[#113111] mb-3 uppercase tracking-wide font-inter">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold text-xs uppercase tracking-wider mb-2">
+          <CheckCircle className="w-3.5 h-3.5 text-emerald-700" />
+          Registration Confirmed
+        </div>
+
+        <h2 className="text-2xl md:text-3xl font-extrabold text-[#113111] mb-2 uppercase tracking-wide font-inter">
           Thank You for Registering!
         </h2>
 
-        <p className="text-gray-700 text-sm md:text-base max-w-md mb-6 leading-relaxed">
-          Thank you <strong className="text-gray-900">{formData.title} {formData.fullName}</strong> for registering for the <strong>18th Integrated Arogya Sangosthi 2026</strong>. Our team will review your details and send confirmation to <span className="text-[#2b5922] font-semibold">{formData.email}</span>.
+        <p className="text-gray-700 text-xs md:text-sm max-w-lg mb-4 leading-relaxed">
+          Welcome <strong className="text-gray-900">{formData.title} {formData.fullName}</strong>! You are officially registered for the <strong>18th Integrated Arogya Sangosthi 2026</strong>.
         </p>
 
+        {/* DELEGATE ID HERO CARD */}
+        <div className="w-full max-w-md bg-white border-2 border-dashed border-[#2b5922] rounded-xl p-4 my-2 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="text-left">
+            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block mb-0.5">Official Delegate ID</span>
+            <span className="font-roboto text-base md:text-lg font-bold text-[#113111] tracking-wide select-all">
+              {delegateId}
+            </span>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              if (navigator.clipboard) {
+                navigator.clipboard.writeText(delegateId);
+                setCopiedId(true);
+                toast.success("Delegate ID copied to clipboard!");
+                setTimeout(() => setCopiedId(false), 2500);
+              }
+            }}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#f0f9f0] hover:bg-[#e1f3e1] text-[#2b5922] font-semibold text-xs transition-colors border border-[#2b5922]/20 cursor-pointer shrink-0"
+          >
+            {copiedId ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+            {copiedId ? "Copied!" : "Copy ID"}
+          </button>
+        </div>
+
+        {/* SUMMARY DETAILS GRID */}
+        <div className="w-full max-w-md bg-white/80 backdrop-blur-xs rounded-xl border border-gray-200 p-4 my-3 text-left space-y-2 text-xs">
+          <div className="flex justify-between py-1 border-b border-gray-100">
+            <span className="text-gray-500 font-medium">Selected Pass:</span>
+            <span className="font-semibold text-gray-900">{currentPass.name}</span>
+          </div>
+          <div className="flex justify-between py-1 border-b border-gray-100">
+            <span className="text-gray-500 font-medium">Conference Days:</span>
+            <span className="font-bold text-[#0B2C66]">
+              {selectedDays.length === 3 ? 'All 3 Days (21-23 Aug 2026)' : selectedDays.map(d => `Day ${d}`).join(', ')}
+            </span>
+          </div>
+          <div className="flex justify-between py-1 border-b border-gray-100">
+            <span className="text-gray-500 font-medium">Transaction ID:</span>
+            <span className="font-mono text-gray-700 font-medium text-[11px]">{txnId}</span>
+          </div>
+          <div className="flex justify-between py-1">
+            <span className="text-gray-500 font-medium">Total Paid:</span>
+            <span className="font-bold text-red-600 text-sm">₹{finalTotal.toLocaleString('en-IN')}</span>
+          </div>
+        </div>
+
         {appliedCoupon && (
-          <div className="bg-[#eaf4ff] border border-[#b8daff] rounded-lg px-4 py-3 text-xs font-bold text-[#0056b3] mb-8 shadow-sm flex items-center gap-2">
+          <div className="bg-[#eaf4ff] border border-[#b8daff] rounded-lg px-3.5 py-2 text-xs font-bold text-[#0056b3] mb-4 shadow-xs flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#0056b3]" />
-            Coupon <strong className="text-[#004085]">{appliedCoupon.code}</strong> Applied ({appliedCoupon.discountPercent}% Off) — Final Amount: ₹{(1500 - (1500 * appliedCoupon.discountPercent) / 100).toLocaleString('en-IN')}
+            Coupon <strong className="text-[#004085]">{appliedCoupon.code}</strong> Applied ({appliedCoupon.discountPercent}% Off)
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row gap-3 mt-2">
+        <p className="text-gray-500 text-[11px] max-w-md mb-5 leading-normal">
+          📩 A confirmation email and WhatsApp message with your pass details have been sent to <span className="text-gray-800 font-semibold">{formData.email}</span>.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-3 mt-1 w-full max-w-md justify-center">
           <button
             type="button"
             onClick={() => {
               setIsSuccess(false);
+              setRegisteredDelegate(null);
               setFormData({
                 title: "", fullName: "", email: "", mobile: "",
                 designation: "", organization: "", country: "India",
@@ -597,14 +732,14 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
               setCouponCode("");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="bg-[#2b5922] hover:bg-[#1a3d14] text-white font-bold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer"
+            className="bg-[#2b5922] hover:bg-[#1a3d14] text-white font-bold px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex-1"
           >
             Submit Another Registration
           </button>
           <button
             type="button"
             onClick={() => router.push('/')}
-            className="bg-red-50 border border-red-500 hover:bg-red-600 hover:text-white text-red-600 font-bold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer"
+            className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-bold px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer flex-1"
           >
             Back to Home
           </button>
@@ -1052,7 +1187,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
                     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
                       const file = e.dataTransfer.files[0];
                       if (file.size > 5 * 1024 * 1024) {
-                        alert("File size exceeds 5MB limit.");
+                        toast.error("File size exceeds 5MB limit.");
                         return;
                       }
                       setUploadedFile(file);
@@ -1074,7 +1209,8 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
         {/* Coupon Code & Payment Breakdown Section */}
         {(() => {
           const passConfig = selectedPass ? PASS_OPTIONS[selectedPass] : null;
-          const subTotal = passConfig ? passConfig.price : 0;
+          const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
+          const subTotal = passConfig ? (passConfig.price * daysMultiplier) : 0;
           const discountAmount = appliedCoupon && passConfig ? Math.round((subTotal * appliedCoupon.discountPercent) / 100) : 0;
           const finalTotal = subTotal - discountAmount;
 
@@ -1179,8 +1315,20 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
                         </span>
                       )}
                     </div>
-                    <div className="flex justify-between font-semibold text-gray-700">
-                      <span>Subtotal (1 Delegate)</span>
+                    <div className="flex justify-between items-center font-semibold text-gray-700">
+                      <span>Selected Days:</span>
+                      {selectedDays.length > 0 ? (
+                        <span className="font-bold text-blue-600 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded text-[11px]">
+                          {selectedDays.map(d => `Day ${d}`).join(", ")} ({selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'})
+                        </span>
+                      ) : (
+                        <span className="font-bold text-red-600 text-[11px]">
+                          None selected
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex justify-between font-bold text-red-600">
+                      <span>Subtotal (1 Delegate {selectedPass && selectedDays.length > 1 ? `× ${selectedDays.length} Days` : ''})</span>
                       <span>{passConfig ? `₹${subTotal.toLocaleString('en-IN')}` : '₹0'}</span>
                     </div>
                     {appliedCoupon && passConfig && (

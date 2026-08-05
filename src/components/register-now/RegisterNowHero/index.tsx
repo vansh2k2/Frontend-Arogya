@@ -7,7 +7,7 @@ import arrowIcon from "@/assets/icons/arrow.png";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Users, Mic, Calendar, Globe, MapPin, Lightbulb, Leaf } from "lucide-react";
-import c1Icon from "@/assets/icons/c1.png";
+import c1Icon from "@/assets/icons/c1.webp";
 import d33Icon from "@/assets/icons/d33.png";
 import d100Icon from "@/assets/icons/d100.png";
 

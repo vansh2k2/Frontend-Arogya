@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { BookOpen, Users, Globe, MonitorPlay } from 'lucide-react';
 import aboutback from '@/assets/banner/aboutback.webp'; 
-import main22 from '@/assets/icons/main22.png';
+import main22 from '@/assets/icons/main22.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 
 // Animated Counter component

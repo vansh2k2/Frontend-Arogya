@@ -1,40 +1,63 @@
-"use client";
-import React, { lazy, Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import type { Metadata } from 'next';
 import Layout from '@/components/layout/Layout';
 import SpeakerHero from '@/components/speakers/SpeakerHero';
+import JsonLd from '@/components/JsonLd';
+import { webPageSchema, breadcrumbSchema, SITE_URL, mainEventSchema } from '@/lib/schemas';
+import DynamicSeoHead from '@/components/DynamicSeoHead';
+
+export const metadata: Metadata = {
+  title: "Speakers",
+  description:
+    "Meet world-renowned speakers and experts at Arogya Sangoshthi 2026 — India's premier AYUSH & Integrated Healthcare Conference, 21–23 August 2026, Pragati Maidan, New Delhi.",
+  alternates: { canonical: `${SITE_URL}/speakers` },
+  openGraph: {
+    title: "Speakers | Arogya Sangoshthi 2026",
+    description:
+      "100+ global healthcare leaders, researchers, and policy makers speaking at Arogya Sangoshthi 2026.",
+    url: `${SITE_URL}/speakers`,
+  },
+};
 
 // Lazy loading the below-the-fold components for performance
-const ExpertSpeakers = lazy(() => import('@/components/speakers/ExpertSpeakers'));
-const SpeakerCommittees = lazy(() => import('@/components/speakers/SpeakerCommittees'));
-const PreviousSpeakersRow = lazy(() => import('@/components/speakers/PreviousSpeakersRow'));
-const SpeakerCTA = lazy(() => import('@/components/speakers/SpeakerCTA'));
+const ExpertSpeakers = dynamic(() => import('@/components/speakers/ExpertSpeakers'));
+const SpeakerCommittees = dynamic(() => import('@/components/speakers/SpeakerCommittees'));
+const PreviousSpeakersRow = dynamic(() => import('@/components/speakers/PreviousSpeakersRow'));
+const SpeakerCTA = dynamic(() => import('@/components/speakers/SpeakerCTA'));
 
-// Simple loading skeleton/spinner for Suspense fallback
-const SectionLoader = () => (
-  <div className="w-full h-[400px] flex items-center justify-center bg-[#F8F9FA]">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A7C6E]"></div>
-  </div>
-);
+const speakersPageSchema = webPageSchema({
+  name: "Speakers | Arogya Sangoshthi 2026",
+  description:
+    "100+ global healthcare leaders, researchers, and policy makers speaking at Arogya Sangoshthi 2026.",
+  url: `${SITE_URL}/speakers`,
+});
 
-// Wrapper to prevent layout shifts while loading
-const BelowFold = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<SectionLoader />}>
-    {children}
-  </Suspense>
-);
+// Event schema specifically for the speakers page (includes performer type)
+const speakersEventSchema = {
+  ...mainEventSchema,
+  "@context": "https://schema.org",
+  performer: {
+    "@type": "Person",
+    description: "World-renowned healthcare experts, AYUSH practitioners, researchers, and policy makers",
+  },
+};
+
+const speakersBreadcrumb = breadcrumbSchema([
+  { name: "Home", url: SITE_URL },
+  { name: "Speakers", url: `${SITE_URL}/speakers` },
+]);
 
 export default function SpeakersPage() {
   return (
     <Layout>
+      <DynamicSeoHead pagePath="/speakers" />
+      <JsonLd data={[speakersPageSchema, speakersEventSchema, speakersBreadcrumb]} />
       <div className="flex flex-col w-full overflow-hidden bg-white">
-        {/* Above Fold */}
         <SpeakerHero />
-        
-        {/* Below Fold */}
-        <BelowFold><ExpertSpeakers /></BelowFold>
-        <BelowFold><SpeakerCommittees /></BelowFold>
-        <BelowFold><PreviousSpeakersRow /></BelowFold>
-        <BelowFold><SpeakerCTA /></BelowFold>
+        <ExpertSpeakers />
+        <SpeakerCommittees />
+        <PreviousSpeakersRow />
+        <SpeakerCTA />
       </div>
     </Layout>
   );

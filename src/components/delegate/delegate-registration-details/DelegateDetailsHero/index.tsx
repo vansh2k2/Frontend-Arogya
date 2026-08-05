@@ -4,7 +4,7 @@ import logo from "@/assets/banner/logoImg.png";
 import SectionContainer from "@/components/layout/SectionContainer";
 import SingleRegistration from "./SingleRegistration";
 import GroupRegistration from "./GroupRegistration";
-import c1Icon from "@/assets/icons/c1.png";
+import c1Icon from "@/assets/icons/c1.webp";
 import d33Icon from "@/assets/icons/d33.png";
 import d100Icon from "@/assets/icons/d100.png";
 import d5Icon from "@/assets/icons/d5.png";

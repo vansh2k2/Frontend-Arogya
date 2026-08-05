@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Send, Map, Navigation, Mail, BellRing, ArrowRight } from 'lucide-react';
 import beIcon from '@/assets/icons/be.png';
 import { useQuery } from '@tanstack/react-query';
@@ -30,6 +30,26 @@ const ContactBottom = () => {
     window.open(`https://www.google.com/maps/dir/?api=1&destination=${destination}`, '_blank');
   };
 
+  // Lazy-load the map iframe only when visible
+  const mapIframeRef = useRef<HTMLIFrameElement>(null);
+  useEffect(() => {
+    const iframe = mapIframeRef.current;
+    if (!iframe) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          if (!iframe.src || iframe.src === 'about:blank') {
+            iframe.src = (mapSrc as any)?.src || mapSrc as string;
+          }
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(iframe);
+    return () => observer.disconnect();
+  }, [mapSrc]);
+
   return (
     <section className="w-full bg-[#fbfcf7] pb-10 font-inter relative z-20 -mt-4 md:-mt-8">
       <SectionContainer>
@@ -37,12 +57,12 @@ const ContactBottom = () => {
           
           {/* Left Column: Find Us Here (Map Card) */}
           <div className="flex-1 bg-white rounded-2xl shadow-sm border border-gray-100 flex overflow-hidden relative min-h-[250px]">
-            {/* Map background (using an iframe for real map) */}
+            {/* Map background (lazy loaded) */}
             <div className="absolute inset-0 w-full h-full z-0">
               <iframe 
-                src={mapSrc?.src || mapSrc}
+                ref={mapIframeRef}
                 className="w-full h-full border-0" 
-                allowFullScreen="" 
+                allowFullScreen={true}
                 loading="lazy" 
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Office Map Location"

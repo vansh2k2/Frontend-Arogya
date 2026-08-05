@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { ReactLenis, useLenis } from 'lenis/react';
 import ScrollToTop from './ScrollToTop';
+import { Toaster } from "@/components/ui/sonner";
 
 function LenisSyncHandler() {
   const lenis = useLenis();
@@ -46,6 +47,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <LenisSyncHandler />
       <QueryClientProvider client={queryClient}>
         {children}
+        <Toaster richColors closeButton position="top-center" />
       </QueryClientProvider>
     </ReactLenis>
   );

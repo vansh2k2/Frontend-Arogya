@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import mainIcon from '@/assets/icons/main.png';
+import mainIcon from '@/assets/icons/main.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 const PowerfulThemes = () => {
   return (

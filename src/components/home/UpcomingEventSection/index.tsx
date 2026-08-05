@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion, type Variants } from 'framer-motion';
 import { Calendar, MapPin, Users, Globe, Check, ArrowRight } from 'lucide-react';
 import bgImage from '@/assets/banner/sangoobg.webp';
-import main22 from '@/assets/icons/main22.png';
+import main22 from '@/assets/icons/main22.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 
 const getImageSrc = (img: any): string => {

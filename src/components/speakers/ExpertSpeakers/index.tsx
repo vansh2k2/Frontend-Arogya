@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import sleafIcon from '@/assets/icons/sleaf.png';
 import P1Icon from '@/assets/icons/P1.png';
-import footerRight from '@/assets/icons/footerright.png';
+import footerRight from '@/assets/icons/footerright.webp';
 import { Leaf, Droplets, BookOpen, UserCircle, Globe } from 'lucide-react';
 import SectionContainer from '@/components/layout/SectionContainer';
 import { optimizeCloudinaryUrl } from '@/utils/imageOptimization';

@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Calendar, MapPin, ArrowRight, User, ChevronLeft, ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
 import hero1 from '@/assets/banner/hero2.webp';
@@ -448,9 +449,12 @@ const HeroCarousel = () => {
 
               {/* Logo */}
               <div data-anim="2" className="mb-2 sm:mb-3 -mt-1 sm:-mt-2">
-                <img
+                <Image
                   src="/logo1.png"
                   alt="Arogya Sangoshthi Logo"
+                  width={313}
+                  height={128}
+                  priority={slide.id === 0}
                   className="h-20 sm:h-26 md:h-32 lg:h-36 xl:h-32 w-auto max-w-none ml-6 md:ml-10 object-contain scale-x-[1.15]"
                 />
               </div>

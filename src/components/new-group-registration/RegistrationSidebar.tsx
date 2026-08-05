@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { CheckCircle, HelpCircle, Mail, Phone, Users } from "lucide-react";
+import { CheckCircle, HelpCircle, Mail, Phone, Users, Calendar, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import Image from "next/image";
@@ -10,6 +10,12 @@ import pp2Icon from "../../assets/icons/pp2.png";
 import pp3Icon from "../../assets/icons/pp3.png";
 import pp4Icon from "../../assets/icons/pp4.png";
 import footerRightImg from "../../assets/icons/footerright.png";
+
+const DAY_OPTIONS = [
+  { day: 1, label: 'Day 1', date: '21 Aug (Fri)', bg: '#012e17' },
+  { day: 2, label: 'Day 2', date: '22 Aug (Sat)', bg: '#d18e26' },
+  { day: 3, label: 'Day 3', date: '23 Aug (Sun)', bg: '#1b3c73' },
+];
 
 const SelectionBadge = ({ bgColor = "#012e17" }: { bgColor?: string }) => (
   <AnimatePresence>
@@ -55,13 +61,20 @@ interface RegistrationSidebarProps {
   delegateCount?: number;
   selectedPass?: string | null;
   onSelectPass?: (passId: string) => void;
+  selectedDays?: number[];
+  onToggleDay?: (dayNum: number) => void;
 }
 
 const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({ 
   delegateCount = 1,
   selectedPass = null,
-  onSelectPass = () => {}
+  onSelectPass = () => {},
+  selectedDays = [],
+  onToggleDay
 }) => {
+  const is3DaysPass = selectedPass === 'delegate3days';
+  const daysMultiplier = is3DaysPass ? 1 : (selectedDays.length > 0 ? selectedDays.length : 1);
+
   const passes = [
     {
       id: "delegate",
@@ -141,11 +154,11 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
           <Image src={feesIcon} alt="Registration Fees" className="h-10 w-auto object-contain" />
         </div>
         
-        <div className="flex flex-col gap-4 p-5 pt-8">
+        <div className="flex flex-col gap-3.5 p-5 pt-8">
 
           {/* Notice if no pass selected */}
           {!selectedPass ? (
-            <div className="bg-red-50 border-2 border-dashed border-red-400 text-red-700 py-2.5 px-4 rounded-xl text-center text-xs font-bold shadow-sm animate-pulse">
+            <div className="bg-red-50 border-2 border-dashed border-red-400 text-red-700 py-2 px-4 rounded-xl text-center text-xs font-bold shadow-xs animate-pulse">
               👉 Please click below to select your Pass *
             </div>
           ) : (
@@ -168,11 +181,83 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
               </div>
             </>
           )}
+
+          {/* Compact Conference Day Selection Card */}
+          <div className="bg-[#f8faf8] border-2 border-[#2b5922]/20 rounded-xl p-3 flex flex-col gap-2 shadow-2xs">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <div className="w-5 h-5 rounded bg-[#2b5922] text-white flex items-center justify-center shrink-0 shadow-2xs">
+                  <Calendar size={12} />
+                </div>
+                <span className="text-[11px] font-bold text-[#113111] uppercase tracking-wide">
+                  Select Conference Day(s) <span className="text-red-500">*</span>
+                </span>
+              </div>
+              <span className="text-[10px] font-semibold text-gray-500">
+                21–23 Aug 2026
+              </span>
+            </div>
+
+            {/* Small boxes for 3 days */}
+            <div className="grid grid-cols-3 gap-1.5 pt-0.5">
+              {DAY_OPTIONS.map(({ day, label, date, bg }) => {
+                const isSelected = selectedDays.includes(day);
+                return (
+                  <button
+                    key={day}
+                    type="button"
+                    onClick={() => onToggleDay && onToggleDay(day)}
+                    className={`flex flex-col items-center justify-center py-2 px-1 rounded-lg border-2 transition-all cursor-pointer relative select-none group ${
+                      isSelected
+                        ? 'text-white shadow-xs font-bold scale-[1.02]'
+                        : 'bg-white border-gray-200 text-gray-700 hover:border-[#2b5922]/50 hover:bg-gray-50'
+                    }`}
+                    style={isSelected ? { backgroundColor: bg, borderColor: bg } : {}}
+                  >
+                    {isSelected && (
+                      <div className="absolute top-1 right-1 w-3 h-3 rounded-full bg-white/30 flex items-center justify-center">
+                        <Check size={9} className="text-white" strokeWidth={3.5} />
+                      </div>
+                    )}
+                    <span className="text-[11px] font-extrabold uppercase leading-tight">{label}</span>
+                    <span className={`text-[9.5px] font-semibold leading-tight mt-0.5 ${isSelected ? 'text-white/90' : 'text-gray-500'}`}>
+                      {date}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Active days summary badge */}
+            <div className="flex items-center justify-between text-[10.5px] pt-1 border-t border-dashed border-red-200">
+              {selectedDays.length === 0 ? (
+                <span className="text-gray-500 font-semibold flex items-center gap-1">
+                  👉 Please select conference day(s)
+                </span>
+              ) : (
+                <span className="text-red-600 font-bold flex items-center gap-1">
+                  <CheckCircle size={12} className="text-red-600 shrink-0" />
+                  <span>{selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'} Selected ({selectedDays.map(d => `Day ${d}`).join(', ')})</span>
+                </span>
+              )}
+              {selectedPass === 'delegate' && selectedDays.length > 0 && (
+                <span className="text-red-600 font-bold text-[10px] font-mono bg-red-50 border border-red-200 px-1.5 py-0.5 rounded">
+                  ₹1,500/day
+                </span>
+              )}
+              {selectedPass === 'delegate3days' && (
+                <span className="text-red-600 font-bold text-[10px] bg-red-50 border border-red-200 px-1.5 py-0.5 rounded">
+                  3 Days Pass
+                </span>
+              )}
+            </div>
+          </div>
         
           {/* Dynamic Pass Cards matching Single Registration */}
           {passes.map((item, idx) => {
             const isSelected = selectedPass === item.id;
-            const totalPrice = selectedPass ? item.basePrice * delegateCount : item.basePrice;
+            const itemDaysMult = daysMultiplier;
+            const totalPrice = item.basePrice * itemDaysMult * (selectedPass ? delegateCount : 1);
 
             return (
               <motion.div 
@@ -205,6 +290,11 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
                       <h3 className="text-black font-semibold text-lg uppercase leading-tight mt-1 whitespace-nowrap">
                         {item.title}
                       </h3>
+                      {isSelected && selectedDays.length > 0 && (
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded inline-block mt-0.5" style={{ color: item.accentColor, backgroundColor: `${item.accentColor}18` }}>
+                          {selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'} ({selectedDays.map(d => `D${d}`).join('+')})
+                        </span>
+                      )}
                       {item.subtitle && (
                         <span className="text-xs font-semibold text-gray-600 block">{item.subtitle}</span>
                       )}
@@ -214,9 +304,9 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
                       <span className="text-[1.55rem] font-bold" style={{ color: item.accentColor }}>
                         ₹{totalPrice.toLocaleString('en-IN')}
                       </span>
-                      {selectedPass && delegateCount > 1 && (
-                        <span className="text-[10px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded font-mono">
-                          ₹{item.basePrice.toLocaleString('en-IN')} × {delegateCount}
+                      {isSelected && (delegateCount > 1 || selectedDays.length > 1) && (
+                        <span className="text-[10px] font-bold text-red-600 bg-red-50 border border-red-200 px-1.5 py-0.5 rounded font-mono">
+                          ₹{item.basePrice.toLocaleString('en-IN')}{selectedDays.length > 1 ? ` × ${selectedDays.length}d` : ''} × {delegateCount}p
                         </span>
                       )}
                     </div>

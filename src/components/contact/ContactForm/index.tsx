@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { User, Mail, Tag, MessageSquare, Send, MessageCircle, Handshake, Mic, Camera, Headphones, Phone, CheckCircle2 } from 'lucide-react';
 import cleaf from '@/assets/icons/cleaf.png';
 import leafs from '@/assets/icons/leafs.png';
-import footerright from '@/assets/icons/footerright.png';
+import footerright from '@/assets/icons/footerright.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 
 const ContactForm = () => {

@@ -10,12 +10,42 @@ import { motion } from "framer-motion";
 import DelegateInfoSections from "@/components/delegate/delegate-registration/DelegateInfoSections";
 import DelegateCommittees from "@/components/delegate/delegate-registration/DelegateCommittees";
 import RegistrationFees from "@/components/delegate/delegate-registration/RegistrationFees";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema, SITE_URL, eventPlace, organizer } from "@/lib/schemas";
+import DynamicSeoHead from "@/components/DynamicSeoHead";
+
+const delegatePageSchema = {
+  "@context": "https://schema.org",
+  "@type": "Event",
+  name: "Arogya Sangoshthi 2026 — Delegate Registration",
+  url: `${SITE_URL}/delegate-registration`,
+  startDate: "2026-08-21",
+  endDate: "2026-08-23",
+  eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  location: eventPlace,
+  organizer: organizer,
+  offers: {
+    "@type": "Offer",
+    name: "Delegate Registration Pass",
+    url: `${SITE_URL}/delegate-registration`,
+    availability: "https://schema.org/InStock",
+    priceCurrency: "INR",
+  },
+};
+
+const delegateBreadcrumb = breadcrumbSchema([
+  { name: "Home", url: SITE_URL },
+  { name: "Delegate Registration", url: `${SITE_URL}/delegate-registration` },
+]);
 
 const DelegateRegistration = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
   return (
     <Layout>
+      <DynamicSeoHead pagePath="/delegate-registration" />
+      <JsonLd data={[delegatePageSchema, delegateBreadcrumb]} />
       <div className="min-h-screen bg-white flex flex-col font-inter overflow-x-hidden">
         {/* Hero Section */}
         <DelegateHero />

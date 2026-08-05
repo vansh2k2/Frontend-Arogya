@@ -2,17 +2,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import leafsImage from '@/assets/icons/leafs.png';
-import mainIcon from '@/assets/icons/main.png';
-import icon1 from '@/assets/icons/icon1.png';
-import icon2 from '@/assets/icons/icon2.png';
-import icon3 from '@/assets/icons/icon3.png';
-import icon4 from '@/assets/icons/icon4.png';
-import a1 from '@/assets/icons/a1.png';
-import a2 from '@/assets/icons/a2.png';
-import a3 from '@/assets/icons/a3.png';
-import a4 from '@/assets/icons/a4.png';
-import a5 from '@/assets/icons/a5.png';
-import a6 from '@/assets/icons/a6.png';
+import mainIcon from '@/assets/icons/main.webp';
+import icon1 from '@/assets/icons/icon1.webp';
+import icon2 from '@/assets/icons/icon2.webp';
+import icon3 from '@/assets/icons/icon3.webp';
+import icon4 from '@/assets/icons/icon4.webp';
+import a1 from '@/assets/icons/a1.webp';
+import a2 from '@/assets/icons/a2.webp';
+import a3 from '@/assets/icons/a3.webp';
+import a4 from '@/assets/icons/a4.webp';
+import a5 from '@/assets/icons/a5.webp';
+import a6 from '@/assets/icons/a6.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 
 // Lotus header leaf decoration

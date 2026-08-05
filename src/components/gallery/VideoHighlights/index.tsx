@@ -5,7 +5,7 @@ import { Play, UploadCloud, Leaf } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import camm from '@/assets/icons/camm.png';
-import rightLeaf from '@/assets/icons/footerright.png';
+import rightLeaf from '@/assets/icons/footerright.webp';
 import { glimpseApi, SERVER_URL } from '@/lib/api';
 import SectionContainer from '@/components/layout/SectionContainer';
 

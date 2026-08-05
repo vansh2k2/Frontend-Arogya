@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import aboutBg from '@/assets/banner/aboutbg.webp';
-import mainIcon from '@/assets/icons/main.png';
+import mainIcon from '@/assets/icons/main.webp';
 import { Calendar, MapPin, Users } from 'lucide-react';
 import SectionContainer from '@/components/layout/SectionContainer';
 

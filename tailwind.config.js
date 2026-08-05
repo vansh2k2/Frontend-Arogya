@@ -21,6 +21,7 @@ module.exports = {
       fontFamily: {
         poppins: ["var(--font-poppins)", "Poppins", "sans-serif"],
         inter: ["var(--font-inter)", "Inter", "sans-serif"],
+        roboto: ["var(--font-roboto)", "Roboto", "sans-serif"],
         sans: ["var(--font-inter)", "Inter", "sans-serif"],
       },
       colors: {

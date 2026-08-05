@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import speakerBg from '@/assets/banner/speakerbg.webp';
 import leafDecoration from '@/assets/icons/leafs.png';
-import mainIcon from '@/assets/icons/main.png';
+import mainIcon from '@/assets/icons/main.webp';
 import P1Icon from '@/assets/icons/P1.png';
 import { Users, Mic, Calendar, Globe, Target, UserCheck } from 'lucide-react';
 import SectionContainer from '@/components/layout/SectionContainer';

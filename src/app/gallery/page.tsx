@@ -3,6 +3,9 @@ import React, { useState, useEffect, lazy, Suspense } from "react";
 import Layout from "@/components/layout/Layout";
 import Hero from "@/components/gallery/Hero";
 import { glimpseApi } from "@/lib/api";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema, webPageSchema, SITE_URL } from "@/lib/schemas";
+import DynamicSeoHead from "@/components/DynamicSeoHead";
 
 // Lazy loading the below-the-fold components for performance
 const YearsFilter = lazy(() => import("@/components/gallery/YearsFilter"));
@@ -23,6 +26,19 @@ const BelowFold = ({ children }: { children: React.ReactNode }) => (
     {children}
   </Suspense>
 );
+
+const galleryPageSchema = webPageSchema({
+  type: "CollectionPage",
+  name: "Gallery | Arogya Sangoshthi 2026",
+  description:
+    "Photo and video gallery from previous editions of Arogya Sangoshthi — India's premier AYUSH & Integrated Healthcare Conference.",
+  url: `${SITE_URL}/gallery`,
+});
+
+const galleryBreadcrumb = breadcrumbSchema([
+  { name: "Home", url: SITE_URL },
+  { name: "Gallery", url: `${SITE_URL}/gallery` },
+]);
 
 export default function GalleryPage() {
   const [activeYear, setActiveYear] = useState('All Years');
@@ -51,6 +67,8 @@ export default function GalleryPage() {
 
   return (
     <Layout>
+      <DynamicSeoHead pagePath="/gallery" />
+      <JsonLd data={[galleryPageSchema, galleryBreadcrumb]} />
       <Hero />
       <div className="bg-white">
         <BelowFold>

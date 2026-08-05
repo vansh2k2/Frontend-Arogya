@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { User, Mail, Phone, Briefcase, Building2, Users, UploadCloud, ArrowRight, Loader2, CheckCircle, UserPlus, ShieldCheck, Trash2, Tag, BadgePercent, Sparkles, FileText, X, Check } from "lucide-react";
+import { User, Mail, Phone, Briefcase, Building2, Users, UploadCloud, ArrowRight, Loader2, CheckCircle, UserPlus, ShieldCheck, Trash2, Tag, BadgePercent, Sparkles, FileText, X, Check, Calendar, Copy } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
@@ -10,6 +10,13 @@ import leafRightImg from "../../assets/icons/leafright.png";
 import { useLocations } from "@/hooks/useLocations";
 import { useCategories } from "@/hooks/useCategories";
 import { API_URL } from "@/lib/api";
+import { toast } from "sonner";
+
+export const DAY_OPTIONS = [
+  { day: 1, label: "Day 1", date: "21 Aug (Fri)", bg: "#143111" },
+  { day: 2, label: "Day 2", date: "22 Aug (Sat)", bg: "#0B2C66" },
+  { day: 3, label: "Day 3", date: "23 Aug (Sun)", bg: "#6A3DF0" },
+];
 
 const loadRazorpay = () => {
   return new Promise((resolve) => {
@@ -42,6 +49,8 @@ interface GroupDelegateFormProps {
   setIsSuccess?: (val: boolean) => void;
   selectedPass?: string | null;
   setSelectedPass?: (val: string) => void;
+  selectedDays?: number[];
+  setSelectedDays?: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({ 
@@ -49,7 +58,9 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
   isSuccess: externalIsSuccess,
   setIsSuccess: externalSetIsSuccess,
   selectedPass = null,
-  setSelectedPass
+  setSelectedPass,
+  selectedDays: externalSelectedDays,
+  setSelectedDays: externalSetSelectedDays
 }) => {
   const router = useRouter();
   const { categories, loading: loadingCategories } = useCategories('group');
@@ -71,6 +82,28 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
     agreeTerms: false
   });
 
+  const [registeredDelegates, setRegisteredDelegates] = useState<any[]>([]);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  // Selected Days State (Controlled or Uncontrolled)
+  const [internalSelectedDays, setInternalSelectedDays] = useState<number[]>([]);
+  const selectedDays = externalSelectedDays !== undefined ? externalSelectedDays : internalSelectedDays;
+  const setSelectedDays = externalSetSelectedDays || setInternalSelectedDays;
+
+  const toggleDay = (dayNum: number) => {
+    setSelectedDays((prev) =>
+      prev.includes(dayNum) ? prev.filter((d) => d !== dayNum) : [...prev, dayNum]
+    );
+    setSubmitError("");
+  };
+
+  // Sync selectedPass with selectedDays
+  useEffect(() => {
+    if (selectedPass && selectedDays.length === 0) {
+      setSelectedDays([1]);
+    }
+  }, [selectedPass]);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [localIsSuccess, setLocalIsSuccess] = useState(false);
@@ -88,14 +121,8 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
           window.scrollTo({ top: 500, behavior: "smooth" });
         }
       }, 100);
-
-      const redirectTimer = setTimeout(() => {
-        router.push('/register-now');
-      }, 4000);
-
-      return () => clearTimeout(redirectTimer);
     }
-  }, [isSuccess, router]);
+  }, [isSuccess]);
 
   // Alert State for OTP & Coupons
   const [otpAlert, setOtpAlert] = useState<{ show: boolean; message: string; type: "sent" | "verified" | "coupon" }>({
@@ -119,7 +146,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       if (file.size > 5 * 1024 * 1024) {
-        alert("File size exceeds 5MB limit.");
+        toast.error("File size exceeds 5MB limit.");
         return;
       }
       setUploadedFile(file);
@@ -174,11 +201,11 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
 
   const handleSendEmailOtp = async () => {
     if (!formData.email) {
-      alert("Please enter your email address first!");
+      toast.warning("Please enter your email address first!");
       return;
     }
     if (!formData.fullName) {
-      alert("Please enter your full name first!");
+      toast.warning("Please enter your full name first!");
       return;
     }
     setEmailOtpLoading(true);
@@ -194,11 +221,11 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
         setEmailTimer(30);
         showOtpAlert(data.message || "OTP sent successfully to Email.", "sent");
       } else {
-        alert(data.message || "Failed to send OTP.");
+        toast.error(data.message || "Failed to send OTP.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error sending OTP.");
+      toast.error("Error sending OTP.");
     } finally {
       setEmailOtpLoading(false);
     }
@@ -206,7 +233,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
 
   const handleVerifyEmailOtp = async () => {
     if (!emailOtpInput) {
-      alert("Please enter the OTP!");
+      toast.warning("Please enter the OTP!");
       return;
     }
     setEmailOtpLoading(true);
@@ -221,11 +248,11 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
         setEmailOtpVerified(true);
         showOtpAlert("Email OTP Verified!", "verified");
       } else {
-        alert(data.message || "Invalid OTP.");
+        toast.error(data.message || "Invalid OTP.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error verifying OTP.");
+      toast.error("Error verifying OTP.");
     } finally {
       setEmailOtpLoading(false);
     }
@@ -233,11 +260,11 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
 
   const handleSendMobileOtp = async () => {
     if (!formData.mobile) {
-      alert("Please enter your mobile number first!");
+      toast.warning("Please enter your mobile number first!");
       return;
     }
     if (!formData.fullName) {
-      alert("Please enter your full name first!");
+      toast.warning("Please enter your full name first!");
       return;
     }
     setMobileOtpLoading(true);
@@ -258,11 +285,11 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
         setMobileTimer(30);
         showOtpAlert(data.message || "OTP sent successfully to Mobile.", "sent");
       } else {
-        alert(data.message || "Failed to send OTP.");
+        toast.error(data.message || "Failed to send OTP.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error sending OTP.");
+      toast.error("Error sending OTP.");
     } finally {
       setMobileOtpLoading(false);
     }
@@ -270,7 +297,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
 
   const handleVerifyMobileOtp = async () => {
     if (!mobileOtpInput) {
-      alert("Please enter the OTP!");
+      toast.warning("Please enter the OTP!");
       return;
     }
     setMobileOtpLoading(true);
@@ -285,11 +312,11 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
         setMobileOtpVerified(true);
         showOtpAlert("Mobile OTP Verified!", "verified");
       } else {
-        alert(data.message || "Invalid OTP.");
+        toast.error(data.message || "Invalid OTP.");
       }
     } catch (err) {
       console.error(err);
-      alert("Error verifying OTP.");
+      toast.error("Error verifying OTP.");
     } finally {
       setMobileOtpLoading(false);
     }
@@ -367,22 +394,18 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
   };
 
   const handleAddMember = () => {
-    setGroupMembers((prev) => {
-      const updated = [
-        ...prev,
-        { title: "", fullName: "", email: "", mobile: "", designation: "" }
-      ];
-      if (onGroupMembersChange) onGroupMembersChange(updated.length + 1);
-      return updated;
-    });
+    const newCount = groupMembers.length + 2;
+    setGroupMembers((prev) => [
+      ...prev,
+      { title: "", fullName: "", email: "", mobile: "", designation: "" }
+    ]);
+    if (onGroupMembersChange) onGroupMembersChange(newCount);
   };
 
   const handleRemoveMember = (index: number) => {
-    setGroupMembers((prev) => {
-      const updated = prev.filter((_, i) => i !== index);
-      if (onGroupMembersChange) onGroupMembersChange(updated.length + 1);
-      return updated;
-    });
+    const newCount = groupMembers.length;
+    setGroupMembers((prev) => prev.filter((_, i) => i !== index));
+    if (onGroupMembersChange) onGroupMembersChange(newCount);
   };
 
   const handleMemberChange = (index: number, field: keyof GroupMember, value: string) => {
@@ -418,13 +441,20 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
 
     if (!selectedPass || !PASS_OPTIONS[selectedPass]) {
       setSubmitError("Please select a pass from the Registration Fees section on the right to proceed.");
-      alert("Please select a pass first from the Registration Fees section on the right!");
+      toast.warning("Please select a pass first from the Registration Fees section on the right!");
+      return;
+    }
+
+    if (selectedDays.length === 0) {
+      setSubmitError("Please select at least one Conference Day (Day 1, Day 2, or Day 3).");
+      toast.warning("Please select at least one Conference Day (Day 1, Day 2, or Day 3) to proceed!");
       return;
     }
 
     const currentPass = PASS_OPTIONS[selectedPass];
     const totalDelegates = groupMembers.length + 1;
-    const basePrice = currentPass.price * totalDelegates;
+    const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
+    const basePrice = currentPass.price * daysMultiplier * totalDelegates;
     const discount = appliedCoupon ? Math.round((basePrice * appliedCoupon.discountPercent) / 100) : 0;
     const finalAmt = basePrice - discount;
     const priceStr = `₹${finalAmt.toLocaleString("en-IN")}`;
@@ -460,7 +490,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Arogya Sangosthi 2026",
-        description: `${currentPass.name} (Group: ${totalDelegates} Delegates)`,
+        description: `${currentPass.name} (Group: ${totalDelegates} Delegates · ${selectedDays.length} ${selectedDays.length === 1 ? 'Day' : 'Days'})`,
         image: window.location.origin + "/logo.png",
         order_id: orderData.orderId,
         handler: async function (response: any) {
@@ -501,6 +531,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
               // 5. Construct primary and group delegate records
               const primaryDelegate = {
                 planName: currentPass.name,
+                selectedDays: selectedDays,
                 title: formData.title || "Mr.",
                 fullName: formData.fullName,
                 email: formData.email,
@@ -528,6 +559,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
 
               const additionalDelegates = groupMembers.map((m) => ({
                 planName: currentPass.name,
+                selectedDays: selectedDays,
                 title: m.title || "Mr.",
                 fullName: m.fullName,
                 email: m.email,
@@ -566,6 +598,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
               const regData = await regRes.json();
 
               if (regData.success) {
+                setRegisteredDelegates(Array.isArray(regData.data) ? regData.data : [regData.data]);
                 setIsSuccess(true);
               } else {
                 setSubmitError(regData.message || "Group registration failed. Please try again.");
@@ -611,9 +644,33 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
   if (isSuccess) {
     const currentPass = (selectedPass && PASS_OPTIONS[selectedPass]) ? PASS_OPTIONS[selectedPass] : PASS_OPTIONS["delegate3days"];
     const totalDelegates = groupMembers.length + 1;
-    const basePrice = currentPass.price * totalDelegates;
+    const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
+    const basePrice = currentPass.price * daysMultiplier * totalDelegates;
     const discountAmount = appliedCoupon ? Math.round((basePrice * appliedCoupon.discountPercent) / 100) : 0;
     const finalTotal = basePrice - discountAmount;
+
+    const passCode = selectedPass?.includes('paper') ? 'PAP' : selectedPass?.includes('poster') ? 'POS' : 'DEL';
+    const dayCode = selectedDays.length === 3 || selectedDays.length === 0 ? 'AD' : selectedDays.length === 1 ? `D${selectedDays[0]}` : `D${[...selectedDays].sort().join('')}`;
+    const dd = String(new Date().getDate()).padStart(2, '0');
+
+    const delegateList = registeredDelegates.length > 0 ? registeredDelegates : [
+      {
+        fullName: `${formData.title} ${formData.fullName}`,
+        email: formData.email,
+        mobile: formData.mobile,
+        designation: formData.designation,
+        delegateId: `AGS18/GR/${passCode}/${dayCode}/${dd}/26/001`
+      },
+      ...groupMembers.map((m, idx) => ({
+        fullName: `${m.title} ${m.fullName}`,
+        email: m.email,
+        mobile: m.mobile,
+        designation: m.designation,
+        delegateId: `AGS18/GR/${passCode}/${dayCode}/${dd}/26/${String(idx + 2).padStart(3, '0')}`
+      }))
+    ];
+
+    const txnId = registeredDelegates[0]?.transactionId || "Online Verified";
 
     return (
       <motion.div
@@ -621,9 +678,9 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-[#f0f9f0] border-2 border-[#2b5922] p-8 md:p-14 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center my-6 relative overflow-hidden font-inter"
+        className="bg-[#f0f9f0] border-2 border-[#2b5922] p-6 md:p-10 rounded-2xl shadow-xl flex flex-col items-center justify-center text-center my-6 relative overflow-hidden font-inter"
       >
-        <div className="w-40 h-40 md:w-56 md:h-56 mb-2 flex items-center justify-center">
+        <div className="w-32 h-32 md:w-44 md:h-44 mb-1 flex items-center justify-center">
           <DotLottieReact
             src="https://lottie.host/ab646915-b3e2-48fa-8af7-245fd427baf7/DbbMej8R1U.lottie"
             loop
@@ -632,26 +689,105 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
           />
         </div>
 
-        <h2 className="text-2xl md:text-3xl font-extrabold text-[#113111] mb-3 uppercase tracking-wide font-inter">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 border border-emerald-300 text-emerald-800 font-bold text-xs uppercase tracking-wider mb-2">
+          <CheckCircle className="w-3.5 h-3.5 text-emerald-700" />
+          Group Registration Confirmed ({totalDelegates} Delegates)
+        </div>
+
+        <h2 className="text-2xl md:text-3xl font-extrabold text-[#113111] mb-2 uppercase tracking-wide font-inter">
           Group Registration Successful!
         </h2>
 
-        <p className="text-gray-700 text-sm md:text-base max-w-md mb-6 leading-relaxed">
-          Thank you <strong className="text-gray-900">{formData.title} {formData.fullName}</strong> for registering a group of <strong>{totalDelegates} Delegates</strong> for the <strong>18th Integrated Arogya Sangosthi 2026</strong>. Confirmation and badges details have been dispatched to <span className="text-[#2b5922] font-semibold">{formData.email}</span>.
+        <p className="text-gray-700 text-xs md:text-sm max-w-lg mb-4 leading-relaxed">
+          Thank you <strong className="text-gray-900">{formData.title} {formData.fullName}</strong>. All <strong>{totalDelegates} delegates</strong> have been successfully registered for the <strong>18th Integrated Arogya Sangosthi 2026</strong>.
         </p>
 
+        {/* REGISTERED DELEGATES CARDS LIST */}
+        <div className="w-full max-w-xl bg-white border border-[#2b5922]/20 rounded-xl p-4 my-2 shadow-xs text-left">
+          <div className="flex items-center justify-between pb-2 border-b border-gray-100 mb-3">
+            <span className="text-xs font-bold text-gray-700 uppercase tracking-wider">Registered Delegates & Pass IDs</span>
+            <span className="text-[11px] font-semibold text-[#2b5922] bg-[#f0f9f0] px-2 py-0.5 rounded-full">
+              {totalDelegates} Passes
+            </span>
+          </div>
+
+          <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+            {delegateList.map((del: any, idx: number) => (
+              <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-2.5 rounded-lg bg-gray-50 border border-gray-100 hover:border-green-200 transition-colors gap-2">
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-gray-900">{del.fullName || del.name}</span>
+                    {idx === 0 && (
+                      <span className="text-[9.5px] font-semibold bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded">Primary</span>
+                    )}
+                  </div>
+                  <div className="text-[11px] text-gray-500">{del.email} {del.mobile ? `· ${del.mobile}` : ''}</div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="font-roboto text-xs font-bold text-[#14532d] bg-green-50 border border-green-200 px-2 py-1 rounded">
+                    {del.delegateId || `AGS18/GR/DEL/AD/26/00${idx + 1}`}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (navigator.clipboard) {
+                        navigator.clipboard.writeText(del.delegateId || '');
+                        setCopiedIndex(idx);
+                        toast.success(`${del.fullName}'s Delegate ID copied!`);
+                        setTimeout(() => setCopiedIndex(null), 2500);
+                      }
+                    }}
+                    className="p-1 rounded hover:bg-gray-200 text-gray-600 transition-colors cursor-pointer"
+                    title="Copy Delegate ID"
+                  >
+                    {copiedIndex === idx ? <Check className="w-3.5 h-3.5 text-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* SUMMARY DETAILS GRID */}
+        <div className="w-full max-w-xl bg-white/80 backdrop-blur-xs rounded-xl border border-gray-200 p-4 my-3 text-left space-y-2 text-xs">
+          <div className="flex justify-between py-1 border-b border-gray-100">
+            <span className="text-gray-500 font-medium">Selected Pass:</span>
+            <span className="font-semibold text-gray-900">{currentPass.name} ({totalDelegates} Delegates)</span>
+          </div>
+          <div className="flex justify-between py-1 border-b border-gray-100">
+            <span className="text-gray-500 font-medium">Conference Days:</span>
+            <span className="font-bold text-[#0B2C66]">
+              {selectedDays.length === 3 ? 'All 3 Days (21-23 Aug 2026)' : selectedDays.map(d => `Day ${d}`).join(', ')}
+            </span>
+          </div>
+          <div className="flex justify-between py-1 border-b border-gray-100">
+            <span className="text-gray-500 font-medium">Transaction ID:</span>
+            <span className="font-mono text-gray-700 font-medium text-[11px]">{txnId}</span>
+          </div>
+          <div className="flex justify-between py-1">
+            <span className="text-gray-500 font-medium">Total Paid:</span>
+            <span className="font-bold text-red-600 text-sm">₹{finalTotal.toLocaleString('en-IN')}</span>
+          </div>
+        </div>
+
         {appliedCoupon && (
-          <div className="bg-[#eaf4ff] border border-[#b8daff] rounded-lg px-4 py-3 text-xs font-bold text-[#0056b3] mb-8 shadow-sm flex items-center gap-2">
+          <div className="bg-[#eaf4ff] border border-[#b8daff] rounded-lg px-3.5 py-2 text-xs font-bold text-[#0056b3] mb-4 shadow-xs flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#0056b3]" />
-            Coupon <strong className="text-[#004085]">{appliedCoupon.code}</strong> Applied ({appliedCoupon.discountPercent}% Off) — Final Amount Paid: ₹{finalTotal.toLocaleString('en-IN')}
+            Coupon <strong className="text-[#004085]">{appliedCoupon.code}</strong> Applied ({appliedCoupon.discountPercent}% Off)
           </div>
         )}
 
-        <div className="flex flex-col sm:flex-row gap-3 mt-2">
+        <p className="text-gray-500 text-[11px] max-w-md mb-5 leading-normal">
+          📩 Detailed registration summary and passes have been emailed to <span className="text-gray-800 font-semibold">{formData.email}</span>.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-3 mt-1 w-full max-w-md justify-center">
           <button
             type="button"
             onClick={() => {
               setIsSuccess(false);
+              setRegisteredDelegates([]);
               setFormData({
                 title: "", fullName: "", email: "", mobile: "",
                 designation: "", organization: "", country: "India",
@@ -664,14 +800,14 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
               setCouponCode("");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="bg-[#2b5922] hover:bg-[#1a3d14] text-white font-bold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer"
+            className="bg-[#2b5922] hover:bg-[#1a3d14] text-white font-bold px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all shadow-md cursor-pointer flex-1"
           >
             Submit Another Registration
           </button>
           <button
             type="button"
             onClick={() => router.push('/')}
-            className="bg-red-50 border border-red-500 hover:bg-red-600 hover:text-white text-red-600 font-bold px-6 py-3 rounded-lg text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer"
+            className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-bold px-5 py-2.5 rounded-lg text-xs uppercase tracking-wider transition-all shadow-xs cursor-pointer flex-1"
           >
             Back to Home
           </button>
@@ -1126,7 +1262,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
                   if (e.dataTransfer.files && e.dataTransfer.files[0]) {
                     const file = e.dataTransfer.files[0];
                     if (file.size > 5 * 1024 * 1024) {
-                      alert("File size exceeds 5MB limit.");
+                      toast.error("File size exceeds 5MB limit.");
                       return;
                     }
                     setUploadedFile(file);
@@ -1265,7 +1401,8 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
         {(() => {
           const passConfig = (selectedPass && PASS_OPTIONS[selectedPass]) ? PASS_OPTIONS[selectedPass] : null;
           const totalDelegates = groupMembers.length + 1;
-          const subTotal = passConfig ? totalDelegates * passConfig.price : 0;
+          const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
+          const subTotal = passConfig ? (totalDelegates * passConfig.price * daysMultiplier) : 0;
           const discountAmount = (appliedCoupon && passConfig) ? Math.round((subTotal * appliedCoupon.discountPercent) / 100) : 0;
           const finalTotal = subTotal - discountAmount;
 
@@ -1370,8 +1507,20 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
                         </span>
                       )}
                     </div>
-                    <div className="flex justify-between font-semibold text-gray-700">
-                      <span>Subtotal ({totalDelegates} {totalDelegates > 1 ? 'Delegates' : 'Delegate'})</span>
+                    <div className="flex justify-between items-center font-semibold text-gray-700">
+                      <span>Selected Days:</span>
+                      {selectedDays.length > 0 ? (
+                        <span className="font-bold text-blue-600 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded text-[11px]">
+                          {selectedDays.map(d => `Day ${d}`).join(", ")} ({selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'})
+                        </span>
+                      ) : (
+                        <span className="font-bold text-red-600 text-[11px]">
+                          None selected
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex justify-between font-bold text-red-600">
+                      <span>Subtotal ({totalDelegates} {totalDelegates > 1 ? 'Delegates' : 'Delegate'}{selectedPass && selectedDays.length > 1 ? ` × ${selectedDays.length} Days` : ''})</span>
                       <span>{passConfig ? `₹${subTotal.toLocaleString('en-IN')}` : '₹0'}</span>
                     </div>
                     {appliedCoupon && passConfig && (

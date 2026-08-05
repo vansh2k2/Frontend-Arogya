@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import paperBg from '@/assets/banner/paper.webp';
-import mainIcon from '@/assets/icons/main.png';
+import mainIcon from '@/assets/icons/main.webp';
 import { FileText } from 'lucide-react';
 import SectionContainer from '@/components/layout/SectionContainer';
 

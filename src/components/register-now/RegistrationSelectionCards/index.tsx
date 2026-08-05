@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle } from 'lucide-react';
 import singleImg from "@/assets/icons/single.png";
 import groupImg from "@/assets/icons/group.png";
 import sleafImg from "@/assets/icons/sleaf.png";
-import leafRightImg from "@/assets/icons/leafright.png";
+import leafRightImg from "@/assets/icons/leafright.webp";
 import SecureRegistrationBand from '../SecureRegistrationBand';
 import { motion } from 'framer-motion';
 

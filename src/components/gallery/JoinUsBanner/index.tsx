@@ -4,7 +4,7 @@ import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import gallbottImg from '@/assets/icons/gallbott.png';
-import leafRightImg from '@/assets/icons/leafright.png';
+import leafRightImg from '@/assets/icons/leafright.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 
 gsap.registerPlugin(ScrollTrigger);

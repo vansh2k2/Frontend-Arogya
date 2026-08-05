@@ -2,7 +2,7 @@
 import React from 'react';
 import { Leaf } from 'lucide-react';
 import fe1Icon from '@/assets/icons/fe1.png';
-import mainLogo from '@/assets/icons/main.png';
+import mainLogo from '@/assets/icons/main.webp';
 import aboutImage from '@/assets/about1.jpg'; // Using placeholder for nature image
 import leafLeft from '@/assets/icons/leafs.png';
 import SectionContainer from '@/components/layout/SectionContainer';

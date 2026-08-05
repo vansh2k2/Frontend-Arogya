@@ -1,19 +1,19 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import main22 from "@/assets/icons/main22.png";
-import foot1 from "@/assets/icons/foot1.png";
-import foot2 from "@/assets/icons/foot2.png";
-import foot3 from "@/assets/icons/foot3.png";
-import foot4 from "@/assets/icons/foot4.png";
-import foot11 from "@/assets/icons/foot11.png";
-import foot22 from "@/assets/icons/foot22.png";
-import foot33 from "@/assets/icons/foot33.png";
-import footerRight from "@/assets/icons/footerright.png";
-import footerBot from "@/assets/icons/footerbot.png";
-import notesIcon from "@/assets/icons/notes.png";
-import pdfIcon from "@/assets/icons/pdf.png";
-import parliaIcon from "@/assets/icons/parlia.png";
+import main22 from "@/assets/icons/main22.webp";
+import foot1 from "@/assets/icons/foot1.webp";
+import foot2 from "@/assets/icons/foot2.webp";
+import foot3 from "@/assets/icons/foot3.webp";
+import foot4 from "@/assets/icons/foot4.webp";
+import foot11 from "@/assets/icons/foot11.webp";
+import foot22 from "@/assets/icons/foot22.webp";
+import foot33 from "@/assets/icons/foot33.webp";
+import footerRight from "@/assets/icons/footerright.webp";
+import footerBot from "@/assets/icons/footerbot.webp";
+import notesIcon from "@/assets/icons/notes.webp";
+import pdfIcon from "@/assets/icons/pdf.webp";
+import parliaIcon from "@/assets/icons/parlia.webp";
 import {
   Facebook,
   Twitter,

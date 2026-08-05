@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, type Variants } from 'framer-motion';
 import { 
@@ -17,7 +17,7 @@ import c6 from '@/assets/image/c6.webp';
 import h1 from '@/assets/image/h1.webp';
 import h2 from '@/assets/image/h2.webp';
 import h3 from '@/assets/image/h3.webp';
-import t1 from '@/assets/icons/t1.png';
+import t1 from '@/assets/icons/t1.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 
 const getImageSrc = (img: any): string => {
@@ -73,6 +73,26 @@ const bottomGridVariants: Variants = {
 };
 
 const EventHighlightsSection = () => {
+  const mapRef = useRef<HTMLIFrameElement>(null);
+  const mapSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14009.843655569632!2d77.22758546992978!3d28.61594503757779!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce328b5a553f7%3A0x795cf6ea0f8b5378!2sPragati%20Maidan%2C%20New%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1779771849819!5m2!1sen!2sin";
+
+  // Lazy load Google Maps only when user scrolls near this section
+  useEffect(() => {
+    const iframe = mapRef.current;
+    if (!iframe) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          if (!iframe.src) iframe.src = mapSrc;
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(iframe);
+    return () => observer.disconnect();
+  }, []);
+
   const highlights = [
     {
       title: "GLOBAL KEYNOTES",
@@ -348,10 +368,10 @@ const EventHighlightsSection = () => {
                   </div>
                 </div>
 
-                {/* Google Map */}
+                {/* Google Map — lazy loaded via IntersectionObserver */}
                 <div className="w-[55%] bg-gray-200 rounded-lg overflow-hidden relative border border-gray-300">
                   <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14009.843655569632!2d77.22758546992978!3d28.61594503757779!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce328b5a553f7%3A0x795cf6ea0f8b5378!2sPragati%20Maidan%2C%20New%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1779771849819!5m2!1sen!2sin" 
+                    ref={mapRef}
                     className="w-full h-full min-h-[120px]" 
                     style={{ border: 0 }} 
                     allowFullScreen={true} 

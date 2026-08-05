@@ -6,10 +6,10 @@ import {
   ArrowRight, Building2, X
 } from 'lucide-react';
 import goldImage from '@/assets/icons/gold.png';
-import mainIcon from '@/assets/icons/main22.png';
-import footerRightImage from '@/assets/icons/footerright.png';
-import leafLeftBg from '@/assets/icons/leafg.png';
-import leafRightBg from '@/assets/icons/leafright.png';
+import mainIcon from '@/assets/icons/main22.webp';
+import footerRightImage from '@/assets/icons/footerright.webp';
+import leafLeftBg from '@/assets/icons/leafg.webp';
+import leafRightBg from '@/assets/icons/leafright.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 import { testimonialsApi, SERVER_URL } from '@/lib/api';
 

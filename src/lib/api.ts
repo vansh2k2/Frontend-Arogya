@@ -307,6 +307,23 @@ export const locationApi = {
     }
 };
 
+export const seoApi = {
+    // Fetch SEO data for a specific page path (e.g. "/" or "/about")
+    getByPage: async (page: string) => {
+        try {
+            const response = await fetch(`${API_URL}/seo/all`);
+            const data = await response.json();
+            if (!data.success) return null;
+            const found = (data.data as any[]).find(
+                (item) => item.page === page && item.isActive
+            );
+            return found || null;
+        } catch (error) {
+            console.warn(`Error fetching SEO data for page: ${page}`);
+            return null;
+        }
+    }
+};
 
 
 

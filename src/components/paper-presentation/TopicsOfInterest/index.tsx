@@ -9,7 +9,7 @@ import f5 from '@/assets/icons/f5.png';
 import f6 from '@/assets/icons/f6.png';
 import f7 from '@/assets/icons/f7.png';
 import f8 from '@/assets/icons/f8.png';
-import footerRightImage from '@/assets/icons/footerright.png';
+import footerRightImage from '@/assets/icons/footerright.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 
 const topics = [

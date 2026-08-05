@@ -1,12 +1,72 @@
 import "./globals.css";
-
-export const metadata = {
-  title: "Arogya Sangoshthi 2026 | International AYUSH & Homeopathy Seminar",
-  description: "Arogya Sangoshthi 2026 is a global AYUSH & Homeopathy seminar uniting experts, researchers, and practitioners for knowledge exchange, innovation, and holistic healthcare advancements.",
-};
-
-import { Poppins, Inter } from "next/font/google";
+import type { Metadata } from "next";
+import { Poppins, Inter, Roboto } from "next/font/google";
 import { Providers } from "@/components/Providers";
+import JsonLd from "@/components/JsonLd";
+import { mainEventSchema, organizationSchema } from "@/lib/schemas";
+
+const SITE_URL = "https://arogya.namogange.org";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Arogya Sangoshthi 2026 | International AYUSH & Integrated Healthcare Conference",
+    template: "%s | Arogya Sangoshthi 2026",
+  },
+  description:
+    "Arogya Sangoshthi 2026 — India's premier 3-day international conference on Integrated Healthcare, AYUSH, Pharma, Wellness & Innovation. 21–23 August 2026, Pragati Maidan, New Delhi.",
+  keywords: [
+    "AYUSH conference 2026",
+    "integrated healthcare conference",
+    "homeopathy seminar India",
+    "pharma innovation conference",
+    "Pragati Maidan event 2026",
+    "Arogya Sangoshthi",
+    "NamoGange healthcare",
+    "wellness conference India",
+    "traditional medicine conference",
+  ],
+  authors: [{ name: "Arogya Sangoshthi Foundation", url: SITE_URL }],
+  creator: "Arogya Sangoshthi Foundation",
+  publisher: "Arogya Sangoshthi Foundation",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_IN",
+    url: SITE_URL,
+    siteName: "Arogya Sangoshthi 2026",
+    title: "Arogya Sangoshthi 2026 | International AYUSH & Integrated Healthcare Conference",
+    description:
+      "India's premier healthcare conference — 21–23 August 2026, Pragati Maidan, New Delhi. Join 5000+ delegates, 100+ speakers from 50+ countries.",
+    images: [
+      {
+        url: `${SITE_URL}/ogimage.png`,
+        width: 1200,
+        height: 630,
+        alt: "Arogya Sangoshthi 2026 — International Healthcare Conference",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Arogya Sangoshthi 2026 | AYUSH & Healthcare Conference",
+    description:
+      "India's premier healthcare conference — 21–23 August 2026, Pragati Maidan, New Delhi.",
+    images: [`${SITE_URL}/ogimage.png`],
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
+};
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,13 +82,24 @@ const inter = Inter({
   display: "swap",
 });
 
-export default function RootLayout({ children }) {
+const roboto = Roboto({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700", "900"],
+  variable: "--font-roboto",
+  display: "swap",
+});
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`antialiased ${poppins.variable} ${inter.variable}`}>
-      <body className="flex flex-col font-inter bg-background text-foreground antialiased min-h-screen" suppressHydrationWarning>
-        <Providers>
-          {children}
-        </Providers>
+    <html lang="en" className={`antialiased ${poppins.variable} ${inter.variable} ${roboto.variable}`}>
+      <body
+        className="flex flex-col font-inter bg-background text-foreground antialiased min-h-screen"
+        suppressHydrationWarning
+      >
+        {/* ── Global JSON-LD: Event + Organization (on every page) ── */}
+        <JsonLd data={[mainEventSchema, organizationSchema]} />
+
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

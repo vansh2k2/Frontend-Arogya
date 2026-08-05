@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import founderImg from '@/assets/guest1.jpg';
-import main22 from '@/assets/icons/main22.png';
+import main22 from '@/assets/icons/main22.webp';
 import gold1 from '@/assets/icons/gold1.png';
 import SectionContainer from '@/components/layout/SectionContainer';
 import { API_URL, SERVER_URL } from '@/lib/api';

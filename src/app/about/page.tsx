@@ -1,45 +1,59 @@
-"use client";
-import React, { lazy, Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import type { Metadata } from 'next';
 import Layout from '@/components/layout/Layout';
 import AboutHero from '@/components/about/AboutHero';
+import JsonLd from '@/components/JsonLd';
+import { webPageSchema, breadcrumbSchema, SITE_URL } from '@/lib/schemas';
+import DynamicSeoHead from '@/components/DynamicSeoHead';
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about the Arogya Sangoshthi Foundation — organizers of India's premier AYUSH & Integrated Healthcare Conference. Discover our mission, vision, and impact.",
+  alternates: { canonical: `${SITE_URL}/about` },
+  openGraph: {
+    title: "About Arogya Sangoshthi 2026",
+    description:
+      "Discover the mission and vision behind India's most transformative healthcare conference.",
+    url: `${SITE_URL}/about`,
+  },
+};
 
 // Lazy loading the below-the-fold components for performance
-const AboutFounder = lazy(() => import('@/components/about/AboutFounder'));
-const AboutNamoGange = lazy(() => import('@/components/about/AboutNamoGange'));
-const AboutInitiatives = lazy(() => import('@/components/about/AboutInitiatives'));
-const FAQSection = lazy(() => import('@/components/about/FAQSection'));
-const OurImpact = lazy(() => import('@/components/about/OurImpact'));
+const AboutFounder = dynamic(() => import('@/components/about/AboutFounder'));
+const AboutNamoGange = dynamic(() => import('@/components/about/AboutNamoGange'));
+const AboutInitiatives = dynamic(() => import('@/components/about/AboutInitiatives'));
+const FAQSection = dynamic(() => import('@/components/about/FAQSection'));
+const OurImpact = dynamic(() => import('@/components/about/OurImpact'));
 
-// Simple loading skeleton/spinner for Suspense fallback
-const SectionLoader = () => (
-  <div className="w-full h-[400px] flex items-center justify-center bg-[#F8F9FA]">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A7C6E]"></div>
-  </div>
-);
+const aboutPageSchema = webPageSchema({
+  type: "AboutPage",
+  name: "About Arogya Sangoshthi Foundation",
+  description:
+    "Learn about the Arogya Sangoshthi Foundation — organizers of India's premier AYUSH & Integrated Healthcare Conference.",
+  url: `${SITE_URL}/about`,
+});
 
-// Wrapper to prevent layout shifts while loading
-const BelowFold = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<SectionLoader />}>
-    {children}
-  </Suspense>
-);
+const aboutBreadcrumb = breadcrumbSchema([
+  { name: "Home", url: SITE_URL },
+  { name: "About", url: `${SITE_URL}/about` },
+]);
 
 export default function AboutPage() {
   return (
     <Layout>
+      <DynamicSeoHead pagePath="/about" />
+      <JsonLd data={[aboutPageSchema, aboutBreadcrumb]} />
       <main className="flex min-h-screen flex-col items-center justify-between overflow-hidden">
-        {/* Hero Section (Above Fold) - Loaded immediately */}
         <div className="w-full">
           <AboutHero />
         </div>
-
-        {/* Below Fold Components - Lazy loaded */}
         <div className="w-full flex flex-col">
-          <BelowFold><AboutFounder /></BelowFold>
-          <BelowFold><AboutNamoGange /></BelowFold>
-          <BelowFold><AboutInitiatives /></BelowFold>
-          <BelowFold><FAQSection /></BelowFold>
-          <BelowFold><OurImpact /></BelowFold>
+          <AboutFounder />
+          <AboutNamoGange />
+          <AboutInitiatives />
+          <FAQSection />
+          <OurImpact />
         </div>
       </main>
     </Layout>

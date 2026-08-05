@@ -18,7 +18,7 @@ import {
   Map,
   ClipboardList
 } from 'lucide-react';
-import main22 from '@/assets/icons/main22.png';
+import main22 from '@/assets/icons/main22.webp';
 import d11Icon from '@/assets/icons/d11.png';
 import d22Icon from '@/assets/icons/d22.png';
 import d33Icon from '@/assets/icons/d33.png';
@@ -29,7 +29,7 @@ import d77Icon from '@/assets/icons/d77.png';
 import d88Icon from '@/assets/icons/d88.png';
 import d99Icon from '@/assets/icons/d99.png';
 import d100Icon from '@/assets/icons/d100.png';
-import footerRight from '@/assets/icons/footerright.png';
+import footerRight from '@/assets/icons/footerright.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
 
 // Placeholders for the bottom images

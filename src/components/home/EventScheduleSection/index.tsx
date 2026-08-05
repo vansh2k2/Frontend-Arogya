@@ -1,11 +1,30 @@
 "use client";
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { MapPin, Calendar, Clock, Building, Activity, ArrowRight, Navigation } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
 
 const EventScheduleSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
+
+  // Lazy load map iframe
+  const scheduleMapRef = useRef<HTMLIFrameElement>(null);
+  const scheduleSrc = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.1234567890123!2d72.8546!3d19.1234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA3JzI0LjQiTiA3MsKwNTEnMTYuNiJF!5e0!3m2!1sen!2sin!4v1234567890123";
+  useEffect(() => {
+    const iframe = scheduleMapRef.current;
+    if (!iframe) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          if (!iframe.src) iframe.src = scheduleSrc;
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(iframe);
+    return () => observer.disconnect();
+  }, []);
 
   const scheduleItems = [
     { title: 'Registration Opens', time: '8:00 AM IST', delay: 0.5 },
@@ -92,7 +111,7 @@ const EventScheduleSection = () => {
             >
               <div className="relative overflow-hidden" style={{ height: '280px' }}>
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3769.1234567890123!2d72.8546!3d19.1234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDA3JzI0LjQiTiA3MsKwNTEnMTYuNiJF!5e0!3m2!1sen!2sin!4v1234567890123"
+                  ref={scheduleMapRef}
                   className="w-full h-full"
                   style={{ border: 0 }}
                   allowFullScreen

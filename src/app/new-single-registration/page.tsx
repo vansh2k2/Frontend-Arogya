@@ -13,6 +13,21 @@ const DecorativeBackground = dynamic(() => import("@/components/new-single-regis
 export default function SingleRegistrationPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [selectedPass, setSelectedPass] = useState<string | null>(null);
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
+
+  const handleSelectPass = (passId: string) => {
+    setSelectedPass(passId);
+    // Never auto-select days — user always picks manually
+    if (selectedDays.length === 0) {
+      setSelectedDays([1]);
+    }
+  };
+
+  const handleToggleDay = (dayNum: number) => {
+    setSelectedDays((prev) =>
+      prev.includes(dayNum) ? prev.filter((d) => d !== dayNum) : [...prev, dayNum]
+    );
+  };
 
   return (
     <Layout>
@@ -33,6 +48,8 @@ export default function SingleRegistrationPage() {
                 setIsSuccess={setIsSuccess} 
                 selectedPass={selectedPass}
                 setSelectedPass={setSelectedPass}
+                selectedDays={selectedDays}
+                setSelectedDays={setSelectedDays}
               />
             </div>
 
@@ -41,7 +58,9 @@ export default function SingleRegistrationPage() {
               <div className="w-full lg:w-[36%]">
                 <RegistrationSidebar 
                   selectedPass={selectedPass}
-                  onSelectPass={(passId: string) => setSelectedPass(passId)}
+                  onSelectPass={handleSelectPass}
+                  selectedDays={selectedDays}
+                  onToggleDay={handleToggleDay}
                 />
               </div>
             )}

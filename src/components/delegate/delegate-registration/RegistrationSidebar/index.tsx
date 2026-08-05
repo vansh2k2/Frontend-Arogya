@@ -1,7 +1,7 @@
 import React from "react";
 import { ShoppingCart, Package, ShieldCheck, Coffee, Users, Info, Lock, CheckCircle, ChevronRight, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import footerRightImg from "@/assets/icons/footerright.png";
+import footerRightImg from "@/assets/icons/footerright.webp";
 
 const RegistrationSidebar = ({
   selectedItems = [],

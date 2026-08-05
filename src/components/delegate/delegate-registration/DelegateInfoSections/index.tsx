@@ -13,7 +13,7 @@ import zz3 from "@/assets/icons/zz3.png";
 import zz4 from "@/assets/icons/zz4.png";
 import zz5 from "@/assets/icons/zz5.png";
 import zz6 from "@/assets/icons/zz6.png";
-import footerright from "@/assets/icons/footerright.png";
+import footerright from "@/assets/icons/footerright.webp";
 import leafs from "@/assets/icons/leafs.png";
 import SectionContainer from "@/components/layout/SectionContainer";
 import { API_URL, SERVER_URL } from "@/lib/api";
