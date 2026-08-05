@@ -6,7 +6,7 @@ import TrustedBy from '@/components/home/TrustedBy';
 import WhyArogyaAndTracks from '@/components/home/WhyArogyaAndTracks';
 import DynamicSeoHead from '@/components/DynamicSeoHead';
 import ServerSeoSchema from '@/components/ServerSeoSchema';
-import { fetchCmsSeoForPage, resolveOgImageUrl } from '@/lib/fetchCmsSeo';
+import { fetchCmsSeoForPage, getOgImageUrl } from '@/lib/fetchCmsSeo';
 
 const SITE_URL = 'https://arogya.namogange.org';
 
@@ -14,9 +14,7 @@ const SITE_URL = 'https://arogya.namogange.org';
 // WhatsApp / Facebook / Twitter bots will see it without JavaScript
 export async function generateMetadata(): Promise<Metadata> {
   const cms = await fetchCmsSeoForPage('/');
-  const ogImg = cms?.ogImage
-    ? resolveOgImageUrl(cms.ogImage)
-    : `${SITE_URL}/ogimage.webp`;
+  const ogImg = getOgImageUrl(cms);
   return {
     title: cms?.metaTitle ||
       'Arogya Sangoshthi 2026 | International AYUSH & Integrated Healthcare Conference',

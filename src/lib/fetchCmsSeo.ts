@@ -20,8 +20,8 @@ const getApiBase = () => {
 export interface CmsSeoData {
   metaTitle?: string;
   metaDescription?: string;
-  ogImage?: string;       // path like /uploads/seo/image.jpg
-  openGraphTags?: string; // raw HTML string
+  ogImage?: string;       // uploaded file path like /uploads/seo/image.jpg
+  openGraphTags?: string; // raw HTML string with <meta property="og:*"> tags
   isActive?: boolean;
 }
 
@@ -45,15 +45,53 @@ export const fetchCmsSeoForPage = async (
 };
 
 /**
+ * Extract og:image URL from an HTML string of <meta> tags.
+ * Admin stores OG tags as raw HTML — e.g.:
+ *   <meta property="og:image" content="https://...">
+ * This function parses that string and returns the content value.
+ */
+export const extractOgImageFromHtml = (html: string): string | null => {
+  if (!html) return null;
+  // Match property="og:image" or name="og:image"
+  const match = html.match(
+    /<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i
+  ) || html.match(
+    /<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i
+  );
+  return match ? match[1].trim() : null;
+};
+
+/**
  * Build the og:image URL from a CMS ogImage path
  * e.g. "/uploads/seo/image.jpg" → "https://backend.url/uploads/seo/image.jpg"
  */
 export const resolveOgImageUrl = (ogImagePath: string): string => {
-  if (!ogImagePath) return `${SITE_URL}/ogimage.png`;
+  if (!ogImagePath) return `${SITE_URL}/ogimage.webp`;
   // Already absolute URL
   if (ogImagePath.startsWith("http")) return ogImagePath;
   // Relative path from backend server
   const serverBase = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api")
     .replace(/\/api$/, "");
   return `${serverBase}${ogImagePath}`;
+};
+
+/**
+ * Get the best OG image URL from CMS data.
+ * Priority:
+ *   1. cms.ogImage (uploaded file field)
+ *   2. og:image extracted from cms.openGraphTags HTML
+ *   3. Default fallback ogimage.webp
+ */
+export const getOgImageUrl = (cms: CmsSeoData | null): string => {
+  // 1. Uploaded file field
+  if (cms?.ogImage) return resolveOgImageUrl(cms.ogImage);
+
+  // 2. Parse from openGraphTags HTML string
+  if (cms?.openGraphTags) {
+    const fromHtml = extractOgImageFromHtml(cms.openGraphTags);
+    if (fromHtml) return fromHtml;
+  }
+
+  // 3. Static fallback in /public
+  return `${SITE_URL}/ogimage.webp`;
 };

@@ -4,13 +4,13 @@ import Layout from "@/components/layout/Layout";
 import DynamicSeoHead from "@/components/DynamicSeoHead";
 import ServerSeoSchema from "@/components/ServerSeoSchema";
 import GalleryClient from "@/components/gallery/GalleryClient";
-import { fetchCmsSeoForPage, resolveOgImageUrl } from "@/lib/fetchCmsSeo";
+import { fetchCmsSeoForPage, getOgImageUrl } from "@/lib/fetchCmsSeo";
 
 const SITE_URL = 'https://arogya.namogange.org';
 
 export async function generateMetadata(): Promise<Metadata> {
   const cms = await fetchCmsSeoForPage('/gallery');
-  const ogImg = cms?.ogImage ? resolveOgImageUrl(cms.ogImage) : `${SITE_URL}/ogimage.webp`;
+  const ogImg = getOgImageUrl(cms);
   return {
     title: cms?.metaTitle || 'Gallery',
     description: cms?.metaDescription ||

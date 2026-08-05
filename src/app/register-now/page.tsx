@@ -5,13 +5,13 @@ import RegisterNowHero from "@/components/register-now/RegisterNowHero";
 import RegisterNowContent from "@/components/register-now/RegisterNowContent";
 import DynamicSeoHead from "@/components/DynamicSeoHead";
 import ServerSeoSchema from "@/components/ServerSeoSchema";
-import { fetchCmsSeoForPage, resolveOgImageUrl } from "@/lib/fetchCmsSeo";
+import { fetchCmsSeoForPage, getOgImageUrl } from "@/lib/fetchCmsSeo";
 
 const SITE_URL = 'https://arogya.namogange.org';
 
 export async function generateMetadata(): Promise<Metadata> {
   const cms = await fetchCmsSeoForPage('/register-now');
-  const ogImg = cms?.ogImage ? resolveOgImageUrl(cms.ogImage) : `${SITE_URL}/ogimage.webp`;
+  const ogImg = getOgImageUrl(cms);
   return {
     title: cms?.metaTitle || 'Register Now',
     description: cms?.metaDescription ||

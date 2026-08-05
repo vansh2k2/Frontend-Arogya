@@ -199,7 +199,7 @@ const BlogDetail = () => {
                   <div className="absolute -left-8 -bottom-8 w-28 h-28 rounded-full bg-white/5" />
                   <h4 className="relative text-white font-bold text-[15px] mb-2 font-playfair">Join Arogya Sangoshthi 2025</h4>
                   <p className="relative text-[#BFE0CE] text-[12px] mb-5 leading-relaxed">Be part of India's premier integrative medicine conference.</p>
-                  <Link href="/registration" className="relative inline-block px-6 py-2.5 bg-[#C2742F] text-white text-[11.5px] font-bold uppercase tracking-[0.08em] hover:bg-[#A85F22] transition-colors">
+                  <Link href="/register-now" className="relative inline-block px-6 py-2.5 bg-[#C2742F] text-white text-[11.5px] font-bold uppercase tracking-[0.08em] hover:bg-[#A85F22] transition-colors">
                     Register Now
                   </Link>
                 </div>

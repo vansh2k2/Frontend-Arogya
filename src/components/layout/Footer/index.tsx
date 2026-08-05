@@ -140,7 +140,7 @@ const Footer = () => {
     { name: "Conference Tracks", path: "/tracks" },
     { name: "Speakers", path: "/speakers" },
     { name: "Agenda", path: "/agenda" },
-    { name: "Registration", path: "/registration" },
+    { name: "Registration", path: "/register-now" },
     { name: "Exhibition", path: "/exhibition" },
     { name: "Partners & Supporters", path: "/partners" },
     { name: "Venue", path: "/venue" },

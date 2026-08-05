@@ -495,7 +495,7 @@ const HeroCarousel = () => {
                   <Sparkle color={slide.btn1.sparkleColor || '#032e55'} style={{ top:'-12px', left:'48%', animationDelay:'0.4s' }} />
                   <Sparkle color={slide.btn1.sparkleColor || '#032e55'} style={{ bottom:'-14px', right:'16%', animationDelay:'0.8s' }} />
                   <Link
-                    href={slide.btn1.link || "/registration"}
+                    href={slide.btn1.link || "/register-now"}
                     target={slide.btn1.newTab ? "_blank" : undefined}
                     rel={slide.btn1.newTab ? "noopener noreferrer" : undefined}
                     className={`${slide.btn1.cls} group rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2 ${slide.btn1.textCls} transition-all duration-300 uppercase tracking-[0.12em] text-[9px] sm:text-[10px] font-black flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg shrink-0 relative z-10`}
@@ -510,7 +510,7 @@ const HeroCarousel = () => {
                   <Sparkle color={slide.btn2.sparkleColor || '#fff176'} style={{ top:'-14px', left:'38%', animationDelay:'0s' }} />
                   <Sparkle color={slide.btn2.sparkleColor || '#fff176'} style={{ bottom:'-14px', left:'15%', animationDelay:'0.7s' }} />
                   <Link
-                    href="/registration"
+                    href="/register-now"
                     className={`${slide.btn2.cls} group rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2 ${slide.btn2.textCls} transition-all duration-300 uppercase tracking-[0.12em] text-[9px] sm:text-[10px] font-black flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg shrink-0 relative z-10`}
                   >
                     {slide.btn2.hasUser && <User size={14} className="shrink-0" />}

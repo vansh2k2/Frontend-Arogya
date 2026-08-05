@@ -4,13 +4,13 @@ import Layout from "@/components/layout/Layout";
 import DynamicSeoHead from "@/components/DynamicSeoHead";
 import ServerSeoSchema from "@/components/ServerSeoSchema";
 import DelegateRegistrationClient from "@/components/delegate/DelegateRegistrationClient";
-import { fetchCmsSeoForPage, resolveOgImageUrl } from "@/lib/fetchCmsSeo";
+import { fetchCmsSeoForPage, getOgImageUrl } from "@/lib/fetchCmsSeo";
 
 const SITE_URL = 'https://arogya.namogange.org';
 
 export async function generateMetadata(): Promise<Metadata> {
   const cms = await fetchCmsSeoForPage('/delegate-registration');
-  const ogImg = cms?.ogImage ? resolveOgImageUrl(cms.ogImage) : `${SITE_URL}/ogimage.webp`;
+  const ogImg = getOgImageUrl(cms);
   return {
     title: cms?.metaTitle || 'Delegate Registration',
     description: cms?.metaDescription ||
