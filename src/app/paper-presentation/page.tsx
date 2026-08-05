@@ -2,6 +2,7 @@
 import { lazy, Suspense } from 'react';
 import Layout from '@/components/layout/Layout';
 import HeroPaperPresentation from '@/components/paper-presentation/HeroPaperPresentation';
+import DynamicSeoHead from '@/components/DynamicSeoHead';
 
 // Lazy load below-the-fold sections for performance (same pattern as home/about)
 const ImportantDatesPaper = lazy(() => import('@/components/paper-presentation/ImportantDatesPaper'));
@@ -27,6 +28,7 @@ export default function PaperPresentationPage() {
   return (
     <Layout>
       {/* ── ABOVE THE FOLD — Hero loaded eagerly ── */}
+      <DynamicSeoHead pagePath="/paper-presentation" />
       <HeroPaperPresentation />
 
       {/* ── BELOW THE FOLD — Lazy loaded ── */}

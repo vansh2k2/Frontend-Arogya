@@ -5,7 +5,11 @@ import groupImg from "@/assets/icons/group.png";
 import sleafImg from "@/assets/icons/sleaf.png";
 import leafRightImg from "@/assets/icons/leafright.webp";
 import SecureRegistrationBand from '../SecureRegistrationBand';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
+
+// Helper to extract src string from Next.js StaticImageData or plain string
+const imgSrc = (img: { src: string } | string): string =>
+  typeof img === 'string' ? img : img.src;
 
 const Sparkle = ({ style, color = '#173812' }: { style?: React.CSSProperties; color?: string }) => (
   <span style={{ position:'absolute', pointerEvents:'none', fontSize:'13px', color,
@@ -13,7 +17,7 @@ const Sparkle = ({ style, color = '#173812' }: { style?: React.CSSProperties; co
 );
 
 // ---- Card 1: "Door Open" 3D flip-in from the left ----
-const doorOpenCard = {
+const doorOpenCard: Variants = {
   hidden: { opacity: 0, rotateY: -78, x: -50, scale: 0.92 },
   show: {
     opacity: 1,
@@ -22,7 +26,7 @@ const doorOpenCard = {
     scale: 1,
     transition: {
       duration: 0.9,
-      ease: [0.16, 1, 0.3, 1], // expo-out — crisp, premium settle
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number], // expo-out — crisp, premium settle
       delayChildren: 0.35,
       staggerChildren: 0.09,
     },
@@ -30,7 +34,7 @@ const doorOpenCard = {
 };
 
 // ---- Card 2: "Elastic Drop" with tilt correction, falls from above ----
-const elasticDropCard = {
+const elasticDropCard: Variants = {
   hidden: { opacity: 0, y: -90, rotateZ: 9, scale: 0.9 },
   show: {
     opacity: 1,
@@ -38,7 +42,7 @@ const elasticDropCard = {
     rotateZ: 0,
     scale: 1,
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 260,
       damping: 16,
       mass: 0.9,
@@ -49,12 +53,12 @@ const elasticDropCard = {
 };
 
 // Shared inner stagger reveal for content (icon / title / divider / desc / features / button)
-const childRise = {
+const childRise: Variants = {
   hidden: { opacity: 0, y: 18 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
   },
 };
 
@@ -74,7 +78,7 @@ const RegistrationSelectionCards = ({ setRegistrationType }: { setRegistrationTy
         <motion.img
           animate={{ y: [0, -6, 0], rotate: [0, 2, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          src={leafRightImg?.src || leafRightImg}
+          src={imgSrc(leafRightImg)}
           alt="Leaf Right"
           className="w-full h-auto object-contain mix-blend-multiply"
         />
@@ -133,7 +137,7 @@ const RegistrationSelectionCards = ({ setRegistrationType }: { setRegistrationTy
             className="absolute inset-0 z-20 pointer-events-none w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg]"
           />
 
-          <img src={sleafImg?.src || sleafImg} alt="" className="absolute bottom-0 left-0 w-16 md:w-24 opacity-90 pointer-events-none z-0" />
+          <img src={imgSrc(sleafImg)} alt="" className="absolute bottom-0 left-0 w-16 md:w-24 opacity-90 pointer-events-none z-0" />
 
           {/* Top-Right Card Leaf Decoration */}
           <motion.div
@@ -143,13 +147,13 @@ const RegistrationSelectionCards = ({ setRegistrationType }: { setRegistrationTy
             transition={{ duration: 0.9, delay: 0.5, ease: "easeOut" }}
             className="absolute top-0 right-0 w-16 md:w-20 opacity-60 pointer-events-none z-0"
           >
-            <img src={leafRightImg?.src || leafRightImg} alt="" className="w-full h-auto object-contain mix-blend-multiply translate-x-3 -translate-y-3" />
+            <img src={imgSrc(leafRightImg)} alt="" className="w-full h-auto object-contain mix-blend-multiply translate-x-3 -translate-y-3" />
           </motion.div>
 
 
           <motion.img
             variants={childRise}
-            src={singleImg?.src || singleImg}
+            src={imgSrc(singleImg)}
             alt="Single Registration"
             className="w-56 h-56 object-contain mb-0 relative z-10"
           />
@@ -233,7 +237,7 @@ const RegistrationSelectionCards = ({ setRegistrationType }: { setRegistrationTy
 
           <motion.img
             variants={childRise}
-            src={groupImg?.src || groupImg}
+            src={imgSrc(groupImg)}
             alt="Group Registration"
             className="w-56 h-56 object-contain mb-0 relative z-10"
           />

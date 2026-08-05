@@ -90,7 +90,7 @@ const ContactBottom = () => {
             {/* Top row with icon and text */}
             <div className="flex items-start gap-6 mb-8 relative z-10">
               {/* Icon Image */}
-              <img src={beIcon?.src || beIcon} alt="Subscribe" className="w-20 h-20 shrink-0 object-contain" />
+              <img src={(beIcon as any).src ?? (beIcon as unknown as string)} alt="Subscribe" className="w-20 h-20 shrink-0 object-contain" />
               
               <div className="text-white pt-2">
                 <h3 className="font-inter font-bold text-2xl mb-2">Stay Updated!</h3>

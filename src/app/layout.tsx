@@ -2,8 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins, Inter, Roboto } from "next/font/google";
 import { Providers } from "@/components/Providers";
-import JsonLd from "@/components/JsonLd";
-import { mainEventSchema, organizationSchema } from "@/lib/schemas";
+
 
 const SITE_URL = "https://arogya.namogange.org";
 
@@ -44,10 +43,11 @@ export const metadata: Metadata = {
       "India's premier healthcare conference — 21–23 August 2026, Pragati Maidan, New Delhi. Join 5000+ delegates, 100+ speakers from 50+ countries.",
     images: [
       {
-        url: `${SITE_URL}/ogimage.png`,
+        url: `${SITE_URL}/ogimage.webp`,
         width: 1200,
         height: 630,
         alt: "Arogya Sangoshthi 2026 — International Healthcare Conference",
+        type: "image/webp",
       },
     ],
   },
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
     title: "Arogya Sangoshthi 2026 | AYUSH & Healthcare Conference",
     description:
       "India's premier healthcare conference — 21–23 August 2026, Pragati Maidan, New Delhi.",
-    images: [`${SITE_URL}/ogimage.png`],
+    images: [`${SITE_URL}/ogimage.webp`],
   },
   alternates: {
     canonical: SITE_URL,
@@ -96,8 +96,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className="flex flex-col font-inter bg-background text-foreground antialiased min-h-screen"
         suppressHydrationWarning
       >
-        {/* ── Global JSON-LD: Event + Organization (on every page) ── */}
-        <JsonLd data={[mainEventSchema, organizationSchema]} />
+        {/* ── Schema is injected per-page via CMS DynamicSeoHead ── */}
 
         <Providers>{children}</Providers>
       </body>

@@ -2,9 +2,24 @@ import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
 import Layout from '@/components/layout/Layout';
 import AboutHero from '@/components/about/AboutHero';
-import JsonLd from '@/components/JsonLd';
-import { webPageSchema, breadcrumbSchema, SITE_URL } from '@/lib/schemas';
 import DynamicSeoHead from '@/components/DynamicSeoHead';
+import ServerSeoSchema from '@/components/ServerSeoSchema';
+import { fetchCmsSeoForPage, resolveOgImageUrl } from '@/lib/fetchCmsSeo';
+
+const SITE_URL = 'https://arogya.namogange.org';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cms = await fetchCmsSeoForPage('/about');
+  const ogImg = cms?.ogImage ? resolveOgImageUrl(cms.ogImage) : `${SITE_URL}/ogimage.webp`;
+  return {
+    title: cms?.metaTitle || 'About Us',
+    description: cms?.metaDescription ||
+      "Learn about the Arogya Sangoshthi Foundation — organizers of India's premier AYUSH & Integrated Healthcare Conference.",
+    alternates: { canonical: `${SITE_URL}/about` },
+    openGraph: { url: `${SITE_URL}/about`, images: [{ url: ogImg, width: 1200, height: 630 }] },
+    twitter: { images: [ogImg] },
+  };
+}
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -26,24 +41,13 @@ const AboutInitiatives = dynamic(() => import('@/components/about/AboutInitiativ
 const FAQSection = dynamic(() => import('@/components/about/FAQSection'));
 const OurImpact = dynamic(() => import('@/components/about/OurImpact'));
 
-const aboutPageSchema = webPageSchema({
-  type: "AboutPage",
-  name: "About Arogya Sangoshthi Foundation",
-  description:
-    "Learn about the Arogya Sangoshthi Foundation — organizers of India's premier AYUSH & Integrated Healthcare Conference.",
-  url: `${SITE_URL}/about`,
-});
 
-const aboutBreadcrumb = breadcrumbSchema([
-  { name: "Home", url: SITE_URL },
-  { name: "About", url: `${SITE_URL}/about` },
-]);
 
 export default function AboutPage() {
   return (
     <Layout>
       <DynamicSeoHead pagePath="/about" />
-      <JsonLd data={[aboutPageSchema, aboutBreadcrumb]} />
+      <ServerSeoSchema pagePath="/about" />
       <main className="flex min-h-screen flex-col items-center justify-between overflow-hidden">
         <div className="w-full">
           <AboutHero />

@@ -2,6 +2,7 @@
 import React, { lazy, Suspense } from 'react';
 import Layout from '@/components/layout/Layout';
 import PartnersHero from '@/components/partners/PartnersHero';
+import DynamicSeoHead from '@/components/DynamicSeoHead';
 
 // Lazy loading the below-the-fold components for performance
 const PartnersList = lazy(() => import('@/components/partners/PartnersList'));
@@ -24,6 +25,7 @@ const BelowFold = ({ children }: { children: React.ReactNode }) => (
 export default function PartnersPage() {
   return (
     <Layout>
+      <DynamicSeoHead pagePath="/partners" />
       <div className="w-full">
         {/* Above Fold */}
         <PartnersHero />

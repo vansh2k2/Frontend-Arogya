@@ -2,9 +2,24 @@ import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
 import Layout from '@/components/layout/Layout';
 import ContactHero from '@/components/contact/ContactHero';
-import JsonLd from '@/components/JsonLd';
-import { webPageSchema, breadcrumbSchema, organizationSchema, SITE_URL } from '@/lib/schemas';
 import DynamicSeoHead from '@/components/DynamicSeoHead';
+import ServerSeoSchema from '@/components/ServerSeoSchema';
+import { fetchCmsSeoForPage, resolveOgImageUrl } from '@/lib/fetchCmsSeo';
+
+const SITE_URL = 'https://arogya.namogange.org';
+
+export async function generateMetadata(): Promise<Metadata> {
+  const cms = await fetchCmsSeoForPage('/contact');
+  const ogImg = cms?.ogImage ? resolveOgImageUrl(cms.ogImage) : `${SITE_URL}/ogimage.webp`;
+  return {
+    title: cms?.metaTitle || 'Contact Us',
+    description: cms?.metaDescription ||
+      'Get in touch with Arogya Sangoshthi 2026. Pragati Maidan, New Delhi.',
+    alternates: { canonical: `${SITE_URL}/contact` },
+    openGraph: { url: `${SITE_URL}/contact`, images: [{ url: ogImg, width: 1200, height: 630 }] },
+    twitter: { images: [ogImg] },
+  };
+}
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -23,50 +38,13 @@ export const metadata: Metadata = {
 const ContactForm = dynamic(() => import('@/components/contact/ContactForm'));
 const ContactBottom = dynamic(() => import('@/components/contact/ContactBottom'));
 
-const contactPageSchema = webPageSchema({
-  type: "ContactPage",
-  name: "Contact | Arogya Sangoshthi 2026",
-  description:
-    "Get in touch with the Arogya Sangoshthi Foundation for registrations, speaker slots, and partnership opportunities.",
-  url: `${SITE_URL}/contact`,
-});
 
-// Richer organization schema with contact info for this page
-const contactOrgSchema = {
-  ...organizationSchema,
-  "@context": "https://schema.org",
-  contactPoint: [
-    {
-      "@type": "ContactPoint",
-      contactType: "delegate registration",
-      url: `${SITE_URL}/delegate-registration`,
-      availableLanguage: ["en", "hi"],
-    },
-    {
-      "@type": "ContactPoint",
-      contactType: "speaker inquiries",
-      url: `${SITE_URL}/speakers`,
-      availableLanguage: ["en", "hi"],
-    },
-    {
-      "@type": "ContactPoint",
-      contactType: "exhibition bookings",
-      url: `${SITE_URL}/contact`,
-      availableLanguage: ["en", "hi"],
-    },
-  ],
-};
-
-const contactBreadcrumb = breadcrumbSchema([
-  { name: "Home", url: SITE_URL },
-  { name: "Contact", url: `${SITE_URL}/contact` },
-]);
 
 export default function ContactPage() {
   return (
     <Layout>
       <DynamicSeoHead pagePath="/contact" />
-      <JsonLd data={[contactPageSchema, contactOrgSchema, contactBreadcrumb]} />
+      <ServerSeoSchema pagePath="/contact" />
       <div className="bg-[#fbfcf7] min-h-screen">
         <ContactHero />
         <ContactForm />

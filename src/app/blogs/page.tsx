@@ -2,6 +2,7 @@
 import React, { lazy, Suspense } from 'react';
 import Layout from '@/components/layout/Layout';
 import BlogHero from '@/components/blogs/BlogHero';
+import DynamicSeoHead from '@/components/DynamicSeoHead';
 
 // Lazy loading the below-the-fold components
 const BlogCategoryNav = lazy(() => import('@/components/blogs/BlogCategoryNav'));
@@ -24,6 +25,7 @@ const BelowFold = ({ children }: { children: React.ReactNode }) => (
 export default function BlogsPage() {
   return (
     <Layout>
+      <DynamicSeoHead pagePath="/blogs" />
       <div className="bg-[#fcfcfc] min-h-screen font-sans">
         <BlogHero />
         <BelowFold><BlogCategoryNav /></BelowFold>

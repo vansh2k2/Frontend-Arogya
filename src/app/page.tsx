@@ -1,11 +1,33 @@
 import dynamic from 'next/dynamic';
+import type { Metadata } from 'next';
 import Layout from '@/components/layout/Layout';
 import HeroCarousel from '@/components/home/HeroCarousel';
 import TrustedBy from '@/components/home/TrustedBy';
 import WhyArogyaAndTracks from '@/components/home/WhyArogyaAndTracks';
-import JsonLd from '@/components/JsonLd';
-import { webPageSchema, breadcrumbSchema, SITE_URL } from '@/lib/schemas';
 import DynamicSeoHead from '@/components/DynamicSeoHead';
+import ServerSeoSchema from '@/components/ServerSeoSchema';
+import { fetchCmsSeoForPage, resolveOgImageUrl } from '@/lib/fetchCmsSeo';
+
+const SITE_URL = 'https://arogya.namogange.org';
+
+// generateMetadata runs on the SERVER — og:image goes into <head> HTML
+// WhatsApp / Facebook / Twitter bots will see it without JavaScript
+export async function generateMetadata(): Promise<Metadata> {
+  const cms = await fetchCmsSeoForPage('/');
+  const ogImg = cms?.ogImage
+    ? resolveOgImageUrl(cms.ogImage)
+    : `${SITE_URL}/ogimage.webp`;
+  return {
+    title: cms?.metaTitle ||
+      'Arogya Sangoshthi 2026 | International AYUSH & Integrated Healthcare Conference',
+    description: cms?.metaDescription ||
+      "Arogya Sangoshthi 2026 — India's premier 3-day international conference. 21–23 Aug 2026, Pragati Maidan, New Delhi.",
+    openGraph: {
+      images: [{ url: ogImg, width: 1200, height: 630 }],
+    },
+    twitter: { images: [ogImg] },
+  };
+}
 
 // Below the fold sections dynamically imported
 const AboutConferenceSection = dynamic(() => import('@/components/home/AboutConferenceSection'));
@@ -17,24 +39,14 @@ const TestimonialsSection = dynamic(() => import('@/components/home/Testimonials
 const GlobalVoicesSection = dynamic(() => import('@/components/home/GlobalVoicesSection'));
 const FeaturedSpeakersSection = dynamic(() => import('@/components/home/FeaturedSpeakersSection'));
 
-const homePageSchema = webPageSchema({
-  type: "WebPage",
-  name: "Arogya Sangoshthi 2026 — Home",
-  description:
-    "India's premier international conference on Integrated Healthcare, AYUSH, Pharma, Wellness & Innovation. 21–23 August 2026, Pragati Maidan, New Delhi.",
-  url: SITE_URL,
-});
 
-const homeBreadcrumb = breadcrumbSchema([
-  { name: "Home", url: SITE_URL },
-]);
 
 export default function Home() {
   return (
     <Layout>
       {/* Backend CMS SEO — overrides static metadata if admin has set it */}
       <DynamicSeoHead pagePath="/" />
-      <JsonLd data={[homePageSchema, homeBreadcrumb]} />
+      <ServerSeoSchema pagePath="/" />
       <HeroCarousel />
       <TrustedBy />
       <WhyArogyaAndTracks />

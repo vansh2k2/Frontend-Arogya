@@ -83,26 +83,50 @@ const DynamicSeoHead = ({ pagePath }: DynamicSeoHeadProps) => {
 
       // ── Schema Markup (JSON-LD) ────────────────────────────────────────────
       if (seo.schemaMarkup) {
-        // Remove any existing CMS-injected schema (avoid duplicates)
-        const existing = document.querySelector('script[data-cms-schema]');
-        if (existing) existing.remove();
+        // Remove any existing CMS-injected schema tags (avoid duplicates on re-render)
+        document.querySelectorAll('script[data-cms-schema]').forEach((el) => el.remove());
 
-        // Strip surrounding <script> tags if admin saved them
-        const rawJson = seo.schemaMarkup
-          .replace(/<script[^>]*>/gi, "")
-          .replace(/<\/script>/gi, "")
-          .trim();
+        const raw = seo.schemaMarkup.trim();
 
-        try {
-          // Validate JSON before injecting
-          JSON.parse(rawJson);
-          const script = document.createElement("script");
-          script.type = "application/ld+json";
-          script.setAttribute("data-cms-schema", "true");
-          script.textContent = rawJson;
-          document.head.appendChild(script);
-        } catch (e) {
-          console.warn("[DynamicSeoHead] Invalid JSON-LD from CMS, skipping:", e);
+        // Helper: inject a single validated JSON-LD block into <head>
+        const injectScript = (jsonText: string, index: number) => {
+          const text = jsonText.trim();
+          if (!text) return;
+          try {
+            JSON.parse(text); // validate
+            const script = document.createElement("script");
+            script.type = "application/ld+json";
+            script.setAttribute("data-cms-schema", String(index));
+            script.textContent = text;
+            document.head.appendChild(script);
+          } catch (e) {
+            console.warn(`[DynamicSeoHead] Invalid JSON-LD block #${index}, skipping:`, e);
+          }
+        };
+
+        // Case 1: admin saved one or more <script type="application/ld+json">…</script> blocks
+        const scriptTagPattern = /<script[^>]*>([\s\S]*?)<\/script>/gi;
+        const scriptBlocks: string[] = [];
+        let match: RegExpExecArray | null;
+        while ((match = scriptTagPattern.exec(raw)) !== null) {
+          scriptBlocks.push(match[1]);
+        }
+
+        if (scriptBlocks.length > 0) {
+          scriptBlocks.forEach((block, i) => injectScript(block, i));
+        } else {
+          // Case 2: admin saved raw JSON (array or object) without <script> wrapper
+          try {
+            const parsed = JSON.parse(raw);
+            if (Array.isArray(parsed)) {
+              // Array of schema objects → inject each as a separate <script>
+              parsed.forEach((item, i) => injectScript(JSON.stringify(item), i));
+            } else {
+              injectScript(raw, 0);
+            }
+          } catch (e) {
+            console.warn("[DynamicSeoHead] Unparseable schema markup from CMS, skipping:", e);
+          }
         }
       }
     };
