@@ -198,8 +198,6 @@ const SocialSidebar = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap');
-
         @keyframes floatBubble {
           0%   { transform: translateY(0) scale(1); opacity: 0; }
           15%  { opacity: 0.6; }
@@ -340,7 +338,7 @@ const SocialSidebar = () => {
           opacity: 0;
           pointer-events: none;
           white-space: nowrap;
-          font-family: 'Nunito', sans-serif;
+          font-family: var(--font-nunito, 'Nunito'), sans-serif;
           font-weight: 700;
           font-size: 12px;
           color: #fff;

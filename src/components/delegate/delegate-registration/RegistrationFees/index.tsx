@@ -103,8 +103,6 @@ const RegistrationFees = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap');
-
         /* Heading gradient */
         .heading-delegate {
           color: #133513;
@@ -281,7 +279,7 @@ const RegistrationFees = () => {
               <img src={(p1Leaf?.src || p1Leaf) as string} alt="leaf" className="w-6 h-6 object-contain -rotate-12" />
               <span
                 className="text-2xl md:text-[28px] text-green-900 font-bold"
-                style={{ fontFamily: '"Dancing Script", cursive' }}
+                style={{ fontFamily: 'var(--font-dancing-script, "Dancing Script"), cursive' }}
               >
                 18th Integrated Arogya Sanghosthi
               </span>

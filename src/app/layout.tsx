@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Poppins, Inter, Roboto } from "next/font/google";
+import { Poppins, Inter, Roboto, Nunito, Dancing_Script } from "next/font/google";
 import { Providers } from "@/components/Providers";
 
 
@@ -89,9 +89,23 @@ const roboto = Roboto({
   display: "swap",
 });
 
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["700"],
+  variable: "--font-nunito",
+  display: "swap",
+});
+
+const dancingScript = Dancing_Script({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-dancing-script",
+  display: "swap",
+});
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`antialiased ${poppins.variable} ${inter.variable} ${roboto.variable}`}>
+    <html lang="en" className={`antialiased ${poppins.variable} ${inter.variable} ${roboto.variable} ${nunito.variable} ${dancingScript.variable}`}>
       <body
         className="flex flex-col font-inter bg-background text-foreground antialiased min-h-screen"
         suppressHydrationWarning
