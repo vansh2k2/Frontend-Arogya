@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import main22 from "@/assets/icons/main22.webp";
 import foot1 from "@/assets/icons/foot1.webp";
 import foot2 from "@/assets/icons/foot2.webp";
@@ -253,9 +254,11 @@ const Footer = () => {
               <Sparkle style={{ bottom: '-10px', right: '20%', animationDelay: '0.6s' }} />
               <Sparkle style={{ top: '40%', right: '-20px', animationDelay: '0.3s' }} />
               
-              <img
+              <Image
                 src={logoUrl?.src || logoUrl}
                 alt={logoAlt}
+                width={300}
+                height={80}
                 className="w-full h-auto object-contain brightness-0 invert sepia(1) saturate(5) hue-rotate(5deg) contrast(1.2)"
                 style={{ filter: "drop-shadow(0 0 15px rgba(243,183,27,0.6))" }}
               />
@@ -436,7 +439,7 @@ const Footer = () => {
                 <Sparkle color="#FFFFFF" style={{ bottom: '5px', left: '5%', animationDelay: '0.2s' }} />
                 <Sparkle color="#FFFFFF" style={{ bottom: '-10px', right: '10%', animationDelay: '0.6s' }} />
                 <Sparkle color="#FFFFFF" style={{ top: '40%', right: '-15px', animationDelay: '0.3s' }} />
-                <img src="/namo.webp" alt="Namo Gange" className="w-full h-auto object-contain" style={{ filter: "drop-shadow(-1px 0px 2px rgba(255,255,255,0.25))" }} />
+                <Image src="/namo.webp" alt="Namo Gange" width={256} height={105} className="w-full h-auto object-contain" style={{ filter: "drop-shadow(-1px 0px 2px rgba(255,255,255,0.25))" }} />
               </div>
             </div>
           </div>
@@ -449,7 +452,7 @@ const Footer = () => {
         <div className="relative w-full flex items-center">
           
           {/* Parlia Image stuck to the far right corner */}
-          <img src={parliaIcon?.src || parliaIcon} alt="Parlia" className="absolute -right-6 md:-right-12 lg:-right-20 xl:-right-32 top-1/2 -translate-y-1/2 -mt-2 md:-mt-4 h-24 md:h-32 lg:h-40 w-auto object-contain z-0 pointer-events-none" />
+          <Image src={parliaIcon} alt="Parlia" className="absolute -right-6 md:-right-12 lg:-right-20 xl:-right-32 top-1/2 -translate-y-1/2 -mt-2 md:-mt-4 h-24 md:h-32 lg:h-40 w-auto object-contain z-0 pointer-events-none" />
 
           {/* Banner Band with gradient fading out on the right to overlap Parlia */}
           <div className="bg-gradient-to-r from-[#f5f0e1] via-[#e8dfc8] to-transparent rounded-l-[2rem] rounded-r-none xl:rounded-l-full xl:rounded-r-none flex flex-col xl:flex-row items-center justify-start pl-4 md:pl-6 pr-8 border-y border-l border-r-0 border-white/20 gap-2 xl:gap-0 w-full lg:w-[92%] xl:w-[85%] relative z-10 py-0">
@@ -543,17 +546,17 @@ const Footer = () => {
       </div>
 
       {/* Decorative Right Corner Image */}
-      <img 
-        src={footerRight?.src || footerRight} 
+      <Image 
+        src={footerRight} 
         alt="Decorative" 
-        className="absolute top-0 right-0 z-0 w-16 md:w-20 lg:w-24 object-contain pointer-events-none" 
+        className="absolute top-0 right-0 z-0 w-16 md:w-20 lg:w-24 h-auto object-contain pointer-events-none" 
       />
       
       {/* Decorative Left Corner Image (Footer Bot) */}
-      <img 
-        src={footerBot?.src || footerBot} 
+      <Image 
+        src={footerBot} 
         alt="Decorative" 
-        className="absolute bottom-0 -left-6 md:-left-10 lg:-left-12 z-0 w-32 md:w-48 lg:w-64 object-contain pointer-events-none opacity-20" 
+        className="absolute bottom-0 -left-6 md:-left-10 lg:-left-12 z-0 w-32 md:w-48 lg:w-64 h-auto object-contain pointer-events-none opacity-20" 
       />
     </footer>
   );

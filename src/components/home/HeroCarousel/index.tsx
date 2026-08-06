@@ -368,15 +368,15 @@ const HeroCarousel = () => {
             className="absolute inset-0 w-full h-full pointer-events-none"
             style={{ zIndex: id === 0 ? 2 : 1, willChange:'clip-path, opacity, transform' }}
           >
-            <img
+            <Image
               ref={el => { imgEls.current[id] = el as any; }}
-              src={typeof img === 'string' ? img : (img as any).src}
+              src={img}
               alt={`Arogya Banner ${id + 1}`}
-              className="w-full h-full object-cover select-none"
+              fill
+              sizes="100vw"
+              className="object-cover select-none"
               style={{ willChange:'transform, filter' }}
-              loading={id < 2 ? 'eager' : 'lazy'}
-              decoding={id < 2 ? 'sync' : 'async'}
-              fetchPriority={id < 2 ? 'high' : 'low'}
+              priority={id < 2}
             />
           </div>
         ))}

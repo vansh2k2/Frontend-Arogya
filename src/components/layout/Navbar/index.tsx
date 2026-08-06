@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import MsmeHeroLogo from '../MsmeHeroLogo';
@@ -98,11 +99,13 @@ const Navbar = () => {
           >
             {/* ===== LOGO IMAGE ===== */}
             <Link href="/" className="flex items-center h-full">
-              <img
+              <Image
                 src={logoUrl?.src || logoUrl}
                 alt={logoAlt}
+                width={250}
+                height={50}
                 className={cn(
-                  'transition-all duration-300',
+                  'w-auto transition-all duration-300',
                   isScrolled ? 'h-10' : 'h-12'
                 )}
               />
@@ -178,10 +181,12 @@ const Navbar = () => {
         <div className="flex flex-col h-full">
           {/* Mobile Header */}
           <div className="flex items-center justify-between p-4 border-b border-border">
-            <img
+            <Image
               src={logoUrl?.src || logoUrl}
               alt={logoAlt}
-              className="h-12"
+              width={250}
+              height={50}
+              className="h-12 w-auto"
             />
 
             <button

@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, type Variants } from 'framer-motion';
 import { 
   Mic, Users, Lightbulb, Handshake, HeartPulse, Network, 
@@ -228,10 +229,9 @@ const EventHighlightsSection = () => {
                 className="flex flex-col rounded-xl shadow-[rgba(9,30,66,0.15)_0px_1px_1px,rgba(9,30,66,0.08)_0px_0px_1px_1px] overflow-hidden group hover:shadow-md transition-shadow duration-300"
               >
                 <div className="h-32 w-full overflow-hidden relative">
-                  <img 
-                    src={getImageSrc(item.img)} 
+                  <Image 
+                    src={item.img} 
                     alt={item.title} 
-                    loading="lazy"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -270,8 +270,8 @@ const EventHighlightsSection = () => {
                   <div className="flex-1 mt-1">
                     <p className="text-[#001810] text-[11px] font-medium leading-tight mb-2">Inauguration, Keynotes, Global Health Outlook, Modern Medicine Innovations</p>
                   </div>
-                  <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm">
-                    <img src={getImageSrc(h1)} alt="Day 1" loading="lazy" className="w-full h-full object-cover" />
+                  <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm relative">
+                    <Image src={h1} alt="Day 1" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -284,8 +284,8 @@ const EventHighlightsSection = () => {
                   <div className="flex-1 mt-1">
                     <p className="text-[#001810] text-[11px] font-medium leading-tight mb-2">AYUSH Conclave, Pharma & Biotech, Health Tech & AI, Panel Discussions</p>
                   </div>
-                  <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm">
-                    <img src={getImageSrc(h2)} alt="Day 2" loading="lazy" className="w-full h-full object-cover" />
+                  <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm relative">
+                    <Image src={h2} alt="Day 2" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -298,8 +298,8 @@ const EventHighlightsSection = () => {
                   <div className="flex-1 mt-1">
                     <p className="text-[#001810] text-[11px] font-medium leading-tight mb-2">Startup Pitch, Research Presentations, Workshops, Valedictory & Awards</p>
                   </div>
-                  <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm">
-                    <img src={getImageSrc(h3)} alt="Day 3" loading="lazy" className="w-full h-full object-cover" />
+                  <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm relative">
+                    <Image src={h3} alt="Day 3" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -395,7 +395,7 @@ const EventHighlightsSection = () => {
           >
             {/* Left Side: Icon and Text */}
             <div className="flex flex-col md:flex-row items-center md:items-start gap-4 xl:gap-6 text-center md:text-left flex-1 -ml-2">
-              <img src={getImageSrc(t1)} alt="Ticket" className="w-14 object-cover shrink-0 transform scale-[1.1] translate-y-1 origin-center ml-2" />
+              <Image src={t1} alt="Ticket" className="w-14 h-auto object-cover shrink-0 transform scale-[1.1] translate-y-1 origin-center ml-2" />
               <div className="flex flex-col gap-1 mt-1 px-2 md:px-0">
                 <h3 className="text-white font-inter text-sm xl:text-base leading-tight font-extrabold tracking-wide md:whitespace-nowrap">
                   BE PART OF INDIA'S MOST TRANSFORMATIVE HEALTHCARE EVENT

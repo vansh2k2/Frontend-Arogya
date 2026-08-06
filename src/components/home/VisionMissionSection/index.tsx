@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { Target, Lightbulb, Microscope, HeartHandshake, Quote } from 'lucide-react';
 import mainIcon from '@/assets/icons/main.webp';
 import main2Icon from '@/assets/icons/main22.webp';
@@ -154,9 +155,11 @@ const VisionMissionSection = () => {
         {/* CHAIRMAN'S MESSAGE CARD */}
         <div className="w-full lg:w-[40%] bg-[#f8f5f0] rounded-xl p-3 lg:p-4 flex flex-col shadow-lg border border-[#e2d4b7]/50 relative overflow-hidden">
           {/* Leaf decoration right side — from backend or fallback */}
-          <img
+          <Image
             src={(leafImg as any)?.src || (leafImg as any)}
             alt={leafAlt}
+            width={120}
+            height={120}
             className="absolute -top-2 -right-2 w-20 sm:w-28 h-auto object-contain z-0 pointer-events-none"
           />
 
@@ -173,11 +176,13 @@ const VisionMissionSection = () => {
 
           <div className="flex flex-col sm:flex-row gap-2 relative z-10 mt-0">
             <div className="w-full sm:w-[40%] shrink-0">
-              <div className="bg-gray-200 w-full h-[160px] rounded-lg overflow-hidden shadow-sm">
-                <img
+              <div className="bg-gray-200 w-full h-[160px] rounded-lg overflow-hidden shadow-sm relative">
+                <Image
                   src={(chairmanImg as any)?.src || (chairmanImg as any)}
                   alt={chairmanImgAlt}
-                  className="w-full h-full object-cover object-top"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover object-top"
                 />
               </div>
             </div>

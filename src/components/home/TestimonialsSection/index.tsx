@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { 
   Quote, ChevronLeft, ChevronRight, Star, 
   Users, ThumbsUp, Share2, Globe, Play, 
@@ -194,10 +195,10 @@ const TestimonialsSection = () => {
       <SectionContainer className="relative z-10">
         
         {/* Right Decoration Next To Header */}
-        <img 
-          src={footerRightImage?.src || footerRightImage}
+        <Image 
+          src={footerRightImage}
           alt="Decoration Right"
-          className="hidden md:block absolute right-0 top-0 w-[100px] md:w-[150px] lg:w-[180px] opacity-90 pointer-events-none -mt-8"
+          className="hidden md:block absolute right-0 top-0 w-[100px] md:w-[150px] lg:w-[180px] h-auto opacity-90 pointer-events-none -mt-8"
         />
 
         {/* Header */}
@@ -225,10 +226,10 @@ const TestimonialsSection = () => {
           onTouchEnd={() => setIsHovered(false)}
         >
           {/* Gold Decoration Behind First Card */}
-          <img 
-            src={goldImage?.src || goldImage} 
+          <Image 
+            src={goldImage} 
             alt="Gold Decoration"
-            className="absolute -left-2 md:-left-4 lg:-left-6 -top-10 md:-top-12 lg:-top-16 w-[130px] md:w-[150px] lg:w-[180px] opacity-100 rotate-[30deg] origin-top pointer-events-none z-0"
+            className="absolute -left-2 md:-left-4 lg:-left-6 -top-10 md:-top-12 lg:-top-16 w-[130px] md:w-[150px] lg:w-[180px] h-auto opacity-100 rotate-[30deg] origin-top pointer-events-none z-0"
           />
           {/* Controls */}
           <button onClick={scrollLeft} className="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 md:-ml-6 bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] rounded-full p-2.5 z-20 text-gray-500 hover:text-[#032e1c] transition-all">
@@ -380,15 +381,15 @@ const TestimonialsSection = () => {
         <SectionContainer className="relative">
           
           {/* Left Leaf Background */}
-          <img 
-            src={leafLeftBg?.src || leafLeftBg} 
+          <Image 
+            src={leafLeftBg} 
             alt="Leaf Decoration Left" 
             className="absolute left-0 md:-left-1 top-1/2 -translate-y-1/2 w-[15px] md:w-[25px] lg:w-[55px] h-auto opacity-100 object-contain pointer-events-none z-0 mix-blend-multiply" 
           />
 
           {/* Right Leaf Background */}
-          <img 
-            src={leafRightBg?.src || leafRightBg} 
+          <Image 
+            src={leafRightBg} 
             alt="Leaf Decoration Right" 
             className="absolute right-0 md:-right-4 xl:-right-8 top-1/2 -translate-y-1/2 w-[40px] md:w-[60px] lg:w-[80px] h-auto opacity-100 object-contain pointer-events-none z-0 mix-blend-multiply" 
           />

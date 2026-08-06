@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import aboutBg from '@/assets/banner/aboutbg.webp';
 import mainIcon from '@/assets/icons/main.webp';
 import { Calendar, MapPin, Users } from 'lucide-react';
@@ -75,18 +76,22 @@ const AboutConferenceSection = () => {
   return (
     <div className="relative w-full font-inter min-h-[500px] md:min-h-[400px] flex items-center" style={{ lineHeight: 1 }}>
       {/* Background Image */}
-      <motion.img
-        src={aboutBg?.src || aboutBg}
-        alt="About the Conference"
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{
-          objectPosition: 'center 20%',
-        }}
+      <motion.div
+        className="absolute inset-0 w-full h-full"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.15 }}
         variants={bgVariants}
-      />
+      >
+        <Image
+          src={aboutBg}
+          alt="About the Conference"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          style={{ objectPosition: 'center 20%' }}
+        />
+      </motion.div>
 
       {/* Overlay Content — left side */}
       <div className="relative z-10 w-full py-8 md:py-0">
