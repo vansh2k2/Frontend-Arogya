@@ -77,10 +77,43 @@ const useInView = (threshold = 0.15) => {
   return [ref, inView] as const;
 };
 
+const DEFAULT_CARDS = [
+  {
+    title: "DELEGATE\nPASS",
+    planName: "DELEGATE PASS",
+    price: "₹1,500",
+    features: ["Full-day Access", "Lunch & Refreshments", "Conference Kit"],
+    ...CARD_STYLES[0]
+  },
+  {
+    title: "DELEGATE\nPASS",
+    planName: "DELEGATE PASS",
+    price: "₹3,000",
+    features: ["All 3 Days Access", "Lunch & Refreshments", "Premium Conference Kit"],
+    badge: "★ MOST POPULAR ★",
+    badgeBg: "linear-gradient(90deg, #d4537e, #b03060)",
+    ...CARD_STYLES[1]
+  },
+  {
+    title: "PAPER\nPRESENTATION",
+    planName: "PAPER PRESENTATION",
+    price: "₹2,500",
+    features: ["Presentation Slot", "Delegate Access included", "Publication Opportunity"],
+    ...CARD_STYLES[2]
+  },
+  {
+    title: "POSTER\nPRESENTATION",
+    planName: "POSTER PRESENTATION",
+    price: "₹2,500",
+    features: ["Poster Display Area", "Delegate Access included", "Special Recognition"],
+    ...CARD_STYLES[3]
+  }
+];
+
 const RegistrationFees = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [sectionRef, sectionInView] = useInView(0.1);
-  const [passesList, setPassesList] = useState<any[]>(cards);
+  const [passesList, setPassesList] = useState<any[]>(DEFAULT_CARDS);
   const router = useRouter();
 
   useEffect(() => {
