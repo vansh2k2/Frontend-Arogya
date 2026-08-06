@@ -12,13 +12,9 @@ import {
   Award, Users, Globe, MessageSquare, Utensils, Calendar, MapPin
 } from "lucide-react";
 
-const cards = [
+const CARD_STYLES = [
   {
-    title: "DELEGATE PASS",
-    planName: "DELEGATE PASS",
     icon: <CalendarDays className="w-5 h-5" style={{ color: "#185FA5" }} />,
-    price: "₹1,500",
-    features: ["Full-day Access", "Lunch", "Certificate"],
     gradient: "linear-gradient(160deg, #e8f4ff 0%, #ffffff 55%, #f0f8ff 100%)",
     borderColor: "#bdd8f5",
     shadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset",
@@ -28,11 +24,7 @@ const cards = [
     accentLine: "#185FA5",
   },
   {
-    title: "DELEGATE PASS",
-    planName: "DELEGATE PASS ",
     icon: <CalendarDays className="w-5 h-5" style={{ color: "#534AB7" }} />,
-    price: "₹3,000",
-    features: ["All 3 Days Access", "Lunch", "Certificate"],
     gradient: "linear-gradient(160deg, #efedff 0%, #ffffff 55%, #f5f2ff 100%)",
     borderColor: "#cdc7f5",
     shadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset",
@@ -42,10 +34,7 @@ const cards = [
     accentLine: "#534AB7",
   },
   {
-    title: "PAPER\nPRESENTATION",
     icon: <Presentation className="w-5 h-5" style={{ color: "#993556" }} />,
-    price: "₹2,500",
-    features: ["Presentation Slot", "Delegate Access", "Certificate"],
     gradient: "linear-gradient(160deg, #ffeef4 0%, #ffffff 55%, #fff4f7 100%)",
     borderColor: "#f4a8c5",
     shadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset",
@@ -53,14 +42,9 @@ const cards = [
     textColor: "#993556",
     btnGradient: "linear-gradient(135deg, #e5749a, #993556)",
     accentLine: "#993556",
-    badge: "★ MOST POPULAR ★",
-    badgeBg: "linear-gradient(90deg, #d4537e, #b03060)",
   },
   {
-    title: "POSTER\nPRESENTATION",
     icon: <LayoutTemplate className="w-5 h-5" style={{ color: "#3B6D11" }} />,
-    price: "₹2,500",
-    features: ["Poster Display", "Delegate Access", "Certificate"],
     gradient: "linear-gradient(160deg, #edf7e1 0%, #ffffff 55%, #f2faea 100%)",
     borderColor: "#a5d96a",
     shadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset",
@@ -68,8 +52,6 @@ const cards = [
     textColor: "#3B6D11",
     btnGradient: "linear-gradient(135deg, #85cc50, #3B6D11)",
     accentLine: "#3B6D11",
-    badge: "RESEARCH OPPORTUNITY",
-    badgeBg: "linear-gradient(90deg, #3B6D11, #5a9c22)",
   },
 ];
 
@@ -98,7 +80,36 @@ const useInView = (threshold = 0.15) => {
 const RegistrationFees = () => {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [sectionRef, sectionInView] = useInView(0.1);
+  const [passesList, setPassesList] = useState<any[]>(cards);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchPasses = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+        const res = await fetch(`${apiUrl}/delegate-passes`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          const mapped = data.data.map((p: any, idx: number) => {
+            const style = CARD_STYLES[idx % CARD_STYLES.length];
+            return {
+              title: p.name.includes('\n') ? p.name : p.name.replace(' ', '\n'),
+              planName: p.name,
+              price: `₹${Number(p.price).toLocaleString('en-IN')}`,
+              features: p.includes && p.includes.length > 0 ? p.includes : ["Delegate Access", "Lunch & Refreshments"],
+              badge: p.isMostPopular ? "★ MOST POPULAR ★" : null,
+              badgeBg: p.isMostPopular ? "linear-gradient(90deg, #d4537e, #b03060)" : null,
+              ...style
+            };
+          });
+          setPassesList(mapped);
+        }
+      } catch (err) {
+        console.error("Error fetching dynamic passes:", err);
+      }
+    };
+    fetchPasses();
+  }, []);
 
   return (
     <>
@@ -319,7 +330,7 @@ const RegistrationFees = () => {
 
           {/* Cards Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 w-full max-w-[850px] mx-auto md:translate-x-10 lg:translate-x-16 -mt-2">
-            {cards.map((card, idx) => (
+            {passesList.map((card, idx) => (
               <div
                 key={idx}
                 className={`card-animate${sectionInView ? " go" : ""}${hoveredIdx === idx ? " card-hovered" : ""} rounded-2xl flex flex-col items-center relative pt-3 pb-3`}

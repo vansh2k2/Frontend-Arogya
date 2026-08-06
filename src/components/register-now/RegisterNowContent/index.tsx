@@ -162,6 +162,29 @@ const RegisterNowContent = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("IN");
   const [selectedStateCode, setSelectedStateCode] = useState("");
 
+  const [passOptions, setPassOptions] = useState<any[]>([
+    { name: "DELEGATE PASS", price: "₹1,500" },
+    { name: "DELEGATE PASS ", price: "₹3,000" },
+    { name: "STUDENT DELEGATE ONE DAY", price: "₹1,000" },
+    { name: "PRACTITIONER DELEGATE ONE DAY", price: "₹1,500" },
+    { name: "PAPER PRESENTATION", price: "₹2,500" },
+    { name: "POSTER PRESENTATION", price: "₹2,500" },
+  ]);
+
+  useEffect(() => {
+    fetch(`${API_URL}/delegate-passes`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setPassOptions(data.data.map((p: any) => ({
+            name: p.name,
+            price: `₹${Number(p.price).toLocaleString('en-IN')}`
+          })));
+        }
+      })
+      .catch(err => console.error("Error fetching pass options:", err));
+  }, []);
+
   useEffect(() => {
     fetch(`${API_URL}/countries`)
       .then(res => res.json())

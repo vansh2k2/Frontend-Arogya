@@ -452,7 +452,7 @@ const Footer = () => {
         <div className="relative w-full flex items-center">
           
           {/* Parlia Image stuck to the far right corner */}
-          <Image src={parliaIcon} alt="Parlia" className="absolute -right-6 md:-right-12 lg:-right-20 xl:-right-32 top-1/2 -translate-y-1/2 -mt-2 md:-mt-4 h-24 md:h-32 lg:h-40 w-auto object-contain z-0 pointer-events-none" />
+          <Image src={parliaIcon} alt="Parlia" sizes="160px" className="absolute -right-6 md:-right-12 lg:-right-20 xl:-right-32 top-1/2 -translate-y-1/2 -mt-2 md:-mt-4 h-24 md:h-32 lg:h-40 w-auto object-contain z-0 pointer-events-none" />
 
           {/* Banner Band with gradient fading out on the right to overlap Parlia */}
           <div className="bg-gradient-to-r from-[#f5f0e1] via-[#e8dfc8] to-transparent rounded-l-[2rem] rounded-r-none xl:rounded-l-full xl:rounded-r-none flex flex-col xl:flex-row items-center justify-start pl-4 md:pl-6 pr-8 border-y border-l border-r-0 border-white/20 gap-2 xl:gap-0 w-full lg:w-[92%] xl:w-[85%] relative z-10 py-0">
@@ -549,6 +549,7 @@ const Footer = () => {
       <Image 
         src={footerRight} 
         alt="Decorative" 
+        sizes="100px"
         className="absolute top-0 right-0 z-0 w-16 md:w-20 lg:w-24 h-auto object-contain pointer-events-none" 
       />
       
@@ -556,6 +557,7 @@ const Footer = () => {
       <Image 
         src={footerBot} 
         alt="Decorative" 
+        sizes="250px"
         className="absolute bottom-0 -left-6 md:-left-10 lg:-left-12 z-0 w-32 md:w-48 lg:w-64 h-auto object-contain pointer-events-none opacity-20" 
       />
     </footer>

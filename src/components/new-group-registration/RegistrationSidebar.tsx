@@ -65,6 +65,89 @@ interface RegistrationSidebarProps {
   onToggleDay?: (dayNum: number) => void;
 }
 
+const CARD_THEMES = [
+  {
+    icon: pp1Icon,
+    bgColor: "bg-[#f5f6ee]",
+    borderColor: "#012e17",
+    ringColor: "ring-[#012e17]/20",
+    accentColor: "#012e17",
+  },
+  {
+    icon: pp2Icon,
+    bgColor: "bg-[#fdf6ec]",
+    borderColor: "#d18e26",
+    ringColor: "ring-[#d18e26]/20",
+    accentColor: "#d18e26",
+  },
+  {
+    icon: pp3Icon,
+    bgColor: "bg-[#f4f5f9]",
+    borderColor: "#1b3c73",
+    ringColor: "ring-[#1b3c73]/20",
+    accentColor: "#1b3c73",
+  },
+  {
+    icon: pp4Icon,
+    bgColor: "bg-[#f5f0f4]",
+    borderColor: "#702660",
+    ringColor: "ring-[#702660]/20",
+    accentColor: "#702660",
+  },
+];
+
+const DEFAULT_PASSES = [
+  {
+    id: "delegate",
+    title: "Delegate Pass",
+    subtitle: "",
+    basePrice: 1500,
+    icon: pp1Icon,
+    bgColor: "bg-[#f5f6ee]",
+    borderColor: "#012e17",
+    ringColor: "ring-[#012e17]/20",
+    accentColor: "#012e17",
+    features: ["Full-day Access", "Lunch & Refreshments", "Conference Kit"]
+  },
+  {
+    id: "delegate3days",
+    title: "Delegate Pass",
+    subtitle: "",
+    basePrice: 3000,
+    icon: pp2Icon,
+    isPopular: true,
+    bgColor: "bg-[#fdf6ec]",
+    borderColor: "#d18e26",
+    ringColor: "ring-[#d18e26]/20",
+    accentColor: "#d18e26",
+    features: ["All 3 Days Access", "Lunch & Refreshments", "Premium Conference Kit"]
+  },
+  {
+    id: "paper",
+    title: "Paper Presentation",
+    subtitle: "",
+    basePrice: 2500,
+    icon: pp3Icon,
+    bgColor: "bg-[#f4f5f9]",
+    borderColor: "#1b3c73",
+    ringColor: "ring-[#1b3c73]/20",
+    accentColor: "#1b3c73",
+    features: ["Presentation Slot", "Delegate Access included", "Publication Opportunity"]
+  },
+  {
+    id: "poster",
+    title: "Poster Presentation",
+    subtitle: "",
+    basePrice: 2500,
+    icon: pp4Icon,
+    bgColor: "bg-[#f5f0f4]",
+    borderColor: "#702660",
+    ringColor: "ring-[#702660]/20",
+    accentColor: "#702660",
+    features: ["Poster Display Area", "Delegate Access included", "Special Recognition"]
+  }
+];
+
 const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({ 
   delegateCount = 1,
   selectedPass = null,
@@ -73,58 +156,43 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
   onToggleDay
 }) => {
   const daysMultiplier = 1;
+  const [passesList, setPassesList] = useState<any[]>(DEFAULT_PASSES);
 
-  const passes = [
-    {
-      id: "delegate",
-      title: "Delegate Pass",
-      subtitle: "",
-      basePrice: 1500,
-      icon: pp1Icon,
-      bgColor: "bg-[#f5f6ee]",
-      borderColor: "border-[#012e17]",
-      ringColor: "ring-[#012e17]/20",
-      accentColor: "#012e17",
-      features: ["Full-day Access", "Lunch & Refreshments", "Conference Kit"]
-    },
-    {
-      id: "delegate3days",
-      title: "Delegate Pass",
-      subtitle: "",
-      basePrice: 3000,
-      icon: pp2Icon,
-      isPopular: true,
-      bgColor: "bg-[#fdf6ec]",
-      borderColor: "border-[#d18e26]",
-      ringColor: "ring-[#d18e26]/20",
-      accentColor: "#d18e26",
-      features: ["All 3 Days Access", "Lunch & Refreshments", "Premium Conference Kit"]
-    },
-    {
-      id: "paper",
-      title: "Paper Presentation",
-      subtitle: "",
-      basePrice: 2500,
-      icon: pp3Icon,
-      bgColor: "bg-[#f4f5f9]",
-      borderColor: "border-[#1b3c73]",
-      ringColor: "ring-[#1b3c73]/20",
-      accentColor: "#1b3c73",
-      features: ["Presentation Slot", "Delegate Access included", "Publication Opportunity"]
-    },
-    {
-      id: "poster",
-      title: "Poster Presentation",
-      subtitle: "",
-      basePrice: 2500,
-      icon: pp4Icon,
-      bgColor: "bg-[#f5f0f4]",
-      borderColor: "border-[#702660]",
-      ringColor: "ring-[#702660]/20",
-      accentColor: "#702660",
-      features: ["Poster Display Area", "Delegate Access included", "Special Recognition"]
-    }
-  ];
+  React.useEffect(() => {
+    const fetchPasses = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+        const res = await fetch(`${apiUrl}/delegate-passes`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          const groupPasses = data.data.filter((p: any) => p.applicableFor === 'both' || p.applicableFor === 'group');
+          const passesToUse = groupPasses.length > 0 ? groupPasses : data.data;
+
+          const mapped = passesToUse.map((p: any, idx: number) => {
+            const theme = CARD_THEMES[idx % CARD_THEMES.length];
+            const passId = p._id || p.name;
+            return {
+              id: passId,
+              title: p.name,
+              subtitle: p.daysText || "",
+              basePrice: Number(p.price),
+              icon: theme.icon,
+              isPopular: !!p.isMostPopular,
+              bgColor: theme.bgColor,
+              borderColor: theme.borderColor,
+              ringColor: theme.ringColor,
+              accentColor: theme.accentColor,
+              features: p.includes && p.includes.length > 0 ? p.includes : ["Delegate Access", "Lunch & Refreshments"],
+            };
+          });
+          setPassesList(mapped);
+        }
+      } catch (err) {
+        console.error("Error fetching group passes:", err);
+      }
+    };
+    fetchPasses();
+  }, []);
 
   return (
     <div className="flex flex-col gap-6 relative z-10">
@@ -184,7 +252,7 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
 
         
           {/* Dynamic Pass Cards matching Single Registration */}
-          {passes.map((item, idx) => {
+          {passesList.map((item, idx) => {
             const isSelected = selectedPass === item.id;
             const itemDaysMult = daysMultiplier;
             const totalPrice = item.basePrice * itemDaysMult * (selectedPass ? delegateCount : 1);
@@ -224,9 +292,6 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
                         <span className="text-[10px] font-bold px-1.5 py-0.5 rounded inline-block mt-0.5" style={{ color: item.accentColor, backgroundColor: `${item.accentColor}18` }}>
                           {selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'} ({selectedDays.map(d => `D${d}`).join('+')})
                         </span>
-                      )}
-                      {item.subtitle && (
-                        <span className="text-xs font-semibold text-gray-600 block">{item.subtitle}</span>
                       )}
                     </div>
                     

@@ -124,6 +124,37 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
     }
   }, [isSuccess]);
 
+  const [dynamicPassMap, setDynamicPassMap] = useState<Record<string, { id?: string; name: string; price: number }>>(PASS_OPTIONS);
+
+  useEffect(() => {
+    const fetchPasses = async () => {
+      try {
+        const res = await fetch(`${API_URL}/delegate-passes`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          const newMap: Record<string, any> = { ...PASS_OPTIONS };
+          data.data.forEach((p: any, idx: number) => {
+            const passId = p._id || p.name;
+            const passObj = {
+              id: passId,
+              name: p.name,
+              price: Number(p.price)
+            };
+            newMap[passId] = passObj;
+            if (idx === 0) newMap["delegate"] = passObj;
+            if (idx === 1) newMap["delegate3days"] = passObj;
+            if (idx === 2) newMap["paper"] = passObj;
+            if (idx === 3) newMap["poster"] = passObj;
+          });
+          setDynamicPassMap(newMap);
+        }
+      } catch (err) {
+        console.error("Error fetching pass options for group:", err);
+      }
+    };
+    fetchPasses();
+  }, []);
+
   // Alert State for OTP & Coupons
   const [otpAlert, setOtpAlert] = useState<{ show: boolean; message: string; type: "sent" | "verified" | "coupon" }>({
     show: false,
@@ -439,7 +470,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
       }
     }
 
-    if (!selectedPass || !PASS_OPTIONS[selectedPass]) {
+    if (!selectedPass || !(dynamicPassMap[selectedPass] || PASS_OPTIONS[selectedPass])) {
       setSubmitError("Please select a pass from the Registration Fees section on the right to proceed.");
       toast.warning("Please select a pass first from the Registration Fees section on the right!");
       return;
@@ -451,7 +482,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
       return;
     }
 
-    const currentPass = PASS_OPTIONS[selectedPass];
+    const currentPass = dynamicPassMap[selectedPass] || PASS_OPTIONS[selectedPass] || PASS_OPTIONS["delegate3days"];
     const totalDelegates = groupMembers.length + 1;
     const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
     const basePrice = currentPass.price * daysMultiplier * totalDelegates;
@@ -642,7 +673,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
   };
 
   if (isSuccess) {
-    const currentPass = (selectedPass && PASS_OPTIONS[selectedPass]) ? PASS_OPTIONS[selectedPass] : PASS_OPTIONS["delegate3days"];
+    const currentPass = (selectedPass && (dynamicPassMap[selectedPass] || PASS_OPTIONS[selectedPass])) ? (dynamicPassMap[selectedPass] || PASS_OPTIONS[selectedPass]) : (dynamicPassMap["delegate3days"] || PASS_OPTIONS["delegate3days"]);
     const totalDelegates = groupMembers.length + 1;
     const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
     const basePrice = currentPass.price * daysMultiplier * totalDelegates;

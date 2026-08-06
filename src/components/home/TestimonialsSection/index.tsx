@@ -198,6 +198,7 @@ const TestimonialsSection = () => {
         <Image 
           src={footerRightImage}
           alt="Decoration Right"
+          sizes="180px"
           className="hidden md:block absolute right-0 top-0 w-[100px] md:w-[150px] lg:w-[180px] h-auto opacity-90 pointer-events-none -mt-8"
         />
 
@@ -229,6 +230,7 @@ const TestimonialsSection = () => {
           <Image 
             src={goldImage} 
             alt="Gold Decoration"
+            sizes="180px"
             className="absolute -left-2 md:-left-4 lg:-left-6 -top-10 md:-top-12 lg:-top-16 w-[130px] md:w-[150px] lg:w-[180px] h-auto opacity-100 rotate-[30deg] origin-top pointer-events-none z-0"
           />
           {/* Controls */}
@@ -384,6 +386,7 @@ const TestimonialsSection = () => {
           <Image 
             src={leafLeftBg} 
             alt="Leaf Decoration Left" 
+            sizes="60px"
             className="absolute left-0 md:-left-1 top-1/2 -translate-y-1/2 w-[15px] md:w-[25px] lg:w-[55px] h-auto opacity-100 object-contain pointer-events-none z-0 mix-blend-multiply" 
           />
 
@@ -391,6 +394,7 @@ const TestimonialsSection = () => {
           <Image 
             src={leafRightBg} 
             alt="Leaf Decoration Right" 
+            sizes="80px"
             className="absolute right-0 md:-right-4 xl:-right-8 top-1/2 -translate-y-1/2 w-[40px] md:w-[60px] lg:w-[80px] h-auto opacity-100 object-contain pointer-events-none z-0 mix-blend-multiply" 
           />
 
@@ -472,7 +476,7 @@ const TestimonialsSection = () => {
                 title="Instagram Embed" 
                 frameBorder="0" 
                 scrolling="yes"
-                allowTransparency="true"
+                allowTransparency={true}
                 className="w-full h-full bg-white"
               ></iframe>
             ) : (

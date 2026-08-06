@@ -116,6 +116,39 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
     agreeTerms: false
   });
 
+  const [dynamicPassMap, setDynamicPassMap] = useState<Record<string, { id: string; name: string; price: number; description: string; includes: string[] }>>(PASS_OPTIONS);
+
+  useEffect(() => {
+    const fetchPasses = async () => {
+      try {
+        const res = await fetch(`${API_URL}/delegate-passes`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          const newMap: Record<string, any> = { ...PASS_OPTIONS };
+          data.data.forEach((p: any, idx: number) => {
+            const passId = p._id || p.name;
+            const passObj = {
+              id: passId,
+              name: p.name,
+              price: Number(p.price),
+              description: `${p.daysText || '1 Day'} · Flat ₹${Number(p.price).toLocaleString('en-IN')}`,
+              includes: p.includes || ["Delegate Access"],
+            };
+            newMap[passId] = passObj;
+            if (idx === 0) newMap["delegate"] = passObj;
+            if (idx === 1) newMap["delegate3days"] = passObj;
+            if (idx === 2) newMap["paper"] = passObj;
+            if (idx === 3) newMap["poster"] = passObj;
+          });
+          setDynamicPassMap(newMap);
+        }
+      } catch (err) {
+        console.error("Error fetching dynamic pass map:", err);
+      }
+    };
+    fetchPasses();
+  }, []);
+
   const [registeredDelegate, setRegisteredDelegate] = useState<any>(null);
   const [copiedId, setCopiedId] = useState(false);
 
@@ -446,7 +479,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
       return;
     }
 
-    if (!selectedPass || !PASS_OPTIONS[selectedPass]) {
+    if (!selectedPass || !(dynamicPassMap[selectedPass] || PASS_OPTIONS[selectedPass])) {
       setSubmitError("Please select a pass from the Registration Fees section on the right to proceed.");
       toast.warning("Please select a pass first from the Registration Fees section on the right!");
       return;
@@ -460,7 +493,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
 
     setIsSubmitting(true);
     try {
-      const currentPass = PASS_OPTIONS[selectedPass];
+      const currentPass = dynamicPassMap[selectedPass] || PASS_OPTIONS[selectedPass] || PASS_OPTIONS["delegate"];
       const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
       const basePrice = currentPass.price * daysMultiplier;
       const discount = appliedCoupon ? Math.round((basePrice * appliedCoupon.discountPercent) / 100) : 0;
@@ -615,7 +648,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
   };
 
   if (isSuccess) {
-    const currentPass = (selectedPass && PASS_OPTIONS[selectedPass]) ? PASS_OPTIONS[selectedPass] : PASS_OPTIONS["delegate"];
+    const currentPass = (selectedPass && (dynamicPassMap[selectedPass] || PASS_OPTIONS[selectedPass])) ? (dynamicPassMap[selectedPass] || PASS_OPTIONS[selectedPass]) : (dynamicPassMap["delegate"] || PASS_OPTIONS["delegate"]);
     const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
     const basePrice = currentPass.price * daysMultiplier;
     const discountAmount = appliedCoupon ? Math.round((basePrice * appliedCoupon.discountPercent) / 100) : 0;

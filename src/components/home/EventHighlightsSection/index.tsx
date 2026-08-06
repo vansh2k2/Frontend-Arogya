@@ -232,6 +232,7 @@ const EventHighlightsSection = () => {
                   <Image 
                     src={item.img} 
                     alt={item.title} 
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 250px"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -271,7 +272,7 @@ const EventHighlightsSection = () => {
                     <p className="text-[#001810] text-[11px] font-medium leading-tight mb-2">Inauguration, Keynotes, Global Health Outlook, Modern Medicine Innovations</p>
                   </div>
                   <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm relative">
-                    <Image src={h1} alt="Day 1" className="w-full h-full object-cover" />
+                    <Image src={h1} alt="Day 1" sizes="120px" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -285,7 +286,7 @@ const EventHighlightsSection = () => {
                     <p className="text-[#001810] text-[11px] font-medium leading-tight mb-2">AYUSH Conclave, Pharma & Biotech, Health Tech & AI, Panel Discussions</p>
                   </div>
                   <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm relative">
-                    <Image src={h2} alt="Day 2" className="w-full h-full object-cover" />
+                    <Image src={h2} alt="Day 2" sizes="120px" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -299,7 +300,7 @@ const EventHighlightsSection = () => {
                     <p className="text-[#001810] text-[11px] font-medium leading-tight mb-2">Startup Pitch, Research Presentations, Workshops, Valedictory & Awards</p>
                   </div>
                   <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm relative">
-                    <Image src={h3} alt="Day 3" className="w-full h-full object-cover" />
+                    <Image src={h3} alt="Day 3" sizes="120px" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 

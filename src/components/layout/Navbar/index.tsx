@@ -104,6 +104,7 @@ const Navbar = () => {
                 alt={logoAlt}
                 width={250}
                 height={50}
+                sizes="250px"
                 className={cn(
                   'w-auto transition-all duration-300',
                   isScrolled ? 'h-10' : 'h-12'
@@ -186,6 +187,7 @@ const Navbar = () => {
               alt={logoAlt}
               width={250}
               height={50}
+              sizes="250px"
               className="h-12 w-auto"
             />
 

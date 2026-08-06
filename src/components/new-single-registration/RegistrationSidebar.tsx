@@ -72,11 +72,104 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
   selectedDays = [],
   onToggleDay
 }) => {
-  const daysMultiplier = 1;
-  const delegate1DayPrice = 1500;
-  const delegate3DaysPrice = 3000;
-  const paperPrice = 2500;
-  const posterPrice = 2500;
+  const [passesList, setPassesList] = useState<any[]>([
+    {
+      id: 'delegate',
+      name: 'DELEGATE PASS',
+      price: 1500,
+      daysText: '1 Day',
+      includes: ['Full-day Access', 'Lunch & Refreshments', 'Conference Kit'],
+      isMostPopular: false,
+    },
+    {
+      id: 'delegate3days',
+      name: 'DELEGATE PASS',
+      price: 3000,
+      daysText: 'All 3 Days',
+      includes: ['Full Access', 'Lunch & Refreshments', 'Premium Conference Kit'],
+      isMostPopular: true,
+    },
+    {
+      id: 'paper',
+      name: 'PAPER PRESENTATION',
+      price: 2500,
+      daysText: 'Per Presentation',
+      includes: ['Presentation Slot', 'Delegate Access included', 'Publication Opportunity'],
+      isMostPopular: false,
+    },
+    {
+      id: 'poster',
+      name: 'POSTER PRESENTATION',
+      price: 2500,
+      daysText: 'Per Presentation',
+      includes: ['Poster Display Area', 'Delegate Access included', 'Special Recognition'],
+      isMostPopular: false,
+    },
+  ]);
+
+  React.useEffect(() => {
+    const fetchPasses = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+        const res = await fetch(`${apiUrl}/delegate-passes`);
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data) && data.data.length > 0) {
+          const filtered = data.data.filter((p: any) => p.applicableTo === 'both' || p.applicableTo === 'single');
+          const finalData = filtered.length > 0 ? filtered : data.data;
+          setPassesList(finalData.map((p: any) => ({
+            id: p._id || p.name,
+            name: p.name,
+            price: p.price,
+            daysText: p.daysText || '1 Day',
+            includes: p.includes && p.includes.length > 0 ? p.includes : ['Delegate Access', 'Lunch & Refreshments'],
+            isMostPopular: Boolean(p.isMostPopular),
+          })));
+        }
+      } catch (err) {
+        console.error("Error fetching dynamic passes in sidebar:", err);
+      }
+    };
+    fetchPasses();
+  }, []);
+
+  const CARD_THEMES = [
+    {
+      bg: '#f5f6ee',
+      borderColor: '#012e17',
+      hoverBorder: '#2b5922',
+      ringColor: 'ring-[#012e17]/20',
+      textColor: 'text-[#012e17]',
+      badgeBg: '#e3f0e8',
+      icon: pp1Icon,
+    },
+    {
+      bg: '#fdf6ec',
+      borderColor: '#d18e26',
+      hoverBorder: '#d18e26',
+      ringColor: 'ring-[#d18e26]/20',
+      textColor: 'text-[#d18e26]',
+      badgeBg: '#fdf1db',
+      icon: pp2Icon,
+    },
+    {
+      bg: '#f4f5f9',
+      borderColor: '#1b3c73',
+      hoverBorder: '#1b3c73',
+      ringColor: 'ring-[#1b3c73]/20',
+      textColor: 'text-[#1b3c73]',
+      badgeBg: '#e6ecf7',
+      icon: pp3Icon,
+    },
+    {
+      bg: '#f5f0f4',
+      borderColor: '#702660',
+      hoverBorder: '#702660',
+      ringColor: 'ring-[#702660]/20',
+      textColor: 'text-[#702660]',
+      badgeBg: '#faedf7',
+      icon: pp4Icon,
+    },
+  ];
 
   return (
     <div className="flex flex-col gap-6 relative z-10">
@@ -118,165 +211,66 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
           </div>
         )}
 
-        
-        {/* Card 1 */}
-        <motion.div 
-          initial={{ opacity: 0, y: -40, rotateZ: 5, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, rotateZ: 0, scale: 1 }}
-          transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          onClick={() => onSelectPass('delegate')}
-          className={`bg-[#f5f6ee] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'delegate' ? 'border-[#012e17] scale-[1.02] shadow-lg ring-2 ring-[#012e17]/20' : 'border-gray-100 hover:border-[#2b5922]'}`} 
-          style={{ boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px' }}
-        >
-          {selectedPass === 'delegate' && <SelectionBadge bgColor="#012e17" />}
-          <Image src={pp1Icon} alt="Pass Icon" className="w-[58px] h-[58px] object-contain shrink-0 mt-1" />
-          <div className="flex flex-col flex-grow">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="text-black font-semibold text-lg uppercase leading-tight mt-1">Delegate Pass</h3>
-                {selectedPass === 'delegate' && selectedDays.length > 0 && (
-                  <span className="text-[10.5px] font-bold text-[#012e17] bg-[#e3f0e8] px-1.5 py-0.5 rounded inline-block mt-0.5">
-                    {selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'} ({selectedDays.map(d => `D${d}`).join('+')})
-                  </span>
-                )}
+        {passesList.map((passItem, idx) => {
+          const theme = CARD_THEMES[idx % CARD_THEMES.length];
+          const isSelected = selectedPass === passItem.id || selectedPass === passItem.name || (selectedPass === 'delegate' && idx === 0) || (selectedPass === 'delegate3days' && idx === 1);
+          return (
+            <motion.div 
+              key={passItem.id || idx}
+              initial={{ opacity: 0, y: -40, rotateZ: 5, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, rotateZ: 0, scale: 1 }}
+              transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.1 * (idx + 1) }}
+              viewport={{ once: true, margin: "-50px" }}
+              onClick={() => onSelectPass(passItem.id)}
+              className={`border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${isSelected ? 'scale-[1.02] shadow-lg ring-2' : 'border-gray-100'}`} 
+              style={{
+                backgroundColor: theme.bg,
+                borderColor: isSelected ? theme.borderColor : '#f3f4f6',
+                boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px'
+              }}
+            >
+              {isSelected && <SelectionBadge bgColor={theme.borderColor} />}
+              {passItem.isMostPopular && (
+                <div 
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-1 rounded-full shadow-sm whitespace-nowrap z-20"
+                  style={{ backgroundColor: theme.borderColor }}
+                >
+                  ★ Most Popular
+                </div>
+              )}
+              <Image src={theme.icon} alt="Pass Icon" className="w-[58px] h-[58px] object-contain shrink-0 mt-1" />
+              <div className="flex flex-col flex-grow">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="text-black font-semibold text-lg uppercase leading-tight mt-1">{passItem.name}</h3>
+                    {isSelected && selectedDays.length > 0 && (
+                      <span 
+                        className="text-[10.5px] font-bold px-1.5 py-0.5 rounded inline-block mt-0.5"
+                        style={{ color: theme.borderColor, backgroundColor: theme.badgeBg }}
+                      >
+                        {selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'} ({selectedDays.map(d => `D${d}`).join('+')})
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-right flex flex-col items-end">
+                    <span className="text-[1.55rem] font-semibold" style={{ color: theme.borderColor }}>
+                      ₹{Number(passItem.price).toLocaleString("en-IN")}
+                    </span>
+                  </div>
+                </div>
+                
+                <span className="text-black text-sm font-semibold mt-2 mb-1">Includes:</span>
+                <ul className="flex flex-col gap-1.5 mb-2">
+                  {passItem.includes.map((inc: string, i: number) => (
+                    <li key={i} className="flex gap-2 text-sm text-gray-900 font-medium">
+                      <CheckCircle size={16} className="shrink-0 mt-0.5" style={{ color: theme.borderColor }} /> {inc}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="text-right flex flex-col items-end">
-                <span className="text-[1.55rem] font-semibold text-[#012e17]">
-                  ₹{delegate1DayPrice.toLocaleString("en-IN")}
-                </span>
-
-              </div>
-            </div>
-            
-            <span className="text-black text-sm font-semibold mt-2 mb-1">Includes:</span>
-            <ul className="flex flex-col gap-1.5 mb-2">
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#012e17] shrink-0 mt-0.5" /> Full-day Access</li>
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#012e17] shrink-0 mt-0.5" /> Lunch & Refreshments</li>
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#012e17] shrink-0 mt-0.5" /> Conference Kit</li>
-            </ul>
-          </div>
-        </motion.div>
-
-        {/* Card 2 - Most Popular */}
-        <motion.div 
-          initial={{ opacity: 0, y: -40, rotateZ: 5, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, rotateZ: 0, scale: 1 }}
-          transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
-          viewport={{ once: true, margin: "-50px" }}
-          onClick={() => onSelectPass('delegate3days')}
-          className={`bg-[#fdf6ec] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'delegate3days' ? 'border-[#d18e26] scale-[1.03] shadow-lg ring-2 ring-[#d18e26]/20' : 'border-gray-100 hover:border-[#d18e26]'}`} 
-          style={{ boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px' }}
-        >
-          {selectedPass === 'delegate3days' && <SelectionBadge bgColor="#d18e26" />}
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#d18e26] text-white text-[10px] font-semibold uppercase tracking-widest px-4 py-1 rounded-full shadow-sm whitespace-nowrap z-20">
-            ★ Most Popular
-          </div>
-          <Image src={pp2Icon} alt="Pass Icon" className="w-[58px] h-[58px] object-contain shrink-0 mt-2" />
-          <div className="flex flex-col flex-grow mt-2">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="text-black font-semibold text-lg uppercase leading-tight mt-1">Delegate Pass</h3>
-                {selectedPass === 'delegate3days' && selectedDays.length > 0 && (
-                  <span className="text-[10.5px] font-bold text-[#d18e26] bg-[#fdf1db] px-1.5 py-0.5 rounded inline-block mt-0.5">
-                    {selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'} ({selectedDays.map(d => `D${d}`).join('+')})
-                  </span>
-                )}
-              </div>
-              <div className="text-right flex flex-col items-end">
-                <span className="text-[1.55rem] font-semibold text-[#d18e26]">
-                  ₹{delegate3DaysPrice.toLocaleString("en-IN")}
-                </span>
-
-              </div>
-            </div>
-            
-            <span className="text-black text-sm font-semibold mt-2 mb-1">Includes:</span>
-            <ul className="flex flex-col gap-1.5 mb-1">
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#d18e26] shrink-0 mt-0.5" /> Full Access</li>
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#d18e26] shrink-0 mt-0.5" /> Lunch & Refreshments</li>
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#d18e26] shrink-0 mt-0.5" /> Premium Conference Kit</li>
-            </ul>
-          </div>
-        </motion.div>
-
-        {/* Card 3 - Paper Presentation */}
-        <motion.div 
-          initial={{ opacity: 0, y: -40, rotateZ: 5, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, rotateZ: 0, scale: 1 }}
-          transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.3 }}
-          viewport={{ once: true, margin: "-50px" }}
-          onClick={() => onSelectPass('paper')}
-          className={`bg-[#f4f5f9] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'paper' ? 'border-[#1b3c73] scale-[1.02] shadow-lg ring-2 ring-[#1b3c73]/20' : 'border-gray-100 hover:border-[#1b3c73]'}`} 
-          style={{ boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px' }}
-        >
-          {selectedPass === 'paper' && <SelectionBadge bgColor="#1b3c73" />}
-          <Image src={pp3Icon} alt="Pass Icon" className="w-[58px] h-[58px] object-contain shrink-0 mt-1" />
-          <div className="flex flex-col flex-grow">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="text-black font-semibold text-lg uppercase leading-tight mt-1 whitespace-nowrap">Paper Presentation</h3>
-                {selectedPass === 'paper' && selectedDays.length > 0 && (
-                  <span className="text-[10.5px] font-bold text-[#1b3c73] bg-[#e6ecf7] px-1.5 py-0.5 rounded inline-block mt-0.5">
-                    {selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'} ({selectedDays.map(d => `D${d}`).join('+')})
-                  </span>
-                )}
-              </div>
-              <div className="text-right flex flex-col items-end">
-                <span className="text-[1.55rem] font-semibold text-[#1b3c73]">
-                  ₹{paperPrice.toLocaleString("en-IN")}
-                </span>
-
-              </div>
-            </div>
-            
-            <span className="text-black text-sm font-semibold mt-2 mb-1">Includes:</span>
-            <ul className="flex flex-col gap-1.5 mb-2">
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Presentation Slot</li>
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Delegate Access included</li>
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#1b3c73] shrink-0 mt-0.5" /> Publication Opportunity</li>
-            </ul>
-          </div>
-        </motion.div>
-
-        {/* Card 4 - Poster Presentation */}
-        <motion.div 
-          initial={{ opacity: 0, y: -40, rotateZ: 5, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, rotateZ: 0, scale: 1 }}
-          transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.4 }}
-          viewport={{ once: true, margin: "-50px" }}
-          onClick={() => onSelectPass('poster')}
-          className={`bg-[#f5f0f4] border-2 cursor-pointer transition-all rounded-xl p-3.5 flex gap-2.5 relative ${selectedPass === 'poster' ? 'border-[#702660] scale-[1.02] shadow-lg ring-2 ring-[#702660]/20' : 'border-gray-100 hover:border-[#702660]'}`} 
-          style={{ boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 1px, rgba(9, 30, 66, 0.13) 0px 0px 1px 1px' }}
-        >
-          {selectedPass === 'poster' && <SelectionBadge bgColor="#702660" />}
-          <Image src={pp4Icon} alt="Pass Icon" className="w-[58px] h-[58px] object-contain shrink-0 mt-1" />
-          <div className="flex flex-col flex-grow">
-            <div className="flex justify-between items-start">
-              <div>
-                <h3 className="text-black font-semibold text-lg uppercase leading-tight mt-1 whitespace-nowrap">Poster Presentation</h3>
-                {selectedPass === 'poster' && selectedDays.length > 0 && (
-                  <span className="text-[10.5px] font-bold text-[#702660] bg-[#faedf7] px-1.5 py-0.5 rounded inline-block mt-0.5">
-                    {selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'} ({selectedDays.map(d => `D${d}`).join('+')})
-                  </span>
-                )}
-              </div>
-              <div className="text-right flex flex-col items-end">
-                <span className="text-[1.55rem] font-semibold text-[#702660]">
-                  ₹{posterPrice.toLocaleString("en-IN")}
-                </span>
-
-              </div>
-            </div>
-            
-            <span className="text-black text-sm font-semibold mt-2 mb-1">Includes:</span>
-            <ul className="flex flex-col gap-1.5 mb-2">
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#702660] shrink-0 mt-0.5" /> Poster Display Area</li>
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#702660] shrink-0 mt-0.5" /> Delegate Access included</li>
-              <li className="flex gap-2 text-sm text-gray-900 font-medium"><CheckCircle size={16} className="text-[#702660] shrink-0 mt-0.5" /> Special Recognition</li>
-            </ul>
-          </div>
-        </motion.div>
+            </motion.div>
+          );
+        })}
 
         </div>
       </motion.div>

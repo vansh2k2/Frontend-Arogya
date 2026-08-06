@@ -89,22 +89,22 @@ const WhyArogyaAndTracks = () => {
     {
       title: "INTEGRATED HEALTHCARE",
       text: "Uniting AYUSH, Modern Medicine & Wellness for a holistic future",
-      icon: <Image src={icon1} alt="Integrated Healthcare" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={icon1} alt="Integrated Healthcare" sizes="80px" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
     },
     {
       title: "KNOWLEDGE EXCHANGE",
       text: "Connect with global experts and thought leaders",
-      icon: <Image src={icon2} alt="Knowledge Exchange" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={icon2} alt="Knowledge Exchange" sizes="80px" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
     },
     {
       title: "INDUSTRY NETWORKING",
       text: "Build meaningful partnerships and business opportunities",
-      icon: <Image src={icon3} alt="Industry Networking" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={icon3} alt="Industry Networking" sizes="80px" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
     },
     {
       title: "RESEARCH & INNOVATION",
       text: "Driving research, innovation & evidence based healthcare",
-      icon: <Image src={icon4} alt="Research & Innovation" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={icon4} alt="Research & Innovation" sizes="80px" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
     }
   ];
 
@@ -115,7 +115,7 @@ const WhyArogyaAndTracks = () => {
       borderColor: "border-[#b2d3c2]",
       bgColor: "bg-gradient-to-br from-[#f2f7f4] to-[#e1efe8]",
       glowColor: "hover:shadow-[0_0_16px_rgba(15,84,51,0.30)]",
-      icon: <Image src={a1} alt="AYUSH" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={a1} alt="AYUSH" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
     },
     {
       label: <>MODERN<br />MEDICINE</>,
@@ -123,7 +123,7 @@ const WhyArogyaAndTracks = () => {
       borderColor: "border-[#b5cce7]",
       bgColor: "bg-gradient-to-br from-[#f3f6fa] to-[#e2ebf5]",
       glowColor: "hover:shadow-[0_0_16px_rgba(26,79,139,0.30)]",
-      icon: <Image src={a2} alt="MODERN MEDICINE" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={a2} alt="MODERN MEDICINE" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
     },
     {
       label: <>PHARMA<br />INNOVATION</>,
@@ -131,7 +131,7 @@ const WhyArogyaAndTracks = () => {
       borderColor: "border-[#ceb3eb]",
       bgColor: "bg-gradient-to-br from-[#f7f3fb] to-[#ece0f7]",
       glowColor: "hover:shadow-[0_0_16px_rgba(99,44,166,0.30)]",
-      icon: <Image src={a3} alt="PHARMA INNOVATION" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={a3} alt="PHARMA INNOVATION" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
     },
     {
       label: <>WELLNESS &<br />LIFESTYLE</>,
@@ -139,7 +139,7 @@ const WhyArogyaAndTracks = () => {
       borderColor: "border-[#c2ddb2]",
       bgColor: "bg-gradient-to-br from-[#f5f8f3] to-[#e7f0e2]",
       glowColor: "hover:shadow-[0_0_16px_rgba(61,122,31,0.30)]",
-      icon: <Image src={a4} alt="WELLNESS & LIFESTYLE" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={a4} alt="WELLNESS & LIFESTYLE" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
     },
     {
       label: <>RESEARCH &<br />ACADEMICS</>,
@@ -147,7 +147,7 @@ const WhyArogyaAndTracks = () => {
       borderColor: "border-[#dfc299]",
       bgColor: "bg-gradient-to-br from-[#faf6f0] to-[#f2e7d5]",
       glowColor: "hover:shadow-[0_0_16px_rgba(122,84,26,0.30)]",
-      icon: <Image src={a5} alt="RESEARCH & ACADEMICS" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={a5} alt="RESEARCH & ACADEMICS" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
     },
     {
       label: <>HEALTHCARE<br />TECHNOLOGY</>,
@@ -155,7 +155,7 @@ const WhyArogyaAndTracks = () => {
       borderColor: "border-[#b2dbd5]",
       bgColor: "bg-gradient-to-br from-[#f2f8fa] to-[#e1f0f5]",
       glowColor: "hover:shadow-[0_0_16px_rgba(15,92,84,0.30)]",
-      icon: <Image src={a6} alt="HEALTHCARE TECHNOLOGY" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
+      icon: <Image src={a6} alt="HEALTHCARE TECHNOLOGY" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
     }
   ];
 
@@ -182,7 +182,7 @@ const WhyArogyaAndTracks = () => {
               viewport={{ once: true, amount: 0.6 }}
               variants={headerVariants}
             >
-              <Image src={mainIcon} alt="Logo" className="h-7 w-auto object-contain mb-2" />
+              <Image src={mainIcon} alt="Logo" sizes="60px" className="h-7 w-auto object-contain mb-2" />
               <div className="flex items-center gap-2 sm:gap-3 w-full justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
                 <div className="h-[1px] bg-gradient-to-r from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />
@@ -240,7 +240,7 @@ const WhyArogyaAndTracks = () => {
               viewport={{ once: true, amount: 0.6 }}
               variants={headerVariants}
             >
-              <Image src={mainIcon} alt="Logo" className="h-7 w-auto object-contain mb-2" />
+              <Image src={mainIcon} alt="Logo" sizes="60px" className="h-7 w-auto object-contain mb-2" />
               <div className="flex items-center gap-2 sm:gap-3 w-full justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
                 <div className="h-[1px] bg-gradient-to-r from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />
