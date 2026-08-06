@@ -1070,7 +1070,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div className="flex flex-col gap-1.5 relative">
               <label className="text-xs font-semibold text-black">Designation <span className="text-red-500">*</span></label>
               <div className="relative">
@@ -1084,6 +1084,33 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
                 <Building2 size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                 <input name="organization" value={formData.organization} onChange={handleChange} required placeholder="Enter organization name" className="w-full border border-gray-300 rounded-sm pl-9 pr-3 py-2.5 text-sm focus:ring-2 focus:ring-[#2b5922] focus:border-transparent outline-none bg-gray-50 transition-all" />
               </div>
+            </div>
+            <div className="flex flex-col gap-1.5 relative">
+              <label className="text-xs font-semibold text-black flex items-center gap-1.5">
+                <Calendar size={14} className="text-[#2b5922]" /> Select Conference Day(s) <span className="text-red-500">*</span>
+              </label>
+              <select 
+                value={selectedPass === 'delegate3days' ? 'all' : (selectedDays[0] || '')}
+                onChange={(e) => {
+                  if (selectedPass === 'delegate3days') return;
+                  const val = parseInt(e.target.value);
+                  if (val) setSelectedDays([val]);
+                }}
+                disabled={selectedPass === 'delegate3days'}
+                required
+                className="w-full border border-gray-300 rounded-sm px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#2b5922] focus:border-transparent outline-none bg-gray-50 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                <option value="" disabled>Select Conference Day</option>
+                {selectedPass === 'delegate3days' ? (
+                  <option value="all">All Days (21, 22, 23 Aug 2026)</option>
+                ) : (
+                  <>
+                    <option value="1">Day 1 - 21 Aug 2026</option>
+                    <option value="2">Day 2 - 22 Aug 2026</option>
+                    <option value="3">Day 3 - 23 Aug 2026</option>
+                  </>
+                )}
+              </select>
             </div>
           </div>
 
@@ -1401,7 +1428,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
         {(() => {
           const passConfig = (selectedPass && PASS_OPTIONS[selectedPass]) ? PASS_OPTIONS[selectedPass] : null;
           const totalDelegates = groupMembers.length + 1;
-          const daysMultiplier = selectedDays.length > 0 ? selectedDays.length : 1;
+          const daysMultiplier = 1;
           const subTotal = passConfig ? (totalDelegates * passConfig.price * daysMultiplier) : 0;
           const discountAmount = (appliedCoupon && passConfig) ? Math.round((subTotal * appliedCoupon.discountPercent) / 100) : 0;
           const finalTotal = subTotal - discountAmount;
@@ -1520,7 +1547,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
                       )}
                     </div>
                     <div className="flex justify-between font-bold text-red-600">
-                      <span>Subtotal ({totalDelegates} {totalDelegates > 1 ? 'Delegates' : 'Delegate'}{selectedPass && selectedDays.length > 1 ? ` × ${selectedDays.length} Days` : ''})</span>
+                      <span>Subtotal ({totalDelegates} {totalDelegates > 1 ? 'Delegates' : 'Delegate'})</span>
                       <span>{passConfig ? `₹${subTotal.toLocaleString('en-IN')}` : '₹0'}</span>
                     </div>
                     {appliedCoupon && passConfig && (

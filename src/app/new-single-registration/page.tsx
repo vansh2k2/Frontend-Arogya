@@ -17,16 +17,16 @@ export default function SingleRegistrationPage() {
 
   const handleSelectPass = (passId: string) => {
     setSelectedPass(passId);
-    // Never auto-select days — user always picks manually
-    if (selectedDays.length === 0) {
+    if (passId === 'delegate3days') {
+      setSelectedDays([1, 2, 3]);
+    } else {
       setSelectedDays([1]);
     }
   };
 
   const handleToggleDay = (dayNum: number) => {
-    setSelectedDays((prev) =>
-      prev.includes(dayNum) ? prev.filter((d) => d !== dayNum) : [...prev, dayNum]
-    );
+    // We handle this via select dropdown now for single day passes
+    setSelectedDays([dayNum]);
   };
 
   return (
