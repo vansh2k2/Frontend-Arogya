@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Globe, Mic, Users, Play, ArrowRight, BookOpen, Handshake, Globe2, Network, X } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Marquee from 'react-fast-marquee';
 import { globalVoicesApi, SERVER_URL } from '@/lib/api';
 import { optimizeCloudinaryUrl } from '@/utils/imageOptimization';
@@ -171,15 +172,19 @@ const GlobalVoicesSection = () => {
   return (
     <section className="w-full bg-[#f8f5f0] relative pt-12 md:pt-16 pb-4 md:pb-6 ">
       {/* Top Left Leaf Decoration */}
-      <img
-        src={settings.leftImage?.src || settings.leftImage}
+      <Image
+        src={settings.leftImage}
         alt="Decoration"
+        width={180}
+        height={189}
+        quality={70}
+        sizes="(max-width: 768px) 100px, 180px"
         className="absolute -top-2 md:-top-4 -left-2 md:-left-4 lg:-left-10 w-[100px] md:w-[140px] lg:w-[180px] h-auto object-contain pointer-events-none z-0 opacity-100 mix-blend-multiply"
       />
 
       {/* Right Decoration */}
       <img
-        src={settings.rightImage?.src || settings.rightImage}
+        src={typeof settings.rightImage === 'string' ? settings.rightImage : (settings.rightImage as any)?.src}
         alt="Decoration Right"
         className="absolute top-0 right-0 w-[200px] md:w-[350px] lg:w-[450px] h-auto object-contain pointer-events-none z-0 opacity-100 mix-blend-multiply [mask-image:linear-gradient(to_right,transparent,black_20%)]"
       />
@@ -351,7 +356,7 @@ const GlobalVoicesSection = () => {
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-3 relative z-10 w-full lg:w-auto">
             {/* Feature 1 */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <img src={s1?.src || s1} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
+              <img src={typeof s1 === 'string' ? s1 : (s1 as any)?.src} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
                 <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">World-Class Speakers</h4>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Thought leaders from across the<br />globe under one roof.</p>
@@ -362,7 +367,7 @@ const GlobalVoicesSection = () => {
 
             {/* Feature 2 */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <img src={s2?.src || s2} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
+              <img src={typeof s2 === 'string' ? s2 : (s2 as any)?.src} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
                 <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Diverse Expertise</h4>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Covering Modern Medicine, AYUSH,<br />Pharma, Tech & more.</p>
@@ -373,7 +378,7 @@ const GlobalVoicesSection = () => {
 
             {/* Feature 3 */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <img src={s3?.src || s3} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
+              <img src={typeof s3 === 'string' ? s3 : (s3 as any)?.src} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
                 <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Actionable Insights</h4>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Real-world solutions for a<br />healthier tomorrow.</p>
@@ -384,7 +389,7 @@ const GlobalVoicesSection = () => {
 
             {/* Feature 4 */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <img src={s4?.src || s4} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
+              <img src={typeof s4 === 'string' ? s4 : (s4 as any)?.src} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
                 <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Unmatched Networking</h4>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Connect, collaborate and create<br />lasting impact.</p>
@@ -408,9 +413,13 @@ const GlobalVoicesSection = () => {
       </SectionContainer>
 
       {/* Bottom Left Leaf Decoration */}
-      <img
-        src={leafright?.src || leafright}
+      <Image
+        src={leafright}
         alt="Decoration"
+        width={160}
+        height={148}
+        quality={70}
+        sizes="(max-width: 768px) 80px, 160px"
         className="absolute bottom-0 -left-6 md:-left-10 lg:-left-12 w-[80px] md:w-[120px] lg:w-[160px] h-auto object-contain pointer-events-none z-0 mix-blend-multiply opacity-40"
       />
 
@@ -424,7 +433,7 @@ const GlobalVoicesSection = () => {
                   {previewVideoUrl.type === 'UPLOAD' || previewVideoUrl.url.endsWith('.mp4') || previewVideoUrl.url.endsWith('.webm') ? (
                       <video src={previewVideoUrl.url} controls autoPlay className="w-full h-full object-contain" />
                   ) : previewVideoUrl.type === 'INSTAGRAM' ? (
-                      <iframe src={previewVideoUrl.url} title="Video Player" frameBorder="0" scrolling="yes" allowTransparency="true" className="w-full h-full bg-white"></iframe>
+                      <iframe src={previewVideoUrl.url} title="Video Player" frameBorder="0" scrolling="yes" allowTransparency={true} className="w-full h-full bg-white"></iframe>
                   ) : (
                       <iframe src={previewVideoUrl.url} title="Video Player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen className="w-full h-full"></iframe>
                   )}

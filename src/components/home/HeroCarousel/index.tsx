@@ -373,7 +373,8 @@ const HeroCarousel = () => {
               src={img}
               alt={`Arogya Banner ${id + 1}`}
               fill
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1400px) 100vw, 1920px"
+              quality={70}
               className="object-cover select-none"
               style={{ willChange:'transform, filter' }}
               priority={id < 2}

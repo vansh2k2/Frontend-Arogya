@@ -204,7 +204,14 @@ const TestimonialsSection = () => {
 
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-4 relative z-10 -mt-2 md:-mt-3">
-          <img src={settings.topImage ? getImageUrl(settings.topImage) : (mainIcon?.src || mainIcon)} alt="Lotus" className="h-7 w-auto mb-2" />
+          <Image 
+            src={settings.topImage ? getImageUrl(settings.topImage) : mainIcon} 
+            alt="Lotus" 
+            width={160}
+            height={125}
+            quality={75}
+            className="h-7 w-auto mb-2 object-contain" 
+          />
           <div className="flex items-center gap-3 mb-1">
             <div className="w-8 h-[1px] bg-[#cba344]"></div>
             <span className="text-[#cba344] font-bold text-sm tracking-widest uppercase">{settings.heading || 'TESTIMONIALS'}</span>
@@ -230,7 +237,10 @@ const TestimonialsSection = () => {
           <Image 
             src={goldImage} 
             alt="Gold Decoration"
+            width={180}
+            height={468}
             sizes="180px"
+            quality={70}
             className="absolute -left-2 md:-left-4 lg:-left-6 -top-10 md:-top-12 lg:-top-16 w-[130px] md:w-[150px] lg:w-[180px] h-auto opacity-100 rotate-[30deg] origin-top pointer-events-none z-0"
           />
           {/* Controls */}
@@ -386,6 +396,9 @@ const TestimonialsSection = () => {
           <Image 
             src={leafLeftBg} 
             alt="Leaf Decoration Left" 
+            width={60}
+            height={55}
+            quality={70}
             sizes="60px"
             className="absolute left-0 md:-left-1 top-1/2 -translate-y-1/2 w-[15px] md:w-[25px] lg:w-[55px] h-auto opacity-100 object-contain pointer-events-none z-0 mix-blend-multiply" 
           />
@@ -394,6 +407,9 @@ const TestimonialsSection = () => {
           <Image 
             src={leafRightBg} 
             alt="Leaf Decoration Right" 
+            width={80}
+            height={74}
+            quality={70}
             sizes="80px"
             className="absolute right-0 md:-right-4 xl:-right-8 top-1/2 -translate-y-1/2 w-[40px] md:w-[60px] lg:w-[80px] h-auto opacity-100 object-contain pointer-events-none z-0 mix-blend-multiply" 
           />
