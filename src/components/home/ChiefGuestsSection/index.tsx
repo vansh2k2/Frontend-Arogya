@@ -256,6 +256,7 @@ const ChiefGuestsSection = () => {
                 key={index}
                 onClick={() => goTo(index)}
                 style={{ borderRadius: '0px' }}
+                aria-label={`Go to chief guest slide ${index + 1}`}
                 className={`h-[3px] transition-all duration-300 ${
                   index === currentIndex
                     ? 'bg-orange-600 w-10'
@@ -269,12 +270,14 @@ const ChiefGuestsSection = () => {
             <button
               onClick={goPrev}
               className="w-10 h-10 flex items-center justify-center border border-orange-100 bg-orange-50 text-orange-600 hover:bg-orange-100 transition-all duration-200 shadow-sm"
+              aria-label="Previous Chief Guest"
             >
               <ChevronLeft size={18} />
             </button>
             <button
               onClick={goNext}
               className="w-10 h-10 flex items-center justify-center border border-emerald-100 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition-all duration-200 shadow-sm"
+              aria-label="Next Chief Guest"
             >
               <ChevronRight size={18} />
             </button>

@@ -111,12 +111,14 @@ const SpeakersSection = () => {
           <button 
             onClick={() => setCurrentIndex1(p => (p - 1 + row1Speakers.length) % row1Speakers.length)}
             className="absolute -left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-600 hover:bg-orange-600 hover:text-white transition-all z-20 shadow-sm"
+            aria-label="Previous Row 1 Speakers"
           >
             <ChevronLeft size={20} />
           </button>
           <button 
             onClick={() => setCurrentIndex1(p => (p + 1) % row1Speakers.length)}
             className="absolute -right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all z-20 shadow-sm"
+            aria-label="Next Row 1 Speakers"
           >
             <ChevronRight size={20} />
           </button>
@@ -137,12 +139,14 @@ const SpeakersSection = () => {
           <button 
             onClick={() => setCurrentIndex2(p => (p - 1 + row2Speakers.length) % row2Speakers.length)}
             className="absolute -left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-orange-50 border border-orange-200 flex items-center justify-center text-orange-600 hover:bg-orange-600 hover:text-white transition-all z-20 shadow-sm"
+            aria-label="Previous Row 2 Speakers"
           >
             <ChevronLeft size={20} />
           </button>
           <button 
             onClick={() => setCurrentIndex2(p => (p + 1) % row2Speakers.length)}
             className="absolute -right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 hover:bg-emerald-600 hover:text-white transition-all z-20 shadow-sm"
+            aria-label="Next Row 2 Speakers"
           >
             <ChevronRight size={20} />
           </button>

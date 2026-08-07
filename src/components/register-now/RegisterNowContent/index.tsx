@@ -443,8 +443,12 @@ const RegisterNowContent = () => {
       toast.error('Please agree to the Terms & Conditions and Privacy Policy first.', { className: 'bg-red-500 border-none', style: { color: 'white' } });
       return;
     }
-    if (!emailOtpVerified && !whatsappOtpVerified) {
-      toast.error('Please verify your Email or WhatsApp OTP first.', { className: 'bg-red-500 border-none', style: { color: 'white' } });
+    if (!emailOtpVerified) {
+      toast.error('Email OTP Verification Required! Please click Send OTP and verify your email.', { className: 'bg-red-500 border-none', style: { color: 'white' } });
+      return;
+    }
+    if (!whatsappOtpVerified) {
+      toast.error('WhatsApp / Mobile OTP Verification Required! Please click Send OTP and verify your mobile.', { className: 'bg-red-500 border-none', style: { color: 'white' } });
       return;
     }
 

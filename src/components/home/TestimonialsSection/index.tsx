@@ -234,10 +234,10 @@ const TestimonialsSection = () => {
             className="absolute -left-2 md:-left-4 lg:-left-6 -top-10 md:-top-12 lg:-top-16 w-[130px] md:w-[150px] lg:w-[180px] h-auto opacity-100 rotate-[30deg] origin-top pointer-events-none z-0"
           />
           {/* Controls */}
-          <button onClick={scrollLeft} className="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 md:-ml-6 bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] rounded-full p-2.5 z-20 text-gray-500 hover:text-[#032e1c] transition-all">
+          <button onClick={scrollLeft} className="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 md:-ml-6 bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] rounded-full p-2.5 z-20 text-gray-500 hover:text-[#032e1c] transition-all" aria-label="Previous Testimonials">
             <ChevronLeft size={20} />
           </button>
-          <button onClick={scrollRight} className="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 md:-mr-6 bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] rounded-full p-2.5 z-20 text-gray-500 hover:text-[#032e1c] transition-all">
+          <button onClick={scrollRight} className="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 md:-mr-6 bg-white shadow-[0_4px_15px_rgba(0,0,0,0.1)] rounded-full p-2.5 z-20 text-gray-500 hover:text-[#032e1c] transition-all" aria-label="Next Testimonials">
             <ChevronRight size={20} />
           </button>
 
@@ -327,10 +327,10 @@ const TestimonialsSection = () => {
             onTouchStart={() => setIsVideoHovered(true)}
             onTouchEnd={() => setIsVideoHovered(false)}
           >
-            <button onClick={videoScrollLeft} className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 border border-white/20 text-white hover:bg-white/10 rounded-full p-2.5 z-20 transition-colors backdrop-blur-sm">
+            <button onClick={videoScrollLeft} className="absolute -left-4 md:-left-6 top-1/2 -translate-y-1/2 border border-white/20 text-white hover:bg-white/10 rounded-full p-2.5 z-20 transition-colors backdrop-blur-sm" aria-label="Previous Video Testimonial">
               <ChevronLeft size={20} />
             </button>
-            <button onClick={videoScrollRight} className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 border border-white/20 text-white hover:bg-white/10 rounded-full p-2.5 z-20 transition-colors backdrop-blur-sm">
+            <button onClick={videoScrollRight} className="absolute -right-4 md:-right-6 top-1/2 -translate-y-1/2 border border-white/20 text-white hover:bg-white/10 rounded-full p-2.5 z-20 transition-colors backdrop-blur-sm" aria-label="Next Video Testimonial">
               <ChevronRight size={20} />
             </button>
 
@@ -460,6 +460,7 @@ const TestimonialsSection = () => {
             <button 
               onClick={() => setActiveVideo(null)}
               className="absolute top-3 right-3 z-50 p-2 bg-black/50 hover:bg-black/80 text-white rounded-full transition-colors w-8 h-8 flex items-center justify-center"
+              aria-label="Close Video Modal"
             >
               <X size={16} />
             </button>

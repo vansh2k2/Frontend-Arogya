@@ -292,7 +292,7 @@ const GlobalVoicesSection = () => {
                     </p>
 
                     {speaker.videoUrl && (
-                        <button onClick={(e) => handlePlayVideo(speaker, e)} className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-md hover:bg-[#cba344] transition-colors z-20 pointer-events-auto">
+                        <button onClick={(e) => handlePlayVideo(speaker, e)} className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-md hover:bg-[#cba344] transition-colors z-20 pointer-events-auto" aria-label={`Play speaker video of ${speaker.name}`}>
                             <Play size={16} className="text-[#032e1c] ml-0.5" fill="currentColor" />
                         </button>
                     )}
@@ -314,7 +314,7 @@ const GlobalVoicesSection = () => {
                     <div className="relative mb-3">
                     <img src={getSpeakerImage(speaker)} alt={speaker.imageAltText || speaker.name} loading="lazy" decoding="async" className="w-16 h-16 md:w-20 md:h-20 rounded-full object-contain bg-white border-2 border-[#cba344] transition-colors shadow-sm" />
                     {speaker.videoUrl && (
-                        <button onClick={(e) => handlePlayVideo(speaker, e)} className="absolute bottom-0 right-0 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow hover:bg-[#cba344] transition-colors">
+                        <button onClick={(e) => handlePlayVideo(speaker, e)} className="absolute bottom-0 right-0 w-6 h-6 bg-white rounded-full flex items-center justify-center shadow hover:bg-[#cba344] transition-colors" aria-label={`Play video of ${speaker.name}`}>
                              <Play size={10} className="text-[#032e1c] ml-0.5" fill="currentColor" />
                         </button>
                     )}
@@ -418,7 +418,7 @@ const GlobalVoicesSection = () => {
       {previewVideoUrl && (
           <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm" onClick={() => setPreviewVideoUrl(null)}>
               <div className={`relative w-full ${previewVideoUrl.type === 'INSTAGRAM' ? 'max-w-[400px] h-[80vh] md:h-[90vh]' : 'max-w-4xl aspect-video'} bg-black rounded-lg overflow-hidden shadow-2xl animate-fade-in flex flex-col`} onClick={e => e.stopPropagation()}>
-                  <button className="absolute top-3 right-3 text-white hover:text-gray-300 bg-black/50 hover:bg-black/80 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm z-50 transition-colors" onClick={() => setPreviewVideoUrl(null)}>
+                  <button className="absolute top-3 right-3 text-white hover:text-gray-300 bg-black/50 hover:bg-black/80 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm z-50 transition-colors" onClick={() => setPreviewVideoUrl(null)} aria-label="Close Video Preview">
                       <X size={20} />
                   </button>
                   {previewVideoUrl.type === 'UPLOAD' || previewVideoUrl.url.endsWith('.mp4') || previewVideoUrl.url.endsWith('.webm') ? (

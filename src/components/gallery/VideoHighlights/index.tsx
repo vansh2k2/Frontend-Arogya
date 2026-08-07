@@ -309,6 +309,7 @@ const VideoHighlights = () => {
               <button 
                 className="absolute top-3 right-3 text-white hover:text-gray-300 bg-black/50 hover:bg-black/80 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm z-50 transition-colors"
                 onClick={() => setActiveVideo(null)}
+                aria-label="Close Video Modal"
               >
                 ✕
               </button>

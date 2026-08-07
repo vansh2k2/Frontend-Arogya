@@ -428,6 +428,18 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
       return;
     }
 
+    if (name === "email") {
+      setEmailOtpVerified(false);
+      setEmailOtpSent(false);
+      setEmailOtpInput("");
+    }
+
+    if (name === "mobile") {
+      setMobileOtpVerified(false);
+      setMobileOtpSent(false);
+      setMobileOtpInput("");
+    }
+
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -468,6 +480,22 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
 
     if (!formData.fullName || !formData.email || !formData.mobile || !formData.designation || !formData.organization) {
       setSubmitError("Please fill in all required fields for Primary Contact.");
+      return;
+    }
+
+    if (!emailOtpVerified) {
+      setSubmitError("Email OTP Verification Required: Please click 'Send OTP' and enter the 6-digit OTP sent to Primary Contact Email.");
+      toast.error("Please verify Primary Contact Email Address using OTP before submitting!");
+      const el = document.getElementById("email-field-container");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+
+    if (!mobileOtpVerified) {
+      setSubmitError("Mobile OTP Verification Required: Please click 'Send OTP' and enter the 6-digit OTP sent to Primary Contact Mobile.");
+      toast.error("Please verify Primary Contact Mobile Number using OTP before submitting!");
+      const el = document.getElementById("mobile-field-container");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
 
@@ -799,7 +827,9 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
           <div className="flex justify-between py-1 border-b border-gray-100">
             <span className="text-gray-500 font-medium">Conference Days:</span>
             <span className="font-bold text-[#0B2C66]">
-              {selectedDays.length === 3 ? 'All 3 Days (21-23 Aug 2026)' : selectedDays.map(d => `Day ${d}`).join(', ')}
+              {selectedDays.length === 3 || selectedDays.length === 0
+                ? "All Days (21, 22, 23 Aug 2026)"
+                : selectedDays.map(d => d === 1 ? "Day 1 (21 Aug 2026)" : d === 2 ? "Day 2 (22 Aug 2026)" : "Day 3 (23 Aug 2026)").join(", ")}
             </span>
           </div>
           <div className="flex justify-between py-1 border-b border-gray-100">
@@ -963,7 +993,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
             </AnimatePresence>
 
             {/* Email Field with Send/Verify OTP */}
-            <div className="flex flex-col gap-1.5 relative">
+            <div id="email-field-container" className="flex flex-col gap-1.5 relative">
               <div className="flex justify-between items-center">
                 <label className="text-xs font-semibold text-black">Email Address <span className="text-red-500">*</span></label>
                 {emailOtpVerified && (
@@ -1024,7 +1054,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
                         type="button"
                         onClick={handleVerifyEmailOtp}
                         disabled={emailOtpLoading || !emailOtpInput}
-                        className="bg-[#d97706] hover:bg-[#b45309] text-white text-xs font-bold px-4 py-2 rounded-md transition-all shadow-md active:scale-95 whitespace-nowrap flex items-center justify-center gap-1.5 cursor-pointer disabled:bg-[#d97706] disabled:opacity-85 disabled:cursor-not-allowed"
+                        className="bg-[#d97706] hover:bg-[#b45309] text-[#ffffff] text-xs font-bold px-4 py-2 rounded-md transition-all shadow-md active:scale-95 whitespace-nowrap flex items-center justify-center gap-1.5 cursor-pointer disabled:bg-[#d97706] disabled:opacity-85 disabled:cursor-not-allowed"
                       >
                         {emailOtpLoading ? <Loader2 size={12} className="animate-spin" /> : null}
                         Verify OTP
@@ -1036,7 +1066,7 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
             </div>
 
             {/* Mobile Field with Send/Verify OTP */}
-            <div className="flex flex-col gap-1.5 relative">
+            <div id="mobile-field-container" className="flex flex-col gap-1.5 relative">
               <div className="flex justify-between items-center">
                 <label className="text-xs font-semibold text-black">Mobile Number <span className="text-red-500">*</span></label>
                 {mobileOtpVerified && (
@@ -1578,15 +1608,11 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
                     </div>
                     <div className="flex justify-between items-center font-semibold text-gray-700">
                       <span>Selected Days:</span>
-                      {selectedDays.length > 0 ? (
-                        <span className="font-bold text-blue-600 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded text-[11px]">
-                          {selectedDays.map(d => `Day ${d}`).join(", ")} ({selectedDays.length} {selectedDays.length === 1 ? 'Day' : 'Days'})
-                        </span>
-                      ) : (
-                        <span className="font-bold text-red-600 text-[11px]">
-                          None selected
-                        </span>
-                      )}
+                      <span className="font-bold text-blue-600 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded text-[11px]">
+                        {selectedDays.length === 3 || selectedDays.length === 0
+                          ? "All Days (21, 22, 23 Aug 2026)"
+                          : selectedDays.map(d => d === 1 ? "Day 1 (21 Aug 2026)" : d === 2 ? "Day 2 (22 Aug 2026)" : "Day 3 (23 Aug 2026)").join(", ")}
+                      </span>
                     </div>
                     <div className="flex justify-between font-bold text-red-600">
                       <span>Subtotal ({totalDelegates} {totalDelegates > 1 ? 'Delegates' : 'Delegate'})</span>

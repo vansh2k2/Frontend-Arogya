@@ -106,6 +106,12 @@ const dancingScript = Dancing_Script({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`antialiased ${poppins.variable} ${inter.variable} ${roboto.variable} ${nunito.variable} ${dancingScript.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
       <body
         className="flex flex-col font-inter bg-background text-foreground antialiased min-h-screen"
         suppressHydrationWarning

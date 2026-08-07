@@ -157,6 +157,7 @@ const Navbar = () => {
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className="lg:hidden p-2 text-primary hover:bg-muted rounded-lg transition-colors"
+              aria-label="Open Navigation Menu"
             >
               <Menu size={24} />
             </button>
@@ -194,6 +195,7 @@ const Navbar = () => {
             <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 text-primary hover:bg-muted rounded-lg transition-colors"
+              aria-label="Close Navigation Menu"
             >
               <X size={24} />
             </button>
