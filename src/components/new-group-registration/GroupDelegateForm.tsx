@@ -90,6 +90,8 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
   const selectedDays = externalSelectedDays !== undefined ? externalSelectedDays : internalSelectedDays;
   const setSelectedDays = externalSetSelectedDays || setInternalSelectedDays;
 
+  const [dynamicPassMap, setDynamicPassMap] = useState<Record<string, { id?: string; name: string; price: number; description?: string; daysText?: string }>>(PASS_OPTIONS);
+
   const toggleDay = (dayNum: number) => {
     setSelectedDays((prev) =>
       prev.includes(dayNum) ? prev.filter((d) => d !== dayNum) : [...prev, dayNum]
@@ -97,12 +99,22 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
     setSubmitError("");
   };
 
+  const passObj = selectedPass ? (dynamicPassMap[selectedPass] || PASS_OPTIONS[selectedPass]) : null;
+  const is3DaysPass = Boolean(
+    selectedPass === 'delegate3days' ||
+    (selectedPass && selectedPass.includes('3days')) ||
+    (passObj && (passObj.price === 3000 || (passObj.daysText && passObj.daysText.toLowerCase().includes('3 day')) || (passObj.description && passObj.description.toLowerCase().includes('3 day'))))
+  );
+
   // Sync selectedPass with selectedDays
   useEffect(() => {
-    if (selectedPass && selectedDays.length === 0) {
+    if (!selectedPass) return;
+    if (is3DaysPass) {
+      setSelectedDays([1, 2, 3]);
+    } else if (selectedDays.length === 0 || selectedDays.length === 3) {
       setSelectedDays([1]);
     }
-  }, [selectedPass]);
+  }, [selectedPass, is3DaysPass]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -123,8 +135,6 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
       }, 100);
     }
   }, [isSuccess]);
-
-  const [dynamicPassMap, setDynamicPassMap] = useState<Record<string, { id?: string; name: string; price: number }>>(PASS_OPTIONS);
 
   useEffect(() => {
     const fetchPasses = async () => {
@@ -1121,19 +1131,20 @@ const GroupDelegateForm: React.FC<GroupDelegateFormProps> = ({
                 <Calendar size={14} className="text-[#2b5922]" /> Select Conference Day(s) <span className="text-red-500">*</span>
               </label>
               <select 
-                value={selectedPass === 'delegate3days' ? 'all' : (selectedDays[0] || '')}
+                value={is3DaysPass ? 'all' : (selectedDays[0] || '')}
                 onChange={(e) => {
-                  if (selectedPass === 'delegate3days') return;
+                  if (is3DaysPass) return;
                   const val = parseInt(e.target.value);
                   if (val) setSelectedDays([val]);
                 }}
-                disabled={selectedPass === 'delegate3days'}
+                disabled={is3DaysPass}
                 required
-                className="w-full border border-gray-300 rounded-sm px-3 py-2.5 text-sm focus:ring-2 focus:ring-[#2b5922] focus:border-transparent outline-none bg-gray-50 transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+                style={is3DaysPass ? { color: '#0f172a', WebkitTextFillColor: '#0f172a', opacity: 1, backgroundColor: '#f1f5f9', fontWeight: 600 } : {}}
+                className="w-full border border-gray-300 rounded-sm px-3 py-2.5 text-xs md:text-[13px] focus:ring-2 focus:ring-[#2b5922] focus:border-transparent outline-none bg-gray-50 transition-all font-medium disabled:opacity-100 disabled:cursor-not-allowed"
               >
                 <option value="" disabled>Select Conference Day</option>
-                {selectedPass === 'delegate3days' ? (
-                  <option value="all">All Days (21, 22, 23 Aug 2026)</option>
+                {is3DaysPass ? (
+                  <option value="all" className="text-gray-900 font-semibold" style={{ color: '#0f172a', fontWeight: 600 }}>All Days (21, 22, 23 Aug 2026)</option>
                 ) : (
                   <>
                     <option value="1">Day 1 - 21 Aug 2026</option>

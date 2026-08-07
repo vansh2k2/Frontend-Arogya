@@ -170,7 +170,16 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
 
           const mapped = passesToUse.map((p: any, idx: number) => {
             const theme = CARD_THEMES[idx % CARD_THEMES.length];
-            const passId = p._id || p.name;
+            let passId = p._id || p.name;
+            if (idx === 1 || p.price === 3000 || (p.daysText && p.daysText.toLowerCase().includes('3 day'))) {
+              passId = 'delegate3days';
+            } else if (idx === 0 || p.price === 1500) {
+              passId = 'delegate';
+            } else if (idx === 2 || (p.name && p.name.toLowerCase().includes('paper'))) {
+              passId = 'paper';
+            } else if (idx === 3 || (p.name && p.name.toLowerCase().includes('poster'))) {
+              passId = 'poster';
+            }
             return {
               id: passId,
               title: p.name,

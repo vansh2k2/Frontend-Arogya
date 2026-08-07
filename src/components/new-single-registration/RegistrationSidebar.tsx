@@ -116,14 +116,26 @@ const RegistrationSidebar: React.FC<RegistrationSidebarProps> = ({
         if (data.success && Array.isArray(data.data) && data.data.length > 0) {
           const filtered = data.data.filter((p: any) => p.applicableTo === 'both' || p.applicableTo === 'single');
           const finalData = filtered.length > 0 ? filtered : data.data;
-          setPassesList(finalData.map((p: any) => ({
-            id: p._id || p.name,
-            name: p.name,
-            price: p.price,
-            daysText: p.daysText || '1 Day',
-            includes: p.includes && p.includes.length > 0 ? p.includes : ['Delegate Access', 'Lunch & Refreshments'],
-            isMostPopular: Boolean(p.isMostPopular),
-          })));
+          setPassesList(finalData.map((p: any, idx: number) => {
+            let passId = p._id || p.name;
+            if (idx === 1 || p.price === 3000 || (p.daysText && p.daysText.toLowerCase().includes('3 day'))) {
+              passId = 'delegate3days';
+            } else if (idx === 0 || p.price === 1500) {
+              passId = 'delegate';
+            } else if (idx === 2 || (p.name && p.name.toLowerCase().includes('paper'))) {
+              passId = 'paper';
+            } else if (idx === 3 || (p.name && p.name.toLowerCase().includes('poster'))) {
+              passId = 'poster';
+            }
+            return {
+              id: passId,
+              name: p.name,
+              price: p.price,
+              daysText: p.daysText || '1 Day',
+              includes: p.includes && p.includes.length > 0 ? p.includes : ['Delegate Access', 'Lunch & Refreshments'],
+              isMostPopular: Boolean(p.isMostPopular),
+            };
+          }));
         }
       } catch (err) {
         console.error("Error fetching dynamic passes in sidebar:", err);
