@@ -28,7 +28,7 @@ const loadRazorpay = () => {
   });
 };
 
-export const PASS_OPTIONS: Record<string, { name: string; price: number }> = {
+export const PASS_OPTIONS: Record<string, { id?: string; name: string; price: number; description?: string; daysText?: string }> = {
   delegate: { name: "Delegate Pass", price: 1500 },
   delegate3days: { name: "Delegate Pass", price: 3000 },
   paper: { name: "Paper Presentation", price: 2500 },

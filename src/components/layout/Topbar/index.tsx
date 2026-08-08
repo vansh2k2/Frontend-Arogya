@@ -54,6 +54,25 @@ const Topbar = () => {
         {/* RIGHT — Responsive Buttons */}
         <div className="flex items-center justify-center lg:justify-end gap-1.5 sm:gap-3 flex-wrap w-full lg:w-auto relative z-[60] pointer-events-auto">
 
+          {/* Delegates Login Circle Expansion Button */}
+          <a
+            href="/login"
+            className="delegate-circle-fill-btn relative z-50 cursor-pointer pointer-events-auto"
+          >
+            <svg viewBox="0 0 24 24" className="arr-2" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+              ></path>
+            </svg>
+            <span className="text">Delegates Login</span>
+            <span className="circle"></span>
+            <svg viewBox="0 0 24 24" className="arr-1" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"
+              ></path>
+            </svg>
+          </a>
+
           {/* Delegate Registration */}
           <a
             href="/register-now"
@@ -69,52 +88,6 @@ const Topbar = () => {
               Delegate Registration
             </span>
           </a>
-
-          {/* User Login */}
-          <a
-            href="/login"
-            className="reg-btn border-white text-[#0a3558] relative z-50 cursor-pointer pointer-events-auto shadow-sm"
-          >
-            <span className="bg-anim from-white to-gray-100"></span>
-            <span className="shine"></span>
-
-            <span className="relative z-10 flex items-center gap-1">
-              <User size={11} strokeWidth={2.3} />
-              User Login
-            </span>
-          </a>
-
-          {/* Corporate Registration */}
-          {/* <a
-            href="/corporate-registration"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="reg-btn border-blue-500 text-white relative z-50 cursor-pointer pointer-events-auto"
-          >
-            <span className="bg-anim from-blue-500 to-cyan-500"></span>
-            <span className="shine"></span>
-
-            <span className="relative z-10 flex items-center gap-1">
-              <Briefcase size={11} strokeWidth={2.3} />
-              Corporate Registration
-            </span>
-          </a> */}
-
-          {/* Doctor Registration */}
-          {/* <a
-            href="/doctor-registration"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="reg-btn border-red-500 text-white relative z-50 cursor-pointer pointer-events-auto"
-          >
-            <span className="bg-anim from-red-500 to-orange-500"></span>
-            <span className="shine"></span>
-
-            <span className="relative z-10 flex items-center gap-1">
-              <Stethoscope size={11} strokeWidth={2.3} />
-              Doctor Registration
-            </span>
-          </a> */}
         </div>
       </div>
 
@@ -187,13 +160,103 @@ const Topbar = () => {
           }
         }
 
+        /* CIRCLE EXPANSION DELEGATES LOGIN BUTTON (GOLDEN THEME) */
+        .delegate-circle-fill-btn {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          padding: 4px 22px;
+          border: 2px solid transparent;
+          font-size: 0.62rem;
+          background-color: transparent;
+          border-radius: 100px;
+          font-weight: 700;
+          color: #ffd700;
+          box-shadow: 0 0 0 1.5px #ffd700;
+          cursor: pointer;
+          overflow: hidden;
+          transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+          text-decoration: none;
+          white-space: nowrap;
+        }
+
+        .delegate-circle-fill-btn svg {
+          position: absolute;
+          width: 12px;
+          height: 12px;
+          fill: #ffd700;
+          z-index: 9;
+          transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .delegate-circle-fill-btn .arr-1 {
+          right: 8px;
+        }
+
+        .delegate-circle-fill-btn .arr-2 {
+          left: -35%;
+        }
+
+        .delegate-circle-fill-btn .circle {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 10px;
+          height: 10px;
+          background-color: #ffd700;
+          border-radius: 50%;
+          opacity: 0;
+          transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .delegate-circle-fill-btn .text {
+          position: relative;
+          z-index: 1;
+          transform: translateX(-6px);
+          transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .delegate-circle-fill-btn:hover {
+          box-shadow: 0 0 0 12px transparent;
+          color: #0b251a;
+          border-radius: 6px;
+        }
+
+        .delegate-circle-fill-btn:hover .arr-1 {
+          right: -35%;
+        }
+
+        .delegate-circle-fill-btn:hover .arr-2 {
+          left: 8px;
+        }
+
+        .delegate-circle-fill-btn:hover .text {
+          transform: translateX(6px);
+        }
+
+        .delegate-circle-fill-btn:hover svg {
+          fill: #0b251a;
+        }
+
+        .delegate-circle-fill-btn:active {
+          scale: 0.95;
+          box-shadow: 0 0 0 3px #ffd700;
+        }
+
+        .delegate-circle-fill-btn:hover .circle {
+          width: 160px;
+          height: 160px;
+          opacity: 1;
+        }
+
         /* MOBILE RESPONSIVE FIX */
         @media (max-width: 640px) {
-          .reg-btn {
+          .reg-btn, .delegate-circle-fill-btn {
             width: auto;
             flex: 1 1 auto;
             font-size: 0.55rem;
-            padding: 4px 6px;
           }
         }
       `}</style>
@@ -202,3 +265,4 @@ const Topbar = () => {
 };
 
 export default Topbar;
+
