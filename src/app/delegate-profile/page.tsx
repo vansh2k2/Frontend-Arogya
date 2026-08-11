@@ -15,6 +15,7 @@ import {
   PaymentHistoryContent,
   ContactSupportContent,
   VenueInformationContent,
+  PaymentReceiptContent,
 } from "@/components/delegate-dashboard";
 import { Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
@@ -206,6 +207,14 @@ export default function DelegateDashboardPage() {
             <PaymentHistoryContent
               delegate={delegate}
               onOpenSupport={() => setActiveTab("support")}
+              onDownloadReceipt={() => setActiveTab("receipt")}
+            />
+          )}
+
+          {activeTab === "receipt" && (
+            <PaymentReceiptContent
+              delegate={delegate}
+              onBack={() => setActiveTab("payment-history")}
             />
           )}
 

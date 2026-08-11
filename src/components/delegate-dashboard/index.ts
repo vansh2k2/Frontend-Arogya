@@ -11,4 +11,5 @@ export { PersonalInfoContent } from './personal-info/PersonalInfoContent';
 export { PaymentHistoryContent } from './payment-history/PaymentHistoryContent';
 export { ContactSupportContent } from './contact-support/ContactSupportContent';
 export { VenueInformationContent } from './venue-information/VenueInformationContent';
+export { PaymentReceiptContent } from './payment-history/PaymentReceiptContent';
 

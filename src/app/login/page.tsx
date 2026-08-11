@@ -56,7 +56,7 @@ export default function LoginPage() {
         >
           {/* ─── LEFT HALF: Info & Event Highlights (Half White & Half Green Gradient) ─── */}
           <div
-            className="lg:w-1/2 relative overflow-hidden flex items-center justify-center lg:justify-start p-6 lg:py-8 lg:pl-10 lg:pr-6 xl:pl-12 border-b-2 lg:border-b-0 lg:border-r-2 border-emerald-100"
+            className="lg:w-1/2 relative overflow-hidden flex items-center justify-center lg:justify-start p-6 lg:py-12 lg:pl-10 lg:pr-6 xl:pl-12 border-b-2 lg:border-b-0 lg:border-r-2 border-emerald-100"
             style={{
               background: "linear-gradient(135deg, #ffffff 45%, #eaf5e9 100%)",
             }}
@@ -188,7 +188,7 @@ export default function LoginPage() {
           </div>
 
           {/* ─── RIGHT HALF: Login Form ─── */}
-          <div className="lg:w-1/2 bg-gradient-to-br from-white via-[#f4fcf7] to-white p-6 lg:p-8 xl:p-10 flex items-center justify-center relative overflow-hidden">
+          <div className="lg:w-1/2 bg-gradient-to-br from-white via-[#f4fcf7] to-white p-6 lg:py-12 lg:px-8 xl:py-14 xl:px-10 flex items-center justify-center relative overflow-hidden">
 
             {/* Subtle green glow blobs */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">

@@ -87,28 +87,8 @@ export const DashboardTopBar: React.FC<DashboardTopBarProps> = ({
     return first.charAt(0).toUpperCase() + first.slice(1);
   };
 
-  const handleLogoutClick = async () => {
-    const result = await Swal.fire({
-      title: "Logout?",
-      text: "You will be logged out from delegate portal",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, Logout",
-      cancelButtonText: "Cancel",
-    });
-
-    if (result.isConfirmed) {
-      await Swal.fire({
-        title: "Logged Out!",
-        text: "You have been successfully logged out",
-        icon: "success",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-      onLogout();
-    }
+  const handleLogoutClick = () => {
+    onLogout();
   };
 
   const delegateName = delegate?.fullName || delegate?.name || "Vansh Chaudhary";

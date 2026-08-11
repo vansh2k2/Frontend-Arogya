@@ -75,9 +75,10 @@ export const PaymentHistoryContent: React.FC<PaymentHistoryContentProps> = ({
   };
 
   const handleDownloadStatement = () => {
-    setIsReceiptModalOpen(true);
     if (onDownloadReceipt) {
       onDownloadReceipt();
+    } else {
+      setIsReceiptModalOpen(true);
     }
   };
 
@@ -116,13 +117,13 @@ export const PaymentHistoryContent: React.FC<PaymentHistoryContentProps> = ({
             <CreditCard size={17} />
           </div>
           <div className="flex-1 min-w-0 pt-0.5">
-            <span className="block text-[10px] font-semibold text-emerald-600/70 uppercase tracking-wider">
+            <span className="block text-xs font-semibold text-emerald-600/70 uppercase tracking-wider">
               TOTAL PAYMENTS
             </span>
-            <h4 className="text-[13px] font-semibold text-slate-800 truncate leading-tight mt-0.5">
+            <h4 className="text-base font-semibold text-slate-800 truncate leading-tight mt-0.5">
               {amountPaid}
             </h4>
-            <span className="inline-block mt-0.5 text-[10px] font-semibold text-emerald-700 bg-emerald-200/80 px-1.5 rounded-full">
+            <span className="inline-block mt-0.5 text-xs font-semibold text-emerald-700 bg-emerald-200/80 px-1.5 rounded-full">
               1 Transaction
             </span>
           </div>
@@ -137,13 +138,13 @@ export const PaymentHistoryContent: React.FC<PaymentHistoryContentProps> = ({
             <Wallet size={17} />
           </div>
           <div className="flex-1 min-w-0 pt-0.5">
-            <span className="block text-[10px] font-semibold text-amber-600/70 uppercase tracking-wider">
+            <span className="block text-xs font-semibold text-amber-600/70 uppercase tracking-wider">
               AMOUNT PAID
             </span>
-            <h4 className="text-[13px] font-semibold text-slate-800 truncate leading-tight mt-0.5">
+            <h4 className="text-base font-semibold text-slate-800 truncate leading-tight mt-0.5">
               {amountPaid}
             </h4>
-            <p className="text-[10px] text-blue-600 font-semibold mt-0.5">
+            <p className="text-xs text-blue-600 font-semibold mt-0.5">
               Total Paid
             </p>
           </div>
@@ -158,13 +159,13 @@ export const PaymentHistoryContent: React.FC<PaymentHistoryContentProps> = ({
             <IndianRupee size={17} />
           </div>
           <div className="flex-1 min-w-0 pt-0.5">
-            <span className="block text-[10px] font-semibold text-blue-600/70 uppercase tracking-wider">
+            <span className="block text-xs font-semibold text-blue-600/70 uppercase tracking-wider">
               PENDING AMOUNT
             </span>
-            <h4 className="text-[13px] font-semibold text-slate-800 leading-snug mt-0.5">
+            <h4 className="text-base font-semibold text-slate-800 leading-snug mt-0.5">
               ₹0
             </h4>
-            <span className="inline-block mt-0.5 text-[10px] font-semibold text-emerald-700 bg-emerald-100/80 px-1.5 rounded-full">
+            <span className="inline-block mt-0.5 text-xs font-semibold text-emerald-700 bg-emerald-100/80 px-1.5 rounded-full">
               No Pending Payments
             </span>
           </div>
@@ -179,13 +180,13 @@ export const PaymentHistoryContent: React.FC<PaymentHistoryContentProps> = ({
             <Receipt size={17} />
           </div>
           <div className="flex-1 min-w-0 pt-0.5">
-            <span className="block text-[10px] font-semibold text-purple-600/70 uppercase tracking-wider">
+            <span className="block text-xs font-semibold text-purple-600/70 uppercase tracking-wider">
               LATEST PAYMENT
             </span>
-            <h4 className="text-[13px] font-semibold text-slate-800 truncate leading-tight mt-0.5">
+            <h4 className="text-base font-semibold text-slate-800 truncate leading-tight mt-0.5">
               {regDateFormatted}
             </h4>
-            <p className="text-[10px] text-purple-600 font-semibold mt-0.5">
+            <p className="text-xs text-purple-600 font-semibold mt-0.5">
               {regTimeFormatted}
             </p>
           </div>
