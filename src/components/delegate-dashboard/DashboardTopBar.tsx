@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Bell,
   Menu,
@@ -34,6 +34,31 @@ export const DashboardTopBar: React.FC<DashboardTopBarProps> = ({
   const [profileOpen, setProfileOpen] = useState(false);
   const [activeTitle, setActiveTitle] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const profileMenuRef = useRef<HTMLDivElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target as Node)
+      ) {
+        setProfileOpen(false);
+      }
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target as Node)
+      ) {
+        setActiveTitle(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const [greeting, setGreeting] = useState<{
     text: string;
@@ -214,7 +239,7 @@ export const DashboardTopBar: React.FC<DashboardTopBarProps> = ({
           </div>
 
           {/* Notifications */}
-          <div className="relative">
+          <div className="relative" ref={notificationRef}>
             <button
               type="button"
               onClick={() =>
@@ -274,7 +299,7 @@ export const DashboardTopBar: React.FC<DashboardTopBarProps> = ({
           </div>
 
           {/* Profile Button Pill with Avatar & Status Dot */}
-          <div className="relative">
+          <div className="relative" ref={profileMenuRef}>
             <button
               type="button"
               onClick={() => {
