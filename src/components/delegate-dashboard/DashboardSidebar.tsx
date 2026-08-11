@@ -49,9 +49,14 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             if (url?.url) {
               const u = url.url;
               if (u.startsWith("http") || u.startsWith("data:")) return u;
-              return `${SERVER_URL}${u}`;
+              const cleanPath = u.startsWith('/') ? u : `/${u}`;
+              return `${SERVER_URL}${cleanPath}`;
             }
-            return `${SERVER_URL}${url}`;
+            if (typeof url === "string") {
+              const cleanPath = url.startsWith('/') ? url : `/${url}`;
+              return `${SERVER_URL}${cleanPath}`;
+            }
+            return null;
           };
           const finalUrl = getImageUrl(settings?.adminLogo) || getImageUrl(settings?.websiteLogo) || getImageUrl(settings?.logo) || "/logo.png";
           setLogoUrl(finalUrl);
@@ -97,13 +102,9 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   ];
 
   const handleItemClick = (id: string) => {
+    setActiveTab(id);
     if (id === "support") {
       onOpenSupport();
-    } else {
-      setActiveTab(id);
-    }
-    if (window.innerWidth < 1024) {
-      onClose();
     }
   };
 
@@ -126,8 +127,10 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       {/* ── Sidebar Container matching Admin Layout exactly ── */}
       <aside
         id="delegate-sidebar"
-        className={`fixed lg:sticky top-0 left-0 z-50 h-screen w-75 bg-[#052613] text-slate-300 flex flex-col justify-between border-r border-[#0d3b1e] transition-all duration-300 font-inter shadow-xl shrink-0 ${
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        className={`fixed lg:sticky top-0 left-0 z-50 h-screen bg-[#052613] text-slate-300 flex flex-col justify-between border-r border-[#0d3b1e] transition-all duration-300 font-inter shadow-xl shrink-0 ${
+          isOpen
+            ? "w-75 translate-x-0 opacity-100"
+            : "w-75 -translate-x-full lg:w-0 lg:opacity-0 lg:pointer-events-none lg:border-none overflow-hidden"
         }`}
       >
         {/* Header - Matches Topbar Height (h-14) */}
@@ -143,7 +146,10 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
                 }}
                 className="h-12 w-auto object-contain max-w-[200px]"
                 onError={(e) => {
-                  (e.target as HTMLElement).style.display = "none";
+                  const target = e.target as HTMLImageElement;
+                  if (!target.src.endsWith("/logo.png")) {
+                    target.src = "/logo.png";
+                  }
                 }}
               />
             </Link>

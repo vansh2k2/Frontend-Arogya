@@ -122,14 +122,14 @@ export const DashboardTopBar: React.FC<DashboardTopBarProps> = ({
       <div className="h-14 bg-white/95 backdrop-blur-lg border-b border-slate-200/80 shadow-xs px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* LEFT – Mobile Toggle, Greeting Card & Search */}
         <div className="flex items-center gap-3 sm:gap-4">
-          {/* Mobile Sidebar Toggle Button */}
+          {/* Sidebar Toggle Button (Desktop & Mobile) */}
           <button
             type="button"
             onClick={onToggleSidebar}
-            className="lg:hidden p-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition-all cursor-pointer"
+            className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-700 transition-all cursor-pointer"
             aria-label="Toggle Sidebar"
           >
-            <Menu size={18} />
+            <Menu size={20} />
           </button>
 
           {/* 🌟 PREMIUM GREETING CARD (Admin layout match) */}

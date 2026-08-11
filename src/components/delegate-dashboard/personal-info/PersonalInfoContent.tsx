@@ -31,7 +31,7 @@ export const PersonalInfoContent: React.FC<PersonalInfoContentProps> = ({ delega
   );
 
   return (
-    <div className="space-y-6 font-inter w-full max-w-6xl mx-auto">
+    <div className="space-y-6 font-inter w-full">
       {/* ── Page Header ── */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-2">
         <div className="flex-1">

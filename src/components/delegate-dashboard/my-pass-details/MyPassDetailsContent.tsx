@@ -43,7 +43,7 @@ export const MyPassDetailsContent: React.FC<MyPassDetailsContentProps> = ({
   const { days, hours, minutes, seconds } = useCountdown();
   const pad = (n: number) => String(n).padStart(2, "0");
   return (
-    <div className="space-y-6 font-inter w-full max-w-6xl mx-auto">
+    <div className="space-y-6 font-inter w-full">
       {/* ── Header Row ── */}
       <div className="mb-6 bg-transparent p-0 shadow-none">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">

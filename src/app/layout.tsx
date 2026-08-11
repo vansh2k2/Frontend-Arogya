@@ -77,7 +77,6 @@ const poppins = Poppins({
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -91,14 +90,12 @@ const roboto = Roboto({
 
 const nunito = Nunito({
   subsets: ["latin"],
-  weight: ["700"],
   variable: "--font-nunito",
   display: "swap",
 });
 
 const dancingScript = Dancing_Script({
   subsets: ["latin"],
-  weight: ["600", "700"],
   variable: "--font-dancing-script",
   display: "swap",
 });

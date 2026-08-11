@@ -12,6 +12,9 @@ import {
   DashboardFooter,
   MyPassDetailsContent,
   PersonalInfoContent,
+  PaymentHistoryContent,
+  ContactSupportContent,
+  VenueInformationContent,
 } from "@/components/delegate-dashboard";
 import { Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
@@ -22,7 +25,7 @@ export default function DelegateDashboardPage() {
   const router = useRouter();
   const [delegate, setDelegate] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
@@ -92,14 +95,10 @@ export default function DelegateDashboardPage() {
 
   const handleSidebarTabClick = (tabId: string) => {
     setActiveTab(tabId);
-    if (tabId === "payment-history") {
-      setActiveModal("payment");
-    } else if (tabId === "event-schedule") {
+    if (tabId === "event-schedule") {
       setActiveModal("schedule");
     } else if (tabId === "download-pass") {
       setActiveModal("badge");
-    } else if (tabId === "faqs" || tabId === "venue-info" || tabId === "speakers" || tabId === "partners") {
-      setActiveModal("schedule");
     }
   };
 
@@ -138,7 +137,7 @@ export default function DelegateDashboardPage() {
         setActiveTab={handleSidebarTabClick}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        onOpenSupport={() => setActiveModal("support")}
+        onOpenSupport={() => setActiveTab("support")}
         onLogout={handleLogout}
       />
 
@@ -185,7 +184,7 @@ export default function DelegateDashboardPage() {
                     onOpenProfile={() => setActiveTab("personal-info")}
                     onOpenSchedule={() => setActiveModal("schedule")}
                     onDownloadBadge={() => setActiveModal("badge")}
-                    onOpenSupport={() => setActiveModal("support")}
+                    onOpenSupport={() => setActiveTab("support")}
                   />
                 </div>
               </div>
@@ -201,6 +200,21 @@ export default function DelegateDashboardPage() {
 
           {activeTab === "personal-info" && (
             <PersonalInfoContent delegate={delegate} />
+          )}
+
+          {activeTab === "payment-history" && (
+            <PaymentHistoryContent
+              delegate={delegate}
+              onOpenSupport={() => setActiveTab("support")}
+            />
+          )}
+
+          {activeTab === "support" && (
+            <ContactSupportContent delegate={delegate} />
+          )}
+
+          {(activeTab === "venue-info" || activeTab === "venue") && (
+            <VenueInformationContent delegate={delegate} />
           )}
           </div>
         </main>
