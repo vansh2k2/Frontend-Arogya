@@ -357,7 +357,7 @@ const HeroCarousel = () => {
 
       <section
         ref={wrapperRef}
-        className="relative w-full overflow-hidden bg-[#faf8f4] aspect-[0.82/1] sm:aspect-[16/8.9] md:aspect-[16/5.44] flex items-center font-inter"
+        className="relative w-full overflow-hidden bg-[#faf8f4] h-[56vh] sm:h-[68vh] md:h-[71vh] lg:h-[73vh] xl:h-[74vh] min-h-[430px] max-h-[770px] flex items-center font-inter"
       >
 
         {/* ── BACKGROUND LAYERS ── */}
