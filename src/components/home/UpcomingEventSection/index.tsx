@@ -168,7 +168,7 @@ const UpcomingEventSection = () => {
             {/* Header Title */}
             <motion.div className="flex justify-start items-center gap-4 mt-3 mb-1 w-full" variants={fadeUpVariants}>
               <div className="h-[1px] w-12 bg-[#011a12]/30"></div>
-              <h4 className="text-[#011a12] font-semibold tracking-[0.2em] text-xs uppercase">Upcoming Event</h4>
+              <span className="text-[#011a12] font-semibold tracking-[0.2em] text-xs uppercase">Upcoming Event</span>
               <div className="h-[1px] w-12 bg-[#011a12]/30"></div>
             </motion.div>
             
@@ -176,9 +176,9 @@ const UpcomingEventSection = () => {
               Arogya Sanghosthi 2026
             </motion.h1>
             
-            <motion.h3 className="text-[#cb8134] font-inter font-medium text-xs md:text-sm mb-3 uppercase tracking-wider" variants={fadeUpVariants}>
+            <motion.h2 className="text-[#9c540e] font-inter font-medium text-xs md:text-sm mb-3 uppercase tracking-wider" variants={fadeUpVariants}>
               18TH EDITION &mdash; INDIA'S PREMIER INTEGRATED HEALTHCARE CONFERENCE
-            </motion.h3>
+            </motion.h2>
             
             <motion.p className="text-gray-900 text-xs md:text-sm mb-3 leading-relaxed font-medium" variants={fadeUpVariants}>
               A global platform bringing together the best minds from Medical, Pharma, Health Tech, AYUSH<br />
@@ -230,7 +230,7 @@ const UpcomingEventSection = () => {
               {/* Countdown Box */}
               <div className="bg-[#001810] rounded-xl p-5 flex flex-col shadow-xl w-full xl:w-[42%] shrink-0 border border-white/10 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#cba344] to-transparent opacity-50"></div>
-                <h4 className="text-[#F3B71B] text-center font-medium text-sm tracking-wider uppercase mb-5">The Countdown Has Begun!</h4>
+                <h3 className="text-[#F3B71B] text-center font-medium text-sm tracking-wider uppercase mb-5">The Countdown Has Begun!</h3>
                 <div className="flex justify-between items-center px-3 py-2 border border-[#F3B71B]/40 rounded-lg">
                   <div className="flex flex-col items-center">
                     <div className="text-2xl lg:text-3xl font-medium text-white leading-none mb-1">{timeLeft.days}</div>
@@ -260,7 +260,7 @@ const UpcomingEventSection = () => {
                 <div className="absolute -bottom-8 -right-8 opacity-70 pointer-events-none">
                    <img src={getImageSrc(main22)} alt="Lotus" className="w-40 h-40 object-contain" />
                 </div>
-                <h4 className="text-[#001810] font-bold text-sm tracking-wider uppercase mb-4">Why You Should Attend</h4>
+                <h3 className="text-[#001810] font-bold text-sm tracking-wider uppercase mb-4">Why You Should Attend</h3>
                 <ul className="flex flex-col gap-2 relative z-10">
                   <li className="flex items-start gap-2">
                     <Check className="text-[#cba344] shrink-0 mt-0.5" size={16} />

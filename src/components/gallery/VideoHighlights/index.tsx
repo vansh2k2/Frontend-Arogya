@@ -224,7 +224,7 @@ const VideoHighlights = () => {
       <section ref={sectionRef} className="w-full pb-12 pt-0 -mt-2 relative z-10 font-inter perspective-1000">
         <SectionContainer>
         <img 
-          src={rightLeaf?.src || rightLeaf} 
+          src={typeof rightLeaf === 'string' ? rightLeaf : rightLeaf.src} 
           alt="" 
           className="absolute -right-8 top-0 md:-top-4 lg:-top-6 h-48 md:h-72 lg:h-[400px] w-auto opacity-100 pointer-events-none z-0 object-contain"
         />
@@ -284,7 +284,7 @@ const VideoHighlights = () => {
             
             <div className="flex flex-col gap-3 relative z-10 mb-4 mt-1">
               <div className="flex flex-row md:flex-col lg:flex-row items-center lg:items-start gap-3">
-                <img src={camm?.src || camm} alt="Camera" className="w-16 h-16 object-contain shrink-0 drop-shadow-sm transition-transform hover:scale-105" />
+                <img src={typeof camm === 'string' ? camm : camm.src} alt="Camera" className="w-16 h-16 object-contain shrink-0 drop-shadow-sm transition-transform hover:scale-105" />
                 <div className="flex flex-col text-left lg:mt-1">
                   <h3 className="text-[15px] font-semibold text-[#0e3b1c] mb-1">Share Your Moments</h3>
                   <p className="text-[12px] text-gray-900 font-medium leading-relaxed">
@@ -319,7 +319,7 @@ const VideoHighlights = () => {
                   title="Instagram Embed" 
                   frameBorder="0" 
                   scrolling="yes"
-                  allowTransparency="true"
+                  allowTransparency={true}
                   className="w-full h-full bg-white"
                 ></iframe>
               ) : activeVideo.endsWith('.mp4') || activeVideo.endsWith('.webm') || activeVideo.endsWith('.ogg') || activeVideo.includes('/video/upload/') ? (

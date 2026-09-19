@@ -293,7 +293,7 @@ const Footer = () => {
 
           {/* Column 2: Quick Links */}
           <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h4 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerQuickLinksTitle}</h4>
+            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerQuickLinksTitle}</h3>
             <ul className="grid grid-cols-1 gap-y-1.5">
               {quickLinks.map((link, index) => (
                 <li key={`${link.path}-${index}`}>
@@ -308,7 +308,7 @@ const Footer = () => {
 
           {/* Column 3: Conference Highlights */}
           <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h4 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider whitespace-nowrap">{footerHighlightsTitle}</h4>
+            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider whitespace-nowrap">{footerHighlightsTitle}</h3>
             <div className="flex flex-col gap-3">
               {highlights.map((item, idx) => (
                 <div key={idx} className="flex gap-3 items-center">
@@ -316,7 +316,7 @@ const Footer = () => {
                     {getHighlightIcon(item.iconType)}
                   </div>
                   <div>
-                    <h5 className="text-white text-[13px] font-normal">{item.title}</h5>
+                    <h4 className="text-white text-[13px] font-normal">{item.title}</h4>
                     <p className="text-gray-400 text-[11px] leading-tight mt-0.5">{item.desc}</p>
                   </div>
                 </div>
@@ -326,7 +326,7 @@ const Footer = () => {
 
           {/* Column 4: Get In Touch */}
           <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h4 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerGetInTouchTitle}</h4>
+            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerGetInTouchTitle}</h3>
             <div className="flex flex-col gap-3 mb-2">
               {footerPhones.length > 0 && (
                 <div className="flex items-center gap-3 text-gray-300">
@@ -392,26 +392,26 @@ const Footer = () => {
 
           {/* Column 5: Connect With Us */}
           <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h4 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">Connect With Us</h4>
+            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">Connect With Us</h3>
             <div className="flex gap-2 mb-4">
-              <a href={socialMedia?.facebook || "https://www.facebook.com/ArogyaSangoshthi"} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
+              <a href={socialMedia?.facebook || "https://www.facebook.com/ArogyaSangoshthi"} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
                 <Facebook size={14} />
               </a>
-              <a href={socialMedia?.twitter || "https://twitter.com"} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
+              <a href={socialMedia?.twitter || "https://twitter.com"} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
                 <Twitter size={14} />
               </a>
-              <a href={socialMedia?.linkedin || "https://in.linkedin.com/showcase/arogya-sangoshthi/"} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
+              <a href={socialMedia?.linkedin || "https://in.linkedin.com/showcase/arogya-sangoshthi/"} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
                 <Linkedin size={14} />
               </a>
-              <a href={socialMedia?.instagram || "https://www.instagram.com/arogyasangoshthi/"} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
+              <a href={socialMedia?.instagram || "https://www.instagram.com/arogyasangoshthi/"} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
                 <Instagram size={14} />
               </a>
-              <a href={socialMedia?.youtube || "https://www.youtube.com/@NamoGangeTrust"} target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
+              <a href={socialMedia?.youtube || "https://www.youtube.com/@NamoGangeTrust"} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
                 <Youtube size={14} />
               </a>
             </div>
 
-            <h4 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">Download Our App</h4>
+            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">Download Our App</h3>
             <p className="text-gray-300 text-[11px] mb-4 leading-relaxed whitespace-nowrap">
               Your conference companion for agenda,<br/>updates and networking.
             </p>
@@ -430,7 +430,7 @@ const Footer = () => {
               </button>
             </div>
 
-            <h4 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">Organized By</h4>
+            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">Organized By</h3>
             <div className="flex items-start">
               <div className="relative inline-block w-32 md:w-40">
                 <Sparkle color="#FFFFFF" style={{ top: '-10px', left: '10%', animationDelay: '0s' }} />

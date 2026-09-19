@@ -1,8 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { useSeo } from '../../contexts/SeoContext';
-import { SERVER_URL } from '../../lib/api';
+import { useSeo } from '@/contexts/SeoContext';
+import { SERVER_URL } from '@/lib/api';
 
 const SeoHelmet = () => {
   const location = useLocation();

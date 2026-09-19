@@ -196,7 +196,7 @@ const VisionMissionSection = () => {
               </div>
               
               <div className="mt-2 pl-2">
-                <h5 className="text-[#032e1c] font-bold text-xs uppercase tracking-wide">{name}</h5>
+                <h4 className="text-[#032e1c] font-bold text-xs uppercase tracking-wide">{name}</h4>
                 <p className="text-[#4B1426] font-semibold text-[10px] mb-1">{designation}</p>
               </div>
             </div>

@@ -214,7 +214,7 @@ const TestimonialsSection = () => {
           />
           <div className="flex items-center gap-3 mb-1">
             <div className="w-8 h-[1px] bg-[#cba344]"></div>
-            <span className="text-[#cba344] font-bold text-sm tracking-widest uppercase">{settings.heading || 'TESTIMONIALS'}</span>
+            <span className="text-[#885d16] font-bold text-sm tracking-widest uppercase">{settings.heading || 'TESTIMONIALS'}</span>
             <div className="w-8 h-[1px] bg-[#cba344]"></div>
           </div>
           <h2 className="text-[#1d3129] font-inter text-2xl md:text-[38px] font-semibold mb-3">

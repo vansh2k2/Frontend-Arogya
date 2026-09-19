@@ -98,28 +98,28 @@ const Navbar = () => {
             )}
           >
             {/* ===== LOGO IMAGE ===== */}
-            <Link href="/" className="flex items-center h-full">
+            <Link href="/" className="flex items-center h-full shrink-0">
               <Image
                 src={logoUrl?.src || logoUrl}
                 alt={logoAlt}
                 width={250}
                 height={50}
-                sizes="250px"
+                sizes="(max-width: 1280px) 180px, 250px"
                 className={cn(
                   'w-auto transition-all duration-300',
-                  isScrolled ? 'h-10' : 'h-12'
+                  isScrolled ? 'h-8 lg:h-9 xl:h-10' : 'h-9 lg:h-10 xl:h-12'
                 )}
               />
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-0.5 lg:gap-1 xl:gap-2 shrink-0">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
                   href={link.path}
                   className={cn(
-                    'relative px-3 py-2 font-inter font-medium text-sm transition-colors duration-300 group',
+                    'relative px-1.5 lg:px-2 xl:px-3 py-1.5 font-inter font-medium text-xs lg:text-[13px] xl:text-sm whitespace-nowrap transition-colors duration-300 group',
                     pathname === link.path
                       ? 'text-primary'
                       : 'text-black hover:text-primary'
@@ -141,7 +141,7 @@ const Navbar = () => {
                 <Sparkle color="#541A1A" style={{ top: '-8px', right: '40%', animationDelay: '0.8s' }} />
                 
                 <a href="/pdf.pdf" target="_blank" rel="noopener noreferrer">
-                  <button className="bg-[#541A1A] hover:bg-[#3b1212] border border-white shadow-md group rounded-full px-3 py-1.5 text-white font-bold text-[10px] uppercase tracking-[0.05em] transition-all duration-300 flex items-center gap-1.5 relative z-10">
+                  <button className="bg-[#541A1A] hover:bg-[#3b1212] border border-white shadow-md group rounded-full px-2.5 xl:px-3 py-1.5 text-white font-bold text-[9px] xl:text-[10px] uppercase tracking-[0.05em] transition-all duration-300 flex items-center gap-1 xl:gap-1.5 relative z-10 whitespace-nowrap">
                     Download PDF <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                   </button>
                 </a>

@@ -240,7 +240,7 @@ const EventHighlightsSection = () => {
                   <div className="absolute -top-5 left-4 w-10 h-10 rounded-full bg-[#001810] border-2 border-white flex items-center justify-center text-[#cba344] shadow-md z-10">
                     {item.icon}
                   </div>
-                  <h4 className="text-[#00261c] font-bold text-[11px] mb-2 uppercase leading-tight mt-1">{item.title}</h4>
+                  <h3 className="text-[#00261c] font-bold text-[11px] mb-2 uppercase leading-tight mt-1">{item.title}</h3>
                   <p className="text-black font-medium text-[10px] leading-relaxed">{item.desc}</p>
                 </div>
               </motion.div>

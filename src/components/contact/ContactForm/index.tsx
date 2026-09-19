@@ -53,14 +53,14 @@ const ContactForm = () => {
       
       {/* Decorative Left Image */}
       <img 
-        src={leafs?.src || leafs} 
+        src={typeof leafs === 'string' ? leafs : leafs.src} 
         alt="leaf decoration" 
         className="absolute left-0 top-1/2 -translate-y-1/2 w-32 md:w-48 opacity-100 pointer-events-none -translate-x-1/4 z-0" 
       />
       
       {/* Decorative Right Image */}
       <img 
-        src={footerright?.src || footerright} 
+        src={typeof footerright === 'string' ? footerright : footerright.src} 
         alt="right decoration" 
         className="absolute right-0 top-0 mt-4 w-32 md:w-48 opacity-100 pointer-events-none z-20" 
       />
@@ -168,7 +168,7 @@ const ContactForm = () => {
                     <input 
                       type="text" 
                       placeholder=" " 
-                      maxLength="6"
+                      maxLength={6}
                       className="peer w-full pl-11 pr-28 py-3 bg-transparent relative z-20 border border-gray-200 rounded-lg focus:outline-none focus:border-[#032e1c] focus:ring-1 focus:ring-[#032e1c] text-sm text-gray-700 tracking-widest"
                       required
                     />
@@ -224,7 +224,7 @@ const ContactForm = () => {
                 </div>
                 <textarea 
                   placeholder=" " 
-                  rows="4"
+                  rows={4}
                   className="peer w-full pl-11 pr-4 py-3 bg-transparent relative z-20 border border-gray-200 rounded-lg focus:outline-none focus:border-[#032e1c] focus:ring-1 focus:ring-[#032e1c] text-sm text-gray-700 resize-none"
                   required
                 ></textarea>
@@ -276,7 +276,7 @@ const ContactForm = () => {
             </div>
 
             {/* Decorative Leaf */}
-            <img src={cleaf?.src || cleaf} alt="decoration" className="absolute -bottom-8 right-0 w-20 md:w-28 pointer-events-none opacity-80" />
+            <img src={typeof cleaf === 'string' ? cleaf : cleaf.src} alt="decoration" className="absolute -bottom-8 right-0 w-20 md:w-28 pointer-events-none opacity-80" />
           </div>
 
         </div>

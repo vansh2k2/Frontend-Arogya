@@ -99,7 +99,7 @@ export const PaymentHistoryContent: React.FC<PaymentHistoryContentProps> = ({
             </p>
           </div>
           <img
-            src={lfsIcon?.src || lfsIcon}
+            src={typeof lfsIcon === 'string' ? lfsIcon : lfsIcon.src}
             alt="Leaf Decorative"
             className="w-28 sm:w-40 md:w-44 h-auto object-contain pointer-events-none shrink-0 -mt-6 sm:-mt-8 relative z-10"
           />
@@ -388,7 +388,7 @@ export const PaymentHistoryContent: React.FC<PaymentHistoryContentProps> = ({
       >
         {/* Right Side Illustration (Direct img tag for cdcd.png - no div wrapper) */}
         <img
-          src={cdcdIcon?.src || cdcdIcon}
+          src={typeof cdcdIcon === 'string' ? cdcdIcon : cdcdIcon.src}
           alt="Payment Details Graphic"
           className="hidden lg:block absolute right-4 top-1/2 -translate-y-1/2 w-28 sm:w-36 h-auto object-contain pointer-events-none opacity-95"
         />

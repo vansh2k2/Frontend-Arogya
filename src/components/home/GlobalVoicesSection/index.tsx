@@ -196,7 +196,7 @@ const GlobalVoicesSection = () => {
 
           <div className="flex-1 -mt-6 md:-mt-10">
             <div className="flex items-center gap-3 mb-2 -mt-1 md:-mt-3 ml-3 md:ml-6 lg:ml-8">
-              <span className="text-[#9c7a4c] font-semibold text-sm md:text-base tracking-widest uppercase font-inter">{settings.heading}</span>
+              <span className="text-[#745220] font-semibold text-sm md:text-base tracking-widest uppercase font-inter">{settings.heading}</span>
               <div className="w-12 h-[1px] bg-[#9c7a4c]"></div>
             </div>
             <h2 className="text-[#082018] text-2xl md:text-4xl lg:text-[40px] font-bold mb-1 whitespace-nowrap font-inter">
@@ -403,7 +403,7 @@ const GlobalVoicesSection = () => {
             <Sparkle color="#60a5fa" style={{ top: '-15px', right: '14%', animationDelay: '0.85s' }} />
             <Sparkle color="#60a5fa" style={{ bottom: '-14px', left: '20%', animationDelay: '0.2s' }} />
             <Sparkle color="#60a5fa" style={{ bottom: '-12px', right: '24%', animationDelay: '0.65s' }} />
-            <Link href="/speakers" target="_blank" rel="noopener noreferrer" className="bg-[#60a5fa] hover:bg-[#3b82f6] group rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2 text-white transition-all duration-300 uppercase tracking-[0.12em] text-[9px] sm:text-[10px] font-semibold flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg relative z-10">
+            <Link href="/speakers" target="_blank" rel="noopener noreferrer" className="bg-[#2563eb] hover:bg-[#1d4ed8] group rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2 text-white transition-all duration-300 uppercase tracking-[0.12em] text-[9px] sm:text-[10px] font-semibold flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg relative z-10">
               <span>VIEW FULL SPEAKER LIST</span>
               <ArrowRight size={14} className="shrink-0 group-hover:translate-x-1 transition-transform duration-300" />
             </Link>
