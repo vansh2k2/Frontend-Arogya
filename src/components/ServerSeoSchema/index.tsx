@@ -20,9 +20,16 @@ const fetchSeoForPage = async (pagePath: string) => {
   const base = apiBase.endsWith("/api") ? apiBase : `${apiBase}/api`;
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
     const res = await fetch(`${base}/seo/all`, {
-      next: { revalidate: 300 }, // cache 5 minutes — fresh enough, not too many requests
+      next: { revalidate: 300 }, // cache 5 minutes
+      signal: controller.signal,
     });
+    
+    clearTimeout(timeoutId);
+    
     if (!res.ok) return null;
     const data = await res.json();
     if (!data.success) return null;
@@ -30,7 +37,7 @@ const fetchSeoForPage = async (pagePath: string) => {
       (item) => item.page === pagePath && item.isActive
     );
     return found || null;
-  } catch {
+  } catch (error) {
     return null;
   }
 };
