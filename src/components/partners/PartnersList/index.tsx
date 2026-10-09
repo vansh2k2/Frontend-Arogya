@@ -165,21 +165,16 @@ const PartnersList = () => {
 
   useEffect(() => {
     partnersPageApi.get().then(data => {
-      if (data?.categories && data.categories.length > 0) {
-        // Merge DB categories with fallback: if a DB category has logos use them,
-        // otherwise find matching fallback section by name and use its items
-        const merged = data.categories.map(cat => {
-          const dbLogos = cat.logos || [];
-          if (dbLogos.length > 0) {
-            return { name: cat.name, color: cat.color, items: dbLogos };
-          }
-          // Try to match a fallback section by category name
-          const fbMatch = fallbackSections.find(fb =>
-            fb.name.toLowerCase() === cat.name.toLowerCase()
-          );
-          return { name: cat.name, color: cat.color, items: fbMatch ? fbMatch.items : [] };
-        });
-        setSections(merged.filter(s => s.items.length > 0));
+      const categories = data?.categories || [];
+      const hasAdminLogos = categories.some(cat => (cat.logos || []).length > 0);
+      // Once logos are added from the admin panel, show only those (categories without
+      // logos are hidden). The sample logos are just a placeholder for an empty database.
+      if (hasAdminLogos) {
+        setSections(
+          categories
+            .map(cat => ({ name: cat.name, color: cat.color, items: cat.logos || [] }))
+            .filter(s => s.items.length > 0)
+        );
       }
     }).catch(() => {});
   }, []);

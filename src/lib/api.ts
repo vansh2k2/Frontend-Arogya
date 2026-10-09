@@ -328,3 +328,44 @@ export const seoApi = {
 
 
 
+
+/** POST JSON and always resolve to the backend's `{ success, message }` body (never throws on HTTP errors). */
+const postJson = async (path: string, payload: unknown) => {
+    try {
+        const response = await fetch(`${API_URL}${path}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+        });
+        const text = await response.text();
+        try {
+            return JSON.parse(text);
+        } catch {
+            return { success: false, message: `Request failed (HTTP ${response.status}). Please try again.` };
+        }
+    } catch {
+        return { success: false, message: 'Could not reach the server. Please check your connection and try again.' };
+    }
+};
+
+// WhatsApp OTP for website forms (sent through AiSensy by backend-arogya)
+export const verifyApi = {
+    sendPhoneOtp: (phone: string, name = '', profile = 'CONTACT_ENQUIRY') =>
+        postJson('/verify/send-phone-otp', { phone, name, profile }),
+    verifyPhoneOtp: (phone: string, otp: string) =>
+        postJson('/verify/verify-phone-otp', { phone, otp }),
+};
+
+// Contact page "Send Us a Message" — shows up in arogya-admin under Contact Enquiry
+export const contactEnquiryApi = {
+    submitEnquiry: (payload: {
+        name: string;
+        email: string;
+        phone: string;
+        alternatePhone?: string;
+        subject: string;
+        service?: string;
+        message: string;
+        eventName?: string;
+    }) => postJson('/contact-enquiry', payload),
+};
