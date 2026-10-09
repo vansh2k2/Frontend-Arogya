@@ -29,9 +29,16 @@ export const fetchCmsSeoForPage = async (
   pagePath: string
 ): Promise<CmsSeoData | null> => {
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
+
     const res = await fetch(`${getApiBase()}/seo/all`, {
-      next: { revalidate: 300 }, // cache 5 min — zero perf cost after first hit
+      next: { revalidate: 300 }, // cache 5 min
+      signal: controller.signal,
     });
+    
+    clearTimeout(timeoutId);
+
     if (!res.ok) return null;
     const data = await res.json();
     if (!data.success) return null;
@@ -39,8 +46,8 @@ export const fetchCmsSeoForPage = async (
       (item: any) => item.page === pagePath && item.isActive
     );
     return found || null;
-  } catch {
-    return null; // fallback to static metadata if backend down
+  } catch (error) {
+    return null; // fallback to static metadata if backend down or timeout
   }
 };
 
