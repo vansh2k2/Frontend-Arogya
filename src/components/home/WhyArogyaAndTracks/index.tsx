@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { motion } from 'framer-motion';
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import leafsImage from '@/assets/icons/leafs.png';
 import mainIcon from '@/assets/icons/main.webp';
 import icon1 from '@/assets/icons/icon1.webp';
@@ -15,6 +15,63 @@ import a4 from '@/assets/icons/a4.webp';
 import a5 from '@/assets/icons/a5.webp';
 import a6 from '@/assets/icons/a6.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
+import type { WhyArogyaData, TrackColor } from '@/lib/fetchWhyArogya';
+
+type ImageSrc = string | StaticImageData;
+
+/* Colour presets of a track medallion (saved by arogya-admin as `color`) */
+const TRACK_STYLES: Record<TrackColor, { textColor: string; borderColor: string; bgColor: string; glowColor: string }> = {
+  green: {
+    textColor: 'text-[#0f5433]', borderColor: 'border-[#b2d3c2]',
+    bgColor: 'bg-gradient-to-br from-[#f2f7f4] to-[#e1efe8]', glowColor: 'hover:shadow-[0_0_16px_rgba(15,84,51,0.30)]',
+  },
+  blue: {
+    textColor: 'text-[#1a4f8b]', borderColor: 'border-[#b5cce7]',
+    bgColor: 'bg-gradient-to-br from-[#f3f6fa] to-[#e2ebf5]', glowColor: 'hover:shadow-[0_0_16px_rgba(26,79,139,0.30)]',
+  },
+  purple: {
+    textColor: 'text-[#632ca6]', borderColor: 'border-[#ceb3eb]',
+    bgColor: 'bg-gradient-to-br from-[#f7f3fb] to-[#ece0f7]', glowColor: 'hover:shadow-[0_0_16px_rgba(99,44,166,0.30)]',
+  },
+  lime: {
+    textColor: 'text-[#3d7a1f]', borderColor: 'border-[#c2ddb2]',
+    bgColor: 'bg-gradient-to-br from-[#f5f8f3] to-[#e7f0e2]', glowColor: 'hover:shadow-[0_0_16px_rgba(61,122,31,0.30)]',
+  },
+  brown: {
+    textColor: 'text-[#7a541a]', borderColor: 'border-[#dfc299]',
+    bgColor: 'bg-gradient-to-br from-[#faf6f0] to-[#f2e7d5]', glowColor: 'hover:shadow-[0_0_16px_rgba(122,84,26,0.30)]',
+  },
+  teal: {
+    textColor: 'text-[#0f5c54]', borderColor: 'border-[#b2dbd5]',
+    bgColor: 'bg-gradient-to-br from-[#f2f8fa] to-[#e1f0f5]', glowColor: 'hover:shadow-[0_0_16px_rgba(15,92,84,0.30)]',
+  },
+};
+
+/* Built-in content — shown when the admin-managed section (GET /api/why-arogya) is not available */
+const DEFAULT_HEADING_ALT = 'Arogya Sangoshthi lotus logo';
+const DEFAULT_BENEFITS: { title: string; text: string; image: ImageSrc; imageAlt: string }[] = [
+  { title: 'INTEGRATED HEALTHCARE', text: 'Uniting AYUSH, Modern Medicine & Wellness for a holistic future', image: icon1, imageAlt: 'Lotus with a medical cross icon representing integrated healthcare' },
+  { title: 'KNOWLEDGE EXCHANGE', text: 'Connect with global experts and thought leaders', image: icon2, imageAlt: 'Group of people sharing ideas icon representing knowledge exchange' },
+  { title: 'INDUSTRY NETWORKING', text: 'Build meaningful partnerships and business opportunities', image: icon3, imageAlt: 'Handshake icon representing industry networking' },
+  { title: 'RESEARCH & INNOVATION', text: 'Driving research, innovation & evidence based healthcare', image: icon4, imageAlt: 'Laboratory flask with a leaf icon representing research and innovation' },
+];
+const DEFAULT_TRACKS: { label: string; image: ImageSrc; imageAlt: string; color: TrackColor }[] = [
+  { label: 'AYUSH', image: a1, color: 'green', imageAlt: 'Mortar and pestle with herbs icon for the AYUSH track' },
+  { label: 'MODERN\nMEDICINE', image: a2, color: 'blue', imageAlt: 'Shield with a medical cross icon for the Modern Medicine track' },
+  { label: 'PHARMA\nINNOVATION', image: a3, color: 'purple', imageAlt: 'Capsule icon for the Pharma Innovation track' },
+  { label: 'WELLNESS &\nLIFESTYLE', image: a4, color: 'lime', imageAlt: 'Person meditating icon for the Wellness & Lifestyle track' },
+  { label: 'RESEARCH &\nACADEMICS', image: a5, color: 'brown', imageAlt: 'Open book icon for the Research & Academics track' },
+  { label: 'HEALTHCARE\nTECHNOLOGY', image: a6, color: 'teal', imageAlt: 'Connected network nodes icon for the Healthcare Technology track' },
+];
+
+/** "MODERN\nMEDICINE" → MODERN<br />MEDICINE */
+const renderLines = (text: string) =>
+  text.split('\n').map((line, i, all) => (
+    <React.Fragment key={i}>
+      {line}
+      {i < all.length - 1 && <br />}
+    </React.Fragment>
+  ));
 
 // Lotus header leaf decoration
 const HeaderLeaf = () => (
@@ -84,80 +141,29 @@ const trackItemVariants = {
   },
 };
 
-const WhyArogyaAndTracks = () => {
-  const whyCards = [
-    {
-      title: "INTEGRATED HEALTHCARE",
-      text: "Uniting AYUSH, Modern Medicine & Wellness for a holistic future",
-      icon: <Image src={icon1} alt="Integrated Healthcare" sizes="80px" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
-    },
-    {
-      title: "KNOWLEDGE EXCHANGE",
-      text: "Connect with global experts and thought leaders",
-      icon: <Image src={icon2} alt="Knowledge Exchange" sizes="80px" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
-    },
-    {
-      title: "INDUSTRY NETWORKING",
-      text: "Build meaningful partnerships and business opportunities",
-      icon: <Image src={icon3} alt="Industry Networking" sizes="80px" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
-    },
-    {
-      title: "RESEARCH & INNOVATION",
-      text: "Driving research, innovation & evidence based healthcare",
-      icon: <Image src={icon4} alt="Research & Innovation" sizes="80px" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
-    }
-  ];
+const WhyArogyaAndTracks = ({ data }: { data?: WhyArogyaData | null }) => {
+  const leftHeading = data?.leftHeading || 'WHY AROGYA SANGHOSTHI?';
+  const rightHeading = data?.rightHeading || 'CONFERENCE TRACKS';
+  const leftHeadingImage: ImageSrc = data ? data.leftHeadingImage || '' : mainIcon;
+  const rightHeadingImage: ImageSrc = data ? data.rightHeadingImage || '' : mainIcon;
+  const leftHeadingAlt = data?.leftHeadingImageAlt || DEFAULT_HEADING_ALT;
+  const rightHeadingAlt = data?.rightHeadingImageAlt || DEFAULT_HEADING_ALT;
 
-  const tracks = [
-    {
-      label: "AYUSH",
-      textColor: "text-[#0f5433]",
-      borderColor: "border-[#b2d3c2]",
-      bgColor: "bg-gradient-to-br from-[#f2f7f4] to-[#e1efe8]",
-      glowColor: "hover:shadow-[0_0_16px_rgba(15,84,51,0.30)]",
-      icon: <Image src={a1} alt="AYUSH" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
-    },
-    {
-      label: <>MODERN<br />MEDICINE</>,
-      textColor: "text-[#1a4f8b]",
-      borderColor: "border-[#b5cce7]",
-      bgColor: "bg-gradient-to-br from-[#f3f6fa] to-[#e2ebf5]",
-      glowColor: "hover:shadow-[0_0_16px_rgba(26,79,139,0.30)]",
-      icon: <Image src={a2} alt="MODERN MEDICINE" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
-    },
-    {
-      label: <>PHARMA<br />INNOVATION</>,
-      textColor: "text-[#632ca6]",
-      borderColor: "border-[#ceb3eb]",
-      bgColor: "bg-gradient-to-br from-[#f7f3fb] to-[#ece0f7]",
-      glowColor: "hover:shadow-[0_0_16px_rgba(99,44,166,0.30)]",
-      icon: <Image src={a3} alt="PHARMA INNOVATION" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
-    },
-    {
-      label: <>WELLNESS &<br />LIFESTYLE</>,
-      textColor: "text-[#3d7a1f]",
-      borderColor: "border-[#c2ddb2]",
-      bgColor: "bg-gradient-to-br from-[#f5f8f3] to-[#e7f0e2]",
-      glowColor: "hover:shadow-[0_0_16px_rgba(61,122,31,0.30)]",
-      icon: <Image src={a4} alt="WELLNESS & LIFESTYLE" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
-    },
-    {
-      label: <>RESEARCH &<br />ACADEMICS</>,
-      textColor: "text-[#7a541a]",
-      borderColor: "border-[#dfc299]",
-      bgColor: "bg-gradient-to-br from-[#faf6f0] to-[#f2e7d5]",
-      glowColor: "hover:shadow-[0_0_16px_rgba(122,84,26,0.30)]",
-      icon: <Image src={a5} alt="RESEARCH & ACADEMICS" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
-    },
-    {
-      label: <>HEALTHCARE<br />TECHNOLOGY</>,
-      textColor: "text-[#0f5c54]",
-      borderColor: "border-[#b2dbd5]",
-      bgColor: "bg-gradient-to-br from-[#f2f8fa] to-[#e1f0f5]",
-      glowColor: "hover:shadow-[0_0_16px_rgba(15,92,84,0.30)]",
-      icon: <Image src={a6} alt="HEALTHCARE TECHNOLOGY" sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
-    }
-  ];
+  const whyCards = (data?.benefits?.length ? data.benefits : DEFAULT_BENEFITS).map((card) => ({
+    title: card.title,
+    text: card.text || '',
+    icon: card.image ? (
+      <Image src={card.image} alt={card.imageAlt || card.title} width={80} height={80} sizes="80px" className="h-10 w-auto object-contain mb-2 transition-transform duration-300 group-hover:scale-110" />
+    ) : null,
+  }));
+
+  const tracks = (data?.tracks?.length ? data.tracks : DEFAULT_TRACKS).map((track) => ({
+    label: renderLines(track.label),
+    ...(TRACK_STYLES[track.color ?? 'green'] ?? TRACK_STYLES.green),
+    icon: track.image ? (
+      <Image src={track.image} alt={track.imageAlt || track.label.replace(/\n/g, ' ')} width={80} height={80} sizes="80px" className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-110" />
+    ) : null,
+  }));
 
   return (
     <section 
@@ -182,13 +188,15 @@ const WhyArogyaAndTracks = () => {
               viewport={{ once: true, amount: 0.6 }}
               variants={headerVariants}
             >
-              <Image src={mainIcon} alt="Arogya Sangoshthi lotus logo" sizes="60px" className="h-7 w-auto object-contain mb-2" />
+              {leftHeadingImage && (
+                <Image src={leftHeadingImage} alt={leftHeadingAlt} width={60} height={28} sizes="60px" className="h-7 w-auto object-contain mb-2" />
+              )}
               <div className="flex items-center gap-2 sm:gap-3 w-full justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
                 <div className="h-[1px] bg-gradient-to-r from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />
-                <h3 className="text-[#032e1c] font-extrabold text-xs sm:text-sm tracking-wider uppercase whitespace-nowrap font-inter">
-                  WHY AROGYA SANGHOSTHI?
-                </h3>
+                <h2 className="text-[#032e1c] font-extrabold text-xs sm:text-sm tracking-wider uppercase whitespace-nowrap font-inter">
+                  {leftHeading}
+                </h2>
                 <div className="h-[1px] bg-gradient-to-l from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />
                 <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
               </div>
@@ -217,9 +225,9 @@ const WhyArogyaAndTracks = () => {
                   >
                     {card.icon}
                     {/* Title */}
-                    <h4 className="text-[#032e1c] font-bold text-[9px] sm:text-[11px] tracking-wider mb-1.5 uppercase leading-snug font-inter">
+                    <h3 className="text-[#032e1c] font-bold text-[9px] sm:text-[11px] tracking-wider mb-1.5 uppercase leading-snug font-inter">
                       {card.title}
-                    </h4>
+                    </h3>
                     {/* Subtext */}
                     <p className="text-black text-[8px] sm:text-[9px] leading-relaxed line-clamp-3 sm:line-clamp-4">
                       {card.text}
@@ -240,13 +248,15 @@ const WhyArogyaAndTracks = () => {
               viewport={{ once: true, amount: 0.6 }}
               variants={headerVariants}
             >
-              <Image src={mainIcon} alt="Arogya Sangoshthi lotus logo" sizes="60px" className="h-7 w-auto object-contain mb-2" />
+              {rightHeadingImage && (
+                <Image src={rightHeadingImage} alt={rightHeadingAlt} width={60} height={28} sizes="60px" className="h-7 w-auto object-contain mb-2" />
+              )}
               <div className="flex items-center gap-2 sm:gap-3 w-full justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
                 <div className="h-[1px] bg-gradient-to-r from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />
-                <h3 className="text-[#032e1c] font-extrabold text-xs sm:text-sm tracking-wider uppercase whitespace-nowrap font-inter">
-                  CONFERENCE TRACKS
-                </h3>
+                <h2 className="text-[#032e1c] font-extrabold text-xs sm:text-sm tracking-wider uppercase whitespace-nowrap font-inter">
+                  {rightHeading}
+                </h2>
                 <div className="h-[1px] bg-gradient-to-l from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />
                 <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
               </div>
@@ -283,9 +293,9 @@ const WhyArogyaAndTracks = () => {
                       {track.icon}
                     </div>
                     {/* Label */}
-                    <h4 className={`text-[9px] sm:text-[10px] md:text-[10px] font-bold font-inter tracking-wider mb-1.5 ${track.textColor} uppercase leading-snug block w-full px-0.5`}>
+                    <h3 className={`text-[9px] sm:text-[10px] md:text-[10px] font-bold font-inter tracking-wider mb-1.5 ${track.textColor} uppercase leading-snug block w-full px-0.5`}>
                       {track.label}
-                    </h4>
+                    </h3>
                   </motion.div>
                 ))}
               </motion.div>

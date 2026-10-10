@@ -1,82 +1,44 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
+import {
+  Award, Briefcase, Building2, FlaskConical, Globe, GraduationCap, Handshake,
+  HeartPulse, Hospital, Landmark, Leaf, Pill, Stethoscope, Users,
+  type LucideIcon,
+} from 'lucide-react';
+import type { SupportedByData, SupportedByItem } from '@/lib/fetchSupportedBy';
 
-const items = [
-  {
-    label: "HEALTHCARE",
-    label2: "LEADERS",
-    anim: "rise",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#15803d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:14,height:14}}>
-        <path d="M4.8 2.3A.3.3 0 1 0 5 2H4a2 2 0 0 0-2 2v5a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6V4a2 2 0 0 0-2-2h-1a.2.2 0 1 0 .3.3"/>
-        <path d="M8 15v1a6 6 0 0 0 6 6v0a6 6 0 0 0 6-6v-4"/>
-        <circle cx="20" cy="10" r="2"/>
-      </svg>
-    ),
-  },
-  {
-    label: "GOVERNMENT",
-    label2: "BODIES",
-    anim: "drop",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:14,height:14}}>
-        <line x1="3" y1="22" x2="21" y2="22"/>
-        <line x1="6" y1="18" x2="6" y2="11"/>
-        <line x1="10" y1="18" x2="10" y2="11"/>
-        <line x1="14" y1="18" x2="14" y2="11"/>
-        <line x1="18" y1="18" x2="18" y2="11"/>
-        <polygon points="12 2 20 7 4 7"/>
-      </svg>
-    ),
-  },
-  {
-    label: "AYUSH",
-    label2: "INDUSTRY",
-    anim: "left",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:14,height:14}}>
-        <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
-        <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
-      </svg>
-    ),
-  },
-  {
-    label: "INTERNATIONAL",
-    label2: "BUYERS",
-    anim: "right",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#4f46e5" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:14,height:14}}>
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="2" y1="12" x2="22" y2="12"/>
-        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-      </svg>
-    ),
-  },
-  {
-    label: "HOSPITAL & CLINIC",
-    label2: "PROCUREMENT TEAMS",
-    anim: "zoom",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:14,height:14}}>
-        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-      </svg>
-    ),
-  },
-  {
-    label: "UNIVERSITY/",
-    label2: "ACADEMIC PARTNERS",
-    anim: "flip",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{width:14,height:14}}>
-        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
-        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
-      </svg>
-    ),
-  },
+/* Icon names saved by arogya-admin (backend models/home/SupportedBy.js) */
+const ICONS: Record<string, LucideIcon> = {
+  'stethoscope': Stethoscope,
+  'landmark': Landmark,
+  'leaf': Leaf,
+  'globe': Globe,
+  'briefcase': Briefcase,
+  'graduation-cap': GraduationCap,
+  'heart-pulse': HeartPulse,
+  'hospital': Hospital,
+  'pill': Pill,
+  'flask': FlaskConical,
+  'users': Users,
+  'handshake': Handshake,
+  'building': Building2,
+  'award': Award,
+};
+
+/* Built-in groups — shown when the admin-managed strip (GET /api/supported-by) is not available */
+const DEFAULT_EYEBROW = 'SUPPORTED BY';
+const DEFAULT_ITEMS: SupportedByItem[] = [
+  { line1: 'HEALTHCARE', line2: 'LEADERS', icon: 'stethoscope', color: '#15803d' },
+  { line1: 'GOVERNMENT', line2: 'BODIES', icon: 'landmark', color: '#1d4ed8' },
+  { line1: 'AYUSH', line2: 'INDUSTRY', icon: 'leaf', color: '#16a34a' },
+  { line1: 'INTERNATIONAL', line2: 'BUYERS', icon: 'globe', color: '#4f46e5' },
+  { line1: 'HOSPITAL & CLINIC', line2: 'PROCUREMENT TEAMS', icon: 'briefcase', color: '#dc2626' },
+  { line1: 'UNIVERSITY/', line2: 'ACADEMIC PARTNERS', icon: 'graduation-cap', color: '#d97706' },
 ];
 
-const delays = [0, 280, 520, 760, 1000, 1240];
+/* Entrance animation + delay cycle through these for any number of groups */
+const ANIMS = ['rise', 'drop', 'left', 'right', 'zoom', 'flip'];
+const STAGGER_MS = 248;
 const bgColor = '#00291b';
 
 const animStyles = `
@@ -134,7 +96,20 @@ const animStyles = `
   }
 `;
 
-const TrustedBy = () => {
+const TrustedBy = ({ data }: { data?: SupportedByData | null }) => {
+  const eyebrow = data?.eyebrow || DEFAULT_EYEBROW;
+  const items = useMemo(
+    () =>
+      (data?.items?.length ? data.items : DEFAULT_ITEMS).map((item, i) => ({
+        label: item.line1,
+        label2: item.line2 || '',
+        anim: ANIMS[i % ANIMS.length],
+        Icon: ICONS[item.icon] ?? Stethoscope,
+        color: item.color || '#15803d',
+      })),
+    [data],
+  );
+
   const rootRef = useRef(null);
   const itemRefs = useRef([]);
   const animatedRef = useRef(false);
@@ -143,7 +118,7 @@ const TrustedBy = () => {
     const styleTag = document.createElement('style');
     styleTag.innerHTML = animStyles;
     document.head.appendChild(styleTag);
-    return () => document.head.removeChild(styleTag);
+    return () => { document.head.removeChild(styleTag); };
   }, []);
 
   useEffect(() => {
@@ -153,7 +128,7 @@ const TrustedBy = () => {
       itemRefs.current.forEach((el, i) => {
         if (!el) return;
         const cls = `tb-anim-${items[i].anim}`;
-        setTimeout(() => el.classList.add(cls), delays[i]);
+        setTimeout(() => el.classList.add(cls), i * STAGGER_MS);
       });
     };
 
@@ -182,7 +157,7 @@ const TrustedBy = () => {
             style={{ backgroundColor: `${bgColor}ee` }}
           >
             <p className="text-[8px] md:text-[11px] font-bold uppercase tracking-[0.2em] md:tracking-[0.35em] text-white whitespace-nowrap font-inter">
-              SUPPORTED BY
+              {eyebrow}
             </p>
           </div>
           <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-orange-500/40 to-orange-500" />
@@ -197,12 +172,12 @@ const TrustedBy = () => {
                 className="flex items-center justify-start sm:justify-center xl:justify-start"
               >
                 <div
-                  ref={el => (itemRefs.current[i] = el)}
+                  ref={el => { itemRefs.current[i] = el; }}
                   className="tb-item-group flex items-center gap-2 md:gap-2.5 group cursor-default"
                   style={{ opacity: 0 }}
                 >
                   <div className="tb-icon-wrap w-7 h-7 md:w-8 md:h-8 rounded-full border border-white/10 flex items-center justify-center flex-shrink-0 shadow-md bg-white">
-                    {item.icon}
+                    <item.Icon color={item.color} strokeWidth={2} style={{ width: 14, height: 14 }} />
                   </div>
                   <div className="tb-label-wrap flex flex-col min-w-0">
                     <p className="text-[8px] md:text-[10px] font-bold uppercase tracking-tight text-white leading-tight break-words">

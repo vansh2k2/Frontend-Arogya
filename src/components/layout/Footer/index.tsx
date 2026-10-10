@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useUnpublishedPaths, pagePathOf } from "@/lib/useUnpublishedPaths";
 import Image from "next/image";
 import main22 from "@/assets/icons/main22.webp";
 import foot1 from "@/assets/icons/foot1.webp";
@@ -135,6 +136,8 @@ const Footer = () => {
   const footerGetInTouchTitle = settings?.footerGetInTouchTitle || "Get In Touch";
   
   const footerQuickLinksTitle = settings?.footerQuickLinksTitle || "Quick Links";
+  // Pages set to Draft in arogya-admin are left out of the quick links
+  const unpublishedPaths = useUnpublishedPaths();
   const quickLinks = settings?.footerQuickLinks?.length > 0 ? settings.footerQuickLinks : [
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
@@ -187,6 +190,25 @@ const Footer = () => {
     { icon: "foot2", number: 150, label: "Speakers" },
     { icon: "foot3", number: 25, label: "Countries" },
     { icon: "foot4", number: 100, label: "Sessions" }
+  ];
+
+  // Rest of the footer (arogya-admin → Pages & CMS → Footer). Empty values use the built-in ones.
+  const ex = settings?.footerExtras || {};
+  const srcOf = (saved, fallback) => saved || fallback?.src || fallback;
+  const textOr = (saved, fallback) => (saved === undefined || saved === null ? fallback : saved);
+  const lines = (text = '') =>
+    text.replace(/\r\n/g, '\n').split('\n').map((line, i, all) => (
+      <React.Fragment key={i}>
+        {line}
+        {i < all.length - 1 && <br />}
+      </React.Fragment>
+    ));
+  const divider = srcOf(ex.dividerImage, main22);
+  const dividerAlt = ex.dividerImageAlt || 'Gold lotus divider';
+  const policyLinks = ex.policyLinks?.length ? ex.policyLinks : [
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms & Conditions', href: '/terms' },
+    { label: 'Refund Policy', href: '/refund' },
   ];
 
   const getStatIcon = (iconName) => {
@@ -269,7 +291,7 @@ const Footer = () => {
             
             <div className="flex items-center gap-2 w-full -mt-2 mb-5">
               <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#F3B71B]/80" />
-              <img src={main22?.src || main22} alt="divider" className="h-5 w-auto object-contain" />
+              <img src={divider} alt={dividerAlt} className="h-5 w-auto object-contain" />
               <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#F3B71B]/80" />
             </div>
             
@@ -277,7 +299,7 @@ const Footer = () => {
               {footerStats.map((stat, index) => (
                 <React.Fragment key={`stat-${index}`}>
                   <div className="flex flex-col items-center gap-1 w-1/4">
-                    <img src={getStatIcon(stat.icon)?.src || getStatIcon(stat.icon)} alt={stat.label} className="h-7 w-auto object-contain" />
+                    <img src={srcOf(stat.image, getStatIcon(stat.icon))} alt={stat.imageAlt || stat.label} className="h-7 w-auto object-contain" />
                     <span className="font-medium font-inter tracking-wider text-[#F3B71B] text-[16px] mt-1">
                       <CountUp end={stat.number || 0} />+
                     </span>
@@ -293,9 +315,9 @@ const Footer = () => {
 
           {/* Column 2: Quick Links */}
           <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerQuickLinksTitle}</h3>
+            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerQuickLinksTitle}</h2>
             <ul className="grid grid-cols-1 gap-y-1.5">
-              {quickLinks.map((link, index) => (
+              {quickLinks.filter((link) => !unpublishedPaths.has(pagePathOf(link.path))).map((link, index) => (
                 <li key={`${link.path}-${index}`}>
                   <Link href={link.path} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors flex items-center gap-2 group text-[13px]">
                     <ChevronRight size={14} className="text-[#F3B71B] group-hover:translate-x-1 transition-transform" />
@@ -308,15 +330,17 @@ const Footer = () => {
 
           {/* Column 3: Conference Highlights */}
           <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider whitespace-nowrap">{footerHighlightsTitle}</h3>
+            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider whitespace-nowrap">{footerHighlightsTitle}</h2>
             <div className="flex flex-col gap-3">
               {highlights.map((item, idx) => (
                 <div key={idx} className="flex gap-3 items-center">
                   <div className="w-11 h-11 rounded-full border border-[#F3B71B] flex items-center justify-center shrink-0">
-                    {getHighlightIcon(item.iconType)}
+                    {item.image
+                      ? <img src={item.image} alt={item.imageAlt || item.title} className="h-[28px] w-[28px] object-contain" />
+                      : getHighlightIcon(item.iconType)}
                   </div>
                   <div>
-                    <h4 className="text-white text-[13px] font-normal">{item.title}</h4>
+                    <h3 className="text-white text-[13px] font-normal">{item.title}</h3>
                     <p className="text-gray-400 text-[11px] leading-tight mt-0.5">{item.desc}</p>
                   </div>
                 </div>
@@ -326,7 +350,7 @@ const Footer = () => {
 
           {/* Column 4: Get In Touch */}
           <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerGetInTouchTitle}</h3>
+            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerGetInTouchTitle}</h2>
             <div className="flex flex-col gap-3 mb-2">
               {footerPhones.length > 0 && (
                 <div className="flex items-center gap-3 text-gray-300">
@@ -392,7 +416,7 @@ const Footer = () => {
 
           {/* Column 5: Connect With Us */}
           <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">Connect With Us</h3>
+            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{textOr(ex.connectTitle, 'Connect With Us')}</h2>
             <div className="flex gap-2 mb-4">
               <a href={socialMedia?.facebook || "https://www.facebook.com/ArogyaSangoshthi"} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
                 <Facebook size={14} />
@@ -411,26 +435,28 @@ const Footer = () => {
               </a>
             </div>
 
-            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">Download Our App</h3>
+            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{textOr(ex.appTitle, 'Download Our App')}</h2>
             <p className="text-gray-300 text-[11px] mb-4 leading-relaxed whitespace-nowrap">
-              Your conference companion for agenda,<br/>updates and networking.
+              {lines(textOr(ex.appText, 'Your conference companion for agenda,\nupdates and networking.'))}
             </p>
             <div className="flex gap-2 mb-5">
               {/* Play Store */}
-              <button className="flex items-center gap-2 bg-black border border-white/20 rounded-md px-2 py-1.5 hover:border-white/40 transition-colors flex-1">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-6" />
-              </button>
+              <a href={ex.googlePlayUrl || undefined} target={ex.googlePlayUrl ? '_blank' : undefined} rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-black border border-white/20 rounded-md px-2 py-1.5 hover:border-white/40 transition-colors flex-1">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" className="h-6" />
+              </a>
               {/* App Store */}
-              <button className="flex items-center gap-2 bg-black border border-white/20 rounded-md px-2 py-1.5 hover:border-white/40 transition-colors flex-1">
+              <a href={ex.appStoreUrl || undefined} target={ex.appStoreUrl ? '_blank' : undefined} rel="noopener noreferrer"
+                className="flex items-center gap-2 bg-black border border-white/20 rounded-md px-2 py-1.5 hover:border-white/40 transition-colors flex-1">
                 <div className="text-white shrink-0 pl-1"><svg viewBox="0 0 384 512" width="14" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></div>
                 <div className="flex flex-col items-start leading-none">
                   <span className="text-[7px] text-white/80">Download on the</span>
                   <span className="text-[12px] font-semibold text-white">App Store</span>
                 </div>
-              </button>
+              </a>
             </div>
 
-            <h3 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">Organized By</h3>
+            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{textOr(ex.organizedByTitle, 'Organized By')}</h2>
             <div className="flex items-start">
               <div className="relative inline-block w-32 md:w-40">
                 <Sparkle color="#FFFFFF" style={{ top: '-10px', left: '10%', animationDelay: '0s' }} />
@@ -439,7 +465,14 @@ const Footer = () => {
                 <Sparkle color="#FFFFFF" style={{ bottom: '5px', left: '5%', animationDelay: '0.2s' }} />
                 <Sparkle color="#FFFFFF" style={{ bottom: '-10px', right: '10%', animationDelay: '0.6s' }} />
                 <Sparkle color="#FFFFFF" style={{ top: '40%', right: '-15px', animationDelay: '0.3s' }} />
-                <Image src="/namo.webp" alt="Namo Gange" width={256} height={105} className="w-full h-auto object-contain" style={{ filter: "drop-shadow(-1px 0px 2px rgba(255,255,255,0.25))" }} />
+                {(() => {
+                  const organiser = (
+                    <Image src={ex.organizedByLogo || "/namo.webp"} alt={ex.organizedByLogoAlt || "Namo Gange"} width={256} height={105} className="w-full h-auto object-contain" style={{ filter: "drop-shadow(-1px 0px 2px rgba(255,255,255,0.25))" }} />
+                  );
+                  return ex.organizedByLink
+                    ? <a href={ex.organizedByLink} target="_blank" rel="noopener noreferrer">{organiser}</a>
+                    : organiser;
+                })()}
               </div>
             </div>
           </div>
@@ -452,7 +485,7 @@ const Footer = () => {
         <div className="relative w-full flex items-center">
           
           {/* Parlia Image stuck to the far right corner */}
-          <Image src={parliaIcon} alt="Parlia" sizes="160px" className="absolute -right-6 md:-right-12 lg:-right-20 xl:-right-32 top-1/2 -translate-y-1/2 -mt-2 md:-mt-4 h-24 md:h-32 lg:h-40 w-auto object-contain z-0 pointer-events-none" />
+          <img src={srcOf(ex.buildingImage, parliaIcon)} alt={ex.buildingImageAlt || "Parliament building illustration"} className="absolute -right-6 md:-right-12 lg:-right-20 xl:-right-32 top-1/2 -translate-y-1/2 -mt-2 md:-mt-4 h-24 md:h-32 lg:h-40 w-auto object-contain z-0 pointer-events-none" />
 
           {/* Banner Band with gradient fading out on the right to overlap Parlia */}
           <div className="bg-gradient-to-r from-[#f5f0e1] via-[#e8dfc8] to-transparent rounded-l-[2rem] rounded-r-none xl:rounded-l-full xl:rounded-r-none flex flex-col xl:flex-row items-center justify-start pl-4 md:pl-6 pr-8 border-y border-l border-r-0 border-white/20 gap-2 xl:gap-0 w-full lg:w-[92%] xl:w-[85%] relative z-10 py-0">
@@ -460,10 +493,12 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center w-full xl:w-auto py-0">
             {/* Newsletter Info */}
             <div className="flex items-center gap-3 pr-2 xl:pr-4">
-              <img src={notesIcon?.src || notesIcon} alt="Newsletter" className="h-9 w-auto object-contain shrink-0" />
+              <img src={srcOf(ex.newsletterIcon, notesIcon)} alt={ex.newsletterIconAlt || "Newsletter"} className="h-9 w-auto object-contain shrink-0" />
               <div>
-                <h4 className="text-[#001810] font-medium text-[13px] leading-tight -mt-0.5">STAY CONNECTED. STAY INFORMED.</h4>
-                <p className="text-black text-[10px] leading-tight -mt-1 whitespace-nowrap">Subscribe to get the latest updates, speaker announcements,<br />agenda highlights and exclusive offers.</p>
+                <p className="font-poppins text-[#001810] font-medium text-[13px] leading-tight -mt-0.5">{textOr(ex.newsletterTitle, 'STAY CONNECTED. STAY INFORMED.')}</p>
+                <p className="text-black text-[10px] leading-tight -mt-1 whitespace-nowrap">
+                  {lines(textOr(ex.newsletterText, 'Subscribe to get the latest updates, speaker announcements,\nagenda highlights and exclusive offers.'))}
+                </p>
               </div>
             </div>
 
@@ -490,9 +525,9 @@ const Footer = () => {
 
           {/* Brochure */}
           <div className="flex items-center gap-3 w-full xl:w-auto justify-start xl:justify-end py-1 xl:py-0 border-t xl:border-t-0 border-black/10 mt-1 xl:mt-0 pt-1 xl:pt-0">
-            <img src={pdfIcon?.src || pdfIcon} alt="PDF Icon" className="h-9 w-auto object-contain shrink-0" />
+            <img src={srcOf(ex.brochureIcon, pdfIcon)} alt={ex.brochureIconAlt || "PDF icon"} className="h-9 w-auto object-contain shrink-0" />
             <div className="flex flex-col items-start mr-2">
-              <h4 className="text-[#F3B71B] font-medium text-[12px] whitespace-nowrap mb-0.5">DOWNLOAD BROCHURE</h4>
+              <p className="font-poppins text-[#F3B71B] font-medium text-[12px] whitespace-nowrap mb-0.5">{textOr(ex.brochureTitle, 'DOWNLOAD BROCHURE')}</p>
               <div style={{ position: 'relative', display: 'inline-block' }} className="shrink-0 -mt-0.5">
                 <Sparkle color="#541A1A" style={{ top: '-12px', left: '10%', animationDelay: '0s' }} />
                 <Sparkle color="#541A1A" style={{ top: '-8px', left: '45%', animationDelay: '0.4s' }} />
@@ -502,9 +537,9 @@ const Footer = () => {
                 <Sparkle color="#541A1A" style={{ top: '20%', left: '-8px', animationDelay: '0.3s' }} />
                 <Sparkle color="#541A1A" style={{ top: '60%', right: '-8px', animationDelay: '0.7s' }} />
                 
-                <a href="/pdf.pdf" target="_blank" rel="noopener noreferrer">
+                <a href="/brochure" target="_blank" rel="noopener noreferrer">
                   <button className="bg-[#541A1A] hover:bg-[#3b1212] border border-white shadow-md group rounded-full px-2.5 py-1 text-white font-bold text-[9px] uppercase tracking-[0.05em] transition-all duration-300 flex items-center gap-1 relative z-10">
-                    Download PDF <svg className="w-2.5 h-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    {textOr(ex.brochureButtonLabel, 'Download PDF')} <svg className="w-2.5 h-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                   </button>
                 </a>
               </div>
@@ -520,44 +555,43 @@ const Footer = () => {
         <div className="container mx-auto px-4 md:px-8 xl:px-12 flex flex-col lg:flex-row items-center justify-between gap-4 text-[11px] text-gray-400">
           
           <div className="flex items-center gap-3">
-            <span className="text-white font-normal tracking-wide">Arogya Sangoshthi</span>
+            <span className="text-white font-normal tracking-wide">{textOr(ex.brandName, 'Arogya Sangoshthi')}</span>
             <div className="w-[1px] h-3 bg-white/30" />
-            <span className="text-[#F3B71B] font-normal tracking-widest">18TH EDITION</span>
-            <img src={main22?.src || main22} alt="divider" className="h-5 md:h-6 w-auto object-contain" />
+            <span className="text-[#F3B71B] font-normal tracking-widest">{textOr(ex.editionText, '18TH EDITION')}</span>
+            <img src={divider} alt={dividerAlt} className="h-5 md:h-6 w-auto object-contain" />
           </div>
 
           <div className="text-center">
-            © 2026 Arogya Sanghosthi. All Rights Reserved.
+            {textOr(ex.copyrightText, '© 2026 Arogya Sanghosthi. All Rights Reserved.')}
           </div>
 
           <div className="flex items-center gap-4 xl:gap-8">
-            <a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a>
-            <span className="text-gray-600">|</span>
-            <a href="/terms" className="hover:text-white transition-colors">Terms & Conditions</a>
-            <span className="text-gray-600">|</span>
-            <a href="/refund" className="hover:text-white transition-colors">Refund Policy</a>
+            {policyLinks.map((link, i) => (
+              <React.Fragment key={`${link.href}-${i}`}>
+                {i > 0 && <span className="text-gray-600">|</span>}
+                <a href={link.href} className="hover:text-white transition-colors">{link.label}</a>
+              </React.Fragment>
+            ))}
           </div>
 
           <div className="flex items-center gap-1.5">
-            Designed with <Heart size={12} className="text-[#cba344] fill-[#cba344]" /> for a healthier tomorrow
+            Designed with <Heart size={12} className="text-[#cba344] fill-[#cba344]" /> {textOr(ex.designedByText, 'for a healthier tomorrow')}
           </div>
           
         </div>
       </div>
 
       {/* Decorative Right Corner Image */}
-      <Image 
-        src={footerRight} 
-        alt="Decorative" 
-        sizes="100px"
-        className="absolute top-0 right-0 z-0 w-16 md:w-20 lg:w-24 h-auto object-contain pointer-events-none" 
+      <img
+        src={srcOf(ex.leafImage, footerRight)}
+        alt={ex.leafImageAlt || "Gold leaf decoration"}
+        className="absolute top-0 right-0 z-0 w-16 md:w-20 lg:w-24 h-auto object-contain pointer-events-none"
       />
-      
+
       {/* Decorative Left Corner Image (Footer Bot) */}
-      <Image 
-        src={footerBot} 
-        alt="Decorative" 
-        sizes="250px"
+      <img
+        src={srcOf(ex.bottomImage, footerBot)}
+        alt={ex.bottomImageAlt || "Decorative footer border"}
         className="absolute bottom-0 -left-6 md:-left-10 lg:-left-12 z-0 w-32 md:w-48 lg:w-64 h-auto object-contain pointer-events-none opacity-20" 
       />
     </footer>

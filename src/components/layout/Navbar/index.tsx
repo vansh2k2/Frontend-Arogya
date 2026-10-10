@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils';
 import MsmeHeroLogo from '../MsmeHeroLogo';
 import { useQuery } from '@tanstack/react-query';
 import { settingsApi, SERVER_URL } from '@/lib/api';
+import { useUnpublishedPaths, pagePathOf } from '@/lib/useUnpublishedPaths';
 
 // Sparkle component to enhance button visibility
 const Sparkle = ({ style, color = '#F3B71B' }) => (
@@ -45,6 +46,9 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  // Pages set to Draft in arogya-admin are left out of the menu
+  const unpublishedPaths = useUnpublishedPaths();
+  const visibleNavLinks = navLinks.filter((link) => !unpublishedPaths.has(pagePathOf(link.path)));
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -114,7 +118,7 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-0.5 lg:gap-1 xl:gap-2 shrink-0">
-              {navLinks.map((link) => (
+              {visibleNavLinks.map((link) => (
                 <Link
                   key={link.path}
                   href={link.path}
@@ -140,7 +144,7 @@ const Navbar = () => {
                 <Sparkle color="#541A1A" style={{ bottom: '-10px', right: '15%', animationDelay: '0.4s' }} />
                 <Sparkle color="#541A1A" style={{ top: '-8px', right: '40%', animationDelay: '0.8s' }} />
                 
-                <a href="/pdf.pdf" target="_blank" rel="noopener noreferrer">
+                <a href="/brochure" target="_blank" rel="noopener noreferrer">
                   <button className="bg-[#541A1A] hover:bg-[#3b1212] border border-white shadow-md group rounded-full px-2.5 xl:px-3 py-1.5 text-white font-bold text-[9px] xl:text-[10px] uppercase tracking-[0.05em] transition-all duration-300 flex items-center gap-1 xl:gap-1.5 relative z-10 whitespace-nowrap">
                     Download PDF <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                   </button>
@@ -203,7 +207,7 @@ const Navbar = () => {
 
           {/* Links */}
           <div className="flex-1 overflow-y-auto py-4">
-            {navLinks.map((link, index) => (
+            {visibleNavLinks.map((link, index) => (
               <Link
                 key={link.path}
                 href={link.path}
@@ -225,7 +229,7 @@ const Navbar = () => {
             
             {/* Download PDF Button Mobile */}
             <div className="px-6 py-2">
-              <a href="/pdf.pdf" target="_blank" rel="noopener noreferrer" className="inline-block">
+              <a href="/brochure" target="_blank" rel="noopener noreferrer" className="inline-block">
                 <div style={{ position: 'relative', display: 'inline-block' }} className="shrink-0">
                   <Sparkle color="#541A1A" style={{ top: '-10px', left: '15%', animationDelay: '0s' }} />
                   <Sparkle color="#541A1A" style={{ bottom: '-10px', right: '15%', animationDelay: '0.4s' }} />

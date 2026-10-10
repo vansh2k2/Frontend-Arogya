@@ -6,6 +6,31 @@ import aboutBg from '@/assets/banner/aboutbg.webp';
 import mainIcon from '@/assets/icons/main.webp';
 import { Calendar, MapPin, Users } from 'lucide-react';
 import SectionContainer from '@/components/layout/SectionContainer';
+import type { AboutConferenceData } from '@/lib/fetchAboutConference';
+
+/* Built-in content — shown when the admin-managed section (GET /api/about-conference) is not available */
+const DEFAULTS = {
+  eyebrow: 'ABOUT',
+  eyebrowImageAlt: 'Green lotus logo',
+  headingLine1: 'ABOUT',
+  headingLine2: 'THE CONFERENCE',
+  subtitle: "INDIA'S PREMIER PLATFORM FOR INTEGRATED HEALTHCARE",
+  paragraph1: 'Now in its 9th Edition, this landmark conference brings together the best minds from across the globe to advance the frontiers of healthcare.',
+  paragraph2: 'A confluence of AYUSH, Modern Medicine, Pharma, Health Tech and Traditional Medical Systems — working together for a healthier, sustainable and equitable tomorrow.',
+  dateBadge: '21-23 AUGUST 2026',
+  venueBadge: 'PRAGATI MAIDAN,\nNEW DELHI',
+  delegatesBadge: '1000+ DELEGATES\nFROM 25+ COUNTRIES',
+  backgroundImageAlt: 'Speaker at a podium addressing the Arogya Sangoshthi audience beside an 18th Edition badge',
+};
+
+/** "PRAGATI MAIDAN,\nNEW DELHI" → PRAGATI MAIDAN,<br />NEW DELHI */
+const renderLines = (text: string) =>
+  text.split('\n').map((line, i, all) => (
+    <React.Fragment key={i}>
+      {line}
+      {i < all.length - 1 && <br />}
+    </React.Fragment>
+  ));
 
 // ---- Scroll-triggered animation variants ----
 
@@ -72,7 +97,17 @@ const pillVariants = {
   },
 };
 
-const AboutConferenceSection = () => {
+const AboutConferenceSection = ({ data }: { data?: AboutConferenceData | null }) => {
+  // Saved text wins; built-in text only fills what was never saved
+  const c = { ...DEFAULTS, ...(data ?? {}) };
+  const bgImage = data?.backgroundImage || aboutBg;
+  const eyebrowImage = data ? data.eyebrowImage || '' : mainIcon.src;
+  const badges = [
+    { Icon: Calendar, text: c.dateBadge },
+    { Icon: MapPin, text: c.venueBadge },
+    { Icon: Users, text: c.delegatesBadge },
+  ].filter((badge) => badge.text);
+
   return (
     <div className="relative w-full font-inter min-h-[500px] md:min-h-[400px] flex items-center" style={{ lineHeight: 1 }}>
       {/* Background Image */}
@@ -84,8 +119,8 @@ const AboutConferenceSection = () => {
         variants={bgVariants}
       >
         <Image
-          src={aboutBg}
-          alt="About the Conference"
+          src={bgImage}
+          alt={c.backgroundImageAlt || 'About the Conference'}
           fill
           sizes="100vw"
           className="object-cover"
@@ -107,11 +142,13 @@ const AboutConferenceSection = () => {
             {/* ABOUT label + lotus with lines */}
             <motion.div className="flex items-center gap-4 mb-2" variants={labelRowVariants}>
               <span className="text-[#b78941] font-semibold text-[13px] sm:text-[15px] tracking-widest uppercase font-poppins">
-                ABOUT
+                {c.eyebrow}
               </span>
               <div className="flex items-center gap-2">
                 <div className="h-[1px] bg-[#a99539] w-[40px]" />
-                <img src={mainIcon?.src || mainIcon} alt="Green lotus logo" className="h-7 w-auto object-contain" />
+                {eyebrowImage && (
+                  <img src={eyebrowImage} alt={c.eyebrowImageAlt || 'Green lotus logo'} className="h-7 w-auto object-contain" />
+                )}
                 <div className="h-[1px] bg-[#a99539] w-[40px]" />
               </div>
             </motion.div>
@@ -122,14 +159,14 @@ const AboutConferenceSection = () => {
               style={{ fontSize: 'clamp(24px, 4vw, 42px)' }}
               variants={fadeUpVariants}
             >
-              ABOUT
+              {c.headingLine1}
             </motion.h2>
             <motion.h2
               className="font-bold leading-tight mb-2 font-inter"
               style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: '#ba8f4d' }}
               variants={fadeUpVariants}
             >
-              THE CONFERENCE
+              {c.headingLine2}
             </motion.h2>
 
             {/* Subtitle */}
@@ -137,7 +174,7 @@ const AboutConferenceSection = () => {
               className="text-[#323f37] font-bold text-[12px] sm:text-[14px] tracking-wider uppercase mb-2 font-inter"
               variants={fadeUpVariants}
             >
-              INDIA'S PREMIER PLATFORM FOR INTEGRATED HEALTHCARE
+              {c.subtitle}
             </motion.p>
 
             {/* Description */}
@@ -145,13 +182,13 @@ const AboutConferenceSection = () => {
               className="text-black text-[12px] sm:text-[15px] leading-relaxed mb-2 font-inter"
               variants={fadeUpVariants}
             >
-              Now in its 9th Edition, this landmark conference brings together the best minds from across the globe to advance the frontiers of healthcare.
+              {c.paragraph1}
             </motion.p>
             <motion.p
               className="text-black text-[12px] sm:text-[15px] leading-relaxed mb-3 font-inter"
               variants={fadeUpVariants}
             >
-              A confluence of AYUSH, Modern Medicine, Pharma, Health Tech and Traditional Medical Systems — working together for a healthier, sustainable and equitable tomorrow.
+              {c.paragraph2}
             </motion.p>
 
             {/* Info pills */}
@@ -159,20 +196,15 @@ const AboutConferenceSection = () => {
               className="flex flex-wrap md:flex-nowrap items-center gap-y-3 gap-x-2 sm:gap-x-4 text-black font-bold text-[9px] sm:text-[11px] lg:text-[13px] uppercase mb-3 -mt-1 border-b border-[#e2d4b7]/60 py-2 sm:py-3 w-full"
               variants={pillsRowVariants}
             >
-              <motion.div className="flex items-center gap-1.5 sm:gap-2 shrink-0" variants={pillVariants}>
-                <Calendar size={22} className="text-[#a07b30] shrink-0" />
-                <span>21-23 AUGUST 2026</span>
-              </motion.div>
-              <div className="hidden md:block w-[1.5px] h-8 bg-[#a07b30] shrink-0" />
-              <motion.div className="flex items-center gap-1.5 sm:gap-2 shrink-0" variants={pillVariants}>
-                <MapPin size={22} className="text-[#a07b30] shrink-0" />
-                <span className="leading-tight">PRAGATI MAIDAN,<br />NEW DELHI</span>
-              </motion.div>
-              <div className="hidden md:block w-[1.5px] h-8 bg-[#a07b30] shrink-0" />
-              <motion.div className="flex items-center gap-1.5 sm:gap-2 shrink-0" variants={pillVariants}>
-                <Users size={22} className="text-[#a07b30] shrink-0" />
-                <span className="leading-tight">1000+ DELEGATES<br />FROM 25+ COUNTRIES</span>
-              </motion.div>
+              {badges.map(({ Icon, text }, i) => (
+                <React.Fragment key={i}>
+                  {i > 0 && <div className="hidden md:block w-[1.5px] h-8 bg-[#a07b30] shrink-0" />}
+                  <motion.div className="flex items-center gap-1.5 sm:gap-2 shrink-0" variants={pillVariants}>
+                    <Icon size={22} className="text-[#a07b30] shrink-0" />
+                    <span className="leading-tight">{renderLines(text)}</span>
+                  </motion.div>
+                </React.Fragment>
+              ))}
             </motion.div>
 
           </motion.div>

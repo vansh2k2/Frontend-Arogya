@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { ReactLenis, useLenis } from 'lenis/react';
 import ScrollToTop from './ScrollToTop';
 import { Toaster } from "@/components/ui/sonner";
+import type { SitePageStatus } from "@/lib/sitePages";
 
 function LenisSyncHandler() {
   const lenis = useLenis();
@@ -39,8 +40,14 @@ function LenisSyncHandler() {
   return null;
 }
 
-export function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+export function Providers({ children, sitePages }: { children: React.ReactNode; sitePages?: SitePageStatus[] }) {
+  const [queryClient] = useState(() => {
+    const client = new QueryClient();
+    // Published / Draft state read on the server — the navbar and footer leave out
+    // Draft pages in the very first HTML instead of hiding them after loading
+    if (sitePages?.length) client.setQueryData(['site-pages'], sitePages);
+    return client;
+  });
   return (
     <ReactLenis root options={{ autoRaf: true, duration: 1.1, smoothWheel: true }}>
       <ScrollToTop />

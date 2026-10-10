@@ -14,33 +14,10 @@
  *   <ServerSeoSchema pagePath="/about" />
  */
 
-// Server-side direct fetch — does NOT use window/localStorage
-const fetchSeoForPage = async (pagePath: string) => {
-  const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
-  const base = apiBase.endsWith("/api") ? apiBase : `${apiBase}/api`;
+import { fetchCmsSeoForPage } from "@/lib/fetchCmsSeo";
 
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
-
-    const res = await fetch(`${base}/seo/all`, {
-      next: { revalidate: 300 }, // cache 5 minutes
-      signal: controller.signal,
-    });
-    
-    clearTimeout(timeoutId);
-    
-    if (!res.ok) return null;
-    const data = await res.json();
-    if (!data.success) return null;
-    const found = (data.data as any[]).find(
-      (item) => item.page === pagePath && item.isActive
-    );
-    return found || null;
-  } catch (error) {
-    return null;
-  }
-};
+// Same cached request as the page's generateMetadata (30 s)
+const fetchSeoForPage = fetchCmsSeoForPage;
 
 // Parse schemaMarkup string → array of valid JSON strings
 const parseSchemaBlocks = (raw: string): string[] => {
@@ -97,7 +74,8 @@ const ServerSeoSchema = async ({ pagePath }: Props) => {
           key={i}
           type="application/ld+json"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: structured data from CMS
-          dangerouslySetInnerHTML={{ __html: block }}
+          // "<" → < (still valid JSON) so text like "</script>" in the schema can't break out of the tag
+          dangerouslySetInnerHTML={{ __html: block.replace(/</g, '\\u003c') }}
         />
       ))}
     </>

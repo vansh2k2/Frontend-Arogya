@@ -72,7 +72,9 @@ const GlobalVoicesSection = () => {
       subheading: 'Healthcare Innovation',
       description: "Learn from the world's leading minds shaping the future of healthcare.",
       leftImage: h1Image,
-      rightImage: lightImage
+      rightImage: lightImage,
+      leftImageAlt: 'Gold leaf decoration top left',
+      rightImageAlt: 'Gold leaf decoration top right',
   });
   
   const [categories, setCategories] = useState([]);
@@ -97,7 +99,9 @@ const GlobalVoicesSection = () => {
                 subheading: setRes.subheading || 'Healthcare Innovation',
                 description: setRes.description || "Learn from the world's leading minds shaping the future of healthcare.",
                 leftImage: setRes.leftImage ? (setRes.leftImage.startsWith('http') ? setRes.leftImage : `${SERVER_URL}${setRes.leftImage}`) : h1Image,
-                rightImage: setRes.rightImage ? (setRes.rightImage.startsWith('http') ? setRes.rightImage : `${SERVER_URL}${setRes.rightImage}`) : lightImage
+                rightImage: setRes.rightImage ? (setRes.rightImage.startsWith('http') ? setRes.rightImage : `${SERVER_URL}${setRes.rightImage}`) : lightImage,
+                leftImageAlt: setRes.leftImageAlt || 'Gold leaf decoration top left',
+                rightImageAlt: setRes.rightImageAlt || 'Gold leaf decoration top right',
             });
         }
         if (catRes && catRes.length > 0) setCategories(catRes);
@@ -174,7 +178,7 @@ const GlobalVoicesSection = () => {
       {/* Top Left Leaf Decoration */}
       <Image
         src={settings.leftImage}
-        alt="Gold leaf decoration top left"
+        alt={settings.leftImageAlt}
         width={180}
         height={189}
         quality={70}
@@ -185,7 +189,7 @@ const GlobalVoicesSection = () => {
       {/* Right Decoration */}
       <img
         src={typeof settings.rightImage === 'string' ? settings.rightImage : (settings.rightImage as any)?.src}
-        alt="Gold leaf decoration top right"
+        alt={settings.rightImageAlt}
         className="absolute top-0 right-0 w-[200px] md:w-[350px] lg:w-[450px] h-auto object-contain pointer-events-none z-0 opacity-100 mix-blend-multiply [mask-image:linear-gradient(to_right,transparent,black_20%)]"
       />
 
@@ -277,7 +281,7 @@ const GlobalVoicesSection = () => {
             <Marquee gradient={false} speed={40} pauseOnHover={true} className="py-2">
             {largeSpeakers.map((speaker, idx) => (
                 <div key={idx} className="w-[220px] sm:w-[240px] md:w-[260px] lg:w-[240px] xl:w-[250px] mx-2 lg:mx-2.5 relative rounded-2xl overflow-hidden aspect-[4/3] group cursor-pointer shadow-lg bg-gray-100 border border-gray-200 shrink-0">
-                <img src={getSpeakerImage(speaker)} alt={speaker.name} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-100" />
+                <img src={getSpeakerImage(speaker)} alt={speaker.imageAlt || speaker.name} loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-100" />
 
                 {activeTab === 'ALL SPEAKERS' && (
                     <div className="absolute top-0 left-4 bg-gradient-to-r from-[#d4af37] to-[#f3e5ab] text-[#032e1c] px-4 py-1.5 rounded-b-lg font-bold text-[10px] tracking-wider uppercase shadow-md z-10">
@@ -324,7 +328,7 @@ const GlobalVoicesSection = () => {
                         </button>
                     )}
                     </div>
-                    <h4 className="text-[#032e1c] font-bold text-[10px] md:text-[11.5px] mb-1 leading-tight font-inter whitespace-nowrap">{speaker.name}</h4>
+                    <h3 className="text-[#032e1c] font-bold text-[10px] md:text-[11.5px] mb-1 leading-tight font-inter whitespace-nowrap">{speaker.name}</h3>
                     <p className="text-black text-[9px] md:text-[10px] mb-4 leading-tight font-inter px-1">{speaker.designation}</p>
                     
                     {speaker.categoryTag && (
@@ -358,7 +362,7 @@ const GlobalVoicesSection = () => {
             <div className="flex items-center gap-1.5 md:gap-2">
               <img src={typeof s1 === 'string' ? s1 : (s1 as any)?.src} alt="World-class speakers podium icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
-                <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">World-Class Speakers</h4>
+                <h3 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">World-Class Speakers</h3>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Thought leaders from across the<br />globe under one roof.</p>
               </div>
             </div>
@@ -369,7 +373,7 @@ const GlobalVoicesSection = () => {
             <div className="flex items-center gap-1.5 md:gap-2">
               <img src={typeof s2 === 'string' ? s2 : (s2 as any)?.src} alt="Diverse expertise handshake icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
-                <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Diverse Expertise</h4>
+                <h3 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Diverse Expertise</h3>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Covering Modern Medicine, AYUSH,<br />Pharma, Tech & more.</p>
               </div>
             </div>
@@ -380,7 +384,7 @@ const GlobalVoicesSection = () => {
             <div className="flex items-center gap-1.5 md:gap-2">
               <img src={typeof s3 === 'string' ? s3 : (s3 as any)?.src} alt="Actionable insights network icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
-                <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Actionable Insights</h4>
+                <h3 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Actionable Insights</h3>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Real-world solutions for a<br />healthier tomorrow.</p>
               </div>
             </div>
@@ -391,7 +395,7 @@ const GlobalVoicesSection = () => {
             <div className="flex items-center gap-1.5 md:gap-2">
               <img src={typeof s4 === 'string' ? s4 : (s4 as any)?.src} alt="Unmatched networking people icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
-                <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Unmatched Networking</h4>
+                <h3 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Unmatched Networking</h3>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Connect, collaborate and create<br />lasting impact.</p>
               </div>
             </div>

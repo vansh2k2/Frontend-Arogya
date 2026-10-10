@@ -1,36 +1,43 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import founderImg from '@/assets/guest1.jpg';
 import main22 from '@/assets/icons/main22.webp';
 import gold1 from '@/assets/icons/gold1.png';
 import SectionContainer from '@/components/layout/SectionContainer';
-import { API_URL, SERVER_URL } from '@/lib/api';
+import { SERVER_URL } from '@/lib/api';
+import type { AboutFounderData } from '@/lib/fetchAboutFounder';
 
-const AboutFounder = () => {
-  const [data, setData] = useState({
-    heading: "ABOUT THE FOUNDER",
-    name: "PANKAJ JAIN",
-    designation: "Founder, Namo Gange Trust",
-    description: "A visionary leader with a deep commitment to holistic health, sustainability and nation building. His mission is to create a healthier India by integrating ancient wisdom with modern science, empowering communities and driving meaningful change.",
-    messageHeading: "FOUNDER'S MESSAGE",
-    message: "True wellness is the balance of body, mind, society and nature. Through Arogya Sangoshthi and Namo Gange Trust, we aim to inspire collective action for a healthier and sustainable Bharat.",
-    image: { url: '', altText: 'Pankaj Jain' }
-  });
+/* Built-in content — shown when the admin-managed section (GET /api/founder-message) is not available */
+const DEFAULTS = {
+  heading: 'ABOUT THE FOUNDER',
+  name: 'Mr. Vijay Sharma',
+  designation: 'Founder, Namo Gange Trust',
+  description:
+    'A visionary leader with a deep commitment to holistic health, sustainability and nation building. His mission is to create a healthier India by integrating ancient wisdom with modern science, empowering communities and driving meaningful change.',
+  messageHeading: "FOUNDER'S MESSAGE",
+  message:
+    'True wellness is the balance of body, mind, society and nature. Through Arogya Sangoshthi and Namo Gange Trust, we aim to inspire collective action for a healthier and sustainable Bharat.',
+};
 
-  useEffect(() => {
-    const fetchFounderMessage = async () => {
-      try {
-        const response = await fetch(`${API_URL}/founder-message`);
-        const data = await response.json();
-        if (data?.success && data?.data) {
-          setData(data.data);
-        }
-      } catch (error) {
-        console.error("Error fetching founder message:", error);
-      }
-    };
-    fetchFounderMessage();
-  }, []);
+// Cloudinary URLs are used as they are; old "/uploads/..." paths live on the backend server
+const imageUrl = (url: string) => (url.startsWith('http') ? url : `${SERVER_URL}${url}`);
+
+const AboutFounder = ({ data: saved }: { data?: AboutFounderData | null }) => {
+  const data = {
+    heading: saved?.heading || DEFAULTS.heading,
+    name: saved?.name || DEFAULTS.name,
+    designation: saved ? saved.designation || '' : DEFAULTS.designation,
+    description: saved ? saved.description || '' : DEFAULTS.description,
+    messageHeading: saved ? saved.messageHeading || '' : DEFAULTS.messageHeading,
+    message: saved ? saved.message || '' : DEFAULTS.message,
+  };
+  const photo = saved?.image?.url ? imageUrl(saved.image.url) : founderImg.src;
+  const photoAlt = saved?.image?.altText || data.name;
+  // With saved data a decoration left empty is hidden; without data the built-in images show
+  const leaf = saved ? saved.leafImage || '' : gold1.src;
+  const leafAlt = saved?.leafImageAlt || 'Gold leaf decoration';
+  const lotus = saved ? saved.lotusImage || '' : main22.src;
+  const lotusAlt = saved?.lotusImageAlt || 'Gold lotus decoration';
 
   return (
     <section className="-mt-3 md:-mt-5 pb-6 md:pb-8 bg-[#f8f7f3] relative z-20">
@@ -38,9 +45,11 @@ const AboutFounder = () => {
         <div className="bg-[#00281a] rounded-2xl md:rounded-[2rem] px-6 sm:px-10 lg:px-14 py-5 md:py-6 shadow-2xl relative overflow-hidden flex flex-col md:flex-row gap-6 lg:gap-8 items-stretch justify-between">
 
           {/* Lotus Background - Bottom Right */}
-          <div className="absolute right-0 bottom-0 opacity-20 pointer-events-none translate-x-1/4 translate-y-1/4 w-[200px] h-[200px] md:w-[300px] md:h-[300px]">
-            <img src={main22?.src || main22} alt="Gold lotus decoration" className="w-full h-full object-contain" />
-          </div>
+          {lotus && (
+            <div className="absolute right-0 bottom-0 opacity-20 pointer-events-none translate-x-1/4 translate-y-1/4 w-[200px] h-[200px] md:w-[300px] md:h-[300px]">
+              <img src={lotus} alt={lotusAlt} className="w-full h-full object-contain" />
+            </div>
+          )}
 
           {/* ───── LEFT: Founder Info ───── */}
           <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 items-center sm:items-start md:w-[48%] lg:w-[46%] relative z-10">
@@ -48,16 +57,18 @@ const AboutFounder = () => {
             {/* Circular Image with Leaf Decor */}
             <div className="relative shrink-0 w-[110px] h-[110px] md:w-[130px] md:h-[130px] xl:w-[140px] xl:h-[140px]">
               {/* Gold Leaf */}
-              <img
-                src={gold1?.src || gold1}
-                alt="Gold leaf decoration"
-                className="absolute bottom-2 md:bottom-3 -left-1 md:-left-6 w-[45px] md:w-[55px] h-auto object-contain pointer-events-none z-20"
-              />
+              {leaf && (
+                <img
+                  src={leaf}
+                  alt={leafAlt}
+                  className="absolute bottom-2 md:bottom-3 -left-1 md:-left-6 w-[45px] md:w-[55px] h-auto object-contain pointer-events-none z-20"
+                />
+              )}
               {/* Photo Ring */}
               <div className="w-full h-full rounded-full border-[3px] border-[#cba344] bg-[#f8f5ee] overflow-hidden relative z-10 shadow-lg">
                 <img
-                  src={data.image?.url ? (data.image.url.startsWith('http') ? data.image.url : `${SERVER_URL}${data.image.url}`) : founderImg}
-                  alt={data.image?.altText || data.name}
+                  src={photo}
+                  alt={photoAlt}
                   className="w-full h-full object-cover object-top rounded-full"
                 />
               </div>
@@ -71,12 +82,16 @@ const AboutFounder = () => {
               <h2 className="text-[#cba344] font-serif text-[20px] md:text-[24px] lg:text-[26px] font-bold uppercase leading-tight mb-0.5">
                 {data.name}
               </h2>
-              <p className="text-white font-semibold text-[10px] md:text-[11px] mb-2">
-                {data.designation}
-              </p>
-              <p className="text-white/75 text-[10px] md:text-[11px] leading-[1.6] max-w-[320px]">
-                {data.description}
-              </p>
+              {data.designation && (
+                <p className="text-white font-semibold text-[10px] md:text-[11px] mb-2">
+                  {data.designation}
+                </p>
+              )}
+              {data.description && (
+                <p className="text-white/75 text-[10px] md:text-[11px] leading-[1.6] max-w-[320px]">
+                  {data.description}
+                </p>
+              )}
             </div>
           </div>
 
@@ -89,9 +104,11 @@ const AboutFounder = () => {
           {/* ───── RIGHT: Founder's Message ───── */}
           <div className="md:w-[48%] lg:w-[50%] relative z-10 flex flex-col justify-center pb-2 md:pb-0">
 
-            <p className="text-white/70 text-[10px] font-semibold tracking-[2px] uppercase mb-3 text-center md:text-left">
-              {data.messageHeading}
-            </p>
+            {data.messageHeading && (
+              <p className="text-white/70 text-[10px] font-semibold tracking-[2px] uppercase mb-3 text-center md:text-left">
+                {data.messageHeading}
+              </p>
+            )}
 
             <div className="relative pl-8 md:pl-10">
               {/* Opening quote */}

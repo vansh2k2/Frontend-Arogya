@@ -1,11 +1,66 @@
 "use client";
 import React, { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { 
-  Quote, ChevronLeft, ChevronRight, Star, 
-  Users, ThumbsUp, Share2, Globe, Play, 
-  ArrowRight, Building2, X
+import {
+  Quote, ChevronLeft, ChevronRight, Star,
+  Users, ThumbsUp, Share2, Globe, Play,
+  ArrowRight, Building2, X, Award, Heart, TrendingUp, Smile, Calendar, Mic,
+  type LucideIcon
 } from 'lucide-react';
+import Link from 'next/link';
+
+/* Icon names saved for the stats band & bottom band (backend models/testimonials/Testimonial.js) */
+const COUNTER_ICONS: Record<string, LucideIcon> = {
+  ThumbsUp, Star, Award, Heart, Globe, Users, Share2, TrendingUp, Smile, Building2, Calendar, Mic,
+};
+
+const DEFAULT_BAND_COUNTERS = [
+  { number: '1000+', label: 'Past Speakers', icon: 'Users' },
+  { number: '25+', label: 'Countries', icon: 'Globe' },
+  { number: '18', label: 'Successful Editions', icon: 'Building2' },
+];
+
+/** "Dr. Nitin Kumar" → "NK" (titles like Dr./Prof. are skipped), "Vansh" → "VA" */
+const getInitials = (name = '') => {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  const named = words.filter((w) => !['dr.', 'dr', 'mr.', 'mr', 'mrs.', 'mrs', 'ms.', 'ms', 'prof.', 'prof'].includes(w.toLowerCase()));
+  const target = named.length ? named : words;
+  if (!target.length) return '';
+  if (target.length === 1) return target[0].slice(0, 2).toUpperCase();
+  return (target[0][0] + target[target.length - 1][0]).toUpperCase();
+};
+
+/** Testimonial photo, or the person's initials when no photo was added in the admin */
+const PersonAvatar = ({ name, image, imageAlt, color }: { name: string; image?: string; imageAlt?: string; color?: string }) => {
+  if (image) {
+    return <img src={image} alt={imageAlt || name} className="w-9 h-9 rounded-full object-cover shrink-0 border border-[#cba344]/40" />;
+  }
+  const tone = color || '#1b5e20';
+  return (
+    <div
+      aria-hidden="true"
+      className="w-9 h-9 rounded-full shrink-0 flex items-center justify-center text-[11px] font-bold tracking-wider border-2 border-white"
+      style={{ color: tone, background: `linear-gradient(135deg, #ffffff 0%, ${tone}22 100%)`, boxShadow: '0 0 0 1.5px #e2e8f0' }}
+    >
+      {getInitials(name)}
+    </div>
+  );
+};
+
+/** "98%" → 98 + "%", "4.8/5" → 4.8 + "/5", "1,000+" → 1000 + "+"; text like "ENDLESS" → null */
+const parseCount = (value: string) => {
+  const match = String(value || '').trim().match(/^([\d,]*\.?\d+)(.*)$/);
+  if (!match) return null;
+  const digits = match[1].replace(/,/g, '');
+  return { end: Number(digits), decimals: digits.includes('.') ? digits.split('.')[1].length : 0, suffix: match[2] };
+};
+
+/** Counter value that counts up when it is a number, shown as is otherwise */
+const CounterValue = ({ value, duration }: { value: string; duration?: number }) => {
+  const parsed = parseCount(value);
+  if (!parsed) return <>{value}</>;
+  return <CountUpNumber end={parsed.end} decimals={parsed.decimals} suffix={parsed.suffix} duration={duration} />;
+};
 import goldImage from '@/assets/icons/gold.png';
 import mainIcon from '@/assets/icons/main22.webp';
 import footerRightImage from '@/assets/icons/footerright.webp';
@@ -66,7 +121,17 @@ const TestimonialsSection = () => {
     topImage: '',
     videoHeading: 'VIDEO TESTIMONIALS',
     videoShortDescription: 'Hear it from those WHO EXPERIENCED IT!',
-    videoTopImage: ''
+    videoTopImage: '',
+    // Edited in arogya-admin → Pages & CMS → Home → Testimonials
+    topImageAlt: 'Arogya Sangoshthi lotus logo',
+    videoTopImageAlt: 'Video testimonials lotus icon',
+    videoButtonLabel: 'WATCH ALL VIDEOS',
+    videoButtonHref: '',
+    bandHeading: 'Trusted by Thousands. Inspired for Life.',
+    bandParagraph: 'Join a global community of changemakers committed to better health for all.',
+    bandCounters: DEFAULT_BAND_COUNTERS,
+    bandButtonLabel: 'JOIN THE NEXT LEGACY',
+    bandButtonHref: '/delegate-registration',
   });
   const [textTestimonials, setTextTestimonials] = useState([]);
   const [videoTestimonials, setVideoTestimonials] = useState([]);
@@ -205,8 +270,8 @@ const TestimonialsSection = () => {
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-4 relative z-10 -mt-2 md:-mt-3">
           <Image 
-            src={settings.topImage ? getImageUrl(settings.topImage) : mainIcon} 
-            alt="Arogya Sangoshthi lotus logo" 
+            src={settings.topImage ? getImageUrl(settings.topImage) : mainIcon}
+            alt={settings.topImageAlt || 'Arogya Sangoshthi lotus logo'}
             width={160}
             height={125}
             quality={75}
@@ -263,8 +328,9 @@ const TestimonialsSection = () => {
                   {testimonial.feedback || testimonial.text}
                 </p>
                 <div className="flex items-center gap-3 mt-auto pt-4 border-t border-[#cba344]/30">
-                  <div className="flex-1">
-                    <h4 className="text-[#032e1c] font-bold text-[11px] md:text-[12px] font-inter leading-tight">{testimonial.name}</h4>
+                  <PersonAvatar name={testimonial.name} image={testimonial.image} imageAlt={testimonial.imageAlt || testimonial.imageAltText} color={testimonial.color} />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-[#032e1c] font-bold text-[11px] md:text-[12px] font-inter leading-tight">{testimonial.name}</h3>
                     <p className="text-[#0A7C6E] text-[9px] leading-tight font-inter">{testimonial.designation || testimonial.title}</p>
                   </div>
                 </div>
@@ -276,18 +342,8 @@ const TestimonialsSection = () => {
         {/* Stats Band */}
         <div className="bg-[#edf0e9] rounded-xl md:rounded-2xl py-4 md:py-2 xl:py-1 px-2 md:px-8 mb-8 relative z-20 grid grid-cols-6 xl:flex xl:flex-nowrap items-start xl:items-center justify-between gap-y-5 gap-x-2 xl:gap-6 shadow-sm border border-[#e2e8da]">
           {counters && counters.length > 0 ? counters.map((counter, idx) => {
-            // Determine icon component
-            let IconComponent = Users;
-            if (counter.icon === 'ThumbsUp') IconComponent = ThumbsUp;
-            else if (counter.icon === 'Star') IconComponent = Star;
-            else if (counter.icon === 'Share2') IconComponent = Share2;
-            else if (counter.icon === 'Globe') IconComponent = Globe;
-            
-            // Extract numbers and suffixes from string like "98%" or "4.8/5"
-            let numberVal = parseFloat(counter.number);
-            let suffixStr = counter.number.replace(/[\d.]/g, '');
-            let hasDecimals = counter.number.includes('.');
-            
+            const IconComponent = COUNTER_ICONS[counter.icon] ?? Users;
+
             return (
               <React.Fragment key={counter._id || idx}>
                 <div className={`col-span-${idx === 3 || idx === 4 ? '3' : '2'} xl:col-span-1 flex flex-col xl:flex-row items-center text-center xl:text-left gap-1.5 xl:gap-3 flex-1`}>
@@ -296,7 +352,7 @@ const TestimonialsSection = () => {
                   </div>
                   <div className="flex flex-col items-center xl:items-start">
                     <div className="font-bold text-sm md:text-[22px] text-[#032e1c] leading-none font-inter mb-0.5 md:mb-1">
-                      <CountUpNumber end={numberVal || 0} decimals={hasDecimals ? 1 : 0} suffix={suffixStr} />
+                      <CounterValue value={counter.number} />
                     </div>
                     <div className="text-[8px] md:text-[11px] text-gray-700 font-medium leading-tight max-w-[110px] xl:max-w-[160px]">
                       {counter.label}
@@ -318,15 +374,20 @@ const TestimonialsSection = () => {
           {/* Left Text */}
           <div className="lg:w-1/4 text-white text-center lg:text-left -mt-2 lg:-mt-6">
             <div className="flex items-center justify-center lg:justify-start gap-2 mb-3 text-[#cba344]">
-              <img src={settings.videoTopImage ? getImageUrl(settings.videoTopImage) : (mainIcon?.src || mainIcon)} alt="Video testimonials lotus icon" className="h-5 object-contain brightness-200" />
+              <img src={settings.videoTopImage ? getImageUrl(settings.videoTopImage) : (mainIcon?.src || mainIcon)} alt={settings.videoTopImageAlt || 'Video testimonials lotus icon'} className="h-5 object-contain brightness-200" />
               <span className="text-xs font-bold tracking-widest uppercase mt-1">{settings.videoHeading || 'VIDEO TESTIMONIALS'}</span>
             </div>
             <h3 ref={videoRef} className="font-inter text-base md:text-lg font-extrabold uppercase tracking-wider mb-6 leading-none text-white flex flex-col gap-0">
               <span>{settings.videoShortDescription || 'Hear it from those WHO EXPERIENCED IT!'}</span>
             </h3>
-            <button className="border border-[#cba344] bg-[#cba344] text-[#02291b] hover:bg-transparent hover:text-[#cba344] transition-all rounded-full px-4 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 mx-auto lg:mx-0">
-              <Play size={12} fill="currentColor" /> WATCH ALL VIDEOS
-            </button>
+            {(settings.videoButtonLabel ?? 'WATCH ALL VIDEOS') && (() => {
+              const videoButton = (
+                <button className="border border-[#cba344] bg-[#cba344] text-[#02291b] hover:bg-transparent hover:text-[#cba344] transition-all rounded-full px-4 py-1.5 text-[10px] md:text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 mx-auto lg:mx-0">
+                  <Play size={12} fill="currentColor" /> {settings.videoButtonLabel ?? 'WATCH ALL VIDEOS'}
+                </button>
+              );
+              return settings.videoButtonHref ? <Link href={settings.videoButtonHref} className="inline-block">{videoButton}</Link> : videoButton;
+            })()}
           </div>
 
           {/* Video Carousel */}
@@ -422,48 +483,38 @@ const TestimonialsSection = () => {
             </div>
             <div>
               <h3 className="text-[#032e1c] font-inter text-sm md:text-base font-extrabold uppercase tracking-wider mb-1 whitespace-nowrap">
-                Trusted by Thousands. Inspired for Life.
+                {settings.bandHeading ?? 'Trusted by Thousands. Inspired for Life.'}
               </h3>
               <p className="text-gray-900 text-xs md:text-sm font-inter whitespace-nowrap">
-                Join a global community of changemakers committed to better health for all.
+                {settings.bandParagraph ?? 'Join a global community of changemakers committed to better health for all.'}
               </p>
             </div>
           </div>
 
           <div className="flex flex-wrap justify-center sm:justify-start items-center gap-4 md:gap-5 shrink-0">
-            <div className="flex items-center gap-2.5">
-              <Users size={24} className="text-[#032e1c]" strokeWidth={1.5} />
-              <div>
-                <div className="font-bold text-lg md:text-xl text-[#032e1c] leading-none font-inter">
-                  <CountUpNumber end={1000} suffix="+" duration={2.5} />
+            {(settings.bandCounters ?? DEFAULT_BAND_COUNTERS).map((counter, idx) => {
+              const CounterIcon = COUNTER_ICONS[counter.icon] ?? Users;
+              return (
+                <div key={idx} className="flex items-center gap-2.5">
+                  <CounterIcon size={24} className="text-[#032e1c]" strokeWidth={1.5} />
+                  <div>
+                    <div className="font-bold text-lg md:text-xl text-[#032e1c] leading-none font-inter">
+                      <CounterValue value={counter.number} duration={2} />
+                    </div>
+                    <div className="text-[9px] uppercase tracking-wider text-black font-bold mt-1">{counter.label}</div>
+                  </div>
                 </div>
-                <div className="text-[9px] uppercase tracking-wider text-black font-bold mt-1">Past Speakers</div>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-2.5">
-              <Globe size={24} className="text-[#032e1c]" strokeWidth={1.5} />
-              <div>
-                <div className="font-bold text-lg md:text-xl text-[#032e1c] leading-none font-inter">
-                  <CountUpNumber end={25} suffix="+" duration={2} />
-                </div>
-                <div className="text-[9px] uppercase tracking-wider text-black font-bold mt-1">Countries</div>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-2.5">
-              <Building2 size={24} className="text-[#032e1c]" strokeWidth={1.5} />
-              <div>
-                <div className="font-bold text-lg md:text-xl text-[#032e1c] leading-none font-inter">
-                  <CountUpNumber end={18} duration={1.5} />
-                </div>
-                <div className="text-[9px] uppercase tracking-wider text-black font-bold mt-1">Successful Editions</div>
-              </div>
-            </div>
+              );
+            })}
 
-            <button className="bg-[#032e1c] hover:bg-[#021f13] text-[#cba344] px-6 py-3 md:ml-4 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
-              JOIN THE NEXT LEGACY <ArrowRight size={14} />
-            </button>
+            {(settings.bandButtonLabel ?? 'JOIN THE NEXT LEGACY') && (() => {
+              const bandButton = (
+                <button className="bg-[#032e1c] hover:bg-[#021f13] text-[#cba344] px-6 py-3 md:ml-4 rounded-md text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+                  {settings.bandButtonLabel ?? 'JOIN THE NEXT LEGACY'} <ArrowRight size={14} />
+                </button>
+              );
+              return settings.bandButtonHref ? <Link href={settings.bandButtonHref}>{bandButton}</Link> : bandButton;
+            })()}
           </div>
         </div>
         </SectionContainer>

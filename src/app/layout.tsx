@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Poppins, Inter, Roboto, Nunito, Dancing_Script } from "next/font/google";
 import { Providers } from "@/components/Providers";
+import { fetchSitePages } from "@/lib/sitePages";
 
 
 const SITE_URL = "https://arogya.namogange.org";
@@ -100,7 +101,9 @@ const dancingScript = Dancing_Script({
   display: "swap",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Pages set to Draft in arogya-admin → Pages & CMS (cached 30 s)
+  const sitePages = await fetchSitePages();
   return (
     <html lang="en" className={`antialiased ${poppins.variable} ${inter.variable} ${roboto.variable} ${nunito.variable} ${dancingScript.variable}`}>
       <head>
@@ -113,9 +116,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className="flex flex-col font-inter bg-background text-foreground antialiased min-h-screen"
         suppressHydrationWarning
       >
-        {/* ── Schema is injected per-page via CMS DynamicSeoHead ── */}
+        {/* ── Schema is injected per-page by ServerSeoSchema (arogya-admin → Pages & CMS → SEO Information) ── */}
 
-        <Providers>{children}</Providers>
+        <Providers sitePages={sitePages}>{children}</Providers>
       </body>
     </html>
   );

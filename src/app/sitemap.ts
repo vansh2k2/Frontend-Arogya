@@ -1,11 +1,14 @@
 import type { MetadataRoute } from 'next';
+import { fetchSitePages } from '@/lib/sitePages';
 
 const SITE_URL = 'https://arogya.namogange.org';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date().toISOString();
+  // Pages set to Draft in arogya-admin → Pages & CMS are left out
+  const draftPaths = new Set((await fetchSitePages()).filter((p) => p.isPublished === false).map((p) => p.path));
 
-  return [
+  const entries: MetadataRoute.Sitemap = [
     // ── Core pages ──────────────────────────────────────────────────────────
     {
       url: SITE_URL,
@@ -80,4 +83,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
   ];
+
+  return entries.filter((entry) => !draftPaths.has(entry.url.slice(SITE_URL.length) || '/'));
 }

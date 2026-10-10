@@ -1,7 +1,42 @@
 "use client";
 import React, { useEffect, useState, useRef } from 'react';
-import { Users, Mic, Calendar, Globe, Handshake } from 'lucide-react';
+import {
+  Award, Briefcase, Building2, Calendar, Globe, GraduationCap, Handshake, HeartPulse,
+  Infinity as InfinityIcon, MapPin, Mic, Presentation, Star, TrendingUp, Trophy, Users,
+  type LucideIcon,
+} from 'lucide-react';
 import SectionContainer from '@/components/layout/SectionContainer';
+import type { StatsBandItem } from '@/lib/fetchStatsBand';
+
+/* Icon names saved by arogya-admin (backend models/home/StatsBand.js) */
+const ICONS: Record<string, LucideIcon> = {
+  'users': Users,
+  'mic': Mic,
+  'calendar': Calendar,
+  'globe': Globe,
+  'infinity': InfinityIcon,
+  'handshake': Handshake,
+  'award': Award,
+  'briefcase': Briefcase,
+  'building': Building2,
+  'star': Star,
+  'trending-up': TrendingUp,
+  'heart-pulse': HeartPulse,
+  'graduation-cap': GraduationCap,
+  'map-pin': MapPin,
+  'presentation': Presentation,
+  'trophy': Trophy,
+};
+
+/* Built-in counters — shown when the admin-managed band (GET /api/stats-band) is not available */
+const DEFAULT_STATS: StatsBandItem[] = [
+  { number: '150+', label: 'EXPERT SPEAKERS', icon: 'users' },
+  { number: '18', label: 'PREMIUM SESSIONS', icon: 'mic' },
+  { number: '3', label: 'DAYS MAJOR CONFERENCES', icon: 'calendar' },
+  { number: '1,000+', label: 'VISITORS/DELEGATES', icon: 'users' },
+  { number: '1,000+', label: 'GLOBAL BUYERS', icon: 'globe' },
+  { number: 'ENDLESS', label: 'OPPORTUNITIES', icon: 'infinity' },
+];
 
 const AnimatedCounter = ({ value }) => {
   const [displayValue, setDisplayValue] = useState(value);
@@ -70,43 +105,15 @@ const AnimatedCounter = ({ value }) => {
   return <span ref={elementRef}>{displayValue}</span>;
 };
 
-const StatsBand = () => {
-  const stats = [
-    {
-      icon: <Users size={24} className="text-[#cfa144] shrink-0" />,
-      number: '150+',
-      label: 'EXPERT SPEAKERS',
-    },
-    {
-      icon: <Mic size={24} className="text-[#cfa144] shrink-0" />,
-      number: '18',
-      label: 'PREMIUM SESSIONS',
-    },
-    {
-      icon: <Calendar size={24} className="text-[#cfa144] shrink-0" />,
-      number: '3',
-      label: 'DAYS MAJOR CONFERENCES',
-    },
-    {
-      icon: <Users size={24} className="text-[#cfa144] shrink-0" />,
-      number: '1,000+',
-      label: 'VISITORS/DELEGATES',
-    },
-    {
-      icon: <Globe size={24} className="text-[#cfa144] shrink-0" />,
-      number: '1,000+',
-      label: 'GLOBAL BUYERS',
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6 text-[#cfa144] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M12 12c-2-2.67-4-4-6-4a4 4 0 100 8c2 0 4-1.33 6-4zm0 0c2 2.67 4 4 6 4a4 4 0 100-8c-2 0-4 1.33-6 4z" />
-        </svg>
-      ),
-      number: 'ENDLESS',
-      label: 'OPPORTUNITIES',
-    },
-  ];
+const StatsBand = ({ data }: { data?: StatsBandItem[] | null }) => {
+  const stats = (data?.length ? data : DEFAULT_STATS).map((stat) => {
+    const Icon = ICONS[stat.icon] ?? Users;
+    return {
+      icon: <Icon size={24} className="text-[#cfa144] shrink-0" />,
+      number: stat.number,
+      label: stat.label,
+    };
+  });
 
   return (
     <SectionContainer className="-mt-6 mb-4 relative z-20 font-inter">

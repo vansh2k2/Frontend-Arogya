@@ -4,27 +4,23 @@ import Layout from '@/components/layout/Layout';
 import HeroCarousel from '@/components/home/HeroCarousel';
 import TrustedBy from '@/components/home/TrustedBy';
 import WhyArogyaAndTracks from '@/components/home/WhyArogyaAndTracks';
-import DynamicSeoHead from '@/components/DynamicSeoHead';
 import ServerSeoSchema from '@/components/ServerSeoSchema';
-import { fetchCmsSeoForPage, getOgImageUrl } from '@/lib/fetchCmsSeo';
+import { buildPageMetadata } from '@/lib/fetchCmsSeo';
+import { fetchHeroCarousel } from '@/lib/fetchHeroCarousel';
+import { fetchSupportedBy } from '@/lib/fetchSupportedBy';
+import { fetchWhyArogya } from '@/lib/fetchWhyArogya';
+import { fetchAboutConference } from '@/lib/fetchAboutConference';
+import { fetchStatsBand } from '@/lib/fetchStatsBand';
+import { fetchVisionMission } from '@/lib/fetchVisionMission';
+import { fetchUpcomingEvent } from '@/lib/fetchUpcomingEvent';
+import { fetchEventHighlights } from '@/lib/fetchEventHighlights';
 
-const SITE_URL = 'https://arogya.namogange.org';
 
-// generateMetadata runs on the SERVER — og:image goes into <head> HTML
-// WhatsApp / Facebook / Twitter bots will see it without JavaScript
+// Meta tags, Open Graph, canonical (auto) and robots from arogya-admin → Pages & CMS → SEO Information
 export async function generateMetadata(): Promise<Metadata> {
-  const cms = await fetchCmsSeoForPage('/');
-  const ogImg = getOgImageUrl(cms);
-  return {
-    title: cms?.metaTitle ||
-      'Arogya Sangoshthi 2026 | International AYUSH & Integrated Healthcare Conference',
-    description: cms?.metaDescription ||
-      "Arogya Sangoshthi 2026 — India's premier 3-day international conference. 21–23 Aug 2026, Pragati Maidan, New Delhi.",
-    openGraph: {
-      images: [{ url: ogImg, width: 1200, height: 630 }],
-    },
-    twitter: { images: [ogImg] },
-  };
+  return buildPageMetadata('/', {
+    description: "Arogya Sangoshthi 2026 — India's premier 3-day international conference. 21–23 Aug 2026, Pragati Maidan, New Delhi.",
+  });
 }
 
 // Below the fold sections dynamically imported
@@ -39,20 +35,30 @@ const FeaturedSpeakersSection = dynamic(() => import('@/components/home/Featured
 
 
 
-export default function Home() {
+export default async function Home() {
+  // Hero, Supported By and Why Arogya / Tracks managed from arogya-admin (null → built-in content)
+  const [heroCarousel, supportedBy, whyArogya, aboutConference, statsBand, visionMission, upcomingEvent, eventHighlights] = await Promise.all([
+    fetchHeroCarousel(),
+    fetchSupportedBy(),
+    fetchWhyArogya(),
+    fetchAboutConference(),
+    fetchStatsBand(),
+    fetchVisionMission(),
+    fetchUpcomingEvent(),
+    fetchEventHighlights(),
+  ]);
+
   return (
     <Layout>
-      {/* Backend CMS SEO — overrides static metadata if admin has set it */}
-      <DynamicSeoHead pagePath="/" />
       <ServerSeoSchema pagePath="/" />
-      <HeroCarousel />
-      <TrustedBy />
-      <WhyArogyaAndTracks />
-      <AboutConferenceSection />
-      <StatsBand />
-      <VisionMissionSection />
-      <UpcomingEventSection />
-      <EventHighlightsSection />
+      <HeroCarousel data={heroCarousel} />
+      <TrustedBy data={supportedBy} />
+      <WhyArogyaAndTracks data={whyArogya} />
+      <AboutConferenceSection data={aboutConference} />
+      <StatsBand data={statsBand} />
+      <VisionMissionSection data={visionMission} />
+      <UpcomingEventSection data={upcomingEvent} />
+      <EventHighlightsSection data={eventHighlights} />
       <TestimonialsSection />
       <GlobalVoicesSection />
       <FeaturedSpeakersSection />

@@ -1,13 +1,14 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image, { type StaticImageData } from 'next/image';
 import { Calendar, MapPin, ArrowRight, User, ChevronLeft, ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
 import hero1 from '@/assets/banner/hero2.webp';
 import hero2 from '@/assets/banner/hero3.webp';
 import hero3 from '@/assets/banner/hero4.webp';
 import hero4 from '@/assets/banner/hero55.webp';
+import type { HeroCarouselData, HeroSlideData, HeroTheme } from '@/lib/fetchHeroCarousel';
 
 /* ─────────────────────────────────────────
    SPARKLE
@@ -18,43 +19,122 @@ const Sparkle = ({ style, color = '#fff176' }) => (
 );
 
 /* ─────────────────────────────────────────
-   SLIDE DATA
+   SLIDE THEMES (colours + button styles)
 ───────────────────────────────────────── */
-const SLIDES = [
-  {
-    id: 0, img: hero1, theme: 'gold',
+const THEMES = {
+  gold: {
     accentHex: '#b08735', textHex: '#063e26', iconHex: '#a07b30',
-    subtitle: <>India's Premier Conference on<br />Integrated Healthcare, AYUSH, Pharma,<br />Wellness & Innovation</>,
-    btn1: { cls: 'btn-gold', label: 'Register as Delegate', textCls:'text-[#0b2912]', hasArrow:true, link: '/delegate-registration', newTab: true },
-    btn2: { cls: 'btn-darkgreen', label: 'Become a Speaker', textCls:'text-white', hasUser:true, sparkleColor:'#063e26' },
+    btn1: { cls: 'btn-gold', textCls: 'text-[#0b2912]', sparkleColor: undefined as string | undefined },
+    btn2: { cls: 'btn-darkgreen', textCls: 'text-white', sparkleColor: '#063e26' as string | undefined },
   },
-  {
-    id: 1, img: hero2, theme: 'blue',
+  blue: {
     accentHex: '#0a2c53', textHex: '#043055', iconHex: '#0a2c53',
-    subtitle: <>Advancing Science. Enhancing Lives.<br />Building the Future of Medicine.</>,
-    btn1: { cls: 'btn-blue', label: 'Explore Sessions', textCls:'text-white', hasArrow:true, sparkleColor:'#032e55' },
-    btn2: { cls: 'btn-gold', label: 'Register Now', textCls:'text-[#0b2912]', hasUser:true },
+    btn1: { cls: 'btn-blue', textCls: 'text-white', sparkleColor: '#032e55' },
+    btn2: { cls: 'btn-gold', textCls: 'text-[#0b2912]', sparkleColor: undefined },
+  },
+  green: {
+    accentHex: '#063e26', textHex: '#063e26', iconHex: '#a07b30',
+    btn1: { cls: 'btn-blue', textCls: 'text-white', sparkleColor: '#032e55' },
+    btn2: { cls: 'btn-gold', textCls: 'text-[#0b2912]', sparkleColor: undefined },
+  },
+} satisfies Record<HeroTheme, unknown>;
+
+/* ─────────────────────────────────────────
+   BUILT-IN CONTENT — shown when the admin-managed
+   carousel (GET /api/home-hero) is not available
+───────────────────────────────────────── */
+const DEFAULT_EDITION_TAG = '18th Edition of';
+const DEFAULT_EVENT_DATES = '21-23 August 2026';
+const DEFAULT_VENUE = 'Pragati Maidan, New Delhi';
+const DEFAULT_LOGO = '/logo1.png';
+const DEFAULT_LOGO_ALT = 'Arogya Sangoshthi Logo';
+
+type SlideInput = Omit<HeroSlideData, 'image'> & { image: string | StaticImageData };
+
+const FALLBACK_SLIDES: SlideInput[] = [
+  {
+    image: hero1, theme: 'gold',
+    imageAlt: 'Speaker addressing a healthcare conference beside Ayurvedic herbs, a doctor with a digital body scan and a yoga silhouette at sunset',
+    subtitle: "India's Premier Conference on\nIntegrated Healthcare, AYUSH, Pharma,\nWellness & Innovation",
+    button1Label: 'Register as Delegate', button1Link: '/delegate-registration', button1NewTab: true,
+    button2Label: 'Become a Speaker', button2Link: '/register-now',
   },
   {
-    id: 2, img: hero3, theme: 'green',
-    accentHex: '#063e26', textHex: '#063e26', iconHex: '#a07b30',
-    subtitle: <>Reviving Ancient Wisdom for<br />a Healthier Tomorrow</>,
-    btn1: { cls: 'btn-blue', label: 'Explore Sessions', textCls:'text-white', hasArrow:true, sparkleColor:'#032e55' },
-    btn2: { cls: 'btn-gold', label: 'Register Now', textCls:'text-[#0b2912]', hasUser:true },
+    image: hero2, theme: 'blue',
+    imageAlt: 'Doctor using a tablet showing a glowing digital human body with DNA, heart and brain health icons',
+    subtitle: 'Advancing Science. Enhancing Lives.\nBuilding the Future of Medicine.',
+    button1Label: 'Explore Sessions', button1Link: '/register-now',
+    button2Label: 'Register Now', button2Link: '/register-now',
   },
   {
-    id: 3, img: hero4, theme: 'green',
-    accentHex: '#063e26', textHex: '#063e26', iconHex: '#a07b30',
-    subtitle: <>Innovating Today for a<br />Healthier Tomorrow</>,
-    btn1: { cls: 'btn-blue', label: 'Explore Sessions', textCls:'text-white', hasArrow:true, sparkleColor:'#032e55' },
-    btn2: { cls: 'btn-gold', label: 'Register Now', textCls:'text-[#0b2912]', hasUser:true },
+    image: hero3, theme: 'green',
+    imageAlt: 'Ayurvedic herbs, mortar and pestle, herbal oil and spices with a meditating figure and yoga at sunrise',
+    subtitle: 'Reviving Ancient Wisdom for\na Healthier Tomorrow',
+    button1Label: 'Explore Sessions', button1Link: '/register-now',
+    button2Label: 'Register Now', button2Link: '/register-now',
+  },
+  {
+    image: hero4, theme: 'green',
+    imageAlt: 'Gloved scientist holding a capsule above laboratory bottles and test tubes with molecular structures',
+    subtitle: 'Innovating Today for a\nHealthier Tomorrow',
+    button1Label: 'Explore Sessions', button1Link: '/register-now',
+    button2Label: 'Register Now', button2Link: '/register-now',
   },
 ];
+
+/** Multi-line subtitle text ("\n" = line break) → JSX with <br /> */
+const renderLines = (text = '') =>
+  text.split('\n').map((line, i, all) => (
+    <React.Fragment key={i}>
+      {line}
+      {i < all.length - 1 && <br />}
+    </React.Fragment>
+  ));
+
+const buildSlides = (input: SlideInput[]) =>
+  input.map((slide, id) => {
+    const theme = THEMES[slide.theme ?? 'green'] ?? THEMES.green;
+    return {
+      id,
+      img: slide.image,
+      alt: slide.imageAlt || `Arogya Banner ${id + 1}`,
+      logo: slide.logo || DEFAULT_LOGO,
+      logoAlt: slide.logoAlt || DEFAULT_LOGO_ALT,
+      accentHex: theme.accentHex,
+      textHex: theme.textHex,
+      iconHex: theme.iconHex,
+      subtitle: renderLines(slide.subtitle),
+      btn1: {
+        ...theme.btn1,
+        label: slide.button1Label || '',
+        link: slide.button1Link || '/register-now',
+        newTab: Boolean(slide.button1NewTab),
+        hasArrow: true,
+      },
+      btn2: {
+        ...theme.btn2,
+        label: slide.button2Label || '',
+        link: slide.button2Link || '/register-now',
+        newTab: Boolean(slide.button2NewTab),
+        hasUser: true,
+      },
+    };
+  });
+
+const srcOf = (img: string | StaticImageData) => (typeof img === 'string' ? img : img.src);
 
 /* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
-const HeroCarousel = () => {
+const HeroCarousel = ({ data }: { data?: HeroCarouselData | null }) => {
+  const SLIDES = useMemo(
+    () => buildSlides(data?.slides?.length ? data.slides : FALLBACK_SLIDES),
+    [data],
+  );
+  const editionTag = data ? data.editionTag ?? '' : DEFAULT_EDITION_TAG;
+  const eventDates = data ? data.eventDates ?? '' : DEFAULT_EVENT_DATES;
+  const venue = data ? data.venue ?? '' : DEFAULT_VENUE;
+
   const [cur, setCur] = useState(0);
   const curRef   = useRef(0);
   const busyRef  = useRef(false);
@@ -210,10 +290,11 @@ const HeroCarousel = () => {
 
   const startTimer = useCallback((idx) => {
     clearTimeout(timerRef.current);
+    if (SLIDES.length < 2) return;
     timerRef.current = setTimeout(() => {
       goTo((idx + 1) % SLIDES.length);
     }, 5000);
-  }, [goTo]);
+  }, [goTo, SLIDES.length]);
 
   /* ── INIT ── */
   useEffect(() => {
@@ -221,17 +302,17 @@ const HeroCarousel = () => {
     const preloadFirst = document.createElement('link');
     preloadFirst.rel = 'preload';
     preloadFirst.as = 'image';
-    preloadFirst.href = typeof hero1 === 'string' ? hero1 : (hero1 as any).src;
+    preloadFirst.href = srcOf(SLIDES[0].img);
     preloadFirst.fetchPriority = 'high';
     document.head.prepend(preloadFirst);
 
     /* ── Preload remaining images during idle time ── */
     const preloadFn = () => {
-      [hero2, hero3, hero4].forEach((src) => {
+      SLIDES.slice(1).forEach(({ img }) => {
         const link = document.createElement('link');
         link.rel = 'preload';
         link.as = 'image';
-        link.href = typeof src === 'string' ? src : (src as any).src;
+        link.href = srcOf(img);
         link.fetchPriority = 'low';
         document.head.appendChild(link);
       });
@@ -361,7 +442,7 @@ const HeroCarousel = () => {
       >
 
         {/* ── BACKGROUND LAYERS ── */}
-        {SLIDES.map(({ id, img }) => (
+        {SLIDES.map(({ id, img, alt }) => (
           <div
             key={id}
             ref={el => { bgLayers.current[id] = el as any; }}
@@ -371,7 +452,7 @@ const HeroCarousel = () => {
             <Image
               ref={el => { imgEls.current[id] = el as any; }}
               src={img}
-              alt={`Arogya Banner ${id + 1}`}
+              alt={alt}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1400px) 100vw, 1920px"
               quality={70}
@@ -441,21 +522,23 @@ const HeroCarousel = () => {
               }}
             >
               {/* Edition tag */}
-              <div
-                data-anim="1"
-                className="flex items-center gap-3 font-bold tracking-[0.2em] text-[10px] sm:text-xs uppercase mb-0.5 ml-4 md:ml-8"
-                style={{ color: slide.accentHex }}
-              >
-                <span className="w-8 sm:w-12 h-[1.5px]" style={{ background: slide.accentHex }} />
-                <span>18th Edition of</span>
-                <span className="w-8 sm:w-12 h-[1.5px]" style={{ background: slide.accentHex }} />
-              </div>
+              {editionTag && (
+                <div
+                  data-anim="1"
+                  className="flex items-center gap-3 font-bold tracking-[0.2em] text-[10px] sm:text-xs uppercase mb-0.5 ml-4 md:ml-8"
+                  style={{ color: slide.accentHex }}
+                >
+                  <span className="w-8 sm:w-12 h-[1.5px]" style={{ background: slide.accentHex }} />
+                  <span>{editionTag}</span>
+                  <span className="w-8 sm:w-12 h-[1.5px]" style={{ background: slide.accentHex }} />
+                </div>
+              )}
 
               {/* Logo */}
               <div data-anim="2" className="mb-2 sm:mb-3 -mt-1 sm:-mt-2">
                 <Image
-                  src="/logo1.png"
-                  alt="Arogya Sangoshthi Logo"
+                  src={slide.logo}
+                  alt={slide.logoAlt}
                   width={313}
                   height={128}
                   priority={slide.id === 0}
@@ -477,47 +560,59 @@ const HeroCarousel = () => {
                 data-anim="4"
                 className="flex flex-wrap items-center gap-x-4 gap-y-2 text-black font-bold text-[9px] sm:text-[11px] lg:text-[13px] uppercase mb-3.5 sm:mb-5 py-2 sm:py-3 w-full max-w-md sm:max-w-lg -mt-2 sm:-mt-3.5"
               >
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <Calendar size={15} className="shrink-0" style={{ color: slide.iconHex }} />
-                  <span>21-23 August 2026</span>
-                </div>
-                <span className="hidden sm:inline opacity-40" style={{ color: slide.accentHex }}>|</span>
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <MapPin size={15} className="shrink-0" style={{ color: slide.iconHex }} />
-                  <span>Pragati Maidan, New Delhi</span>
-                </div>
+                {eventDates && (
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Calendar size={15} className="shrink-0" style={{ color: slide.iconHex }} />
+                    <span>{eventDates}</span>
+                  </div>
+                )}
+                {eventDates && venue && (
+                  <span className="hidden sm:inline opacity-40" style={{ color: slide.accentHex }}>|</span>
+                )}
+                {venue && (
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <MapPin size={15} className="shrink-0" style={{ color: slide.iconHex }} />
+                    <span>{venue}</span>
+                  </div>
+                )}
               </div>
 
               {/* Buttons */}
               <div data-anim="5" className="flex flex-row flex-wrap items-center gap-3 sm:gap-4 w-full -mt-1.5 sm:-mt-2.5">
                 {/* BTN 1 */}
-                <div style={{ position:'relative', display:'inline-block' }} className="shrink-0">
-                  <Sparkle color={slide.btn1.sparkleColor || '#032e55'} style={{ top:'-14px', left:'10%', animationDelay:'0s' }} />
-                  <Sparkle color={slide.btn1.sparkleColor || '#032e55'} style={{ top:'-12px', left:'48%', animationDelay:'0.4s' }} />
-                  <Sparkle color={slide.btn1.sparkleColor || '#032e55'} style={{ bottom:'-14px', right:'16%', animationDelay:'0.8s' }} />
-                  <Link
-                    href={slide.btn1.link || "/register-now"}
-                    target={slide.btn1.newTab ? "_blank" : undefined}
-                    rel={slide.btn1.newTab ? "noopener noreferrer" : undefined}
-                    className={`${slide.btn1.cls} group rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2 ${slide.btn1.textCls} transition-all duration-300 uppercase tracking-[0.12em] text-[9px] sm:text-[10px] font-black flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg shrink-0 relative z-10`}
-                  >
-                    <span>{slide.btn1.label}</span>
-                    {slide.btn1.hasArrow && <ArrowRight size={14} className="shrink-0 group-hover:translate-x-1 transition-transform duration-300" />}
-                  </Link>
-                </div>
+                {slide.btn1.label && (
+                  <div style={{ position:'relative', display:'inline-block' }} className="shrink-0">
+                    <Sparkle color={slide.btn1.sparkleColor || '#032e55'} style={{ top:'-14px', left:'10%', animationDelay:'0s' }} />
+                    <Sparkle color={slide.btn1.sparkleColor || '#032e55'} style={{ top:'-12px', left:'48%', animationDelay:'0.4s' }} />
+                    <Sparkle color={slide.btn1.sparkleColor || '#032e55'} style={{ bottom:'-14px', right:'16%', animationDelay:'0.8s' }} />
+                    <Link
+                      href={slide.btn1.link}
+                      target={slide.btn1.newTab ? "_blank" : undefined}
+                      rel={slide.btn1.newTab ? "noopener noreferrer" : undefined}
+                      className={`${slide.btn1.cls} group rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2 ${slide.btn1.textCls} transition-all duration-300 uppercase tracking-[0.12em] text-[9px] sm:text-[10px] font-black flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg shrink-0 relative z-10`}
+                    >
+                      <span>{slide.btn1.label}</span>
+                      {slide.btn1.hasArrow && <ArrowRight size={14} className="shrink-0 group-hover:translate-x-1 transition-transform duration-300" />}
+                    </Link>
+                  </div>
+                )}
 
                 {/* BTN 2 */}
-                <div style={{ position:'relative', display:'inline-block' }} className="shrink-0">
-                  <Sparkle color={slide.btn2.sparkleColor || '#fff176'} style={{ top:'-14px', left:'38%', animationDelay:'0s' }} />
-                  <Sparkle color={slide.btn2.sparkleColor || '#fff176'} style={{ bottom:'-14px', left:'15%', animationDelay:'0.7s' }} />
-                  <Link
-                    href="/register-now"
-                    className={`${slide.btn2.cls} group rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2 ${slide.btn2.textCls} transition-all duration-300 uppercase tracking-[0.12em] text-[9px] sm:text-[10px] font-black flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg shrink-0 relative z-10`}
-                  >
-                    {slide.btn2.hasUser && <User size={14} className="shrink-0" />}
-                    <span>{slide.btn2.label}</span>
-                  </Link>
-                </div>
+                {slide.btn2.label && (
+                  <div style={{ position:'relative', display:'inline-block' }} className="shrink-0">
+                    <Sparkle color={slide.btn2.sparkleColor || '#fff176'} style={{ top:'-14px', left:'38%', animationDelay:'0s' }} />
+                    <Sparkle color={slide.btn2.sparkleColor || '#fff176'} style={{ bottom:'-14px', left:'15%', animationDelay:'0.7s' }} />
+                    <Link
+                      href={slide.btn2.link}
+                      target={slide.btn2.newTab ? "_blank" : undefined}
+                      rel={slide.btn2.newTab ? "noopener noreferrer" : undefined}
+                      className={`${slide.btn2.cls} group rounded-full px-3.5 py-1.5 sm:px-5 sm:py-2 ${slide.btn2.textCls} transition-all duration-300 uppercase tracking-[0.12em] text-[9px] sm:text-[10px] font-black flex items-center gap-1.5 sm:gap-2 shadow-md hover:shadow-lg shrink-0 relative z-10`}
+                    >
+                      {slide.btn2.hasUser && <User size={14} className="shrink-0" />}
+                      <span>{slide.btn2.label}</span>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           ))}

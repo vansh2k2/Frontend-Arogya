@@ -2,23 +2,17 @@ import dynamic from 'next/dynamic';
 import type { Metadata } from 'next';
 import Layout from '@/components/layout/Layout';
 import AboutHero from '@/components/about/AboutHero';
-import DynamicSeoHead from '@/components/DynamicSeoHead';
 import ServerSeoSchema from '@/components/ServerSeoSchema';
-import { fetchCmsSeoForPage, getOgImageUrl } from '@/lib/fetchCmsSeo';
+import { buildPageMetadata } from '@/lib/fetchCmsSeo';
+import { fetchAboutHero } from '@/lib/fetchAboutHero';
+import { fetchAboutFounder } from '@/lib/fetchAboutFounder';
 
-const SITE_URL = 'https://arogya.namogange.org';
 
+// Meta tags, Open Graph, canonical (auto) and robots from arogya-admin → Pages & CMS → SEO Information
 export async function generateMetadata(): Promise<Metadata> {
-  const cms = await fetchCmsSeoForPage('/about');
-  const ogImg = getOgImageUrl(cms);
-  return {
-    title: cms?.metaTitle || 'About Us',
-    description: cms?.metaDescription ||
-      "Learn about the Arogya Sangoshthi Foundation — organizers of India's premier AYUSH & Integrated Healthcare Conference.",
-    alternates: { canonical: `${SITE_URL}/about` },
-    openGraph: { url: `${SITE_URL}/about`, images: [{ url: ogImg, width: 1200, height: 630 }] },
-    twitter: { images: [ogImg] },
-  };
+  return buildPageMetadata('/about', {
+    title: 'About Us', description: "Learn about the Arogya Sangoshthi Foundation — organizers of India's premier AYUSH & Integrated Healthcare Conference.",
+  });
 }
 
 
@@ -33,17 +27,19 @@ const OurImpact = dynamic(() => import('@/components/about/OurImpact'));
 
 
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  // Sections managed from arogya-admin (null → built-in content)
+  const [aboutHero, aboutFounder] = await Promise.all([fetchAboutHero(), fetchAboutFounder()]);
+
   return (
     <Layout>
-      <DynamicSeoHead pagePath="/about" />
       <ServerSeoSchema pagePath="/about" />
       <main className="flex min-h-screen flex-col items-center justify-between overflow-hidden">
         <div className="w-full">
-          <AboutHero />
+          <AboutHero data={aboutHero} />
         </div>
         <div className="w-full flex flex-col">
-          <AboutFounder />
+          <AboutFounder data={aboutFounder} />
           <AboutNamoGange />
           <AboutInitiatives />
           <FAQSection />

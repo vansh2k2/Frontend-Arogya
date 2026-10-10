@@ -1,24 +1,17 @@
 // Server Component — NO "use client"
 import type { Metadata } from "next";
 import Layout from "@/components/layout/Layout";
-import DynamicSeoHead from "@/components/DynamicSeoHead";
 import ServerSeoSchema from "@/components/ServerSeoSchema";
 import GalleryClient from "@/components/gallery/GalleryClient";
-import { fetchCmsSeoForPage, getOgImageUrl } from "@/lib/fetchCmsSeo";
+import { buildPageMetadata } from "@/lib/fetchCmsSeo";
 
-const SITE_URL = 'https://arogya.namogange.org';
 
+// Meta tags, Open Graph, canonical (auto) and robots from arogya-admin → Pages & CMS → SEO Information
 export async function generateMetadata(): Promise<Metadata> {
-  const cms = await fetchCmsSeoForPage('/gallery');
-  const ogImg = getOgImageUrl(cms);
-  return {
-    title: cms?.metaTitle || 'Gallery',
-    description: cms?.metaDescription ||
-      "Explore photos and videos from previous editions of Arogya Sangoshthi.",
-    alternates: { canonical: `${SITE_URL}/gallery` },
-    openGraph: { url: `${SITE_URL}/gallery`, images: [{ url: ogImg, width: 1200, height: 630 }] },
-    twitter: { images: [ogImg] },
-  };
+  return buildPageMetadata('/gallery', {
+    title: 'Gallery',
+    description: 'Explore photos and videos from previous editions of Arogya Sangoshthi.',
+  });
 }
 
 
@@ -29,7 +22,6 @@ export default function GalleryPage() {
       {/* Server-side schema injection — visible to all validators & bots */}
       <ServerSeoSchema pagePath="/gallery" />
       {/* Client-side meta override (title, OG, etc.) */}
-      <DynamicSeoHead pagePath="/gallery" />
       {/* All interactive gallery content (filters, state) */}
       <GalleryClient />
     </Layout>
