@@ -56,7 +56,8 @@ const initiatives = [
       </>
     ),
     iconImg: d11Icon,
-    image: img1
+    image: img1,
+    altText: "Integrated Healthcare"
   },
   {
     title: (
@@ -67,13 +68,15 @@ const initiatives = [
     ),
     desc: "Spreading knowledge on preventive healthcare, wellness and healthy living for all.",
     iconImg: d22Icon,
-    image: img2
+    image: img2,
+    altText: "Health Awareness and Education"
   },
   {
     title: "Community Empowerment",
     desc: "Empowering communities through health camps, workshops and outreach programs.",
     iconImg: d33Icon,
-    image: img3
+    image: img3,
+    altText: "Community Empowerment"
   },
   {
     title: "Environment Sustainability",
@@ -85,7 +88,8 @@ const initiatives = [
       </>
     ),
     iconImg: d44Icon,
-    image: img4
+    image: img4,
+    altText: "Environment Sustainability"
   },
   {
     title: (
@@ -102,7 +106,8 @@ const initiatives = [
       </>
     ),
     iconImg: d55Icon,
-    image: img5
+    image: img5,
+    altText: "Youth Engagement"
   },
   {
     title: (
@@ -113,7 +118,8 @@ const initiatives = [
     ),
     desc: "Encouraging research, innovation and technology for holistic well-being.",
     iconImg: d66Icon,
-    image: img6
+    image: img6,
+    altText: "Research and Innovation"
   },
   {
     title: (
@@ -124,7 +130,8 @@ const initiatives = [
     ),
     desc: "Promoting mental well-being, stress management and lifestyle balance.",
     iconImg: d77Icon,
-    image: img7
+    image: img7,
+    altText: "Wellness and Mental Health"
   },
   {
     title: (
@@ -135,13 +142,15 @@ const initiatives = [
     ),
     desc: "Advocating balanced nutrition, healthy lifestyles and preventive care.",
     iconImg: d88Icon,
-    image: img8
+    image: img8,
+    altText: "Nutrition and Lifestyle"
   },
   {
     title: "Women Empowerment",
     desc: "Empowering women with health awareness, skills and leadership opportunities.",
     iconImg: d99Icon,
-    image: img9
+    image: img9,
+    altText: "Women Empowerment"
   },
   {
     title: "Collaboration & Partnerships",
@@ -153,7 +162,8 @@ const initiatives = [
       </>
     ),
     iconImg: d100Icon,
-    image: img10
+    image: img10,
+    altText: "Collaboration and Partnerships"
   }
 ];
 
@@ -202,7 +212,7 @@ const AboutInitiatives = () => {
                 <div className="pt-3 px-3 pb-1.5 xl:pt-4 xl:px-4 xl:pb-2 flex-1 flex gap-2.5 md:gap-3 items-start">
                   {/* Icon or Image */}
                   {item.iconImg ? (
-                    <img src={item.iconImg} alt="" className="w-10 h-10 md:w-12 md:h-12 xl:w-14 xl:h-14 object-contain shrink-0" />
+                    <img src={item.iconImg} alt={item.altText} className="w-10 h-10 md:w-12 md:h-12 xl:w-14 xl:h-14 object-contain shrink-0" />
                   ) : (
                     <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#00281a] flex items-center justify-center shrink-0">
                       <IconComponent className="text-white w-4 h-4 md:w-5 md:h-5" strokeWidth={1.5} />
@@ -223,7 +233,7 @@ const AboutInitiatives = () => {
                 <div className="h-[90px] xl:h-[100px] w-full">
                   <img 
                     src={item.image} 
-                    alt={typeof item.title === 'string' ? item.title : 'Initiative image'} 
+                    alt={item.altText} 
                     className="w-full h-full object-cover"
                   />
                 </div>

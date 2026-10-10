@@ -258,7 +258,7 @@ const UpcomingEventSection = () => {
               <div className="bg-[#f4eee0] rounded-xl py-5 pl-5 pr-6 flex flex-col shadow-xl w-fit border border-[#e8dfc8] relative overflow-hidden">
                 {/* Subtle background lotus image */}
                 <div className="absolute -bottom-8 -right-8 opacity-70 pointer-events-none">
-                   <img src={getImageSrc(main22)} alt="Lotus" className="w-40 h-40 object-contain" />
+                   <img src={getImageSrc(main22)} alt="Gold decorative lotus" className="w-40 h-40 object-contain" />
                 </div>
                 <h3 className="text-[#001810] font-bold text-sm tracking-wider uppercase mb-4">Why You Should Attend</h3>
                 <ul className="flex flex-col gap-2 relative z-10">

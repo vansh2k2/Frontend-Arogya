@@ -73,7 +73,7 @@ const TopicsOfInterest = () => {
         {/* Right side background decoration */}
         <img 
           src={footerRightImage?.src || footerRightImage} 
-          alt="decoration" 
+          alt="Gold leaf branch decoration" 
           className="absolute right-0 top-1/2 -translate-y-1/2 w-48 md:w-64 opacity-100 pointer-events-none z-0" 
         />
         
@@ -81,11 +81,11 @@ const TopicsOfInterest = () => {
 
           {/* Header */}
           <div className="flex justify-center items-center gap-4 mb-6">
-            <img src={P1Icon?.src || P1Icon} alt="decoration" className="w-8 md:w-10 h-auto object-contain" />
+            <img src={P1Icon?.src || P1Icon} alt="Green leaf sprig decoration" className="w-8 md:w-10 h-auto object-contain" />
             <h2 className="text-[#032e1c] font-inter font-bold text-xl md:text-2xl uppercase tracking-wider text-center">
               TOPICS OF INTEREST
             </h2>
-            <img src={P1Icon?.src || P1Icon} alt="decoration" className="w-8 md:w-10 h-auto object-contain" />
+            <img src={P1Icon?.src || P1Icon} alt="Green leaf sprig decoration" className="w-8 md:w-10 h-auto object-contain" />
           </div>
 
           {/* Grid */}

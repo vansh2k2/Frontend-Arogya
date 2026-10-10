@@ -36,7 +36,7 @@ const VisionMissionSection = () => {
       ? (chairman.image.url.startsWith('http') ? chairman.image.url : `${SERVER_URL}${chairman.image.url}`)
       : chairmanDefaultImg;
 
-  const chairmanImgAlt = chairman?.image?.altText || 'Chairman';
+  const chairmanImgAlt = chairman?.image?.altText || 'Chairman portrait';
 
   // Resolve leaf-right image: Cloudinary URL → fallback static asset
   const leafImg =
@@ -44,7 +44,7 @@ const VisionMissionSection = () => {
       ? chairman.leafRight.url
       : leafRightIcon;
 
-  const leafAlt = chairman?.leafRight?.altText || 'Leaf Decoration';
+  const leafAlt = chairman?.leafRight?.altText || 'Green leaf decoration';
 
   const heading = chairman?.heading || "CHAIRMAN'S MESSAGE";
   const message = chairman?.message ||
@@ -71,19 +71,19 @@ const VisionMissionSection = () => {
           </div>
 
           <div className="flex items-center gap-3 mb-3 relative z-10 ml-2 lg:ml-4">
-            <img src={(v1Icon as any)?.src || (v1Icon as any)} alt="Vision" className="w-8 h-8 shrink-0 object-contain" />
+            <img src={(v1Icon as any)?.src || (v1Icon as any)} alt="Vision eye icon" className="w-8 h-8 shrink-0 object-contain" />
             <div className="flex flex-col w-full">
               <h3 className="text-[#cfa144] font-extrabold text-lg tracking-wider uppercase font-inter mb-1">OUR VISION</h3>
               <div className="flex items-center gap-1.5">
                 <div className="h-[1px] bg-[#cfa144] w-full max-w-[30px]" />
-                <img src={(mainIcon as any)?.src || (mainIcon as any)} alt="lotus" className="h-3 w-auto object-contain" />
+                <img src={(mainIcon as any)?.src || (mainIcon as any)} alt="Green lotus divider" className="h-3 w-auto object-contain" />
                 <div className="h-[1px] bg-[#cfa144] w-full max-w-[30px]" />
               </div>
             </div>
           </div>
 
           <div className="flex flex-row items-center gap-4 relative z-10 mt-1 mb-1">
-            <img src={(main2Icon as any)?.src || (main2Icon as any)} alt="Decorative Lotus" className="w-16 h-16 shrink-0 object-contain" />
+            <img src={(main2Icon as any)?.src || (main2Icon as any)} alt="Gold decorative lotus" className="w-16 h-16 shrink-0 object-contain" />
             <p className="text-white text-[13px] leading-relaxed font-normal font-inter whitespace-nowrap">
               A world where<br/>
               integrated healthcare<br/>
@@ -100,7 +100,7 @@ const VisionMissionSection = () => {
             <h3 className="text-[#032e1c] font-extrabold text-xl tracking-wider uppercase font-inter mb-2">OUR MISSION</h3>
             <div className="flex items-center gap-1.5 justify-center w-full">
               <div className="h-[1px] bg-[#a07b30] w-12" />
-              <img src={(mainIcon as any)?.src || (mainIcon as any)} alt="lotus" className="h-3.5 w-auto object-contain" />
+              <img src={(mainIcon as any)?.src || (mainIcon as any)} alt="Green lotus divider" className="h-3.5 w-auto object-contain" />
               <div className="h-[1px] bg-[#a07b30] w-12" />
             </div>
           </div>
@@ -169,7 +169,7 @@ const VisionMissionSection = () => {
             </h3>
             <div className="flex items-center gap-1.5 justify-center w-full">
               <div className="h-[1px] bg-[#a07b30] w-12" />
-              <img src={(mainIcon as any)?.src || (mainIcon as any)} alt="lotus" className="h-3.5 w-auto object-contain" />
+              <img src={(mainIcon as any)?.src || (mainIcon as any)} alt="Green lotus divider" className="h-3.5 w-auto object-contain" />
               <div className="h-[1px] bg-[#a07b30] w-12" />
             </div>
           </div>

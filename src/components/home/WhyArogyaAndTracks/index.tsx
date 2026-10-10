@@ -182,7 +182,7 @@ const WhyArogyaAndTracks = () => {
               viewport={{ once: true, amount: 0.6 }}
               variants={headerVariants}
             >
-              <Image src={mainIcon} alt="Logo" sizes="60px" className="h-7 w-auto object-contain mb-2" />
+              <Image src={mainIcon} alt="Arogya Sangoshthi lotus logo" sizes="60px" className="h-7 w-auto object-contain mb-2" />
               <div className="flex items-center gap-2 sm:gap-3 w-full justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
                 <div className="h-[1px] bg-gradient-to-r from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />
@@ -240,7 +240,7 @@ const WhyArogyaAndTracks = () => {
               viewport={{ once: true, amount: 0.6 }}
               variants={headerVariants}
             >
-              <Image src={mainIcon} alt="Logo" sizes="60px" className="h-7 w-auto object-contain mb-2" />
+              <Image src={mainIcon} alt="Arogya Sangoshthi lotus logo" sizes="60px" className="h-7 w-auto object-contain mb-2" />
               <div className="flex items-center gap-2 sm:gap-3 w-full justify-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
                 <div className="h-[1px] bg-gradient-to-r from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />

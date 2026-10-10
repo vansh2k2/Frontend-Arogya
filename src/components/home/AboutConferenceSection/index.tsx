@@ -111,7 +111,7 @@ const AboutConferenceSection = () => {
               </span>
               <div className="flex items-center gap-2">
                 <div className="h-[1px] bg-[#a99539] w-[40px]" />
-                <img src={mainIcon?.src || mainIcon} alt="lotus" className="h-7 w-auto object-contain" />
+                <img src={mainIcon?.src || mainIcon} alt="Green lotus logo" className="h-7 w-auto object-contain" />
                 <div className="h-[1px] bg-[#a99539] w-[40px]" />
               </div>
             </motion.div>

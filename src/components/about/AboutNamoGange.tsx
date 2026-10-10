@@ -45,7 +45,7 @@ const AboutNamoGange = () => {
               ].map((item, index) => (
                 <li key={index} className="flex items-center gap-3 md:gap-4">
                   <div className="w-5 h-5 md:w-6 md:h-6 flex items-center justify-center shrink-0">
-                    <img src={fe1Icon?.src || fe1Icon} alt="bullet" className="w-full h-full object-contain" />
+                    <img src={fe1Icon?.src || fe1Icon} alt="Green lotus bullet icon" className="w-full h-full object-contain" />
                   </div>
                   <span className="text-black font-medium text-[11px] md:text-[12.5px]">{item}</span>
                 </li>
@@ -59,7 +59,7 @@ const AboutNamoGange = () => {
               {/* Background Image */}
               <img 
                 src={aboutImage?.src || aboutImage} 
-                alt="Nature River Landscape" 
+                alt="Namo Gange Trust vision and mission" 
                 className="absolute inset-0 w-full h-full object-cover"
               />
               

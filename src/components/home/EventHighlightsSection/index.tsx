@@ -272,7 +272,7 @@ const EventHighlightsSection = () => {
                     <p className="text-[#001810] text-[11px] font-medium leading-tight mb-2">Inauguration, Keynotes, Global Health Outlook, Modern Medicine Innovations</p>
                   </div>
                   <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm relative">
-                    <Image src={h1} alt="Day 1" sizes="120px" className="w-full h-full object-cover" />
+                    <Image src={h1} alt="Keynote speaker at Arogya Sangoshthi Day 1 inauguration" sizes="120px" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -286,7 +286,7 @@ const EventHighlightsSection = () => {
                     <p className="text-[#001810] text-[11px] font-medium leading-tight mb-2">AYUSH Conclave, Pharma & Biotech, Health Tech & AI, Panel Discussions</p>
                   </div>
                   <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm relative">
-                    <Image src={h2} alt="Day 2" sizes="120px" className="w-full h-full object-cover" />
+                    <Image src={h2} alt="Panel discussion at Arogya Sangoshthi Day 2" sizes="120px" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -300,7 +300,7 @@ const EventHighlightsSection = () => {
                     <p className="text-[#001810] text-[11px] font-medium leading-tight mb-2">Startup Pitch, Research Presentations, Workshops, Valedictory & Awards</p>
                   </div>
                   <div className="w-20 h-10 rounded overflow-hidden shrink-0 shadow-sm relative">
-                    <Image src={h3} alt="Day 3" sizes="120px" className="w-full h-full object-cover" />
+                    <Image src={h3} alt="Awards ceremony at Arogya Sangoshthi Day 3 valedictory" sizes="120px" className="w-full h-full object-cover" />
                   </div>
                 </div>
                 
@@ -396,7 +396,7 @@ const EventHighlightsSection = () => {
           >
             {/* Left Side: Icon and Text */}
             <div className="flex flex-col md:flex-row items-center md:items-start gap-4 xl:gap-6 text-center md:text-left flex-1 -ml-2">
-              <Image src={t1} alt="Ticket" className="w-14 h-auto object-cover shrink-0 transform scale-[1.1] translate-y-1 origin-center ml-2" />
+              <Image src={t1} alt="Registration ticket icon" className="w-14 h-auto object-cover shrink-0 transform scale-[1.1] translate-y-1 origin-center ml-2" />
               <div className="flex flex-col gap-1 mt-1 px-2 md:px-0">
                 <h3 className="text-white font-inter text-sm xl:text-base leading-tight font-extrabold tracking-wide md:whitespace-nowrap">
                   BE PART OF INDIA'S MOST TRANSFORMATIVE HEALTHCARE EVENT

@@ -174,7 +174,7 @@ const GlobalVoicesSection = () => {
       {/* Top Left Leaf Decoration */}
       <Image
         src={settings.leftImage}
-        alt="Decoration"
+        alt="Gold leaf decoration top left"
         width={180}
         height={189}
         quality={70}
@@ -185,7 +185,7 @@ const GlobalVoicesSection = () => {
       {/* Right Decoration */}
       <img
         src={typeof settings.rightImage === 'string' ? settings.rightImage : (settings.rightImage as any)?.src}
-        alt="Decoration Right"
+        alt="Gold leaf decoration top right"
         className="absolute top-0 right-0 w-[200px] md:w-[350px] lg:w-[450px] h-auto object-contain pointer-events-none z-0 opacity-100 mix-blend-multiply [mask-image:linear-gradient(to_right,transparent,black_20%)]"
       />
 
@@ -356,7 +356,7 @@ const GlobalVoicesSection = () => {
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-3 relative z-10 w-full lg:w-auto">
             {/* Feature 1 */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <img src={typeof s1 === 'string' ? s1 : (s1 as any)?.src} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
+              <img src={typeof s1 === 'string' ? s1 : (s1 as any)?.src} alt="World-class speakers podium icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
                 <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">World-Class Speakers</h4>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Thought leaders from across the<br />globe under one roof.</p>
@@ -367,7 +367,7 @@ const GlobalVoicesSection = () => {
 
             {/* Feature 2 */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <img src={typeof s2 === 'string' ? s2 : (s2 as any)?.src} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
+              <img src={typeof s2 === 'string' ? s2 : (s2 as any)?.src} alt="Diverse expertise handshake icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
                 <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Diverse Expertise</h4>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Covering Modern Medicine, AYUSH,<br />Pharma, Tech & more.</p>
@@ -378,7 +378,7 @@ const GlobalVoicesSection = () => {
 
             {/* Feature 3 */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <img src={typeof s3 === 'string' ? s3 : (s3 as any)?.src} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
+              <img src={typeof s3 === 'string' ? s3 : (s3 as any)?.src} alt="Actionable insights network icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
                 <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Actionable Insights</h4>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Real-world solutions for a<br />healthier tomorrow.</p>
@@ -389,7 +389,7 @@ const GlobalVoicesSection = () => {
 
             {/* Feature 4 */}
             <div className="flex items-center gap-1.5 md:gap-2">
-              <img src={typeof s4 === 'string' ? s4 : (s4 as any)?.src} alt="Icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
+              <img src={typeof s4 === 'string' ? s4 : (s4 as any)?.src} alt="Unmatched networking people icon" className="w-9 h-9 md:w-10 md:h-10 object-contain shrink-0" />
               <div>
                 <h4 className="text-[#f7c45a] font-medium font-inter text-xs md:text-sm mb-0.5 whitespace-nowrap">Unmatched Networking</h4>
                 <p className="text-white text-[10px] md:text-[11px] leading-tight whitespace-nowrap">Connect, collaborate and create<br />lasting impact.</p>
@@ -415,7 +415,7 @@ const GlobalVoicesSection = () => {
       {/* Bottom Left Leaf Decoration */}
       <Image
         src={leafright}
-        alt="Decoration"
+        alt="Gold leaf decoration bottom left"
         width={160}
         height={148}
         quality={70}

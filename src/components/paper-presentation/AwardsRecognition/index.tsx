@@ -24,11 +24,11 @@ const AwardsRecognition = () => {
         
         {/* Header */}
         <div className="flex justify-center items-center gap-4 mb-10">
-          <img src={p1Icon?.src || p1Icon} alt="P1" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+          <img src={p1Icon?.src || p1Icon} alt="Green leaf sprig decoration" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
           <h2 className="text-[#032e1c] font-inter font-semibold text-2xl md:text-2xl uppercase tracking-wider text-center">
             AWARDS & RECOGNITION
           </h2>
-          <img src={p1Icon?.src || p1Icon} alt="P1" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+          <img src={p1Icon?.src || p1Icon} alt="Green leaf sprig decoration" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
         </div>
 
         {/* Content */}

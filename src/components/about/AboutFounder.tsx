@@ -39,7 +39,7 @@ const AboutFounder = () => {
 
           {/* Lotus Background - Bottom Right */}
           <div className="absolute right-0 bottom-0 opacity-20 pointer-events-none translate-x-1/4 translate-y-1/4 w-[200px] h-[200px] md:w-[300px] md:h-[300px]">
-            <img src={main22?.src || main22} alt="" className="w-full h-full object-contain" />
+            <img src={main22?.src || main22} alt="Gold lotus decoration" className="w-full h-full object-contain" />
           </div>
 
           {/* ───── LEFT: Founder Info ───── */}
@@ -50,7 +50,7 @@ const AboutFounder = () => {
               {/* Gold Leaf */}
               <img
                 src={gold1?.src || gold1}
-                alt=""
+                alt="Gold leaf decoration"
                 className="absolute bottom-2 md:bottom-3 -left-1 md:-left-6 w-[45px] md:w-[55px] h-auto object-contain pointer-events-none z-20"
               />
               {/* Photo Ring */}

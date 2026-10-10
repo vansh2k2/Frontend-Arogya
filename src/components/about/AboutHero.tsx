@@ -45,7 +45,7 @@ const AboutHero = () => {
       <div className="absolute top-0 right-0 w-full xl:w-[95%] 2xl:w-[90%] h-full">
         <img
           src={aboutback?.src || aboutback}
-          alt="About Background"
+          alt="Arogya Sangoshthi About Us background"
           className="w-full h-full object-cover object-left"
         />
       </div>
@@ -64,7 +64,7 @@ const AboutHero = () => {
               <div className="flex items-center mb-2 md:mb-4 w-full max-w-[150px] md:max-w-[200px]">
                 <div className="h-[2px] bg-[#cba344] flex-1"></div>
                 <div className="pl-3">
-                  <img src={main22?.src || main22} alt="Divider" className="w-5 h-5 md:w-6 md:h-6 object-contain" />
+                  <img src={main22?.src || main22} alt="Lotus divider" className="w-5 h-5 md:w-6 md:h-6 object-contain" />
                 </div>
               </div>
               

@@ -58,7 +58,7 @@ const GuidelinesAndSubmission = () => {
       {/* Left side background decoration */}
       <img 
         src={leafsImage?.src || leafsImage} 
-        alt="decoration" 
+        alt="Green leaf vine decoration" 
         className="absolute left-0 top-1/2 -translate-y-1/2 w-32 md:w-48 opacity-100 pointer-events-none z-0" 
       />
       
@@ -68,7 +68,7 @@ const GuidelinesAndSubmission = () => {
         <div className="bg-[#fbfaf6] rounded-2xl pt-4 px-6 pb-3 md:pt-6 md:px-10 md:pb-4 border border-[#e5e9d9] shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src={ke11?.src || ke11} alt="Guidelines" className="w-10 md:w-12 h-auto object-contain shrink-0" />
+              <img src={ke11?.src || ke11} alt="Guidelines document icon" className="w-10 md:w-12 h-auto object-contain shrink-0" />
               <h3 className="text-[#032e1c] font-inter font-bold text-lg md:text-xl uppercase tracking-wider">
                 GUIDELINES FOR AUTHORS
               </h3>
@@ -101,14 +101,14 @@ const GuidelinesAndSubmission = () => {
           </div>
 
           {/* Decorative graphic */}
-          <img src={key1?.src || key1} alt="decoration" className="absolute right-4 bottom-10 w-32 md:w-40 h-auto opacity-100 pointer-events-none" />
+          <img src={key1?.src || key1} alt="Checklist with plants illustration" className="absolute right-4 bottom-10 w-32 md:w-40 h-auto opacity-100 pointer-events-none" />
         </div>
 
         {/* RIGHT: SUBMISSION */}
         <div className="bg-[#fbfaf6] rounded-2xl pt-4 px-6 pb-3 md:pt-6 md:px-10 md:pb-4 border border-[#e5e9d9] shadow-sm relative overflow-hidden flex flex-col justify-between h-full">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <img src={ke22?.src || ke22} alt="Process" className="w-10 md:w-12 h-auto object-contain shrink-0" />
+              <img src={ke22?.src || ke22} alt="Submission process clipboard icon" className="w-10 md:w-12 h-auto object-contain shrink-0" />
               <h3 className="text-[#032e1c] font-inter font-bold text-lg md:text-xl uppercase tracking-wider">
                 SUBMISSION PROCESS
               </h3>
@@ -146,7 +146,7 @@ const GuidelinesAndSubmission = () => {
           </div>
 
           {/* Decorative graphic */}
-          <img src={ke2?.src || ke2} alt="decoration" className="absolute right-4 bottom-10 w-36 md:w-48 h-auto opacity-100 pointer-events-none" />
+          <img src={ke2?.src || ke2} alt="Green leaf decoration" className="absolute right-4 bottom-10 w-36 md:w-48 h-auto opacity-100 pointer-events-none" />
         </div>
 
       </SectionContainer>

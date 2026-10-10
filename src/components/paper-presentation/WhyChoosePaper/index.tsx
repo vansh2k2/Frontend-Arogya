@@ -35,7 +35,7 @@ const WhyChoosePaper = () => {
             {features.map((feature, index) => (
               <React.Fragment key={feature.id}>
                 <div className="flex flex-col items-center text-center gap-3 flex-1">
-                  <img src={feature.image?.src || feature.image} alt="icon" className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain" />
+                  <img src={feature.image?.src || feature.image} alt={feature.title.replace('\n', ' ')} className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain" />
                   <p className="text-gray-200 text-[10px] sm:text-xs md:text-sm font-medium whitespace-pre-line leading-snug">
                     {feature.title}
                   </p>
@@ -54,7 +54,7 @@ const WhyChoosePaper = () => {
         {/* RIGHT BLOCK: CTA CARD */}
         <div className="w-full lg:w-[400px] xl:w-[450px] bg-[#fbfcf7] rounded-2xl p-4 md:py-6 md:px-8 flex flex-col justify-center relative shadow-md flex-shrink-0 overflow-hidden">
           {/* Decorative leaf */}
-          <img src={bleaf?.src || bleaf} alt="decoration" className="absolute bottom-0 right-0 w-20 sm:w-28 pointer-events-none" />
+          <img src={bleaf?.src || bleaf} alt="Green leaf branch decoration" className="absolute bottom-0 right-0 w-20 sm:w-28 pointer-events-none" />
           
           <div className="relative z-10">
             <p className="text-gray-900 text-sm sm:text-base font-medium mb-3">

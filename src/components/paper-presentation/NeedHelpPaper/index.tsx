@@ -25,7 +25,7 @@ const NeedHelpPaper = () => {
         <div className="w-full bg-[#eeefdf] border border-[#e8ebd9] rounded-xl py-3 px-4 md:py-4 md:px-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 shadow-sm relative overflow-hidden">
         
         <div className="flex items-center gap-4">
-          <img src={n1?.src || n1} alt="Need Help" className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0" />
+          <img src={n1?.src || n1} alt="Need help document with magnifier icon" className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0" />
           <div>
             <h4 className="text-[#032e1c] font-bold text-sm uppercase">NEED HELP?</h4>
             <p className="text-black text-xs md:text-sm font-medium">Reach out to our paper presentation team for any queries.</p>
@@ -43,7 +43,7 @@ const NeedHelpPaper = () => {
         </div>
 
         {/* Decorative leaf */}
-        <img src={bleaf?.src || bleaf} alt="decoration" className="absolute -bottom-2 -right-4 w-12 md:w-16 pointer-events-none" />
+        <img src={bleaf?.src || bleaf} alt="Green leaf branch decoration" className="absolute -bottom-2 -right-4 w-12 md:w-16 pointer-events-none" />
 
         </div>
       </SectionContainer>

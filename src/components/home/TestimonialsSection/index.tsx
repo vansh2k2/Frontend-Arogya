@@ -197,7 +197,7 @@ const TestimonialsSection = () => {
         {/* Right Decoration Next To Header */}
         <Image 
           src={footerRightImage}
-          alt="Decoration Right"
+          alt="Gold leaf decoration right"
           sizes="180px"
           className="hidden md:block absolute right-0 top-0 w-[100px] md:w-[150px] lg:w-[180px] h-auto opacity-90 pointer-events-none -mt-8"
         />
@@ -206,7 +206,7 @@ const TestimonialsSection = () => {
         <div className="flex flex-col items-center text-center mb-4 relative z-10 -mt-2 md:-mt-3">
           <Image 
             src={settings.topImage ? getImageUrl(settings.topImage) : mainIcon} 
-            alt="Lotus" 
+            alt="Arogya Sangoshthi lotus logo" 
             width={160}
             height={125}
             quality={75}
@@ -318,7 +318,7 @@ const TestimonialsSection = () => {
           {/* Left Text */}
           <div className="lg:w-1/4 text-white text-center lg:text-left -mt-2 lg:-mt-6">
             <div className="flex items-center justify-center lg:justify-start gap-2 mb-3 text-[#cba344]">
-              <img src={settings.videoTopImage ? getImageUrl(settings.videoTopImage) : (mainIcon?.src || mainIcon)} alt="icon" className="h-5 object-contain brightness-200" />
+              <img src={settings.videoTopImage ? getImageUrl(settings.videoTopImage) : (mainIcon?.src || mainIcon)} alt="Video testimonials lotus icon" className="h-5 object-contain brightness-200" />
               <span className="text-xs font-bold tracking-widest uppercase mt-1">{settings.videoHeading || 'VIDEO TESTIMONIALS'}</span>
             </div>
             <h3 ref={videoRef} className="font-inter text-base md:text-lg font-extrabold uppercase tracking-wider mb-6 leading-none text-white flex flex-col gap-0">

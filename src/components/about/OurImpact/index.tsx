@@ -41,12 +41,12 @@ const CountUp = ({ end, duration = 2000 }) => {
 };
 
 const impactData = [
-  { image: i1, value: 1000, suffix: "+", label: <>Health Camps<br/>Organized</> },
-  { image: i2, value: 50000, suffix: "+", label: <>Beneficiaries<br/>Reached</> },
-  { image: i3, value: 25, suffix: "+", label: <>States & UTs<br/>Covered</> },
-  { image: i4, value: 100, suffix: "+", label: <>Partners &<br/>Organizations</> },
-  { image: i5, value: 100, suffix: "+", label: <>Projects<br/>Executed</> },
-  { image: i6, value: "Countless", suffix: "", label: <>Lives Touched<br/>Every Day</> }
+  { image: i1, value: 1000, suffix: "+", label: <>Health Camps<br/>Organized</>, alt: "Health camps organized icon" },
+  { image: i2, value: 50000, suffix: "+", label: <>Beneficiaries<br/>Reached</>, alt: "Beneficiaries reached icon" },
+  { image: i3, value: 25, suffix: "+", label: <>States & UTs<br/>Covered</>, alt: "States and UTs covered icon" },
+  { image: i4, value: 100, suffix: "+", label: <>Partners &<br/>Organizations</>, alt: "Partners and organizations icon" },
+  { image: i5, value: 100, suffix: "+", label: <>Projects<br/>Executed</>, alt: "Projects executed icon" },
+  { image: i6, value: "Countless", suffix: "", label: <>Lives Touched<br/>Every Day</>, alt: "Lives touched every day icon" }
 ];
 
 const OurImpact = () => {
@@ -65,7 +65,7 @@ const OurImpact = () => {
             return (
               <React.Fragment key={idx}>
                 <div className="flex items-center gap-3 w-full sm:w-auto sm:flex-1 justify-center xl:justify-start">
-                  <img src={item.image} alt="" className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0" />
+                  <img src={item.image} alt={item.alt} className="w-8 h-8 md:w-10 md:h-10 object-contain shrink-0" />
                   <div className="flex flex-col">
                     <div className="text-[#00281a] font-extrabold text-[17px] md:text-[20px] font-inter leading-none mb-1">
                       {typeof item.value === 'number' ? (

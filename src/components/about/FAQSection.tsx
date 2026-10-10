@@ -80,10 +80,10 @@ const FAQSection = () => {
   return (
     <section className="pt-8 pb-8 bg-white border-t border-gray-100 relative overflow-hidden">
       <div className="absolute top-1/2 -translate-y-1/2 left-0 w-[80px] md:w-[150px] lg:w-[200px] h-auto pointer-events-none z-0">
-        <img loading="lazy" decoding="async" src={(() => { const img = faqData?.leftImage; if (!img) { const li = leaf; return li?.src || li; } const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })() as string} alt="decoration" className="w-full h-full object-contain" />
+        <img loading="lazy" decoding="async" src={(() => { const img = faqData?.leftImage; if (!img) { const li = leaf; return li?.src || li; } const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })() as string} alt="Green leaf vine decoration" className="w-full h-full object-contain" />
       </div>
       <div className="absolute top-0 md:-top-4 right-0 w-32 md:w-48 lg:w-64 xl:w-72 h-auto pointer-events-none z-0">
-        <img loading="lazy" decoding="async" src={(() => { const img = faqData?.rightImage; if (!img) { const ri = footerRight; return ri?.src || ri; } const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })() as string} alt="decoration right" className="w-full h-full object-contain opacity-80" />
+        <img loading="lazy" decoding="async" src={(() => { const img = faqData?.rightImage; if (!img) { const ri = footerRight; return ri?.src || ri; } const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })() as string} alt="Gold leaf branch decoration" className="w-full h-full object-contain opacity-80" />
       </div>
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#23471d]/[0.01] rounded-full blur-[80px] -mr-48 -mt-48" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#d26019]/[0.01] rounded-full blur-[80px] -ml-48 -mb-48" />
@@ -204,7 +204,7 @@ const FAQSection = () => {
             {/* CTA below image */}
             <div className="mt-3 relative p-4 bg-white border border-slate-100 shadow-sm text-center overflow-hidden rounded-xl">
               <div className="absolute inset-0 z-0 opacity-5 pointer-events-none">
-                <img src={(leaf?.src || leaf) as string} alt="" className="w-full h-full object-cover" />
+                <img src={(leaf?.src || leaf) as string} alt="Green leaf background decoration" className="w-full h-full object-cover" />
               </div>
               <div className="relative z-10 flex flex-col items-center">
                 <p className="text-slate-500 text-[11px] font-medium mb-3">

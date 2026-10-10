@@ -47,7 +47,7 @@ const SponsorCard = ({ icon, idx, borderColor }) => (
     <div className="card-inner">
       <img
         src={icon?.src || icon}
-        alt={`Partner ${idx + 1}`}
+        alt={`Conference partner logo ${idx + 1}`}
         className="sponsor-img"
       />
     </div>

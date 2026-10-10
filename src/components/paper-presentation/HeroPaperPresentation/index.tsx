@@ -38,7 +38,7 @@ const HeroPaperPresentation = () => {
 
             <div className="flex items-center gap-4 mt-0">
               <div className="h-[2px] w-12 md:w-16 bg-[#cba344]"></div>
-              <img src={mainIcon?.src || mainIcon} alt="decoration" className="h-6 w-auto object-contain" />
+              <img src={mainIcon?.src || mainIcon} alt="Green lotus logo" className="h-6 w-auto object-contain" />
             </div>
           </div>
           

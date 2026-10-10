@@ -33,11 +33,11 @@ const ImportantDatesPaper = () => {
         <div className="flex-[3] bg-[#032212] rounded-2xl px-6 pb-6 pt-2 md:px-10 md:pb-10 md:pt-4 text-white relative overflow-hidden shadow-lg border border-[#043b24]">
           
           <div className="flex items-center justify-center gap-3 mb-6">
-            <img src={P1Icon?.src || P1Icon} alt="decoration" className="w-8 md:w-10 h-auto object-contain" />
+            <img src={P1Icon?.src || P1Icon} alt="Green leaf sprig decoration" className="w-8 md:w-10 h-auto object-contain" />
             <h2 className="text-xl md:text-2xl font-semi  bold font-inter uppercase tracking-wider text-center">
               IMPORTANT DATES
             </h2>
-            <img src={P1Icon?.src || P1Icon} alt="decoration" className="w-8 md:w-10 h-auto object-contain" />
+            <img src={P1Icon?.src || P1Icon} alt="Green leaf sprig decoration" className="w-8 md:w-10 h-auto object-contain" />
           </div>
 
           <div className="relative">
@@ -47,7 +47,7 @@ const ImportantDatesPaper = () => {
                   
                   {/* Icon Area */}
                   <div className="w-full flex justify-center relative mb-6">
-                    <img src={item.icon?.src || item.icon} alt="icon" className="w-16 h-16 object-contain relative z-10" />
+                    <img src={item.icon?.src || item.icon} alt={`${item.line1} ${item.line2} icon`} className="w-16 h-16 object-contain relative z-10" />
                     {/* Dashed Line with Dots connecting to next icon */}
                     {index < dates.length - 1 && (
                       <div className="hidden md:flex absolute top-1/2 left-[50%] w-full items-center z-0 px-9">
@@ -81,7 +81,7 @@ const ImportantDatesPaper = () => {
         {/* RIGHT COLUMN: WHY PRESENT */}
         <div className="flex-[1] bg-[#f5f6f1] rounded-2xl px-6 pb-6 pt-2 md:px-8 md:pb-8 md:pt-4 border border-gray-200 shadow-sm relative overflow-hidden">
           {/* Decorative leaf */}
-          <img src={dleafIcon?.src || dleafIcon} alt="decoration" className="absolute bottom-0 right-0 w-32 opacity-40 pointer-events-none mix-blend-multiply" />
+          <img src={dleafIcon?.src || dleafIcon} alt="Green leaf vine decoration" className="absolute bottom-0 right-0 w-32 opacity-40 pointer-events-none mix-blend-multiply" />
           
           <h3 className="text-[#032e1c] font-medium text-lg mb-1 relative z-10 text-center uppercase tracking-wide">
             WHY PRESENT?
