@@ -43,10 +43,11 @@ export const fetchCmsSeoForPage = async (
 ): Promise<CmsSeoData | null> => {
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000);
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
 
+    const isDev = process.env.NODE_ENV === "development";
     const res = await fetch(`${getApiBase()}/seo/all`, {
-      next: { revalidate: 30 },
+      ...(isDev ? { cache: "no-store" } : { next: { revalidate: 30 } }),
       signal: controller.signal,
     });
     
@@ -55,9 +56,12 @@ export const fetchCmsSeoForPage = async (
     if (!res.ok) return null;
     const data = await res.json();
     if (!data.success) return null;
-    const found = (data.data as CmsSeoData[]).find(
-      (item: any) => item.page === pagePath && item.isActive
-    );
+
+    const normalizedTarget = (pagePath || "").trim().replace(/\/+$/, "") || "/";
+    const found = (data.data as CmsSeoData[]).find((item: any) => {
+      const normalizedItem = (item.page || "").trim().replace(/\/+$/, "") || "/";
+      return normalizedItem === normalizedTarget && item.isActive;
+    });
     if (!found) return null;
     // Tags generated while the admin was on localhost carry the local website address —
     // switch them to this site so the live HTML never points at localhost
