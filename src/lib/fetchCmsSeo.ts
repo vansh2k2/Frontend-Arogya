@@ -58,11 +58,23 @@ export const fetchCmsSeoForPage = async (
     const found = (data.data as CmsSeoData[]).find(
       (item: any) => item.page === pagePath && item.isActive
     );
-    return found || null;
+    if (!found) return null;
+    // Tags generated while the admin was on localhost carry the local website address —
+    // switch them to this site so the live HTML never points at localhost
+    return {
+      ...found,
+      openGraphTags: rebaseLocalUrls(found.openGraphTags),
+      schemaMarkup: rebaseLocalUrls(found.schemaMarkup),
+      ogImage: rebaseLocalUrls(found.ogImage),
+    };
   } catch (error) {
     return null; // fallback to static metadata if backend down or timeout
   }
 };
+
+/** "http://localhost:3000/x" (the local website) → `${SITE_URL}/x`; anything else is left alone */
+export const rebaseLocalUrls = (text?: string): string | undefined =>
+  text?.replace(/https?:\/\/(?:localhost|127\.0\.0\.1)(?::3000)?(?=[/"'\s]|$)/g, SITE_URL);
 
 /**
  * Extract og:image URL from an HTML string of <meta> tags.

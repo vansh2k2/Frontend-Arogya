@@ -7,35 +7,67 @@ import w3 from '@/assets/icons/w3.png';
 import w4 from '@/assets/icons/w4.png';
 import w5 from '@/assets/icons/w5.png';
 import SectionContainer from '@/components/layout/SectionContainer';
+import type { PaperWhyChooseData } from '@/lib/fetchPaperPresentation';
 
-const WhyChoosePaper = () => {
-  const features = [
-    { id: 1, title: 'Interdisciplinary\nPlatform', image: w1 },
-    { id: 2, title: 'Expert Review &\nFeedback', image: w2 },
-    { id: 3, title: 'High Visibility\n& Networking', image: w3 },
-    { id: 4, title: 'Publication\nOpportunities*', image: w4 },
-    { id: 5, title: 'Career Growth\n& Recognition', image: w5 },
-  ];
+/* Built-in content — shown when the admin-managed section (GET /api/paper-why-choose) is not available */
+const DEFAULTS = {
+  heading: 'WHY CHOOSE AROGYA SANGHOSTHI FOR YOUR RESEARCH?',
+  features: [
+    { title: 'Interdisciplinary\nPlatform', icon: w1.src },
+    { title: 'Expert Review &\nFeedback', icon: w2.src },
+    { title: 'High Visibility\n& Networking', icon: w3.src },
+    { title: 'Publication\nOpportunities*', icon: w4.src },
+    { title: 'Career Growth\n& Recognition', icon: w5.src },
+  ],
+  footnote: '* Selected papers may be considered for publication in our partner journals.',
+  ctaText: 'Be a part of insightful sessions and\nmeaningful discussions.',
+  ctaHeading: 'Share your research.\nMake an impact!',
+};
+
+const withBreaks = (text: string) =>
+  text.split('\n').map((line, i, all) => (
+    <React.Fragment key={i}>
+      {line}
+      {i < all.length - 1 && <br />}
+    </React.Fragment>
+  ));
+
+const WhyChoosePaper = ({ data }: { data?: PaperWhyChooseData | null }) => {
+  const heading = data?.heading || DEFAULTS.heading;
+  const features = data ? data.features ?? [] : DEFAULTS.features;
+  const footnote = data ? data.footnote || '' : DEFAULTS.footnote;
+  const ctaText = data ? data.ctaText || '' : DEFAULTS.ctaText;
+  const ctaHeading = data ? data.ctaHeading || '' : DEFAULTS.ctaHeading;
+  // With saved data an image left empty is hidden; without data the built-in image shows
+  const leaf = data ? data.leafImage || '' : bleaf.src;
+  const leafAlt = data?.leafImageAlt || 'Green leaf branch decoration';
+  const hasCta = Boolean(ctaText || ctaHeading);
 
   return (
     <section className="w-full bg-[#fbfcf7] pb-8 pt-2 md:pt-4 -mt-2 md:-mt-4 relative z-10">
       <SectionContainer>
         <div className="w-full bg-[#032e1c] rounded-2xl flex flex-col lg:flex-row items-center justify-between px-4 pt-3 pb-2 sm:px-6 sm:pt-4 sm:pb-3 lg:px-8 lg:pt-5 lg:pb-3 overflow-hidden shadow-lg border border-[#043b24] relative">
-        
+
         {/* LEFT BLOCK: FEATURES */}
         <div className="flex-1 w-full lg:pr-8 mb-8 lg:mb-0 relative">
           <div className="flex justify-center mb-4 relative">
              <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#cba344]/50 to-transparent -z-10"></div>
              <h3 className="text-white font-inter font-bold text-base sm:text-lg md:text-xl uppercase tracking-wider bg-[#032e1c] px-4 text-center">
-               WHY CHOOSE AROGYA SANGHOSTHI FOR YOUR RESEARCH?
+               {heading}
              </h3>
           </div>
 
           <div className="flex flex-row justify-between items-center w-full mt-0 md:-mt-2">
             {features.map((feature, index) => (
-              <React.Fragment key={feature.id}>
+              <React.Fragment key={index}>
                 <div className="flex flex-col items-center text-center gap-3 flex-1">
-                  <img src={feature.image?.src || feature.image} alt={feature.title.replace('\n', ' ')} className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain" />
+                  {feature.icon && (
+                    <img
+                      src={feature.icon}
+                      alt={'iconAlt' in feature && feature.iconAlt ? feature.iconAlt : feature.title.replace(/\n/g, ' ')}
+                      className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain"
+                    />
+                  )}
                   <p className="text-gray-200 text-[10px] sm:text-xs md:text-sm font-medium whitespace-pre-line leading-snug">
                     {feature.title}
                   </p>
@@ -46,25 +78,33 @@ const WhyChoosePaper = () => {
               </React.Fragment>
             ))}
           </div>
-          <p className="text-[#cba344] text-[9px] sm:text-[10px] text-center mt-6">
-            * Selected papers may be considered for publication in our partner journals.
-          </p>
+          {footnote && (
+            <p className="text-[#cba344] text-[9px] sm:text-[10px] text-center mt-6">
+              {footnote}
+            </p>
+          )}
         </div>
 
         {/* RIGHT BLOCK: CTA CARD */}
-        <div className="w-full lg:w-[400px] xl:w-[450px] bg-[#fbfcf7] rounded-2xl p-4 md:py-6 md:px-8 flex flex-col justify-center relative shadow-md flex-shrink-0 overflow-hidden">
-          {/* Decorative leaf */}
-          <img src={bleaf?.src || bleaf} alt="Green leaf branch decoration" className="absolute bottom-0 right-0 w-20 sm:w-28 pointer-events-none" />
-          
-          <div className="relative z-10">
-            <p className="text-gray-900 text-sm sm:text-base font-medium mb-3">
-              Be a part of insightful sessions and<br />meaningful discussions.
-            </p>
-            <h2 className="text-[#0c290d] font-inter font-semibold text-xl sm:text-2xl md:text-2xl leading-tight">
-              Share your research.<br />Make an impact!
-            </h2>
+        {hasCta && (
+          <div className="w-full lg:w-[400px] xl:w-[450px] bg-[#fbfcf7] rounded-2xl p-4 md:py-6 md:px-8 flex flex-col justify-center relative shadow-md flex-shrink-0 overflow-hidden">
+            {/* Decorative leaf */}
+            {leaf && <img src={leaf} alt={leafAlt} className="absolute bottom-0 right-0 w-20 sm:w-28 pointer-events-none" />}
+
+            <div className="relative z-10">
+              {ctaText && (
+                <p className="text-gray-900 text-sm sm:text-base font-medium mb-3">
+                  {withBreaks(ctaText)}
+                </p>
+              )}
+              {ctaHeading && (
+                <h2 className="text-[#0c290d] font-inter font-semibold text-xl sm:text-2xl md:text-2xl leading-tight">
+                  {withBreaks(ctaHeading)}
+                </h2>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         </div>
       </SectionContainer>
@@ -73,4 +113,3 @@ const WhyChoosePaper = () => {
 };
 
 export default WhyChoosePaper;
-

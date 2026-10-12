@@ -1,9 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
-import Link from 'next/link';
+import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, HelpCircle, PhoneCall } from "lucide-react";
-import { faqApi, SERVER_URL } from "@/lib/api";
+import { SERVER_URL } from "@/lib/api";
 import leaf from "@/assets/icons/leafs.png";
 import footerRight from "@/assets/icons/footerright.webp";
 import faqImg1 from "@/assets/image/image1.webp";
@@ -13,77 +13,86 @@ import faqImg4 from "@/assets/image/image4.webp";
 import faqImg5 from "@/assets/image/image5.webp";
 import faqImgDefault from "@/assets/image/image7.webp";
 import SectionContainer from "@/components/layout/SectionContainer";
+import type { AboutFaqData, AboutFaqItem } from "@/lib/fetchAboutFaq";
 
-// Fallback static data shown while loading or if API fails
-const fallbackData = {
-  subheading: "Support & Info",
-  heading: "Frequently Asked",
-  highlightText: "Questions",
-  description: "Find answers to common inquiries about the 9th International Health & Wellness Expo 2026.",
-  items: [
-    { _id: "1", question: "What is the 9th International Health & Wellness Expo 2026?", answer: "The 9th International Health & Wellness Expo (IHWE) is India's premier global platform for healthcare excellence, bringing together medical professionals, industry leaders, and wellness innovators.", image: faqImg1 },
-    { _id: "2", question: "Who should participate in this Expo?", answer: "Medical device manufacturers, healthcare providers, hospital administrators, wellness practitioners, government health departments, and trade visitors.", image: faqImg2 },
-    { _id: "3", question: "How can I register as a visitor or exhibitor?", answer: "Click the 'Register Now' button in the navigation menu and select your category (Visitor, Exhibitor, Buyer, or Speaker).", image: faqImg3 },
-    { _id: "4", question: "What are the key focus areas of the event?", answer: "Our key focus areas include Holistic Health for All, Preventive Healthcare, Sustainable Environment, Healthy Communities, and Knowledge & Innovation.", image: faqImg4 },
-    { _id: "5", question: "Can I present a research paper at the expo?", answer: "Yes, we welcome abstract submissions from researchers, doctors, and students. Please visit the Paper Presentation section for guidelines and submission details.", image: faqImg5 }
-  ]
-};
+/* Built-in content — shown when the admin-managed section (GET /api/faq) is not available */
+const FALLBACK_ITEMS: AboutFaqItem[] = [
+  { question: "What is the 9th International Health & Wellness Expo 2026?", answer: "The 9th International Health & Wellness Expo (IHWE) is India's premier global platform for healthcare excellence, bringing together medical professionals, industry leaders, and wellness innovators.", image: faqImg1.src },
+  { question: "Who should participate in this Expo?", answer: "Medical device manufacturers, healthcare providers, hospital administrators, wellness practitioners, government health departments, and trade visitors.", image: faqImg2.src },
+  { question: "How can I register as a visitor or exhibitor?", answer: "Click the 'Register Now' button in the navigation menu and select your category (Visitor, Exhibitor, Buyer, or Speaker).", image: faqImg3.src },
+  { question: "What are the key focus areas of the event?", answer: "Our key focus areas include Holistic Health for All, Preventive Healthcare, Sustainable Environment, Healthy Communities, and Knowledge & Innovation.", image: faqImg4.src },
+  { question: "Can I present a research paper at the expo?", answer: "Yes, we welcome abstract submissions from researchers, doctors, and students. Please visit the Paper Presentation section for guidelines and submission details.", image: faqImg5.src },
+];
 
-const FAQSection = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [faqData, setFaqData] = useState(fallbackData);
-  const [loading, setLoading] = useState(true);
+// Cloudinary / site paths are used as they are; old "/uploads/..." paths live on the backend server
+const imageUrl = (url: string) => (url.startsWith("/uploads") ? `${SERVER_URL}${url}` : url);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await faqApi.get();
-        if (result) {
-          // Use DB settings (heading, text, images) but fall back to static items if DB has none
-          setFaqData({
-            ...result,
-            items: result.items && result.items.length > 0 ? result.items : fallbackData.items,
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching FAQ data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
+const FAQSection = ({ data }: { data?: AboutFaqData | null }) => {
+  const [activeIndex, setActiveIndex] = useState<number | null>(0);
 
-  const items = faqData?.items || fallbackData.items;
+  const c = {
+    subheading: data ? data.subheading || "" : "Support & Info",
+    heading: data?.heading || "Frequently Asked",
+    highlightText: data ? data.highlightText || "" : "Questions",
+    description: data ? data.description || "" : "Find answers to common inquiries about the 9th International Health & Wellness Expo 2026.",
+    ctaQuestion: data ? data.ctaQuestion || "" : "Still have questions about exhibiting at IHWE 2026?",
+    ctaLabel: data ? data.ctaLabel || "" : "Contact Our Help Desk",
+    ctaHref: data?.ctaHref || "/contact",
+    ctaNewTab: Boolean(data?.ctaNewTab),
+  };
+  const items = data ? data.items ?? [] : FALLBACK_ITEMS;
+  // With saved data an image left empty is hidden; without data the built-in images show
+  const leftImage = data ? data.leftImage || "" : leaf.src;
+  const leftAlt = data?.leftImageAlt || "Green leaf vine decoration";
+  const rightImage = data ? data.rightImage || "" : footerRight.src;
+  const rightAlt = data?.rightImageAlt || "Gold leaf branch decoration";
+  const defaultImage = data?.defaultImage || faqImgDefault.src;
+  const defaultAlt = data?.defaultImageAlt || "Arogya Sangoshthi";
+  const active = activeIndex !== null ? items[activeIndex] : undefined;
+
+  if (!items.length) return null;
 
   return (
     <section className="pt-8 pb-8 bg-white border-t border-gray-100 relative overflow-hidden">
-      <div className="absolute top-1/2 -translate-y-1/2 left-0 w-[80px] md:w-[150px] lg:w-[200px] h-auto pointer-events-none z-0">
-        <img loading="lazy" decoding="async" src={(() => { const img = faqData?.leftImage; if (!img) { const li = leaf; return li?.src || li; } const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })()} alt="Green leaf vine decoration" className="w-full h-full object-contain" />
-      </div>
-      <div className="absolute top-0 md:-top-4 right-0 w-32 md:w-48 lg:w-64 xl:w-72 h-auto pointer-events-none z-0">
-        <img loading="lazy" decoding="async" src={(() => { const img = faqData?.rightImage; if (!img) { const ri = footerRight; return ri?.src || ri; } const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })()} alt="Gold leaf branch decoration" className="w-full h-full object-contain opacity-80" />
-      </div>
+      {leftImage && (
+        <div className="absolute top-1/2 -translate-y-1/2 left-0 w-[80px] md:w-[150px] lg:w-[200px] h-auto pointer-events-none z-0">
+          <img loading="lazy" decoding="async" src={imageUrl(leftImage)} alt={leftAlt} className="w-full h-full object-contain" />
+        </div>
+      )}
+      {rightImage && (
+        <div className="absolute top-0 md:-top-4 right-0 w-32 md:w-48 lg:w-64 xl:w-72 h-auto pointer-events-none z-0">
+          <img loading="lazy" decoding="async" src={imageUrl(rightImage)} alt={rightAlt} className="w-full h-full object-contain opacity-80" />
+        </div>
+      )}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#23471d]/[0.01] rounded-full blur-[80px] -mr-48 -mt-48" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#d26019]/[0.01] rounded-full blur-[80px] -ml-48 -mb-48" />
 
       <SectionContainer className="relative z-10">
         {/* Section Header */}
         <div className="text-center mb-10">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <div className="h-px w-8 bg-[#23471d]" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#23471d]">
-              {faqData?.subheading || "Support & Info"}
-            </span>
-            <div className="h-px w-8 bg-[#23471d]" />
-          </div>
+          {c.subheading && (
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <div className="h-px w-8 bg-[#23471d]" />
+              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#23471d]">
+                {c.subheading}
+              </span>
+              <div className="h-px w-8 bg-[#23471d]" />
+            </div>
+          )}
           <h2 className="text-xl md:text-2xl lg:text-3xl font-inter font-semibold text-slate-900 leading-tight">
-            {faqData?.heading || "Frequently Asked"}{" "}
-            <span className="text-[#134812]">{faqData?.highlightText || "Questions"}</span>
+            {c.heading}
+            {c.highlightText && (
+              <>
+                {" "}
+                <span className="text-[#134812]">{c.highlightText}</span>
+              </>
+            )}
           </h2>
-          <p className="mt-3 text-slate-800 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed">
-            {faqData?.description}
-          </p>
+          {c.description && (
+            <p className="mt-3 text-slate-800 max-w-2xl mx-auto text-xs md:text-sm leading-relaxed">
+              {c.description}
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -93,7 +102,7 @@ const FAQSection = () => {
               const isActive = activeIndex === index;
               return (
                 <motion.div
-                  key={item._id || index}
+                  key={index}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -162,14 +171,14 @@ const FAQSection = () => {
                   transition={{ duration: 0.35, ease: "easeOut" }}
                   className="absolute inset-0"
                 >
-                  {activeIndex !== null && items[activeIndex]?.image ? (
-                    <img loading="lazy" decoding="async" src={(() => { const img = items[activeIndex].image; const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })()}
-                      alt={items[activeIndex]?.imageAlt || items[activeIndex]?.question}
+                  {active?.image ? (
+                    <img loading="lazy" decoding="async" src={imageUrl(active.image)}
+                      alt={active.imageAltText || active.question}
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <img loading="lazy" decoding="async" src={(() => { const img = faqData?.defaultImage; if (!img) { const di = faqImgDefault; return di?.src || di; } const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })()}
-                      alt={faqData?.defaultImageAlt || "9th International Health & Wellness Expo 2026"}
+                    <img loading="lazy" decoding="async" src={imageUrl(defaultImage)}
+                      alt={defaultAlt}
                       className="w-full h-full object-cover"
                     />
                   )}
@@ -181,25 +190,30 @@ const FAQSection = () => {
             </div>
 
             {/* CTA below image */}
-            <div className="mt-3 relative p-4 bg-white border border-slate-100 shadow-sm text-center overflow-hidden rounded-xl">
-              <div className="absolute inset-0 z-0 opacity-5 pointer-events-none">
-                <img src={leaf?.src || leaf} alt="Green leaf background decoration" className="w-full h-full object-cover" />
+            {(c.ctaQuestion || c.ctaLabel) && (
+              <div className="mt-3 relative p-4 bg-white border border-slate-100 shadow-sm text-center overflow-hidden rounded-xl">
+                <div className="absolute inset-0 z-0 opacity-5 pointer-events-none">
+                  <img src={leaf.src} alt="" className="w-full h-full object-cover" />
+                </div>
+                <div className="relative z-10 flex flex-col items-center">
+                  {c.ctaQuestion && (
+                    <p className="text-slate-500 text-[11px] font-medium mb-3">
+                      &quot;{c.ctaQuestion}&quot;
+                    </p>
+                  )}
+                  {c.ctaLabel && (
+                    <Link
+                      href={c.ctaHref}
+                      {...(c.ctaNewTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      className="inline-flex items-center gap-2 bg-[#23471d] text-white px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1a3a14] transition-all shadow-sm rounded-md"
+                    >
+                      <PhoneCall className="w-3.5 h-3.5" />
+                      {c.ctaLabel}
+                    </Link>
+                  )}
+                </div>
               </div>
-              <div className="relative z-10 flex flex-col items-center">
-                <p className="text-slate-500 text-[11px] font-medium mb-3">
-                  "Still have questions about exhibiting at IHWE 2026?"
-                </p>
-                <Link
-                  to="/contact-us"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-[#23471d] text-white px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1a3a14] transition-all shadow-sm rounded-md"
-                >
-                  <PhoneCall className="w-3.5 h-3.5" />
-                  Contact Our Help Desk
-                </Link>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </SectionContainer>
