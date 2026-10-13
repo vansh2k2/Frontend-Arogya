@@ -258,6 +258,39 @@ export const faqApi = {
     }
 };
 
+// Blogs page hero, category navigation and stats band (arogya-admin → Pages & CMS → Blogs & News).
+// One request shared by the three sections that use it.
+let blogPagePromise: Promise<any> | null = null;
+export const blogPageApi = {
+    get: () => {
+        if (!blogPagePromise) {
+            blogPagePromise = fetch(`${API_URL}/blog-page`)
+                .then((response) => response.json())
+                .then((data) => (data.success ? data.data : null))
+                .catch(() => {
+                    console.warn("Error fetching blog page data");
+                    blogPagePromise = null;
+                    return null;
+                });
+        }
+        return blogPagePromise;
+    }
+};
+
+// Registration type cards of the Register Now page (arogya-admin → Add Registration)
+export const registrationCardsApi = {
+    get: async () => {
+        try {
+            const response = await fetch(`${API_URL}/registration-cards`);
+            const data = await response.json();
+            return data.success ? data.data : null;
+        } catch (error) {
+            console.warn("Error fetching registration cards");
+            return null;
+        }
+    }
+};
+
 export const partnersPageApi = {
     get: async () => {
         try {

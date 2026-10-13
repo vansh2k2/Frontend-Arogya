@@ -36,6 +36,32 @@ const ContactHero = () => {
     }
   ];
 
+  // Texts and background from arogya-admin → Pages & CMS → Contact Us
+  const hero = {
+    eyebrow: 'CONTACT US',
+    title: "Let's Connect\nWith You!",
+    titleHighlight: 'Connect',
+    subtitle: "We're here to answer your questions and\ncollaborate with you.",
+    bgImage: '',
+    bgImageAlt: '',
+    ...(settings?.contactHero || {}),
+  };
+  const heroBg = hero.bgImage || contactbg?.src || contactbg;
+
+  // One title line, with the highlighted word in orange
+  const renderTitleLine = (line) => {
+    const word = (hero.titleHighlight || '').trim();
+    const at = word ? line.indexOf(word) : -1;
+    if (at === -1) return line;
+    return (
+      <>
+        {line.slice(0, at)}
+        <span className="text-[#fe7c0c]">{word}</span>
+        {line.slice(at + word.length)}
+      </>
+    );
+  };
+
   const getIconComponent = (iconName) => {
     switch (iconName) {
       case 'Mail': return <Mail size={20} className="text-[#032e1c]" />;
@@ -61,7 +87,9 @@ const ContactHero = () => {
         {/* Background Image */}
         <div
           className="absolute inset-0 z-0 bg-no-repeat bg-cover bg-right md:bg-center"
-          style={{ backgroundImage: `url(${contactbg?.src || contactbg})` }}
+          style={{ backgroundImage: `url(${heroBg})` }}
+          role="img"
+          aria-label={hero.bgImageAlt || undefined}
         >
           {/* Faint white gradient overlay on the left side to ensure text readability if needed */}
           <div className="absolute inset-0 bg-gradient-to-r from-white/80 md:from-white/60 to-transparent"></div>
@@ -72,12 +100,17 @@ const ContactHero = () => {
           <div className="max-w-xl -mt-10 md:-mt-16 ml-4 md:ml-8">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-[#e9f0cd] text-[#032e1c] px-4 py-1.5 rounded-full text-xs font-bold tracking-wider mb-6 border border-[#dce3ca]">
-              <Send size={14} className="-rotate-45" /> CONTACT US
+              <Send size={14} className="-rotate-45" /> {hero.eyebrow}
             </div>
 
             {/* Heading */}
             <h1 className="text-3xl md:text-4xl lg:text-6xl font-serif font-[600] text-[#03221c] leading-tight mb-4">
-              Let's <span className="text-[#fe7c0c]">Connect</span><br />With You!
+              {(hero.title || '').split('\n').map((line, i) => (
+                <React.Fragment key={i}>
+                  {i > 0 && <br />}
+                  {renderTitleLine(line)}
+                </React.Fragment>
+              ))}
             </h1>
 
             {/* Decoration line */}
@@ -86,9 +119,8 @@ const ContactHero = () => {
             </svg>
 
             {/* Subtitle */}
-            <p className="text-black text-sm md:text-base max-w-md leading-relaxed">
-              We're here to answer your questions and <br />
-              collaborate with you.
+            <p className="text-black text-sm md:text-base max-w-md leading-relaxed whitespace-pre-line">
+              {hero.subtitle}
             </p>
           </div>
         </SectionContainer>

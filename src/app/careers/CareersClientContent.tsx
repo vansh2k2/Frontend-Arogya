@@ -20,8 +20,30 @@ import { ReviewSubmitModal } from "./review-submit/ReviewSubmit";
 import ResumeUploadButton from "./ResumeUploadButton";
 import JobCardButtons from "./JobCardButtons";
 import { API_URL } from "@/lib/api";
+import SectionContainer from "@/components/layout/SectionContainer";
+import career11 from "@/assets/banner/career11.webp";
 
-const heroImage = "/assets/careers/image.png";
+// Hero background: src/assets/banner/career11.webp
+const heroImage = career11.src;
+
+// Twinkling star around the hero button
+const Sparkle = ({ style }: { style?: React.CSSProperties }) => (
+  <span
+    style={{
+      position: "absolute",
+      pointerEvents: "none",
+      fontSize: "13px",
+      color: "#4ade80",
+      textShadow: "0 0 6px #1b5e20",
+      animation: "careerSparkle 1.6s ease-in-out infinite",
+      opacity: 0,
+      zIndex: 20,
+      ...style,
+    }}
+  >
+    ✦
+  </span>
+);
 
 type JobOpening = {
   id: string;
@@ -53,10 +75,10 @@ const DEFAULT_CAREERS = {
     eyebrow: "CAREER",
     title: "Be Part of Something Bigger",
     description:
-      "Build your career with Bharat Organic Expo and contribute to a sustainable, healthier and more conscious tomorrow.",
+      "Build your career with Arogya Sangoshthi and contribute to a sustainable, healthier and more conscious tomorrow.",
     badgeText: "Join the people who connect business, nature and a better tomorrow.",
     image: heroImage,
-    imageAlt: "Professionals networking at a sustainable organic expo",
+    imageAlt: "Arogya Sangoshthi team working together - good people, greener tomorrow",
     items: ["Meaningful Work", "Collaborative Team", "Growth Opportunities", "Real Impact"],
   },
   openings: {
@@ -72,7 +94,7 @@ const DEFAULT_CAREERS = {
     enabled: true,
     title: "Why Work With Us?",
     description:
-      "At Bharat Organic Expo, you’ll grow with a purpose-driven team and be part of a movement that creates lasting change.",
+      "At Arogya Sangoshthi, you’ll grow with a purpose-driven team and be part of a movement that creates lasting change.",
     items: ["Purpose-Driven Work", "Inclusive Environment", "Learn from Industry Experts", "Be Part of a Global Platform"],
   },
   bottomBanner: {
@@ -151,7 +173,10 @@ function JobCard({ job }: { job: JobOpening }) {
   const Icon = job.icon;
 
   return (
-    <article className="group flex min-h-full flex-col rounded-[10px] border border-[#dfe6df] bg-white/95 px-3 py-2 shadow-[0_2px_10px_rgba(10,66,44,0.03)] transition-all duration-300 hover:bg-[#f5fbf7] hover:shadow-[0_4px_15px_rgba(10,66,44,0.08)]">
+    <article
+      className="group flex min-h-full flex-col bg-white px-4 py-3 font-inter transition-colors duration-300 hover:bg-[#f5fbf7]"
+      style={{ boxShadow: "rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px" }}
+    >
       <div className="flex gap-3">
         <span className="grid h-[clamp(50px,5.1vh,62px)] w-[clamp(50px,5.1vh,62px)] shrink-0 place-items-center rounded-full bg-[#eff8ef] text-[#08753c]">
           <Icon
@@ -161,10 +186,10 @@ function JobCard({ job }: { job: JobOpening }) {
         </span>
 
         <div className="min-w-0 flex-1">
-          <h3 className="text-[14px] font-medium leading-tight text-[#0a1831]">
+          <h3 className="font-inter text-[14px] font-medium capitalize leading-tight text-[#0a1831]">
             {job.title}
           </h3>
-          <span className="mt-1.5 inline-flex max-w-full rounded-[4px] bg-[#eef2f3] px-2.5 py-0.5 text-[12px] leading-none text-[#34485b]">
+          <span className="mt-1.5 inline-flex max-w-full bg-[#eef2f3] px-2.5 py-0.5 text-[12px] capitalize leading-none text-[#34485b]">
             {job.department}
           </span>
         </div>
@@ -274,64 +299,92 @@ export default function CareersClientContent({ sections }: { sections?: any[] })
   return (
     <main className="bg-[#f8fbf6] text-[#0a1831]">
       <div className="flex min-h-screen w-full flex-col bg-white">
-        {/* HERO */}
+        {/* HERO — no colour overlay on the banner: the text sits on its light left side
+            and is kept readable with text shadows */}
         {content.hero.enabled && (
-        <section className="relative isolate min-h-[330px] h-[460px] overflow-hidden md:aspect-[2110/745]">
+        <section className="relative isolate min-h-[330px] h-[460px] overflow-hidden md:aspect-[2110/745] border-b-4 border-[#f5791b]">
+          <style>{`
+            @keyframes careerSparkle {
+              0%   { opacity:0; transform:scale(0.5) translateY(0); }
+              40%  { opacity:1; transform:scale(1.2) translateY(-4px); }
+              80%  { opacity:0.5; transform:scale(0.9) translateY(-6px); }
+              100% { opacity:0; transform:scale(0.5) translateY(-8px); }
+            }
+            @keyframes careerShimmer {
+              0% { transform: translateX(0) skewX(-20deg); }
+              100% { transform: translateX(450%) skewX(-20deg); }
+            }
+            @keyframes careerBgZoom {
+              0%   { transform: scale(1.08); }
+              100% { transform: scale(1.0); }
+            }
+            .career-hero-bg { animation: careerBgZoom 8s ease-out forwards; transform-origin: center center; }
+            .career-hero-btn {
+              background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 30%, #0e3b1c 60%, #1b5e20 100%);
+              background-size: 200% 200%;
+              box-shadow: 0 0 16px 4px rgba(27,94,32,0.3), 0 4px 15px rgba(27,94,32,0.25);
+              position: relative;
+              overflow: hidden;
+            }
+            .career-hero-btn::before {
+              content: '';
+              position: absolute;
+              top: -50%; left: -75%;
+              width: 50%; height: 200%;
+              background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+              transform: skewX(-20deg);
+              animation: careerShimmer 2.5s infinite;
+            }
+          `}</style>
+
           <Image
             src={content.hero.image}
             alt={content.hero.imageAlt}
             fill
             priority
             sizes="100vw"
-            className="-z-20 object-cover object-center"
+            className="career-hero-bg -z-20 object-cover object-center"
           />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(250,253,245,.96)_0%,rgba(250,253,245,.90)_34%,rgba(250,253,245,.25)_52%,rgba(0,0,0,0)_72%)]" />
+          {/* Phones only: the banner's photo side sits behind the text there */}
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/95 via-white/85 to-white/30 md:hidden pointer-events-none" />
 
-          <div className="flex h-full w-full items-center px-4 lg:px-14">
-            <div className="w-[50%]">
-              <div className="">
-                <div className="text-[18px] mt-2 font-semibold uppercase tracking-[0.28em] text-[#0a5536]">
-                  <p>{content.hero.eyebrow}</p>
-                </div>
-                <div className="mb-6 h-[2.5px] w-20 bg-[#0a5536]" />
+          {/* Same side padding as every other section of the site */}
+          <SectionContainer className="flex h-full w-full items-center">
+            <div className="w-full md:w-[52%] lg:w-[46%] font-inter">
+              <div className="text-[13.5px] md:text-[17.5px] font-bold uppercase tracking-[0.28em] text-[#f5791b]" style={{ textShadow: "0 1px 1px rgba(255,255,255,0.8)" }}>
+                <p>{content.hero.eyebrow}</p>
+              </div>
+              <div className="mb-4 mt-1 h-[2.5px] w-16 bg-[#f5791b]" />
 
-                <h1 className="max-w-[750px] text-lg lg:text-6xl font-semibold leading-[0.98] tracking-[-0.04em] text-[#07553a]">
-                  {heroLead && (
-                    <>
-                      {heroLead}
-                      <br />
-                    </>
-                  )}
-                  <span className="whitespace-nowrap">{heroMid} <span className="text-[#f5791b]">{heroAccent}</span></span>
-                </h1>
+              <h1
+                className="text-[30px] sm:text-[38px] md:text-[48px] lg:text-[60px] font-semibold leading-[1.08] tracking-tight"
+                style={{ textShadow: "1px 1px 1px rgba(0,0,0,0.18)" }}
+              >
+                {heroLead && <span className="block text-[#1b5e20] mb-1">{heroLead}</span>}
+                <span className="block whitespace-nowrap text-[#0e3b1c]">
+                  {heroMid} <span className="text-[#f5791b]">{heroAccent}</span>
+                </span>
+              </h1>
 
-                <p className="mt-4 max-w-[650px] text-lg leading-[1.35] text-[#14253a]">
-                  {content.hero.description}
-                </p>
+              <p className="mt-3 md:mt-4 max-w-xl text-[13.5px] sm:text-[14.5px] md:text-[16.5px] font-bold leading-relaxed text-slate-950" style={{ textShadow: "none" }}>
+                {content.hero.description}
+              </p>
 
-                <div className="mt-4 grid max-w-[640px] grid-cols-4 divide-x divide-[#d7e1d8]">
-                  {content.hero.items.map((label, idx) => {
-                    const Icon = HIGHLIGHT_ICONS[idx % HIGHLIGHT_ICONS.length];
-                    return (
-                    <div key={`${label}-${idx}`} className="px-3 text-center first:pl-0 last:pr-0">
-                      <Icon
-                        className="mx-auto h-[clamp(32px,3.4vh,42px)] w-[clamp(32px,3.4vh,42px)] text-[#08723e]"
-                        strokeWidth={2.1}
-                      />
-                      <span className="mt-2 block whitespace-pre-line text-[clamp(12px,0.88vw,15px)] font-semibold leading-tight text-[#0c2235]">
-                        {twoLineLabel(label)}
-                      </span>
-                    </div>
-                    );
-                  })}
-                </div>
+              {/* Button with sparkles */}
+              <div className="relative mt-5 md:mt-6 w-fit">
+                <Sparkle style={{ top: "-12px", left: "10%", animationDelay: "0.2s" }} />
+                <Sparkle style={{ top: "-15px", left: "50%", animationDelay: "0.6s" }} />
+                <Sparkle style={{ top: "-10px", right: "10%", animationDelay: "1s" }} />
+                <a
+                  href="#current-openings"
+                  className="career-hero-btn text-white px-5 py-2.5 rounded-lg font-semibold text-[11px] uppercase tracking-widest flex items-center justify-center gap-2 transition-all active:scale-95 shadow-lg relative z-10 w-fit"
+                >
+                  View Current Openings <ArrowRight size={14} />
+                </a>
               </div>
             </div>
 
-            <div className="absolute bottom-[6%] right-12 w-fit max-w-[440px] rounded-sm bg-[#00683e]/90 px-4 py-2 text-[14px] font-semibold leading-snug text-white backdrop-blur-[1px]">
-              {content.hero.badgeText}
-            </div>
-          </div>
+          </SectionContainer>
         </section>
         )}
 
@@ -339,7 +392,7 @@ export default function CareersClientContent({ sections }: { sections?: any[] })
         {content.openings.enabled && (
         <section
           id="current-openings"
-          className={`relative isolate overflow-hidden bg-white ${openingCount === 0
+          className={`relative isolate overflow-hidden bg-white font-inter ${openingCount === 0
             ? "aspect-[2172/405] px-2 lg:px-14 py-4 lg:py-4"
             : "px-2 lg:px-14 py-4 lg:py-4"
             }`}
@@ -369,10 +422,10 @@ export default function CareersClientContent({ sections }: { sections?: any[] })
 
                 <div>
                   <div className="flex flex-wrap items-center gap-3">
-                    <h2 className="text-sm lg:text-2xl font-semibold leading-[1.12] tracking-[-0.04em] text-[#0a1831]">
+                    <h2 className="font-inter text-sm lg:text-2xl font-semibold capitalize leading-[1.12] tracking-[-0.04em] text-[#0a1831]">
                       {content.openings.title}{" "}
                       {openingCount > 0 ? (
-                        <span className="align-baseline text-[0.78em] text-[#0c7b46]">
+                        <span className="align-baseline text-[0.78em] text-[#f5791b]">
                           ({openingCount})
                         </span>
                       ) : null}

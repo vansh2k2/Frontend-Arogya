@@ -30,13 +30,13 @@ export default function JobCardButtons({ job }: { job: any }) {
       <div className="mt-auto grid grid-cols-2 gap-3 pt-[clamp(10px,1vh,14px)]">
         <button
           onClick={() => setIsOpen(true)}
-          className="inline-flex py-1 items-center justify-center gap-2 rounded-[4px] bg-[#05753e] px-3 text-[13px] font-semibold text-white transition hover:bg-[#046334]"
+          className="inline-flex py-1.5 items-center justify-center gap-2 bg-[#f5791b] px-3 text-[13px] font-semibold text-white transition hover:bg-[#d96510]"
         >
           Apply Now <ArrowRight className="h-[18px] w-[18px]" />
         </button>
         <button
           onClick={() => setIsOpen(true)}
-          className="inline-flex py-1 items-center justify-center rounded-[4px] border border-[#0b7a47] bg-white px-3 text-[13px] font-semibold text-[#05683a] transition hover:bg-[#f2faf5]"
+          className="inline-flex py-1.5 items-center justify-center border border-[#0e3b1c] bg-white px-3 text-[13px] font-semibold text-[#0e3b1c] transition hover:bg-[#0e3b1c] hover:text-white"
         >
           View Details
         </button>

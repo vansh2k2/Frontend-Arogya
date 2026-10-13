@@ -137,7 +137,7 @@ const Lightbox = ({ images, activeIndex, onClose, onNav }) => {
       <div ref={imgRef} onClick={e=>e.stopPropagation()} style={{
         maxWidth:'82vw', maxHeight:'78vh', borderRadius:10, overflow:'hidden',
       }}>
-        <img src={img.src?.src || img.src} alt={img.title} style={{
+        <img src={img.src?.src || img.src} alt={img.alt || img.title} style={{
           maxWidth:'82vw', maxHeight:'78vh', objectFit:'contain', display:'block',
         }}/>
       </div>
@@ -233,7 +233,7 @@ const GalleryCard = ({ img, index, onOpen, animKey }) => {
       style={{ ...img.style, position:'relative', borderRadius:14, overflow:'hidden', cursor:'pointer' }}
     >
       <div ref={imgRef} style={{ width:'100%', height:'100%', overflow:'hidden' }}>
-        <img src={img.src?.src || img.src} alt={img.title}
+        <img src={img.src?.src || img.src} alt={img.alt || img.title}
           style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}
         />
       </div>
@@ -425,6 +425,7 @@ const GalleryGrid = ({ activeYear = 'All Years', activeCategory = 'All Activitie
             id: g._id,
             src: g.image.startsWith('http') ? g.image : `${SERVER_URL}${g.image}`,
             title: g.title,
+            alt: g.altText || g.title,
             category: g.category,
             year: g.year,
             style: { gridColumn: s.gridColumn, gridRow: s.gridRow },

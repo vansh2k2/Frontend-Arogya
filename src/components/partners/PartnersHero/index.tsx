@@ -19,6 +19,9 @@ const fallbackSettings = {
   badge3Title: 'Impacting Lives',
   bgImage: '',
   bgImageAlt: 'Partners & Associates Banner',
+  badge1Icon: '', badge1IconAlt: '',
+  badge2Icon: '', badge2IconAlt: '',
+  badge3Icon: '', badge3IconAlt: '',
 };
 
 const PartnersHero = () => {
@@ -63,15 +66,14 @@ const PartnersHero = () => {
     : { backgroundImage: `url(${adbg?.src || adbg})`, backgroundSize: 'cover', backgroundPosition: 'center 20%', backgroundRepeat: 'no-repeat' };
 
   return (
-    <div ref={sectionRef} className="w-full relative pt-16 pb-10 overflow-hidden" style={bgStyle}>
+    <div ref={sectionRef} className="w-full relative pt-16 pb-10 overflow-hidden" style={bgStyle} role="img" aria-label={settings.bgImageAlt}>
       <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-10 font-inter">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-10">
           <div className="lg:w-[60%] z-10 flex flex-col items-start text-left lg:ml-8 xl:ml-12">
-            <h1 ref={titleRef1} className="text-[#112E81] text-2xl md:text-3xl lg:text-5xl font-bold uppercase leading-tight tracking-tight mb-1">
-              {settings.blueTitle}
-            </h1>
-            <h1 ref={titleRef2} className="text-[#498111] text-2xl md:text-3xl lg:text-5xl font-bold uppercase leading-tight tracking-tight mb-4">
-              {settings.greenTitle}
+            {/* One H1 for the page: the blue line and the green line */}
+            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold uppercase leading-tight tracking-tight mb-4">
+              <span ref={titleRef1} className="block text-[#112E81] mb-1">{settings.blueTitle}</span>
+              <span ref={titleRef2} className="block text-[#498111]">{settings.greenTitle}</span>
             </h1>
             <div ref={lineRef} className="w-16 h-1 bg-[#498111] mb-4"></div>
             <p ref={paraRef} className="text-black text-base md:text-lg font-medium mb-8 max-w-lg">
@@ -80,21 +82,21 @@ const PartnersHero = () => {
             {/* Badges */}
             <div ref={badgesRef} className="flex flex-col sm:flex-row gap-4 md:gap-6">
               <div className="flex items-center gap-3">
-                <img src={gg1?.src || gg1} alt={settings.badge1Title} className="w-12 h-12 object-contain shrink-0" />
+                <img src={settings.badge1Icon || gg1?.src || gg1} alt={settings.badge1IconAlt || settings.badge1Title} className="w-12 h-12 object-contain shrink-0" />
                 <p className="text-sm font-semibold text-gray-900 leading-tight">
                   {settings.badge1Title.split(' ')[0]}<br />{settings.badge1Title.split(' ').slice(1).join(' ')}
                 </p>
               </div>
               <div className="hidden sm:block w-px h-12 bg-gray-300"></div>
               <div className="flex items-center gap-3">
-                <img src={gg2?.src || gg2} alt={settings.badge2Title} className="w-12 h-12 object-contain shrink-0" />
+                <img src={settings.badge2Icon || gg2?.src || gg2} alt={settings.badge2IconAlt || settings.badge2Title} className="w-12 h-12 object-contain shrink-0" />
                 <p className="text-sm font-semibold text-gray-900 leading-tight">
                   {settings.badge2Title.split(' ')[0]}<br />{settings.badge2Title.split(' ').slice(1).join(' ')}
                 </p>
               </div>
               <div className="hidden sm:block w-px h-12 bg-gray-300"></div>
               <div className="flex items-center gap-3">
-                <img src={gg3?.src || gg3} alt={settings.badge3Title} className="w-12 h-12 object-contain shrink-0" />
+                <img src={settings.badge3Icon || gg3?.src || gg3} alt={settings.badge3IconAlt || settings.badge3Title} className="w-12 h-12 object-contain shrink-0" />
                 <p className="text-sm font-semibold text-gray-900 leading-tight">
                   {settings.badge3Title.split(' ')[0]}<br />{settings.badge3Title.split(' ').slice(1).join(' ')}
                 </p>

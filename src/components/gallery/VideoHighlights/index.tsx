@@ -144,14 +144,33 @@ const VideoHighlights = () => {
   const sectionRef = useRef(null);
   const [activeVideo, setActiveVideo] = useState(null);
   const [loadedVideos, setLoadedVideos] = useState([]);
+  // Heading and "Share Your Moments" texts from arogya-admin → Pages & CMS → Gallery
+  const [texts, setTexts] = useState({
+    videoHeading: 'VIDEO HIGHLIGHTS',
+    shareTitle: 'Share Your Moments',
+    shareDescription: 'Were you part of Arogya Sanghoshti?\nShare your photos!',
+    shareButton: 'Upload Your Photos',
+  });
+
+  useEffect(() => {
+    glimpseApi.getSettings().then((data) => {
+      if (!data) return;
+      setTexts((prev) => ({
+        videoHeading: data.videoHeading || prev.videoHeading,
+        shareTitle: data.shareTitle || prev.shareTitle,
+        shareDescription: data.shareDescription || prev.shareDescription,
+        shareButton: data.shareButton || prev.shareButton,
+      }));
+    });
+  }, []);
 
   useEffect(() => {
     const fetchVideos = async () => {
       try {
         const data = await glimpseApi.getVideos();
         if (data && data.length > 0) {
-          const sorted = [...data].sort((a, b) => (a.orderNumber || 0) - (b.orderNumber || 0));
-          setLoadedVideos(sorted);
+          // Already sorted by the API: highest order (newest video) first, same as the admin
+          setLoadedVideos(data);
         } else {
           setLoadedVideos(defaultVideos);
         }
@@ -231,7 +250,7 @@ const VideoHighlights = () => {
         <div className="video-title-area flex items-center justify-center gap-4 mb-8 w-full max-w-4xl mx-auto" style={{ willChange: 'transform, opacity, filter' }}>
           <HeartbeatLine isLeft={true} />
           <h2 className="text-lg md:text-xl font-semibold tracking-widest uppercase text-[#0e3b1c] whitespace-nowrap">
-            VIDEO HIGHLIGHTS
+            {texts.videoHeading}
           </h2>
           <HeartbeatLine isLeft={false} />
         </div>
@@ -254,7 +273,8 @@ const VideoHighlights = () => {
                     onClick={() => embedUrl && setActiveVideo(embedUrl)}
                     className="w-[220px] md:w-[190px] lg:w-[200px] xl:w-[210px] h-full shrink-0 flex flex-col rounded-xl overflow-hidden cursor-pointer shadow-sm bg-white transition-transform duration-300 hover:scale-[1.02] border border-gray-200"
                   >
-                    <div className="relative flex-1 w-full overflow-hidden">
+                    {/* Fixed height so tall (portrait) thumbnails cannot stretch the whole section */}
+                    <div className="relative w-full shrink-0 overflow-hidden" style={{ height: 200 }}>
                       <img 
                         src={videoThumbnail.startsWith('http') || videoThumbnail.startsWith('data:') ? videoThumbnail : `${SERVER_URL}${videoThumbnail}`} 
                         alt={videoTitle} 
@@ -286,17 +306,16 @@ const VideoHighlights = () => {
               <div className="flex flex-row md:flex-col lg:flex-row items-center lg:items-start gap-3">
                 <img src={typeof camm === 'string' ? camm : camm.src} alt="Camera" className="w-16 h-16 object-contain shrink-0 drop-shadow-sm transition-transform hover:scale-105" />
                 <div className="flex flex-col text-left lg:mt-1">
-                  <h3 className="text-[15px] font-semibold text-[#0e3b1c] mb-1">Share Your Moments</h3>
-                  <p className="text-[12px] text-gray-900 font-medium leading-relaxed">
-                    Were you part of Arogya Sanghoshti?<br className="hidden lg:block"/>
-                    Share your photos!
+                  <h3 className="text-[15px] font-semibold text-[#0e3b1c] mb-1">{texts.shareTitle}</h3>
+                  <p className="text-[12px] text-gray-900 font-medium leading-relaxed whitespace-pre-line">
+                    {texts.shareDescription}
                   </p>
                 </div>
               </div>
             </div>
 
             <button className="w-full bg-[#1b5e20] hover:bg-[#134216] text-white py-2.5 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors text-[13px] relative z-10 shadow-md mt-auto">
-              Upload Your Photos
+              {texts.shareButton}
               <UploadCloud size={16} />
             </button>
           </div>

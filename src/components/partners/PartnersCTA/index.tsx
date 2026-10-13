@@ -1,5 +1,7 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { partnersPageApi } from '@/lib/api';
 import { ArrowRight } from 'lucide-react';
 import cleaf from '@/assets/icons/cleaf.png';
 import ww from '@/assets/icons/ww.png';
@@ -10,6 +12,25 @@ const Sparkle = ({ style, color = '#fff176' }) => (
 );
 
 const PartnersCTA = () => {
+  // Texts, button link and image from arogya-admin → Pages & CMS → Partners & Supporters
+  const [cta, setCta] = useState({
+    headingWhite: 'TOGETHER, SHAPING THE FUTURE OF',
+    headingGreen: 'HEALTHCARE, WELLNESS & INNOVATION',
+    subtitle: 'Join hands with global leaders and be a part of IHWE 2026.',
+    buttonLabel: 'PARTNER WITH US',
+    buttonHref: '/contact',
+    image: '',
+    imageAlt: '',
+  });
+
+  useEffect(() => {
+    partnersPageApi.get().then((data) => {
+      if (data?.settings?.cta) setCta((prev) => ({ ...prev, ...data.settings.cta }));
+    }).catch(() => {});
+  }, []);
+
+  const buttonClass = "btn-red group text-white font-bold font-inter text-xs px-6 py-2.5 rounded-full flex items-center gap-2 transition shadow-lg relative z-10";
+
   return (
     <>
       <style>{`
@@ -49,14 +70,14 @@ const PartnersCTA = () => {
         <div className="max-w-[1360px] mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
           
           <div className="flex-1 flex flex-col md:flex-row items-center gap-6 md:gap-16 pl-0">
-            <img src={ww?.src || ww} alt="Icon" className="w-32 md:w-40 object-contain shrink-0 transform scale-[1.3] md:scale-[1.6] origin-center" />
+            <img src={cta.image || ww?.src || ww} alt={cta.imageAlt || ''} className="w-32 md:w-40 object-contain shrink-0 transform scale-[1.3] md:scale-[1.6] origin-center" />
             <div className="flex flex-col items-center md:items-start text-center md:text-left">
               <h2 className="text-white text-xl md:text-2xl lg:text-3xl font-medium font-inter uppercase tracking-wide mb-2">
-                TOGETHER, SHAPING THE FUTURE OF <br className="hidden md:block" />
-                <span className="text-[#8bc53f]">HEALTHCARE, WELLNESS & INNOVATION</span>
+                {cta.headingWhite} <br className="hidden md:block" />
+                <span className="text-[#8bc53f]">{cta.headingGreen}</span>
               </h2>
               <p className="text-gray-200 text-sm md:text-base font-medium font-inter">
-                Join hands with global leaders and be a part of IHWE 2026.
+                {cta.subtitle}
               </p>
             </div>
           </div>
@@ -66,10 +87,17 @@ const PartnersCTA = () => {
               <Sparkle color="#E03F4F" style={{ top:'-14px', left:'10%', animationDelay:'0s' }} />
               <Sparkle color="#E03F4F" style={{ top:'-12px', left:'48%', animationDelay:'0.4s' }} />
               <Sparkle color="#E03F4F" style={{ bottom:'-14px', right:'16%', animationDelay:'0.8s' }} />
-              <button className="btn-red group text-white font-bold font-inter text-xs px-6 py-2.5 rounded-full flex items-center gap-2 transition shadow-lg relative z-10">
-                PARTNER WITH US
-                <ArrowRight size={16} className="shrink-0 group-hover:translate-x-1 transition-transform duration-300" />
-              </button>
+              {cta.buttonHref.startsWith('/') ? (
+                <Link href={cta.buttonHref} className={buttonClass}>
+                  {cta.buttonLabel}
+                  <ArrowRight size={16} className="shrink-0 group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
+              ) : (
+                <a href={cta.buttonHref} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+                  {cta.buttonLabel}
+                  <ArrowRight size={16} className="shrink-0 group-hover:translate-x-1 transition-transform duration-300" />
+                </a>
+              )}
             </div>
           </div>
           

@@ -1,11 +1,13 @@
 "use client";
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { Calendar, MapPin, ArrowRight } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import gallbottImg from '@/assets/icons/gallbott.png';
 import leafRightImg from '@/assets/icons/leafright.webp';
 import SectionContainer from '@/components/layout/SectionContainer';
+import { glimpseApi, SERVER_URL } from '@/lib/api';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +18,30 @@ const Sparkle = ({ style, color = '#fff176' }) => (
 
 const JoinUsBanner = () => {
   const sectionRef = useRef(null);
+  // Texts, button link and image from arogya-admin → Pages & CMS → Gallery
+  const [banner, setBanner] = useState({
+    tagline: 'Be a Part of the Next Legacy',
+    title: 'Join Us at Arogya Sanghoshti 2026',
+    buttonLabel: 'REGISTER NOW',
+    buttonHref: '/register-now',
+    date: '21 – 23 August 2026',
+    dateSub: '(Friday – Sunday)',
+    location: 'Pragati Maidan',
+    locationSub: 'New Delhi, India',
+    image: '',
+    imageAlt: '',
+  });
+
+  useEffect(() => {
+    glimpseApi.getSettings().then((data) => {
+      if (data?.joinUs) setBanner((prev) => ({ ...prev, ...data.joinUs }));
+    });
+  }, []);
+
+  const bannerImage = banner.image
+    ? (banner.image.startsWith('http') ? banner.image : `${SERVER_URL}${banner.image}`)
+    : (gallbottImg?.src || gallbottImg);
+  const buttonClass = "bg-white hover:bg-gray-100 text-[#0e3b1c] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-black text-[10px] sm:text-[11px] uppercase tracking-[0.1em] flex items-center justify-center gap-1.5 transition-all shadow-md group relative z-10";
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -75,8 +101,8 @@ const JoinUsBanner = () => {
         {/* Decorative Left Image */}
         <div className="absolute -left-12 md:-left-4 lg:left-2 bottom-0 pointer-events-none z-0 hidden md:block">
           <img 
-            src={gallbottImg?.src || gallbottImg} 
-            alt="Decorative Elements" 
+            src={bannerImage} 
+            alt={banner.imageAlt || ""} 
             className="h-32 xl:h-44 object-contain opacity-95"
           />
         </div>
@@ -99,10 +125,10 @@ const JoinUsBanner = () => {
               className="text-[#facc15] text-[16px] sm:text-[18px] md:text-[22px] font-medium leading-none mb-1.5 whitespace-nowrap" 
               style={{ fontFamily: "'Playfair Display', cursive, serif", fontStyle: 'italic' }}
             >
-              Be a Part of the Next Legacy
+              {banner.tagline}
             </span>
             <h2 className="text-white text-[18px] sm:text-xl md:text-2xl xl:text-[26px] font-semibold tracking-tight whitespace-nowrap">
-              Join Us at Arogya Sanghoshti 2026
+              {banner.title}
             </h2>
           </div>
 
@@ -116,10 +142,17 @@ const JoinUsBanner = () => {
               <Sparkle color="#facc15" style={{ top:'30%', left:'-14px', animationDelay:'1.1s', fontSize:'15px' }} />
               <Sparkle color="#ffffff" style={{ top:'40%', right:'-16px', animationDelay:'0.6s', fontSize:'16px' }} />
               
-              <button className="bg-white hover:bg-gray-100 text-[#0e3b1c] px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-black text-[10px] sm:text-[11px] uppercase tracking-[0.1em] flex items-center justify-center gap-1.5 transition-all shadow-md group relative z-10">
-                REGISTER NOW
-                <ArrowRight size={14} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
-              </button>
+              {banner.buttonHref.startsWith('/') ? (
+                <Link href={banner.buttonHref} className={buttonClass}>
+                  {banner.buttonLabel}
+                  <ArrowRight size={14} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              ) : (
+                <a href={banner.buttonHref} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+                  {banner.buttonLabel}
+                  <ArrowRight size={14} strokeWidth={2.5} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -129,8 +162,8 @@ const JoinUsBanner = () => {
             <div className="flex items-center gap-3 text-white text-left">
               <Calendar size={30} strokeWidth={1.5} className="text-white shrink-0 opacity-90" />
               <div className="flex flex-col">
-                <span className="font-bold text-[15px] leading-snug tracking-wide">21 – 23 August 2026</span>
-                <span className="text-[12px] text-gray-300">(Friday – Sunday)</span>
+                <span className="font-bold text-[15px] leading-snug tracking-wide">{banner.date}</span>
+                <span className="text-[12px] text-gray-300">{banner.dateSub}</span>
               </div>
             </div>
 
@@ -138,8 +171,8 @@ const JoinUsBanner = () => {
             <div className="flex items-center gap-3 text-white text-left">
               <MapPin size={30} strokeWidth={1.5} className="text-white shrink-0 opacity-90" />
               <div className="flex flex-col">
-                <span className="font-bold text-[15px] leading-snug tracking-wide">Pragati Maidan</span>
-                <span className="text-[12px] text-gray-300">New Delhi, India</span>
+                <span className="font-bold text-[15px] leading-snug tracking-wide">{banner.location}</span>
+                <span className="text-[12px] text-gray-300">{banner.locationSub}</span>
               </div>
             </div>
           </div>

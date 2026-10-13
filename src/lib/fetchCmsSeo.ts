@@ -132,6 +132,16 @@ export const getOgImageUrl = (cms: CmsSeoData | null): string => {
   return `${LIVE_SITE_URL}/ogimage.webp`;
 };
 
+// The tags are saved as HTML, so "&" arrives as "&amp;" — Next.js escapes the value again
+// when it renders it, which would otherwise show up as "&amp;amp;" in the page source.
+const decodeEntities = (value: string) =>
+  value
+    .replace(/&quot;/g, '"')
+    .replace(/&#0?39;|&apos;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, "&");
+
 /** All <meta property|name="x" content="y"> pairs of the admin's Open Graph tags → { x: y } */
 export const parseMetaTags = (html?: string): Record<string, string> => {
   const tags: Record<string, string> = {};
@@ -139,7 +149,8 @@ export const parseMetaTags = (html?: string): Record<string, string> => {
     // content="India's ..." — a quote of the other kind inside the value is fine
     const attr = (name: string) => {
       const m = tag.match(new RegExp(`(?:${name})\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, "i"));
-      return (m?.[1] ?? m?.[2])?.replace(/\s+/g, " ").trim();
+      const value = (m?.[1] ?? m?.[2])?.replace(/\s+/g, " ").trim();
+      return value === undefined ? undefined : decodeEntities(value);
     };
     const key = attr("property|name")?.toLowerCase();
     const value = attr("content");

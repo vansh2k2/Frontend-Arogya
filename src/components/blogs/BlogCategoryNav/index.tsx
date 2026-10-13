@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import bl1 from '@/assets/icons/bl1.png';
 import bl2 from '@/assets/icons/bl2.png';
 import bl3 from '@/assets/icons/bl3.png';
@@ -8,18 +8,29 @@ import bl5 from '@/assets/icons/bl5.png';
 import bl6 from '@/assets/icons/bl6.png';
 import bl7 from '@/assets/icons/bl7.png';
 import SectionContainer from '@/components/layout/SectionContainer';
+import { blogPageApi } from '@/lib/api';
 
-const categories = [
-  { line1: 'Latest', line2: 'Updates', icon: bl1 },
-  { line1: 'Expert', line2: 'Insights', icon: bl2 },
-  { line1: 'Health &', line2: 'Innovations', icon: bl3 },
-  { line1: 'News &', line2: 'Wellness', icon: bl4 },
-  { line1: 'News &', line2: 'Announcements', icon: bl5 },
-  { line1: 'Events &', line2: 'Highlights', icon: bl6 },
-  { line1: 'Stories that', line2: 'Inspire', icon: bl7 },
+// Shown until the links load from the backend ("\n" splits a title over two lines)
+const defaultCategories = [
+  { title: 'Latest\nUpdates', icon: bl1, iconAlt: '' },
+  { title: 'Expert\nInsights', icon: bl2, iconAlt: '' },
+  { title: 'Health &\nInnovations', icon: bl3, iconAlt: '' },
+  { title: 'News &\nWellness', icon: bl4, iconAlt: '' },
+  { title: 'News &\nAnnouncements', icon: bl5, iconAlt: '' },
+  { title: 'Events &\nHighlights', icon: bl6, iconAlt: '' },
+  { title: 'Stories that\nInspire', icon: bl7, iconAlt: '' },
 ];
 
 const BlogCategoryNav = () => {
+  // Links from arogya-admin → Pages & CMS → Blogs & News
+  const [categories, setCategories] = useState<any[]>(defaultCategories);
+
+  useEffect(() => {
+    blogPageApi.get().then((data) => {
+      if (Array.isArray(data?.categories) && data.categories.length > 0) setCategories(data.categories);
+    });
+  }, []);
+
   return (
     <div className="w-full relative -mt-8 z-20">
       <SectionContainer>
@@ -31,11 +42,11 @@ const BlogCategoryNav = () => {
               >
                 <img 
                   src={cat.icon?.src || cat.icon} 
-                  alt={cat.line1}
+                  alt={cat.iconAlt || ""}
                   className="h-7 w-auto object-contain group-hover:scale-110 transition-transform duration-300" 
                 />
-                <span className="font-inter text-xs font-bold text-[#0e372b] group-hover:text-[#023b2c] uppercase tracking-wide text-left leading-tight">
-                  {cat.line1}<br />{cat.line2}
+                <span className="font-inter text-xs font-bold text-[#0e372b] group-hover:text-[#023b2c] uppercase tracking-wide text-left leading-tight whitespace-pre-line">
+                  {cat.title}
                 </span>
               </button>
               {index < categories.length - 1 && (

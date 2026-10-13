@@ -1,18 +1,38 @@
 "use client";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, CalendarDays, MapPin, Clock, ClipboardList, Newspaper, Mic, Microscope, Heart, Calendar, Leaf, Handshake } from 'lucide-react';
 import Link from 'next/link';
 import stayIcon from '@/assets/icons/stay.png';
+import { fetchArticleCategories } from '@/lib/blogPosts';
 
-const categoriesList = [
-  { name: 'All Updates', count: 24, icon: <ClipboardList size={16} /> },
-  { name: 'News & Announcements', count: 12, icon: <Newspaper size={16} /> },
-  { name: 'Conference Highlights', count: '09', icon: <Mic size={16} /> },
-  { name: 'Research & Innovations', count: 15, icon: <Microscope size={16} /> },
-  { name: 'Health & Wellness', count: 11, icon: <Heart size={16} /> },
-  { name: 'Events & Highlights', count: 10, icon: <Calendar size={16} /> },
-  { name: 'Sustainability', count: '09', icon: <Leaf size={16} /> },
-  { name: 'Partner Corner', count: '05', icon: <Handshake size={16} /> },
+// The "All Updates" row: every article, no category filter
+export const ALL_CATEGORIES = 'All Updates';
+
+// An icon for a category, picked from the words in its name
+const categoryIcon = (name: string) => {
+  const n = name.toLowerCase();
+  if (n === ALL_CATEGORIES.toLowerCase()) return <ClipboardList size={16} />;
+  if (n.includes('conference')) return <Mic size={16} />;
+  if (n.includes('research') || n.includes('innovation')) return <Microscope size={16} />;
+  if (n.includes('health') || n.includes('wellness')) return <Heart size={16} />;
+  if (n.includes('event')) return <Calendar size={16} />;
+  if (n.includes('sustainab')) return <Leaf size={16} />;
+  if (n.includes('partner')) return <Handshake size={16} />;
+  return <Newspaper size={16} />;
+};
+
+const twoDigits = (count: number) => String(count).padStart(2, '0');
+
+// Shown until the categories load from the backend (and if it cannot be reached)
+const defaultCategories = [
+  { name: ALL_CATEGORIES, count: 24 },
+  { name: 'News & Announcements', count: 12 },
+  { name: 'Conference Highlights', count: 9 },
+  { name: 'Research & Innovations', count: 15 },
+  { name: 'Health & Wellness', count: 11 },
+  { name: 'Events & Highlights', count: 10 },
+  { name: 'Sustainability', count: 9 },
+  { name: 'Partner Corner', count: 5 },
 ];
 
 const popularPosts = [
@@ -67,7 +87,22 @@ const upcomingEvents = [
   }
 ];
 
-const BlogSidebar = () => {
+interface BlogSidebarProps {
+  /** The category whose articles are listed ("All Updates" = every article) */
+  activeCategory?: string;
+  onSelectCategory?: (name: string) => void;
+}
+
+const BlogSidebar = ({ activeCategory = ALL_CATEGORIES, onSelectCategory }: BlogSidebarProps) => {
+  // Categories and their article counts from arogya-admin → Blog & Insights → Manage Categories
+  const [categoriesList, setCategoriesList] = useState(defaultCategories);
+
+  useEffect(() => {
+    fetchArticleCategories().then((data) => {
+      if (data) setCategoriesList([{ name: ALL_CATEGORIES, count: data.total }, ...data.categories]);
+    });
+  }, []);
+
   return (
     <div className="space-y-10">
       
@@ -98,20 +133,30 @@ const BlogSidebar = () => {
       >
         <div className="flex items-center justify-between mb-6">
           <h3 className="font-inter text-xl font-semibold text-[#122923]">Categories</h3>
-          <Link href="#" className="text-xs font-bold uppercase text-[#122923] flex items-center gap-1 hover:text-emerald-700">
+          <button type="button" onClick={() => onSelectCategory?.(ALL_CATEGORIES)} className="text-xs font-bold uppercase text-[#122923] flex items-center gap-1 hover:text-emerald-700">
             VIEW ALL <ArrowRight size={12} />
-          </Link>
+          </button>
         </div>
         <ul className="space-y-4">
-          {categoriesList.map((cat, idx) => (
-            <li key={idx} className="flex items-center justify-between group cursor-pointer">
-              <div className="flex items-center gap-3">
-                <span className="text-[#023b2c] group-hover:text-emerald-600 transition-colors">{cat.icon}</span>
-                <span className="text-sm font-medium text-black group-hover:text-emerald-600 transition-colors">{cat.name}</span>
-              </div>
-              <span className="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-1 rounded-md">{cat.count}</span>
-            </li>
-          ))}
+          {categoriesList.map((cat) => {
+            const isActive = cat.name === activeCategory;
+            return (
+              <li key={cat.name}>
+                <button
+                  type="button"
+                  onClick={() => onSelectCategory?.(cat.name)}
+                  aria-pressed={isActive}
+                  className="w-full flex items-center justify-between group cursor-pointer text-left"
+                >
+                  <span className="flex items-center gap-3">
+                    <span className={`transition-colors ${isActive ? 'text-emerald-600' : 'text-[#023b2c] group-hover:text-emerald-600'}`}>{categoryIcon(cat.name)}</span>
+                    <span className={`text-sm transition-colors ${isActive ? 'font-bold text-emerald-700' : 'font-medium text-black group-hover:text-emerald-600'}`}>{cat.name}</span>
+                  </span>
+                  <span className={`text-xs font-bold px-2 py-1 rounded-md ${isActive ? 'text-white bg-orange-500' : 'text-orange-500 bg-orange-50'}`}>{twoDigits(cat.count)}</span>
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
 
