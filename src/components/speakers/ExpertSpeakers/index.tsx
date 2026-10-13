@@ -119,7 +119,7 @@ const ExpertSpeakers = () => {
                     {/* Profile Image with Leaf overlay */}
                     <div className="relative w-20 h-20 mb-2">
                       <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 border border-gray-200 shadow-sm">
-                        <img src={speaker.image ? optimizeCloudinaryUrl(speaker.image.startsWith('http') ? speaker.image : `${SERVER_URL}${speaker.image}`, 400) : `https://i.pravatar.cc/150?img=${(index + 10) % 70}`} alt={speaker.name} className="w-full h-full object-cover" />
+                        <img src={speaker.image ? optimizeCloudinaryUrl(speaker.image.startsWith('http') ? speaker.image : `${SERVER_URL}${speaker.image}`, 400) : `https://i.pravatar.cc/150?img=${(index + 10) % 70}`} alt={speaker.imageAltText || speaker.name} className="w-full h-full object-cover" />
                       </div>
                       <img src={sleafIcon?.src || sleafIcon} alt="leaf" className="absolute bottom-0 -right-3 w-9 h-10 object-contain pointer-events-none drop-shadow-sm" />
                     </div>
@@ -157,7 +157,7 @@ const ExpertSpeakers = () => {
                     {/* Profile Image with Leaf overlay */}
                     <div className="relative w-20 h-20 mb-2">
                       <div className="w-full h-full rounded-full overflow-hidden bg-gray-200 border border-gray-200 shadow-sm">
-                        <img src={speaker.image ? optimizeCloudinaryUrl(speaker.image.startsWith('http') ? speaker.image : `${SERVER_URL}${speaker.image}`, 400) : `https://i.pravatar.cc/150?img=${(index + 20) % 70}`} alt={speaker.name} className="w-full h-full object-cover" />
+                        <img src={speaker.image ? optimizeCloudinaryUrl(speaker.image.startsWith('http') ? speaker.image : `${SERVER_URL}${speaker.image}`, 400) : `https://i.pravatar.cc/150?img=${(index + 20) % 70}`} alt={speaker.imageAltText || speaker.name} className="w-full h-full object-cover" />
                       </div>
                       <img src={sleafIcon?.src || sleafIcon} alt="leaf" className="absolute bottom-0 -right-1 w-8 h-10 object-contain pointer-events-none drop-shadow-sm" />
                     </div>

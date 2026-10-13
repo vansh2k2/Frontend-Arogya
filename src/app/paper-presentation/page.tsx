@@ -1,41 +1,42 @@
-"use client";
-import { lazy, Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import Layout from '@/components/layout/Layout';
 import HeroPaperPresentation from '@/components/paper-presentation/HeroPaperPresentation';
+import { fetchPaperHero, fetchPaperImportantDates, fetchPaperTopics, fetchPaperGuidelines, fetchPaperAwards, fetchPaperWhyChoose, fetchPaperNeedHelp } from '@/lib/fetchPaperPresentation';
 
-// Lazy load below-the-fold sections for performance (same pattern as home/about)
-const ImportantDatesPaper = lazy(() => import('@/components/paper-presentation/ImportantDatesPaper'));
-const TopicsOfInterest = lazy(() => import('@/components/paper-presentation/TopicsOfInterest'));
-const GuidelinesAndSubmission = lazy(() => import('@/components/paper-presentation/GuidelinesAndSubmission'));
-const AwardsRecognition = lazy(() => import('@/components/paper-presentation/AwardsRecognition'));
-const WhyChoosePaper = lazy(() => import('@/components/paper-presentation/WhyChoosePaper'));
-const NeedHelpPaper = lazy(() => import('@/components/paper-presentation/NeedHelpPaper'));
+// SEO (meta tags, canonical, JSON-LD) for this page is set in ./layout.tsx
 
-const SectionLoader = () => (
-  <div className="w-full h-[300px] flex items-center justify-center bg-[#fbfcf7]">
-    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#032e1c]"></div>
-  </div>
-);
+// Below the fold sections dynamically imported (same pattern as home/about)
+const ImportantDatesPaper = dynamic(() => import('@/components/paper-presentation/ImportantDatesPaper'));
+const TopicsOfInterest = dynamic(() => import('@/components/paper-presentation/TopicsOfInterest'));
+const GuidelinesAndSubmission = dynamic(() => import('@/components/paper-presentation/GuidelinesAndSubmission'));
+const AwardsRecognition = dynamic(() => import('@/components/paper-presentation/AwardsRecognition'));
+const WhyChoosePaper = dynamic(() => import('@/components/paper-presentation/WhyChoosePaper'));
+const NeedHelpPaper = dynamic(() => import('@/components/paper-presentation/NeedHelpPaper'));
 
-const BelowFold = ({ children }: { children: React.ReactNode }) => (
-  <Suspense fallback={<SectionLoader />}>
-    {children}
-  </Suspense>
-);
+export default async function PaperPresentationPage() {
+  // Sections managed from arogya-admin (null → built-in content)
+  const [paperHero, paperDates, paperTopics, paperGuidelines, paperAwards, paperWhyChoose, paperNeedHelp] = await Promise.all([
+    fetchPaperHero(),
+    fetchPaperImportantDates(),
+    fetchPaperTopics(),
+    fetchPaperGuidelines(),
+    fetchPaperAwards(),
+    fetchPaperWhyChoose(),
+    fetchPaperNeedHelp(),
+  ]);
 
-export default function PaperPresentationPage() {
   return (
     <Layout>
-      {/* ── ABOVE THE FOLD — Hero loaded eagerly ── */}
-      <HeroPaperPresentation />
+      {/* ── ABOVE THE FOLD — Hero (its title is the page's only H1) ── */}
+      <HeroPaperPresentation data={paperHero} />
 
-      {/* ── BELOW THE FOLD — Lazy loaded ── */}
-      <BelowFold><ImportantDatesPaper /></BelowFold>
-      <BelowFold><TopicsOfInterest /></BelowFold>
-      <BelowFold><GuidelinesAndSubmission /></BelowFold>
-      <BelowFold><AwardsRecognition /></BelowFold>
-      <BelowFold><WhyChoosePaper /></BelowFold>
-      <BelowFold><NeedHelpPaper /></BelowFold>
+      {/* ── BELOW THE FOLD ── */}
+      <ImportantDatesPaper data={paperDates} />
+      <TopicsOfInterest data={paperTopics} />
+      <GuidelinesAndSubmission data={paperGuidelines} />
+      <AwardsRecognition data={paperAwards} />
+      <WhyChoosePaper data={paperWhyChoose} />
+      <NeedHelpPaper data={paperNeedHelp} />
     </Layout>
   );
 }

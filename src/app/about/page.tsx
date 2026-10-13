@@ -6,6 +6,9 @@ import ServerSeoSchema from '@/components/ServerSeoSchema';
 import { buildPageMetadata } from '@/lib/fetchCmsSeo';
 import { fetchAboutHero } from '@/lib/fetchAboutHero';
 import { fetchAboutFounder } from '@/lib/fetchAboutFounder';
+import { fetchAboutNamoGange } from '@/lib/fetchAboutNamoGange';
+import { fetchAboutInitiatives, fetchAboutImpact } from '@/lib/fetchAboutInitiatives';
+import { fetchAboutFaq } from '@/lib/fetchAboutFaq';
 
 
 // Meta tags, Open Graph, canonical (auto) and robots from arogya-admin → Pages & CMS → SEO Information
@@ -29,7 +32,14 @@ const OurImpact = dynamic(() => import('@/components/about/OurImpact'));
 
 export default async function AboutPage() {
   // Sections managed from arogya-admin (null → built-in content)
-  const [aboutHero, aboutFounder] = await Promise.all([fetchAboutHero(), fetchAboutFounder()]);
+  const [aboutHero, aboutFounder, aboutNamoGange, aboutInitiatives, aboutImpact, aboutFaq] = await Promise.all([
+    fetchAboutHero(),
+    fetchAboutFounder(),
+    fetchAboutNamoGange(),
+    fetchAboutInitiatives(),
+    fetchAboutImpact(),
+    fetchAboutFaq(),
+  ]);
 
   return (
     <Layout>
@@ -40,10 +50,10 @@ export default async function AboutPage() {
         </div>
         <div className="w-full flex flex-col">
           <AboutFounder data={aboutFounder} />
-          <AboutNamoGange />
-          <AboutInitiatives />
-          <FAQSection />
-          <OurImpact />
+          <AboutNamoGange data={aboutNamoGange} />
+          <AboutInitiatives data={aboutInitiatives} />
+          <FAQSection data={aboutFaq} />
+          <OurImpact data={aboutImpact} />
         </div>
       </main>
     </Layout>

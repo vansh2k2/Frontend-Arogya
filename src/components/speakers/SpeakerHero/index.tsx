@@ -128,14 +128,16 @@ const SpeakerHero = () => {
       <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 md:px-16 relative z-10 -mt-10">
         <div className="max-w-xl">
           <div className="flex flex-col mb-4">
-            <h2 
+            {/* Lead-in line, not a heading — the title below is the page's only H1 and comes first */}
+            <p
               className="text-[#cba344] font-serif text-2xl md:text-3xl lg:text-4xl mb-2 ml-4 md:ml-8"
               style={{ textShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
             >
               {heroData?.heading || "Our Esteemed"}
-            </h2>
+            </p>
             <div className="relative inline-block self-start ml-2 md:ml-6">
               <img src={P1Icon?.src || P1Icon} alt="Decoration" className="absolute -top-6 md:-top-8 right-2 md:right-4 w-10 md:w-14 h-auto" />
+              {/* The Speakers page's only H1 (Speakers Section → Add Bg Image → Title) */}
               <h1 className="text-[#032e1c] font-serif font-bold text-4xl md:text-5xl lg:text-[67px] leading-none">
                 {heroData?.title || "Speakers"}
               </h1>
