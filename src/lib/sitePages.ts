@@ -17,7 +17,7 @@ export interface SitePageStatus {
 const getApiBase = () => {
   const env = process.env.NEXT_PUBLIC_API_URL;
   if (env) return env.endsWith('/api') ? env : `${env}/api`;
-  return 'http://localhost:5001/api';
+  return 'http://localhost:5000/api';
 };
 
 export const fetchSitePages = async (): Promise<SitePageStatus[]> => {

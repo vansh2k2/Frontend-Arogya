@@ -39,6 +39,7 @@ const navLinks = [
   { name: 'Partners & Supporters', path: '/partners' },
   { name: 'Gallery', path: '/gallery' },
   { name: 'Blogs', path: '/blogs' },
+  { name: 'Careers', path: '/careers' },
   { name: 'Contact Us', path: '/contact' },
 ];
 

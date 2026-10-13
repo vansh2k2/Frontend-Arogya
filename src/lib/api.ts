@@ -2,13 +2,12 @@ const isDev = process.env.NODE_ENV === 'development';
 const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
 const BASE_API_URL = (
-  isLocalhost
-    ? 'http://localhost:5001/api'
-    : (process.env.NEXT_PUBLIC_API_URL ||
-      (isDev ? 'http://localhost:5001/api' : '/api'))
+  process.env.NEXT_PUBLIC_API_URL ||
+  (isLocalhost
+    ? 'http://localhost:5000/api'
+    : (isDev ? 'http://localhost:5000/api' : '/api'))
 ).replace(/\/$/, '');
 
-console.log('--- API_URL EVALUATED:', BASE_API_URL);
 export const API_URL = BASE_API_URL.endsWith("/api") ? BASE_API_URL : `${BASE_API_URL}/api`;
 export const SERVER_URL = API_URL.replace(/\/api$/, "") || (typeof window !== 'undefined' ? window.location.origin : '');
 
@@ -350,8 +349,18 @@ const postJson = async (path: string, payload: unknown) => {
 
 // WhatsApp OTP for website forms (sent through AiSensy by backend-arogya)
 export const verifyApi = {
-    sendPhoneOtp: (phone: string, name = '', profile = 'CONTACT_ENQUIRY') =>
-        postJson('/verify/send-phone-otp', { phone, name, profile }),
+    sendPhoneOtp: (phone: string, a = '', b = '', _c = '') => {
+        let profile = 'CONTACT_ENQUIRY';
+        let name = '';
+        if (a === 'CAREER_CANDIDATE' || a === 'CONTACT_ENQUIRY') {
+            profile = a;
+            name = b;
+        } else {
+            name = a;
+            if (b) profile = b;
+        }
+        return postJson('/verify/send-phone-otp', { phone, name, profile });
+    },
     verifyPhoneOtp: (phone: string, otp: string) =>
         postJson('/verify/verify-phone-otp', { phone, otp }),
 };
@@ -368,4 +377,70 @@ export const contactEnquiryApi = {
         message: string;
         eventName?: string;
     }) => postJson('/contact-enquiry', payload),
+};
+
+// Careers & Jobs APIs (connected to backend-arogya /api/careers/*)
+export const careersApi = {
+    getJobs: async () => {
+        try {
+            const res = await fetch(`${API_URL}/careers/jobs`);
+            const data = await res.json();
+            return data.success && Array.isArray(data.data) ? data.data : [];
+        } catch (err) {
+            console.warn("Error fetching career jobs:", err);
+            return [];
+        }
+    },
+    getJobBySlug: async (slug: string) => {
+        try {
+            const res = await fetch(`${API_URL}/careers/jobs/${encodeURIComponent(slug)}`);
+            const data = await res.json();
+            return data.success ? data.data : null;
+        } catch (err) {
+            console.warn(`Error fetching job ${slug}:`, err);
+            return null;
+        }
+    },
+    uploadCv: async (file: File) => {
+        const formData = new FormData();
+        formData.append("cv", file);
+        const res = await fetch(`${API_URL}/careers/cv/upload`, {
+            method: "POST",
+            body: formData,
+        });
+        return res.json();
+    },
+    analyzeCv: async (candidateId: string, jobId: string) => {
+        return postJson('/careers/cv/analyze', { candidateId, jobId });
+    },
+    getAnalysis: async (id: string) => {
+        try {
+            const res = await fetch(`${API_URL}/careers/analysis/${encodeURIComponent(id)}`);
+            return res.json();
+        } catch (err) {
+            return { success: false, message: 'Could not fetch analysis result' };
+        }
+    },
+    getOptions: async () => {
+        try {
+            const res = await fetch(`${API_URL}/careers/options`);
+            return res.json();
+        } catch (err) {
+            return { success: false, data: {} };
+        }
+    },
+    getResultMessages: async () => {
+        try {
+            const res = await fetch(`${API_URL}/careers/result-messages`);
+            return res.json();
+        } catch (err) {
+            return { success: false, data: null };
+        }
+    },
+    createApplication: async (payload: { candidateId: string; jobId: string; cvAnalysisId?: string; whyInterested?: string }) => {
+        return postJson('/careers/applications', payload);
+    },
+    submitApplication: async (applicationId: string, payload: any) => {
+        return postJson(`/careers/applications/${encodeURIComponent(applicationId)}/submit`, payload);
+    },
 };

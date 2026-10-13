@@ -149,6 +149,7 @@ const Footer = () => {
     { name: "Partners & Supporters", path: "/partners" },
     { name: "Venue", path: "/venue" },
     { name: "Media & Gallery", path: "/media" },
+    { name: "Careers", path: "/careers" },
     { name: "Contact Us", path: "/contact" },
     { name: "FAQ's", path: "/faqs" }
   ];
