@@ -365,6 +365,7 @@ export default function ApplicationSuccessModal({ isOpen, onClose, applicationDa
           <div className="mt-[12px] flex shrink-0 items-center justify-end">
             <Link
               href="/careers"
+              onClick={() => onClose()}
               className="flex items-center gap-[8px] rounded-[8px] bg-[#08743e] px-[22px] py-[10px] text-[14px] font-semibold text-white shadow-md hover:bg-[#076637] transition-colors"
             >
               Explore More Opportunities

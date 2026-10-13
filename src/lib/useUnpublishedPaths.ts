@@ -19,6 +19,11 @@ export const useUnpublishedPaths = (): Set<string> => {
       }
     },
     staleTime: 60 * 1000,
+    // Read-only: the cache is seeded with the server snapshot in Providers.
+    // A client-side fetch could resolve mid-hydration and drop links (e.g. a
+    // freshly drafted page) after the server HTML was painted, which React
+    // reports as a hydration mismatch.
+    enabled: false,
   });
 
   return new Set(
