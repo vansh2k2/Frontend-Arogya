@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { toShareImage } from '@/lib/fetchCmsSeo';
 
 // The article page itself is a client component, so its SEO lives here: meta title,
 // description, keywords, canonical, Open Graph and the JSON-LD schema come from the post's
@@ -55,7 +56,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const title = post.metaTitle || post.title;
   const description = post.metaDescription || post.excerpt || '';
-  const image = post.ogImage || post.image;
+  // OG Image from the post (else its feature image) as a 1200×630 JPG for WhatsApp / social previews
+  const rawImage = post.ogImage || post.image;
+  const image = rawImage ? toShareImage(rawImage) : null;
   // A canonical saved for the live domain or localhost still points at this article here
   const canonical = `${SITE_URL}/blogs/${post.slug}`;
 
@@ -69,7 +72,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       title: post.ogTitle || title,
       description: post.ogDescription || description,
       url: canonical,
-      images: image ? [{ url: image, alt: post.imageAlt || title }] : undefined,
+      images: image ? [{ url: image, ...(image !== rawImage ? { width: 1200, height: 630 } : {}), alt: post.imageAlt || title }] : undefined,
     },
     twitter: {
       card: 'summary_large_image',

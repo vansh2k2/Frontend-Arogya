@@ -44,16 +44,26 @@ const nextConfig = {
       process.env.BACKEND_URL ||
       (process.env.NEXT_PUBLIC_API_URL ? process.env.NEXT_PUBLIC_API_URL.replace(/\/api\/?$/, '') : null) ||
       'http://localhost:5000';
-    return [
-      {
-        source: '/api/careers/:path*',
-        destination: `${backendUrl}/api/careers/:path*`,
-      },
-      {
-        source: '/uploads/:path*',
-        destination: `${backendUrl}/uploads/:path*`,
-      },
-    ];
+    return {
+      afterFiles: [
+        {
+          source: '/api/careers/:path*',
+          destination: `${backendUrl}/api/careers/:path*`,
+        },
+        {
+          source: '/uploads/:path*',
+          destination: `${backendUrl}/uploads/:path*`,
+        },
+      ],
+      // Root files uploaded in arogya-admin → Advanced SEO (e.g. /google123.html); only used
+      // when no page or public file has that address
+      fallback: [
+        {
+          source: '/:file([\\w.-]+\\.(?:html|txt|xml))',
+          destination: `${backendUrl}/seo-files/:file`,
+        },
+      ],
+    };
   },
 };
 

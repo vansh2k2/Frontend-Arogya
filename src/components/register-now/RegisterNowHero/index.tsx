@@ -10,6 +10,30 @@ import { Users, Mic, Calendar, Globe, MapPin, Lightbulb, Leaf } from "lucide-rea
 import c1Icon from "@/assets/icons/c1.webp";
 import d33Icon from "@/assets/icons/d33.png";
 import d100Icon from "@/assets/icons/d100.png";
+import { registerNowPageApi } from "@/lib/api";
+
+// Icons the admin can pick for a stat (arogya-admin → Pages & CMS → Register Now)
+const INFINITY_ICON = (
+  <svg className="w-6 h-6 text-[#F3B71B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M12 12c-2-2.67-4-4-6-4a4 4 0 100 8c2 0 4-1.33 6-4zm0 0c2 2.67 4 4 6 4a4 4 0 100-8c-2 0-4 1.33-6 4z" />
+  </svg>
+);
+const statIcon = (key: string) => {
+  const props = { size: 24, className: "text-[#F3B71B]", strokeWidth: 1.5 };
+  if (key === "mic") return <Mic {...props} />;
+  if (key === "calendar") return <Calendar {...props} />;
+  if (key === "globe") return <Globe {...props} />;
+  if (key === "infinity") return INFINITY_ICON;
+  return <Users {...props} />;
+};
+
+// "121+" → counts up to 121 then shows "+"; a word like "ENDLESS" is shown as it is
+const toStat = ({ value, label, iconKey }: { value: string; label: string; iconKey: string }) => {
+  const match = String(value).match(/^(\d+)(.*)$/);
+  return match
+    ? { num: Number(match[1]), suffix: match[2], label, icon: statIcon(iconKey) }
+    : { value, label, icon: statIcon(iconKey) };
+};
 
 const Sparkle = ({ style, color = '#133513' }: { style?: React.CSSProperties, color?: string }) => (
   <span style={{ position: 'absolute', pointerEvents: 'none', fontSize: '13px', color,
@@ -64,7 +88,27 @@ const RegisterNowHero = ({ showThemesBand = false }: { showThemesBand?: boolean 
   const statItemsRef = useRef([]);
   const dividerRefs = useRef([]);
 
-  const stats = [
+  // Texts, background and stats from arogya-admin → Pages & CMS → Register Now
+  const [hero, setHero] = useState({
+    titleLine1: "DELEGATE",
+    titleLine2: "REGISTRATION",
+    tagline: "Be part of Asia's premier platform for\nHealth, Wellness, Innovation & Collaboration.",
+    editionText: "18th Integrated Arogya Sangosthi",
+    dateText: "21 - 23 AUGUST 2026",
+    venueText: "PRAGATI MAIDAN, NEW DELHI",
+    bgImage: "",
+    bgImageAlt: "Delegate Registration Background",
+  });
+  const [savedStats, setSavedStats] = useState<any[] | null>(null);
+
+  useEffect(() => {
+    registerNowPageApi.get().then((data) => {
+      if (data?.hero) setHero((prev) => ({ ...prev, ...data.hero }));
+      if (Array.isArray(data?.stats) && data.stats.length > 0) setSavedStats(data.stats.map(toStat));
+    });
+  }, []);
+
+  const defaultStats = [
     { num: 121, suffix: "+", label: "EXPERT SPEAKERS", icon: <Users size={24} className="text-[#F3B71B]" strokeWidth={1.5} /> },
     { num: 14, suffix: "", label: "PREMIUM SESSIONS", icon: <Mic size={24} className="text-[#F3B71B]" strokeWidth={1.5} /> },
     { num: 2, suffix: "", label: "DAYS CONFERENCE", icon: <Calendar size={24} className="text-[#F3B71B]" strokeWidth={1.5} /> },
@@ -80,6 +124,8 @@ const RegisterNowHero = ({ showThemesBand = false }: { showThemesBand?: boolean 
       )
     },
   ];
+
+  const stats = savedStats ?? defaultStats;
 
   const themes = [
     {
@@ -226,8 +272,8 @@ const RegisterNowHero = ({ showThemesBand = false }: { showThemesBand?: boolean 
       >
         {/* Background */}
         <img
-          src={bannerBg?.src || bannerBg}
-          alt="Delegate Registration Background"
+          src={hero.bgImage || (bannerBg as { src: string }).src}
+          alt={hero.bgImageAlt || "Delegate Registration Background"}
           className="absolute inset-0 w-full h-full object-cover object-[center_45%]"
         />
 
@@ -245,23 +291,21 @@ const RegisterNowHero = ({ showThemesBand = false }: { showThemesBand?: boolean 
             <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold uppercase leading-tight tracking-tight mb-4 font-inter [perspective:700px]">
               <span className="block overflow-hidden">
                 <span ref={line1Ref} style={{ opacity: 0 }} className="block text-[#133513]">
-                  DELEGATE
+                  {hero.titleLine1}
                 </span>
               </span>
               <span className="block overflow-hidden">
                 <span ref={line2Ref} style={{ opacity: 0 }} className="block text-[#519B3E]">
-                  REGISTRATION
+                  {hero.titleLine2}
                 </span>
               </span>
             </h1>
             <p
               ref={taglineRef}
               style={{ opacity: 0 }}
-              className="text-gray-900 text-base md:text-lg font-medium mb-6 max-w-lg font-inter"
+              className="text-gray-900 text-base md:text-lg font-medium mb-6 max-w-lg font-inter whitespace-pre-line"
             >
-              Be part of Asia's premier platform for
-              <br />
-              Health, Wellness, Innovation &amp; Collaboration.
+              {hero.tagline}
             </p>
 
             {/* Added Event Info based on mockup */}
@@ -273,16 +317,16 @@ const RegisterNowHero = ({ showThemesBand = false }: { showThemesBand?: boolean 
                     <Sparkle style={{ top: '-10px', right: '5%' }} color="#133513" />
                     <Sparkle style={{ bottom: '-5px', left: '10%', animationDelay: '0.4s' }} color="#133513" />
                     <Sparkle style={{ top: '40%', right: '-15px', animationDelay: '0.8s' }} color="#133513" />
-                    <span className="text-lg md:text-xl font-bold text-[#133513] font-serif tracking-wide">18th Integrated Arogya Sangosthi</span>
+                    <span className="text-lg md:text-xl font-bold text-[#133513] font-serif tracking-wide">{hero.editionText}</span>
                   </div>
                   <div ref={underlineRef} className="w-full h-[2px] bg-[#F3B71B] mt-0.5 rounded-full opacity-0" style={{ transformOrigin: 'left center' }}></div>
                 </div>
                 <img src={arrowIcon?.src || arrowIcon} className="w-10 h-10 object-contain -scale-x-100" alt="arrow" />
               </div>
               <div className="flex items-center gap-2.5 text-xs md:text-sm font-semibold text-[#133513] tracking-wide">
-                <div className="flex items-center gap-1"><Calendar size={15} className="text-[#133513]" strokeWidth={2} /> 21 - 23 AUGUST 2026</div>
+                <div className="flex items-center gap-1"><Calendar size={15} className="text-[#133513]" strokeWidth={2} /> {hero.dateText}</div>
                 <div className="w-px h-3 bg-[#133513]/40"></div>
-                <div className="flex items-center gap-1"><MapPin size={15} className="text-[#133513]" strokeWidth={2} /> PRAGATI MAIDAN, NEW DELHI</div>
+                <div className="flex items-center gap-1"><MapPin size={15} className="text-[#133513]" strokeWidth={2} /> {hero.venueText}</div>
               </div>
             </div>
           </div>

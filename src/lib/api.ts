@@ -277,6 +277,25 @@ export const blogPageApi = {
     }
 };
 
+// Register Now page sections (arogya-admin → Pages & CMS → Register Now).
+// One request shared by the hero and the sidebar cards.
+let registerNowPagePromise: Promise<any> | null = null;
+export const registerNowPageApi = {
+    get: () => {
+        if (!registerNowPagePromise) {
+            registerNowPagePromise = fetch(`${API_URL}/register-now-page`)
+                .then((response) => response.json())
+                .then((data) => (data.success ? data.data : null))
+                .catch(() => {
+                    console.warn("Error fetching register now page data");
+                    registerNowPagePromise = null;
+                    return null;
+                });
+        }
+        return registerNowPagePromise;
+    }
+};
+
 // Registration type cards of the Register Now page (arogya-admin → Add Registration)
 export const registrationCardsApi = {
     get: async () => {

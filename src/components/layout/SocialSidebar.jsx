@@ -13,6 +13,7 @@ const SocialSidebar = () => {
       whatsappMessage: "Hello! I'm interested in Arogya Sangoshthi 2025.",
       callNumber: "+919876543210",
       facebook: "https://www.facebook.com/ArogyaSangoshthi",
+      twitter: "",
       instagram: "https://www.instagram.com/arogyasangoshthi/",
       youtube: "https://www.youtube.com/@NamoGangeTrust",
       linkedin: "https://in.linkedin.com/showcase/arogya-sangoshthi/"
@@ -22,14 +23,16 @@ const SocialSidebar = () => {
       const fetchSocialMedia = async () => {
           const data = await socialMediaApi.get();
           if (data) {
+              const hasSavedLinks = ["facebook", "instagram", "twitter", "youtube", "linkedin"].some((key) => data[key]);
               setSocialLinks(prev => ({
                   whatsappNumber: data.whatsappNumber || prev.whatsappNumber,
                   whatsappMessage: data.whatsappMessage || prev.whatsappMessage,
                   callNumber: data.callNumber || prev.callNumber,
-                  facebook: data.facebook || prev.facebook,
-                  instagram: data.instagram || prev.instagram,
-                  youtube: data.youtube || prev.youtube,
-                  linkedin: data.linkedin || prev.linkedin,
+                  facebook: hasSavedLinks ? data.facebook || "" : prev.facebook,
+                  instagram: hasSavedLinks ? data.instagram || "" : prev.instagram,
+                  twitter: hasSavedLinks ? data.twitter || "" : prev.twitter,
+                  youtube: hasSavedLinks ? data.youtube || "" : prev.youtube,
+                  linkedin: hasSavedLinks ? data.linkedin || "" : prev.linkedin,
               }));
           }
       };
@@ -45,6 +48,18 @@ const SocialSidebar = () => {
       style={{ position: "relative", zIndex: 2, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
     >
       <path d="M16.01 3.2c-7.11 0-12.88 5.76-12.88 12.86 0 2.27.59 4.48 1.72 6.43L3.2 28.8l6.49-1.7a12.85 12.85 0 0 0 6.32 1.63h.01c7.1 0 12.88-5.77 12.88-12.86 0-3.44-1.34-6.67-3.78-9.1A12.8 12.8 0 0 0 16.01 3.2zm7.55 18.37c-.31.87-1.82 1.67-2.52 1.78-.65.1-1.48.14-2.39-.15-.55-.18-1.25-.41-2.16-.8-3.8-1.64-6.27-5.39-6.46-5.64-.18-.25-1.54-2.05-1.54-3.92 0-1.87.97-2.78 1.32-3.16.35-.38.76-.48 1.01-.48.25 0 .51 0 .73.01.24.01.55-.09.86.65.31.75 1.06 2.59 1.15 2.78.09.19.15.41.03.66-.12.25-.18.41-.35.63-.18.21-.38.47-.54.64-.18.18-.36.38-.15.74.21.36.93 1.53 2 2.48 1.38 1.23 2.53 1.62 2.89 1.8.36.18.57.15.78-.09.21-.24.9-1.05 1.14-1.41.24-.36.48-.3.81-.18.33.12 2.09.99 2.45 1.17.36.18.6.27.69.42.09.15.09.87-.22 1.74z" />
+    </svg>
+  );
+
+  const XIcon = () => (
+    <svg
+      viewBox="0 0 24 24"
+      width={11}
+      height={11}
+      fill="white"
+      style={{ position: "relative", zIndex: 2, filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))" }}
+    >
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
     </svg>
   );
 
@@ -101,6 +116,17 @@ const SocialSidebar = () => {
       tipColor: "#E1306C",
       tipArrow: "#E1306C",
       label: "Instagram",
+      isExternal: true,
+    },
+    {
+      iconComponent: <XIcon />,
+      url: socialLinks.twitter,
+      bg: "linear-gradient(135deg, #000, #333)",
+      glow: "rgba(0,0,0,0.5)",
+      glowColor: "#333",
+      tipColor: "#111",
+      tipArrow: "#111",
+      label: "X (Twitter)",
       isExternal: true,
     },
     {
@@ -415,7 +441,7 @@ const SocialSidebar = () => {
             ))}
           </div>
 
-          {socialData.map((social, i) => (
+          {socialData.filter((social) => social.url).map((social, i) => (
             <div key={i} style={{ position: "relative", zIndex: 1 }}>
               <div
                 className={`sb-item${liftedItems.includes(i) ? " sb-item--lifted" : ""}`}

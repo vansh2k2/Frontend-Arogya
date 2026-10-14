@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import { Poppins, Inter, Roboto, Nunito, Dancing_Script } from "next/font/google";
 import { Providers } from "@/components/Providers";
 import { fetchSitePages } from "@/lib/sitePages";
+import Script from "next/script";
+import { fetchAdvancedSeo } from "@/lib/advancedSeo";
+import { HeadScripts, FooterScripts } from "@/components/seo/CustomScripts";
 
 
 const SITE_URL = "https://arogya.namogange.org";
@@ -44,11 +47,11 @@ export const metadata: Metadata = {
       "India's premier healthcare conference — 21–23 August 2026, Pragati Maidan, New Delhi. Join 5000+ delegates, 100+ speakers from 50+ countries.",
     images: [
       {
-        url: `${SITE_URL}/ogimage.webp`,
+        url: `${SITE_URL}/ogimage.jpg`,
         width: 1200,
         height: 630,
         alt: "Arogya Sangoshthi 2026 — International Healthcare Conference",
-        type: "image/webp",
+        type: "image/jpeg",
       },
     ],
   },
@@ -57,7 +60,7 @@ export const metadata: Metadata = {
     title: "Arogya Sangoshthi 2026 | AYUSH & Healthcare Conference",
     description:
       "India's premier healthcare conference — 21–23 August 2026, Pragati Maidan, New Delhi.",
-    images: [`${SITE_URL}/ogimage.webp`],
+    images: [`${SITE_URL}/ogimage.jpg`],
   },
   alternates: {
     canonical: SITE_URL,
@@ -103,7 +106,13 @@ const dancingScript = Dancing_Script({
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Pages set to Draft in arogya-admin → Pages & CMS (cached 30 s)
-  const sitePages = await fetchSitePages();
+  // arogya-admin → Advanced SEO (cached 60 s)
+  const [sitePages, seo] = await Promise.all([fetchSitePages(), fetchAdvancedSeo()]);
+  const ga4Id = /^G-[A-Z0-9]+$/i.test(seo?.ga4MeasurementId ?? "") ? seo!.ga4MeasurementId : undefined;
+  const gtmId = /^GTM-[A-Z0-9]+$/i.test(seo?.gtmContainerId ?? "") ? seo!.gtmContainerId : undefined;
+  const gscCode = /^[w-]+$/.test(seo?.googleSearchConsoleVerification ?? "") ? seo!.googleSearchConsoleVerification : undefined;
+  // Global switches: an extra robots tag; search engines follow the strictest one on the page
+  const blockedRobots = [seo?.allowIndex === false && "noindex", seo?.allowFollow === false && "nofollow"].filter(Boolean).join(", ");
   return (
     <html lang="en" className={`antialiased ${poppins.variable} ${inter.variable} ${roboto.variable} ${nunito.variable} ${dancingScript.variable}`}>
       <head>
@@ -111,6 +120,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://res.cloudinary.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        {gscCode && <meta name="google-site-verification" content={gscCode} />}
+        {blockedRobots && <meta name="robots" content={blockedRobots} />}
+        <HeadScripts html={seo?.headerScripts} />
       </head>
       <body
         className="flex flex-col font-inter bg-background text-foreground antialiased min-h-screen"
@@ -119,6 +131,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* ── Schema is injected per-page by ServerSeoSchema (arogya-admin → Pages & CMS → SEO Information) ── */}
 
         <Providers sitePages={sitePages}>{children}</Providers>
+
+        <FooterScripts html={seo?.footerScripts} />
+        {ga4Id && (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} strategy="lazyOnload" />
+            <Script id="google-analytics" strategy="lazyOnload">
+              {`window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${ga4Id}');`}
+            </Script>
+          </>
+        )}
+        {gtmId && (
+          <Script id="google-tag-manager" strategy="lazyOnload">
+            {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');`}
+          </Script>
+        )}
       </body>
     </html>
   );

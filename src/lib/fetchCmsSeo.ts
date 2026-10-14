@@ -101,10 +101,22 @@ export const extractOgImageFromHtml = (html: string): string | null => {
  * Build the og:image URL from a CMS ogImage path
  * e.g. "/uploads/seo/image.jpg" → "https://backend.url/uploads/seo/image.jpg"
  */
+/**
+ * Link-preview copy of an image: WhatsApp, Facebook and LinkedIn skip WebP and large files,
+ * so a Cloudinary image is served as a 1200×630 JPG (about 100–200 KB). Other URLs pass through.
+ */
+export const toShareImage = (url: string): string =>
+  /^https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\//.test(url) && !url.includes("/upload/c_fill,")
+    ? url
+        .replace("/image/upload/", "/image/upload/c_fill,g_auto,w_1200,h_630,q_80/")
+        // the .jpg extension makes Cloudinary send a JPG
+        .replace(/\.(webp|png|avif|gif|jpe?g)(\?.*)?$/i, ".jpg$2")
+    : url;
+
 export const resolveOgImageUrl = (ogImagePath: string): string => {
-  if (!ogImagePath) return `${LIVE_SITE_URL}/ogimage.webp`;
+  if (!ogImagePath) return `${LIVE_SITE_URL}/ogimage.jpg`;
   // Already absolute URL
-  if (ogImagePath.startsWith("http")) return ogImagePath;
+  if (ogImagePath.startsWith("http")) return toShareImage(ogImagePath);
   // Relative path from backend server
   const serverBase = (process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api")
     .replace(/\/api$/, "");
@@ -116,7 +128,7 @@ export const resolveOgImageUrl = (ogImagePath: string): string => {
  * Priority:
  *   1. cms.ogImage (uploaded file field)
  *   2. og:image extracted from cms.openGraphTags HTML
- *   3. Default fallback ogimage.webp
+ *   3. Default fallback ogimage.jpg
  */
 export const getOgImageUrl = (cms: CmsSeoData | null): string => {
   // 1. Uploaded file field
@@ -125,11 +137,11 @@ export const getOgImageUrl = (cms: CmsSeoData | null): string => {
   // 2. Parse from openGraphTags HTML string
   if (cms?.openGraphTags) {
     const fromHtml = extractOgImageFromHtml(cms.openGraphTags);
-    if (fromHtml) return fromHtml;
+    if (fromHtml) return toShareImage(fromHtml);
   }
 
   // 3. Static fallback in /public
-  return `${LIVE_SITE_URL}/ogimage.webp`;
+  return `${LIVE_SITE_URL}/ogimage.jpg`;
 };
 
 // The tags are saved as HTML, so "&" arrives as "&amp;" — Next.js escapes the value again

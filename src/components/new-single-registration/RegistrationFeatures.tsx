@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 import arrowIcon from "@/assets/icons/arrow.png";
@@ -10,8 +10,11 @@ import rr2 from "@/assets/icons/rr2.png";
 import rr3 from "@/assets/icons/rr3.png";
 import rr4 from "@/assets/icons/rr4.png";
 import rr5 from "@/assets/icons/rr5.png";
+import { registerNowPageApi } from "@/lib/api";
 
-const features = [
+// Shown until the saved list loads (arogya-admin → Pages & CMS → Single Registration).
+// This section is shared by the Single and the Group registration pages.
+const defaultFeatures: { icon: any; title: string; iconAlt?: string }[] = [
   {
     icon: rr1,
     title: "CERTIFICATE\nOF PARTICIPATION",
@@ -64,6 +67,17 @@ const itemVariants: Variants = {
 };
 
 const RegistrationFeatures = () => {
+  const [heading, setHeading] = useState("Your Registration Includes");
+  const [features, setFeatures] = useState(defaultFeatures);
+
+  useEffect(() => {
+    registerNowPageApi.get().then((data) => {
+      const saved = data?.registrationIncludes;
+      if (saved?.heading) setHeading(saved.heading);
+      if (Array.isArray(saved?.items) && saved.items.length > 0) setFeatures(saved.items);
+    });
+  }, []);
+
   return (
     <motion.div
       variants={containerVariants}
@@ -128,7 +142,7 @@ const RegistrationFeatures = () => {
           <Image src={arrowIcon} className="w-7 h-7 md:w-9 md:h-9 object-contain" alt="arrow left" />
         </motion.div>
         <h2 className="text-center text-[#133513] text-lg sm:text-xl md:text-2xl font-bold font-serif uppercase tracking-wide m-0">
-          Your Registration Includes
+          {heading}
         </h2>
         <motion.div
           initial={{ opacity: 0, x: 15 }}
@@ -154,11 +168,13 @@ const RegistrationFeatures = () => {
               whileHover={{ scale: 1.08 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
             >
-              <Image
-                src={item.icon}
-                alt={item.title.replace(/\n/g, ' ')}
-                className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-[84px] lg:h-[84px] object-contain mb-1.5 md:mb-2"
-              />
+              {item.icon && (
+                <img
+                  src={typeof item.icon === "string" ? item.icon : item.icon.src}
+                  alt={item.iconAlt || item.title.replace(/\n/g, ' ')}
+                  className="w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 lg:w-[84px] lg:h-[84px] object-contain mb-1.5 md:mb-2"
+                />
+              )}
             </motion.div>
             <h4 className="font-inter font-semibold text-black text-[11px] sm:text-xs md:text-sm tracking-wide uppercase leading-snug whitespace-pre-line">
               {item.title}

@@ -38,7 +38,7 @@ import RegistrationSelectionCards from '../RegistrationSelectionCards';
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
-import { API_URL } from "@/lib/api";
+import { API_URL, registerNowPageApi } from "@/lib/api";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import footerRight from "@/assets/icons/footerright.webp";
@@ -122,7 +122,51 @@ const loadRazorpay = () => {
   });
 };
 
+// Sidebar cards shown until the saved ones load (arogya-admin → Pages & CMS → Register Now)
+const DEFAULT_SIDEBAR = {
+  eventDetails: {
+    heading: "EVENT DETAILS",
+    dateText: "21 - 23 AUGUST 2026",
+    dayText: "Friday - Sunday",
+    venueText: "Pragati Maidan,\nNew Delhi",
+    websiteLabel: "arogya.namogange.org",
+    websiteUrl: "https://arogya.namogange.org",
+    dateIcon: "", dateIconAlt: "Date",
+    venueIcon: "", venueIconAlt: "Location",
+    websiteIcon: "", websiteIconAlt: "Website",
+  },
+  whyAttend: {
+    heading: "WHY ATTEND AROGYA SANGOSHTHI 2026?",
+    items: [
+      { title: "Connect", description: "Network with global leaders,\nexperts & professionals", icon: "", iconAlt: "Connect" },
+      { title: "Discover", description: "Explore the latest products,\ntechnologies & innovations", icon: "", iconAlt: "Discover" },
+      { title: "Learn", description: "Gain insights from world-class\nconferences & workshops", icon: "", iconAlt: "Learn" },
+      { title: "Grow", description: "Expand your knowledge,\nbusiness & opportunities", icon: "", iconAlt: "Grow" },
+    ],
+  },
+  needHelp: {
+    title: "NEED HELP?",
+    description: "Our team is here to assist you with your registration.",
+    email: "info@arogyasangoshthi.com",
+    phone: "+91 96549 00525",
+  },
+};
+
 const RegisterNowContent = () => {
+  const [sidebar, setSidebar] = useState(DEFAULT_SIDEBAR);
+  useEffect(() => {
+    registerNowPageApi.get().then((data) => {
+      if (!data) return;
+      setSidebar((prev) => ({
+        eventDetails: { ...prev.eventDetails, ...(data.eventDetails || {}) },
+        whyAttend: data.whyAttend?.items?.length ? data.whyAttend : prev.whyAttend,
+        needHelp: { ...prev.needHelp, ...(data.needHelp || {}) },
+      }));
+    });
+  }, []);
+  const { eventDetails, whyAttend, needHelp } = sidebar;
+  // The built-in icons are used until the uploaded ones load
+  const builtInWhyIcons = [zz1, zz2, zz3, zz4];
   const containerRef = useRef(null);
 
   const bgDecorRef = useRef(null);
@@ -754,29 +798,28 @@ const RegisterNowContent = () => {
             {/* EVENT DETAILS */}
             <div ref={eventCardRef} style={{ opacity: 0, boxShadow: "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em" }} className="bg-[#f5f8f5] rounded-xl overflow-hidden border border-gray-100 relative">
               <div className="bg-[#36682e] text-white font-extrabold px-5 py-3 text-sm tracking-wider font-inter inline-block pr-8 rounded-br-[20px]">
-                EVENT DETAILS
+                {eventDetails.heading}
               </div>
               <div className="p-5 bg-[#f7f8f2]">
                 <div className="flex items-start gap-4 pb-4 border-b border-gray-300 mb-4">
-                  <img src={(d11?.src || d11) as string} alt="Date" className="w-10 h-10 object-contain shrink-0" />
+                  <img src={(eventDetails.dateIcon || d11?.src || d11) as string} alt={eventDetails.dateIconAlt || "Date"} className="w-10 h-10 object-contain shrink-0" />
                   <div>
-                    <p className="font-bold text-[#1a1a1a] text-sm font-inter">21 - 23 AUGUST 2026</p>
-                    <p className="text-gray-600 text-xs font-inter">Friday - Sunday</p>
+                    <p className="font-bold text-[#1a1a1a] text-sm font-inter">{eventDetails.dateText}</p>
+                    <p className="text-gray-600 text-xs font-inter">{eventDetails.dayText}</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4 pb-4 border-b border-gray-300 mb-4">
-                  <img src={(d22?.src || d22) as string} alt="Location" className="w-10 h-10 object-contain shrink-0" />
+                  <img src={(eventDetails.venueIcon || d22?.src || d22) as string} alt={eventDetails.venueIconAlt || "Location"} className="w-10 h-10 object-contain shrink-0" />
                   <div>
-                    <p className="font-bold text-[#1a1a1a] text-sm font-inter">Pragati Maidan,</p>
-                    <p className="font-bold text-[#1a1a1a] text-sm font-inter">New Delhi</p>
+                    <p className="font-bold text-[#1a1a1a] text-sm font-inter whitespace-pre-line">{eventDetails.venueText}</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <img src={(d33?.src || d33) as string} alt="Website" className="w-10 h-10 object-contain shrink-0" />
+                  <img src={(eventDetails.websiteIcon || d33?.src || d33) as string} alt={eventDetails.websiteIconAlt || "Website"} className="w-10 h-10 object-contain shrink-0" />
                   <div>
-                    <a href="https://www.ihwe.in" target="_blank" rel="noopener noreferrer" className="font-bold text-blue-600 hover:text-blue-800 hover:underline text-sm font-inter transition-colors">www.ihwe.in</a>
+                    <a href={eventDetails.websiteUrl || "#"} target="_blank" rel="noopener noreferrer" className="font-bold text-blue-600 hover:text-blue-800 hover:underline text-sm font-inter transition-colors">{eventDetails.websiteLabel}</a>
                   </div>
                 </div>
               </div>
@@ -791,14 +834,17 @@ const RegisterNowContent = () => {
 
             {/* WHY ATTEND IHWE 2026? */}
             <div ref={whyAttendCardRef} style={{ opacity: 0, boxShadow: "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em" }} className="bg-[#f7f8f2] rounded-xl border border-gray-100 p-5">
-              <h3 className="text-[#092912] font-extrabold text-sm tracking-wider mb-5 font-inter">WHY ATTEND IHWE 2026?</h3>
+              <h3 className="text-[#092912] font-extrabold text-sm tracking-wider mb-5 font-inter">{whyAttend.heading}</h3>
               <div className="flex flex-col gap-5">
-                {[
-                  { icon: <img src={(zz1?.src || zz1) as string} alt="Connect" className="w-8 h-8 object-contain shrink-0 pt-0.5" />, title: "Connect", desc: <>Network with global leaders,<br />experts & professionals</> },
-                  { icon: <img src={(zz2?.src || zz2) as string} alt="Discover" className="w-8 h-8 object-contain shrink-0 pt-0.5" />, title: "Discover", desc: <>Explore the latest products,<br />technologies & innovations</> },
-                  { icon: <img src={(zz3?.src || zz3) as string} alt="Learn" className="w-8 h-8 object-contain shrink-0 pt-0.5" />, title: "Learn", desc: <>Gain insights from world-class<br />conferences & workshops</> },
-                  { icon: <img src={(zz4?.src || zz4) as string} alt="Grow" className="w-8 h-8 object-contain shrink-0 pt-0.5" />, title: "Grow", desc: <>Expand your knowledge,<br />business & opportunities</> },
-                ].map((item, idx) => (
+                {whyAttend.items.map((point: any, idx: number) => {
+                  const builtIn = builtInWhyIcons[idx];
+                  const src = point.icon || (builtIn ? (builtIn?.src || builtIn) : "");
+                  return {
+                    icon: src ? <img src={src as string} alt={point.iconAlt || point.title} className="w-8 h-8 object-contain shrink-0 pt-0.5" /> : null,
+                    title: point.title,
+                    desc: <span className="whitespace-pre-line">{point.description}</span>,
+                  };
+                }).map((item, idx) => (
                   <div
                     key={idx}
                     ref={(el) => { if (el) whyAttendItemsRef.current[idx] = el as any; }}
@@ -822,22 +868,26 @@ const RegisterNowContent = () => {
                   <Headphones size={28} className="text-[#d8a956]" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-base mb-1 tracking-wide font-inter">NEED HELP?</h3>
+                  <h3 className="font-extrabold text-base mb-1 tracking-wide font-inter">{needHelp.title}</h3>
                   <p className="text-white/80 text-xs leading-relaxed max-w-[200px]">
-                    Our team is here to assist you with your registration.
+                    {needHelp.description}
                   </p>
                 </div>
               </div>
 
               <div className="flex flex-col gap-3 relative z-10 mt-5">
-                <a href="mailto:delegate@ihwe.in" className="flex items-center gap-3 hover:text-[#d8a956] transition-colors">
-                  <Mail size={16} />
-                  <span className="text-sm font-medium">info@arogyasangosthi.com</span>
-                </a>
-                <a href="tel:+918448395698" className="flex items-center gap-3 hover:text-[#d8a956] transition-colors">
-                  <Phone size={16} />
-                  <span className="text-sm font-medium">+91 9876543210</span>
-                </a>
+                {needHelp.email && (
+                  <a href={`mailto:${needHelp.email}`} className="flex items-center gap-3 hover:text-[#d8a956] transition-colors">
+                    <Mail size={16} />
+                    <span className="text-sm font-medium">{needHelp.email}</span>
+                  </a>
+                )}
+                {needHelp.phone && (
+                  <a href={`tel:${needHelp.phone.replace(/[^\d+]/g, "")}`} className="flex items-center gap-3 hover:text-[#d8a956] transition-colors">
+                    <Phone size={16} />
+                    <span className="text-sm font-medium">{needHelp.phone}</span>
+                  </a>
+                )}
               </div>
 
               {/* Background pattern */}
