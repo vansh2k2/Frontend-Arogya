@@ -282,6 +282,7 @@ const Footer = () => {
                 alt={logoAlt}
                 width={300}
                 height={80}
+                unoptimized
                 className="w-full h-auto object-contain brightness-0 invert sepia(1) saturate(5) hue-rotate(5deg) contrast(1.2)"
                 style={{ filter: "drop-shadow(0 0 15px rgba(243,183,27,0.6))" }}
               />

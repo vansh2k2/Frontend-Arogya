@@ -104,11 +104,14 @@ const Navbar = () => {
           >
             {/* ===== LOGO IMAGE ===== */}
             <Link href="/" className="flex items-center h-full shrink-0">
+              {/* unoptimized: the logo loads straight from its Cloudinary link (shareable, opens in
+                  the browser) instead of a /_next/image copy that downloads as .avif */}
               <Image
                 src={logoUrl?.src || logoUrl}
                 alt={logoAlt}
                 width={250}
                 height={50}
+                unoptimized
                 sizes="(max-width: 1280px) 180px, 250px"
                 className={cn(
                   'w-auto transition-all duration-300',
@@ -193,6 +196,7 @@ const Navbar = () => {
               alt={logoAlt}
               width={250}
               height={50}
+              unoptimized
               sizes="250px"
               className="h-12 w-auto"
             />
