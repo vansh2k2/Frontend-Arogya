@@ -8,7 +8,7 @@ import { requirePublishedPage } from '@/lib/sitePages';
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata('/new-single-registration', {
     title: 'Single Registration',
-    description: 'Register as an individual delegate for Arogya Sangoshthi 2026, 21–23 August 2026, Pragati Maidan, New Delhi.',
+    description: 'Register as an individual delegate for Arogya Sangoshthi 2026, 19–21 February 2027, Pragati Maidan, New Delhi.',
   });
 }
 

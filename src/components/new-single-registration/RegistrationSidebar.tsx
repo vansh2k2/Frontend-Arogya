@@ -12,9 +12,9 @@ import pp4Icon from "../../assets/icons/pp4.png";
 import footerRightImg from "../../assets/icons/footerright.png";
 
 const DAY_OPTIONS = [
-  { day: 1, label: 'Day 1', date: '21 Aug (Fri)', bg: '#012e17' },
-  { day: 2, label: 'Day 2', date: '22 Aug (Sat)', bg: '#d18e26' },
-  { day: 3, label: 'Day 3', date: '23 Aug (Sun)', bg: '#1b3c73' },
+  { day: 1, label: 'Day 1', date: '19 Feb (Fri)', bg: '#012e17' },
+  { day: 2, label: 'Day 2', date: '20 Feb (Sat)', bg: '#d18e26' },
+  { day: 3, label: 'Day 3', date: '21 Feb (Sun)', bg: '#1b3c73' },
 ];
 
 const SelectionBadge = ({ bgColor = "#012e17" }: { bgColor?: string }) => (

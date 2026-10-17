@@ -171,7 +171,7 @@ export const VenueInformationContent: React.FC<VenueInformationContentProps> = (
                   <Calendar size={16} />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-emerald-950">21 – 23 Aug 2026</p>
+                  <p className="text-xs font-bold text-emerald-950">19 – 21 Feb 2027</p>
                   <p className="text-[10px] text-emerald-700 font-semibold">Event Dates</p>
                 </div>
               </div>

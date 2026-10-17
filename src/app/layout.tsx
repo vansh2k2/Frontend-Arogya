@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s | Arogya Sangoshthi 2026",
   },
   description:
-    "Arogya Sangoshthi 2026 — India's premier 3-day international conference on Integrated Healthcare, AYUSH, Pharma, Wellness & Innovation. 21–23 August 2026, Pragati Maidan, New Delhi.",
+    "Arogya Sangoshthi 2026 — India's premier 3-day international conference on Integrated Healthcare, AYUSH, Pharma, Wellness & Innovation. 19–21 February 2027, Pragati Maidan, New Delhi.",
   keywords: [
     "AYUSH conference 2026",
     "integrated healthcare conference",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "Arogya Sangoshthi 2026",
     title: "Arogya Sangoshthi 2026 | International AYUSH & Integrated Healthcare Conference",
     description:
-      "India's premier healthcare conference — 21–23 August 2026, Pragati Maidan, New Delhi. Join 5000+ delegates, 100+ speakers from 50+ countries.",
+      "India's premier healthcare conference — 19–21 February 2027, Pragati Maidan, New Delhi. Join 1000+ delegates and 150+ speakers from 25+ countries.",
     images: [
       {
         url: `${SITE_URL}/ogimage.jpg`,
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Arogya Sangoshthi 2026 | AYUSH & Healthcare Conference",
     description:
-      "India's premier healthcare conference — 21–23 August 2026, Pragati Maidan, New Delhi.",
+      "India's premier healthcare conference — 19–21 February 2027, Pragati Maidan, New Delhi.",
     images: [`${SITE_URL}/ogimage.jpg`],
   },
   alternates: {

@@ -25,7 +25,7 @@ const DEFAULT_MISSION_BLOCKS: { heading: string; body: string; image: ImageSrc; 
   { heading: 'TRANSFORM', body: 'To transform lives\nthrough preventive &\npatient-centric care.', image: c4Icon, imageAlt: 'Caring hands with a heart icon representing patient-centric care' },
 ];
 const DEFAULT_MESSAGE =
-  "Healthcare is not just about treatment, it is about integration – of knowledge, systems and compassion.\n\nWith the 18th Edition, we bring together diverse medical systems, innovations, and human values to create a healthier world.";
+  "Healthcare is not just about treatment, it is about integration – of knowledge, systems and compassion.\n\nWith the 19th Edition, we bring together diverse medical systems, innovations, and human values to create a healthier world.";
 
 /** "A world where\nintegrated healthcare" → A world where<br />integrated healthcare */
 const renderLines = (text: string) =>
@@ -55,13 +55,13 @@ const VisionMissionSection = ({ data }: { data?: VisionMissionData | null }) => 
 
   const chairman = data?.chairman;
   const chairmanImg: ImageSrc = chairman?.image || chairmanDefaultImg;
-  const chairmanImgAlt = chairman?.imageAlt || 'Chairman portrait';
+  const chairmanImgAlt = chairman?.imageAlt || 'Mr. Vijay Sharma, Founder of Namo Gange Trust';
   const leafImg = data ? chairman?.leafImage || '' : leafRightIcon;
   const leafAlt = chairman?.leafImageAlt || 'Green leaf decoration';
-  const heading = chairman?.heading || "CHAIRMAN'S MESSAGE";
+  const heading = chairman?.heading || "FOUNDER'S MESSAGE";
   const message = chairman?.message || DEFAULT_MESSAGE;
-  const name = chairman?.name || 'Dr. Vansh Chaudhary';
-  const designation = chairman?.designation || 'Chairman';
+  const name = chairman?.name || 'Mr. Vijay Sharma';
+  const designation = chairman?.designation || 'Founder, Namo Gange Trust';
 
   // Split message into paragraphs
   const paragraphs = message.split('\n').filter((p) => p.trim() !== '');

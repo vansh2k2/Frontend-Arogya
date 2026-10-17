@@ -32,12 +32,12 @@ const assets = {
 };
 
 const brandHeader = {
-  title: "Bharat Organic Expo",
+  title: "Arogya Sangoshthi",
   tagline: "People • Ideas • Partnerships for a Greener Tomorrow",
 };
 
 const applicationData = {
-  id: "BOE2027-000458",
+  id: "AS2026-000458",
   candidateName: "Vijay Sharma",
   position: "Sales Manager – Domestic Exhibition Sales & Sponsorships",
   submittedOn: "14 September 2026, 04:32 PM",

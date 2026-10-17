@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ArrowRight, CalendarDays, MapPin, Clock, ClipboardList, Newspaper, Mic, Microscope, Heart, Calendar, Leaf, Handshake } from 'lucide-react';
 import Link from 'next/link';
 import stayIcon from '@/assets/icons/stay.png';
-import { fetchArticleCategories } from '@/lib/blogPosts';
+import { fetchArticleCategories, fetchArticles, type Article } from '@/lib/blogPosts';
 
 // The "All Updates" row: every article, no category filter
 export const ALL_CATEGORIES = 'All Updates';
@@ -23,68 +23,23 @@ const categoryIcon = (name: string) => {
 
 const twoDigits = (count: number) => String(count).padStart(2, '0');
 
-// Shown until the categories load from the backend (and if it cannot be reached)
-const defaultCategories = [
-  { name: ALL_CATEGORIES, count: 24 },
-  { name: 'News & Announcements', count: 12 },
-  { name: 'Conference Highlights', count: 9 },
-  { name: 'Research & Innovations', count: 15 },
-  { name: 'Health & Wellness', count: 11 },
-  { name: 'Events & Highlights', count: 10 },
-  { name: 'Sustainability', count: 9 },
-  { name: 'Partner Corner', count: 5 },
+// Shown until the categories load from the backend — names only, no made-up counts
+const defaultCategories: { name: string; count?: number }[] = [
+  { name: ALL_CATEGORIES },
+  { name: 'News & Announcements' },
+  { name: 'Conference Highlights' },
+  { name: 'Research & Innovations' },
+  { name: 'Health & Wellness' },
+  { name: 'Events & Highlights' },
+  { name: 'Sustainability' },
+  { name: 'Partner Corner' },
 ];
 
-const popularPosts = [
-  {
-    title: <>Arogya Sanghosthi 2025:<br/>Key Takeaways</>,
-    date: '28 Apr 2026',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=150&q=80'
-  },
-  {
-    title: <>Sustainable Health for<br/>Future Generations</>,
-    date: '20 Apr 2026',
-    image: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=150&q=80'
-  },
-  {
-    title: <>Integrating Tradition,<br/>Advancing Tomorrow</>,
-    date: '18 Apr 2026',
-    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=150&q=80'
-  },
-  {
-    title: <>Nutrition & Lifestyle:<br/>Small Changes, Big Impact</>,
-    date: '15 Apr 2026',
-    image: 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=150&q=80'
-  },
-  {
-    title: <>The Role of Ayurveda in<br/>Modern Healthcare</>,
-    date: '10 Apr 2026',
-    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=150&q=80'
-  }
-];
-
+// The three conference days (19–21 February 2027)
 const upcomingEvents = [
-  {
-    date: '10',
-    month: 'OCT',
-    title: 'Pre-Conference Workshop',
-    location: 'Pragati Maidan, New Delhi',
-    time: '09:00 AM - 05:00 PM'
-  },
-  {
-    date: '11',
-    month: 'OCT',
-    title: 'Arogya Sanghosthi Day 1',
-    location: 'Pragati Maidan, New Delhi',
-    time: '09:00 AM - 06:00 PM'
-  },
-  {
-    date: '12',
-    month: 'OCT',
-    title: 'Arogya Sanghosthi Day 2',
-    location: 'Pragati Maidan, New Delhi',
-    time: '09:00 AM - 06:00 PM'
-  }
+  { date: '19', month: 'FEB', title: 'Arogya Sangoshthi Day 1', location: 'Pragati Maidan, New Delhi', time: '09:00 AM - 06:00 PM' },
+  { date: '20', month: 'FEB', title: 'Arogya Sangoshthi Day 2', location: 'Pragati Maidan, New Delhi', time: '09:00 AM - 06:00 PM' },
+  { date: '21', month: 'FEB', title: 'Arogya Sangoshthi Day 3', location: 'Pragati Maidan, New Delhi', time: '09:00 AM - 06:00 PM' },
 ];
 
 interface BlogSidebarProps {
@@ -96,10 +51,15 @@ interface BlogSidebarProps {
 const BlogSidebar = ({ activeCategory = ALL_CATEGORIES, onSelectCategory }: BlogSidebarProps) => {
   // Categories and their article counts from arogya-admin → Blog & Insights → Manage Categories
   const [categoriesList, setCategoriesList] = useState(defaultCategories);
+  // Most-read articles from arogya-admin → Blog & Insights
+  const [popularPosts, setPopularPosts] = useState<Article[]>([]);
 
   useEffect(() => {
     fetchArticleCategories().then((data) => {
       if (data) setCategoriesList([{ name: ALL_CATEGORIES, count: data.total }, ...data.categories]);
+    });
+    fetchArticles().then((articles) => {
+      if (articles) setPopularPosts([...articles].sort((a, b) => b.views - a.views).slice(0, 5));
     });
   }, []);
 
@@ -152,7 +112,9 @@ const BlogSidebar = ({ activeCategory = ALL_CATEGORIES, onSelectCategory }: Blog
                     <span className={`transition-colors ${isActive ? 'text-emerald-600' : 'text-[#023b2c] group-hover:text-emerald-600'}`}>{categoryIcon(cat.name)}</span>
                     <span className={`text-sm transition-colors ${isActive ? 'font-bold text-emerald-700' : 'font-medium text-black group-hover:text-emerald-600'}`}>{cat.name}</span>
                   </span>
-                  <span className={`text-xs font-bold px-2 py-1 rounded-md ${isActive ? 'text-white bg-orange-500' : 'text-orange-500 bg-orange-50'}`}>{twoDigits(cat.count)}</span>
+                  {typeof cat.count === 'number' && (
+                    <span className={`text-xs font-bold px-2 py-1 rounded-md ${isActive ? 'text-white bg-orange-500' : 'text-orange-500 bg-orange-50'}`}>{twoDigits(cat.count)}</span>
+                  )}
                 </button>
               </li>
             );
@@ -167,21 +129,22 @@ const BlogSidebar = ({ activeCategory = ALL_CATEGORIES, onSelectCategory }: Blog
       >
         <div className="flex items-center justify-between mb-6">
           <h3 className="font-inter text-xl font-semibold text-[#122923]">Popular Posts</h3>
-          <Link href="#" className="text-xs font-bold uppercase text-[#122923] flex items-center gap-1 hover:text-emerald-700">
+          <button type="button" onClick={() => onSelectCategory?.(ALL_CATEGORIES)} className="text-xs font-bold uppercase text-[#122923] flex items-center gap-1 hover:text-emerald-700">
             VIEW ALL <ArrowRight size={12} />
-          </Link>
+          </button>
         </div>
         <div className="space-y-5">
-          {popularPosts.map((post, idx) => (
-            <div key={idx} className="flex gap-4 group cursor-pointer">
-              <img src={post.image?.src || post.image} alt={post.title} className="w-16 h-16 rounded-lg object-cover" />
+          {popularPosts.length === 0 && <p className="text-xs text-gray-500">Articles will appear here soon.</p>}
+          {popularPosts.map((post) => (
+            <Link key={post.id} href={`/blogs/${post.slug}`} className="flex gap-4 group">
+              {post.image && <img src={post.image} alt={post.imageAlt || post.title} className="w-16 h-16 rounded-lg object-cover shrink-0" />}
               <div className="flex flex-col justify-center">
                 <h4 className="text-sm font-semibold text-gray-800 leading-tight group-hover:text-emerald-700 transition-colors mb-1 line-clamp-2">
                   {post.title}
                 </h4>
                 <p className="text-xs text-gray-900 font-medium">{post.date}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -193,8 +156,8 @@ const BlogSidebar = ({ activeCategory = ALL_CATEGORIES, onSelectCategory }: Blog
       >
         <div className="flex items-center justify-between mb-6">
           <h3 className="font-inter text-xl font-semibold text-[#122923]">Upcoming Events</h3>
-          <Link href="#" className="text-xs font-bold uppercase text-[#122923] flex items-center gap-1 hover:text-emerald-700">
-            VIEW ALL EVENTS <ArrowRight size={12} />
+          <Link href="/register-now" className="text-xs font-bold uppercase text-[#122923] flex items-center gap-1 hover:text-emerald-700">
+            REGISTER <ArrowRight size={12} />
           </Link>
         </div>
         <div className="space-y-5">
@@ -218,8 +181,8 @@ const BlogSidebar = ({ activeCategory = ALL_CATEGORIES, onSelectCategory }: Blog
             </div>
           ))}
           
-          <Link href="#" className="flex items-center justify-center gap-2 text-sm font-bold text-gray-800 uppercase pt-4 border-t border-gray-100 hover:text-emerald-700 transition-colors">
-            VIEW ALL EVENTS <ArrowRight size={14} />
+          <Link href="/register-now" className="flex items-center justify-center gap-2 text-sm font-bold text-gray-800 uppercase pt-4 border-t border-gray-100 hover:text-emerald-700 transition-colors">
+            REGISTER FOR THE CONFERENCE <ArrowRight size={14} />
           </Link>
         </div>
       </div>

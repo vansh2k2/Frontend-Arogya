@@ -16,7 +16,7 @@ import SectionContainer from '@/components/layout/SectionContainer';
 const FALLBACK_FEATURED = {
   slug: '',
   date: '20 May 2026',
-  title: 'Arogya Sanghosthi 2026: Uniting Knowledge, Nature & Innovation',
+  title: 'Arogya Sangoshthi 2026: Uniting Knowledge, Nature & Innovation',
   excerpt: 'A glimpse into our upcoming edition that brings together experts, researchers and communities for a healthier tomorrow.',
   image: (blogmain as { src: string }).src,
   imageAlt: 'Featured',
@@ -206,8 +206,8 @@ const BlogMainContent = () => {
                   { text: "Research and innovation are the pillars of sustainable and inclusive health.", author: "Dr. K. S. Rawat", role: "Scientist, FRI\nDehradun", img: test3 },
                   { text: "Small lifestyle changes today can lead to a healthier planet tomorrow.", author: "Dr. Vandana Shiva", role: "Environmental Activist\n& Author", img: test4 }
                 ].map((quote, idx) => {
-                  const shuffledImages = [test3, test1, test4, test2];
-                  const currentImg = blockIdx === 1 ? shuffledImages[idx] : quote.img;
+                  // The second block only repeats the first for the endless scroll — same photo per person
+                  const currentImg = quote.img;
                   return (
                     <div 
                       key={idx} 
@@ -226,7 +226,7 @@ const BlogMainContent = () => {
                       </div>
                       <img 
                         src={currentImg?.src || currentImg} 
-                        alt={quote.author} 
+                        alt={blockIdx === 1 ? "" : quote.author} 
                         className="absolute bottom-0 right-0 h-[129px] w-auto object-contain pointer-events-none transition-transform duration-500 group-hover:scale-105" 
                       />
                     </div>

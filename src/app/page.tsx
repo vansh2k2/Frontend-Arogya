@@ -19,7 +19,7 @@ import { fetchEventHighlights } from '@/lib/fetchEventHighlights';
 // Meta tags, Open Graph, canonical (auto) and robots from arogya-admin → Pages & CMS → SEO Information
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata('/', {
-    description: "Arogya Sangoshthi 2026 — India's premier 3-day international conference. 21–23 Aug 2026, Pragati Maidan, New Delhi.",
+    description: "Arogya Sangoshthi 2026 — India's premier 3-day international conference. 19–21 Feb 2027, Pragati Maidan, New Delhi.",
   });
 }
 

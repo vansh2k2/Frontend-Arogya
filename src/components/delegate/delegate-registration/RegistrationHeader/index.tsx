@@ -7,9 +7,9 @@ const RegistrationHeader = () => {
       <div className="max-w-[1360px] mx-auto flex items-center justify-between gap-4 pl-[30px]">
         {/* Left: Logo and Title */}
         <div className="flex items-center gap-8">
-          <img src="/logo.png" alt="Arogya Sanghoshthi" className="h-10 w-auto" />
+          <img src="/logo.png" alt="Arogya Sangoshthi" className="h-10 w-auto" />
           <div className="hidden md:block border-l border-gray-100 pl-8">
-            <h2 className="text-[14px] font-black text-[#143111] leading-none mb-1">AROGYA SANGHOSHTI 2026</h2>
+            <h2 className="text-[14px] font-black text-[#143111] leading-none mb-1">AROGYA SANGOSHTHI 2026</h2>
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">India's Premier Healthcare & AYUSH Conference</p>
           </div>
         </div>
@@ -19,7 +19,7 @@ const RegistrationHeader = () => {
           <div className="hidden xl:flex items-center gap-3">
              <span className="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Part of</span>
              <div className="flex items-center gap-2">
-                <img src="/logo.png" alt="IHWE 2026" className="w-10 h-10 object-contain" />
+                <img src="/logo.png" alt="Arogya Sangoshthi" className="w-10 h-10 object-contain" />
                 <div className="text-[10px] font-black leading-tight">
                   <div>INTERNATIONAL</div>
                   <div className="text-green-600">EXPO 2026</div>

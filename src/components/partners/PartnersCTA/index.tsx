@@ -16,7 +16,7 @@ const PartnersCTA = () => {
   const [cta, setCta] = useState({
     headingWhite: 'TOGETHER, SHAPING THE FUTURE OF',
     headingGreen: 'HEALTHCARE, WELLNESS & INNOVATION',
-    subtitle: 'Join hands with global leaders and be a part of IHWE 2026.',
+    subtitle: 'Join hands with global leaders and be a part of Arogya Sangoshthi.',
     buttonLabel: 'PARTNER WITH US',
     buttonHref: '/contact',
     image: '',

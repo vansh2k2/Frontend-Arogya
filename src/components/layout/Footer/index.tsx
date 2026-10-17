@@ -124,11 +124,11 @@ const Footer = () => {
   const logoUrl = getImageUrl(settings?.footerLogo?.url) || getImageUrl(settings?.logo) || '/logo1.png';
   const logoAlt = settings?.footerLogo?.alt || "Arogya Sangoshthi Logo";
 
-  const footerEmails = settings?.footerEmails?.length > 0 ? settings.footerEmails : ['info@ihwe.in'];
+  const footerEmails = settings?.footerEmails?.length > 0 ? settings.footerEmails : ['info@arogyasangoshthi.com'];
   const footerPhones = settings?.footerPhones?.length > 0 ? settings.footerPhones : ['9654900525'];
 
-  const footerWebsite = settings?.footerWebsite || "www.ihwe.in";
-  const footerAddress = settings?.footerAddress || "12/29, Site 2 Industrial Area,\nMohan Nagar, Ghaziabad - 200107,\nUttar Pradesh, India";
+  const footerWebsite = settings?.footerWebsite || "arogya.namogange.org";
+  const footerAddress = settings?.footerAddress || "12/29, Site 2 Industrial Area,\nMohan Nagar, Ghaziabad - 201007,\nUttar Pradesh, India";
   const footerHelplineTitle = settings?.footerHelplineTitle || "Conference Helpline";
   const footerHelplinePhone = settings?.footerHelplinePhone || "9654900525";
   const footerHelplineTiming = settings?.footerHelplineTiming || "Mon - Sat: 9:00 AM - 6:00 PM (IST)";
@@ -148,7 +148,7 @@ const Footer = () => {
     { name: "Exhibition", path: "/exhibition" },
     { name: "Partners & Supporters", path: "/partners" },
     { name: "Venue", path: "/venue" },
-    { name: "Media & Gallery", path: "/media" },
+    { name: "Media & Gallery", path: "/gallery" },
     { name: "Careers", path: "/careers" },
     { name: "Contact Us", path: "/contact" },
     { name: "FAQ's", path: "/faqs" }
@@ -423,9 +423,11 @@ const Footer = () => {
               <a href={socialMedia?.facebook || "https://www.facebook.com/ArogyaSangoshthi"} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
                 <Facebook size={14} />
               </a>
-              <a href={socialMedia?.twitter || "https://twitter.com"} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
+              {socialMedia?.twitter && (
+              <a href={socialMedia.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
                 <Twitter size={14} />
               </a>
+              )}
               <a href={socialMedia?.linkedin || "https://in.linkedin.com/showcase/arogya-sangoshthi/"} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
                 <Linkedin size={14} />
               </a>
@@ -445,7 +447,11 @@ const Footer = () => {
               {/* Play Store */}
               <a href={ex.googlePlayUrl || undefined} target={ex.googlePlayUrl ? '_blank' : undefined} rel="noopener noreferrer"
                 className="flex items-center gap-2 bg-black border border-white/20 rounded-md px-2 py-1.5 hover:border-white/40 transition-colors flex-1">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" className="h-6" />
+                <div className="text-white shrink-0 pl-1"><svg viewBox="0 0 512 512" width="14" fill="currentColor" aria-hidden="true"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg></div>
+                <div className="flex flex-col items-start leading-none">
+                  <span className="text-[7px] text-white/80">GET IT ON</span>
+                  <span className="text-[12px] font-semibold text-white">Google Play</span>
+                </div>
               </a>
               {/* App Store */}
               <a href={ex.appStoreUrl || undefined} target={ex.appStoreUrl ? '_blank' : undefined} rel="noopener noreferrer"
@@ -457,6 +463,9 @@ const Footer = () => {
                 </div>
               </a>
             </div>
+            {!ex.googlePlayUrl && !ex.appStoreUrl && (
+              <p className="-mt-3 mb-5 text-[10px] text-gray-400">App coming soon.</p>
+            )}
 
             <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{textOr(ex.organizedByTitle, 'Organized By')}</h2>
             <div className="flex items-start">
@@ -559,12 +568,12 @@ const Footer = () => {
           <div className="flex items-center gap-3">
             <span className="text-white font-normal tracking-wide">{textOr(ex.brandName, 'Arogya Sangoshthi')}</span>
             <div className="w-[1px] h-3 bg-white/30" />
-            <span className="text-[#F3B71B] font-normal tracking-widest">{textOr(ex.editionText, '18TH EDITION')}</span>
+            <span className="text-[#F3B71B] font-normal tracking-widest">{textOr(ex.editionText, '19TH EDITION')}</span>
             <img src={divider} alt={dividerAlt} className="h-5 md:h-6 w-auto object-contain" />
           </div>
 
           <div className="text-center">
-            {textOr(ex.copyrightText, '© 2026 Arogya Sanghosthi. All Rights Reserved.')}
+            {textOr(ex.copyrightText, '© 2026 Arogya Sangoshthi. All Rights Reserved.')}
           </div>
 
           <div className="flex items-center gap-4 xl:gap-8">

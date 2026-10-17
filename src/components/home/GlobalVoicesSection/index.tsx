@@ -81,6 +81,8 @@ const GlobalVoicesSection = () => {
   const [counters, setCounters] = useState([]);
   const [speakers, setSpeakers] = useState([]);
   const [carouselSpeakers, setCarouselSpeakers] = useState([]);
+  // "No speakers found" only after the speakers have loaded
+  const [speakersLoaded, setSpeakersLoaded] = useState(false);
   const [previewVideoUrl, setPreviewVideoUrl] = useState(null);
 
   useEffect(() => {
@@ -108,6 +110,7 @@ const GlobalVoicesSection = () => {
         if (countRes && countRes.length > 0) setCounters(countRes);
         if (speakRes && speakRes.length > 0) setSpeakers(speakRes);
         if (carouselRes && carouselRes.length > 0) setCarouselSpeakers(carouselRes);
+        setSpeakersLoaded(true);
     };
     fetchData();
   }, []);
@@ -310,8 +313,10 @@ const GlobalVoicesSection = () => {
             ))}
             </Marquee>
             </div>
-        ) : (
+        ) : speakersLoaded ? (
             <div className="text-center text-gray-500 py-10 font-medium">No speakers found for {activeTab}.</div>
+        ) : (
+            <div className="py-10" aria-hidden="true" />
         )}
 
         {/* Small Carousel Speakers */}

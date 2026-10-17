@@ -1,0 +1,18 @@
+import type { Metadata } from 'next';
+import LegalPageView, { fetchLegalPage, LEGAL_TITLES } from '@/components/legal/LegalPageView';
+
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://arogya.namogange.org').replace(/\/$/, '');
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await fetchLegalPage('terms');
+  const title = page?.title || LEGAL_TITLES.terms;
+  return {
+    title,
+    description: `${title} of Arogya Sangoshthi, organised by Namo Gange Trust.`,
+    alternates: { canonical: `${SITE_URL}/terms` },
+  };
+}
+
+export default async function Page() {
+  return <LegalPageView slug="terms" page={await fetchLegalPage('terms')} />;
+}

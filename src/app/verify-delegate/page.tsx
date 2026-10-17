@@ -34,8 +34,8 @@ function VerifyDelegateContent() {
         <div className="bg-[#1e3a8a] text-white p-6 text-center relative overflow-hidden">
           <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-xl"></div>
           <p className="text-xs uppercase tracking-widest font-semibold text-blue-200">Official Verification Pass</p>
-          <h1 className="text-xl font-extrabold mt-1">18th Integrated Arogya Sangosthi 2026</h1>
-          <p className="text-xs text-slate-300 mt-1">Pragati Maidan, New Delhi • 21-23 Aug 2026</p>
+          <h1 className="text-xl font-extrabold mt-1">19th Integrated Arogya Sangoshthi 2026</h1>
+          <p className="text-xs text-slate-300 mt-1">Pragati Maidan, New Delhi • 19-21 Feb 2027</p>
         </div>
 
         {/* Verification Status Banner */}

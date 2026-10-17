@@ -103,9 +103,9 @@ const validateCvFile = (file: File): string | null => {
 const jobCopy = {
     title: "Sales Manager – Domestic Exhibition Sales & Sponsorships",
     company: "Namo Gange Wellness Pvt. Ltd.",
-    brand: "Bharat Organic Expo",
+    brand: "Arogya Sangoshthi",
     opportunity:
-        "Be a part of Bharat Organic Expo and help grow a movement for a healthier, more sustainable India. Drive exhibition stall/space sales and sponsorships, connect with leading brands, and build long-term partnerships.",
+        "Be a part of Arogya Sangoshthi and help grow a movement for a healthier, more sustainable India. Drive exhibition stall/space sales and sponsorships, connect with leading brands, and build long-term partnerships.",
 };
 
 const fallbackResponsibilities = [

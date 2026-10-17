@@ -8,9 +8,9 @@ const SessionSelection = () => {
   const [selectedSessions, setSelectedSessions] = useState([]);
 
   const dayData = [
-    { id: 1, date: "21 AUG 2026", day: "Fri", title: "HEALTHCARE INNOVATION SUMMIT" },
-    { id: 2, date: "22 AUG 2026", day: "Sat", title: "GLOBAL WELLNESS LEADERSHIP FORUM" },
-    { id: 3, date: "23 AUG 2026", day: "Sun", title: "WELLNESS & AYUSH LEADERSHIP FORUM" },
+    { id: 1, date: "19 FEB 2027", day: "Fri", title: "HEALTHCARE INNOVATION SUMMIT" },
+    { id: 2, date: "20 FEB 2027", day: "Sat", title: "GLOBAL WELLNESS LEADERSHIP FORUM" },
+    { id: 3, date: "21 FEB 2027", day: "Sun", title: "WELLNESS & AYUSH LEADERSHIP FORUM" },
   ];
 
   const sessionsData = {

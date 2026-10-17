@@ -10,7 +10,7 @@ import { buildPageMetadata } from "@/lib/fetchCmsSeo";
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata('/delegate-registration', {
     title: 'Delegate Registration',
-    description: 'Register as a delegate for Arogya Sangoshthi 2026. 21–23 August 2026, Pragati Maidan, New Delhi.',
+    description: 'Register as a delegate for Arogya Sangoshthi 2026. 19–21 February 2027, Pragati Maidan, New Delhi.',
   });
 }
 

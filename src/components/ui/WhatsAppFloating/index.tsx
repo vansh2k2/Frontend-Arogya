@@ -6,7 +6,7 @@ const WhatsAppFloating = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const whatsappNumber = "919876543210";
-  const whatsappMessage = "Hello! I'm interested in Arogya Sangoshthi 2025.";
+  const whatsappMessage = "Hello! I'm interested in Arogya Sangoshthi.";
   const callNumber = "919876543210";
 
   const handleWhatsApp = () => {

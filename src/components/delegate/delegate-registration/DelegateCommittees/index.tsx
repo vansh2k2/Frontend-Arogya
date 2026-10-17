@@ -165,7 +165,7 @@ const DelegateCommittees = () => {
                     <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
                   </button>
                 </div>
-                <p className="text-white text-xs mt-3 font-medium tracking-wide">Last Date: 30th June 2026</p>
+                <p className="text-white text-xs mt-3 font-medium tracking-wide">Last Date: 15th December 2026</p>
               </div>
             </div>
           </div>

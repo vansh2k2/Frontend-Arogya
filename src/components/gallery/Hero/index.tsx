@@ -68,7 +68,7 @@ const Hero = () => {
   const [settings, setSettings] = useState({
     heading: 'GLIMPSES',
     subheading: 'Moments of Knowledge, Collaboration & Wellness',
-    description: 'Relive the inspiring moments from past editions of Arogya Sanghoshti \nwhere experts, researchers and healthcare leaders came together \nto shape the future of integrated healthcare.',
+    description: 'Relive the inspiring moments from past editions of Arogya Sangoshthi \nwhere experts, researchers and healthcare leaders came together \nto shape the future of integrated healthcare.',
     bgImage: '',
     bgAlt: ''
   });

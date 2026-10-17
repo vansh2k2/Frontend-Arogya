@@ -56,10 +56,10 @@ export const DelegateBadgeCard: React.FC<DelegateBadgeCardProps> = ({ delegate }
               NAMO GANGE WELLNESS PRESENTS
             </p>
             <h3 className="text-lg font-black text-white tracking-tight uppercase mt-0.5 drop-shadow">
-              18TH AROGYA SANGOSTHTHI
+              19TH AROGYA SANGOSHTHI
             </h3>
             <p className="text-[10px] text-emerald-100 font-bold mt-0.5 flex items-center justify-center gap-2">
-              <span><Calendar size={11} className="inline mr-0.5 text-amber-300" /> 21–23 AUG 2026</span>
+              <span><Calendar size={11} className="inline mr-0.5 text-amber-300" /> 19–21 FEB 2027</span>
               <span>•</span>
               <span><MapPin size={11} className="inline mr-0.5 text-amber-300" /> PRAGATI MAIDAN, NEW DELHI</span>
             </p>

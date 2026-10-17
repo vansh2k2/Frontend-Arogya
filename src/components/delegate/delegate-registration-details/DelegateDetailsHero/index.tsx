@@ -179,7 +179,7 @@ const DelegateDetailsHero = () => {
       <section className="relative w-full overflow-hidden min-h-[440px]">
         <img
           src={bannerBg?.src || bannerBg}
-          alt="9th International Health & Wellness Expo 2026"
+          alt="Arogya Sangoshthi delegate registration"
           className="absolute inset-0 w-full h-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-white/20" />
@@ -223,7 +223,7 @@ const DelegateDetailsHero = () => {
                 </svg>
               </div>
               <div>
-                <p className="m-0 text-[#131E0C] font-semibold text-[17px] leading-snug">21 – 23 August 2026</p>
+                <p className="m-0 text-[#131E0C] font-semibold text-[17px] leading-snug">19 – 21 February 2027</p>
                 <p className="m-0 text-[#1C2716] text-[14px] font-medium">Friday – Sunday</p>
               </div>
             </div>
@@ -313,17 +313,16 @@ const DelegateDetailsHero = () => {
           {/* Left text */}
           <div ref={leftTextRef} style={{ opacity: 0 }} className="flex-1 flex flex-col justify-between">
             <div>
-              <p className="text-gray-900 text-xl font-medium mb-1">Edition Of Health & Wellness At</p>
+              <p className="text-gray-900 text-xl font-medium mb-1">19th Edition of</p>
               <h2 className="text-[#1a4d1a] text-2xl font-semibold leading-snug mb-2">
-                9th International Health & Wellness Expo 2026<br />(IHWE Global Edition)
+                Arogya Sangoshthi<br />19–21 February 2027, New Delhi
               </h2>
               <div className="w-8 h-[3px] bg-[#4a8f2f] rounded mb-4" />
               <p className="text-gray-900 text-sm leading-relaxed mb-4 text-justify">
-                Step into IHWE 2026, a leading global platform uniting healthcare, wellness, AYUSH,
-                organic, and sustainable industries under one roof. Whether you are a visitor
-                discovering innovations or a corporate buyer seeking meaningful business
-                connections, IHWE offers a high-value, curated experience with India's most
-                trusted brands and manufacturers.
+                Join Arogya Sangoshthi, India's premier integrated healthcare conference, where
+                Modern Medicine, AYUSH, technology and traditional wisdom meet on one platform.
+                Learn from leading experts, present your research and connect with doctors,
+                researchers, industry leaders and policy makers from across India and abroad.
               </p>
               <p className="text-gray-900 text-sm text-justify">
                 Register now and be part of a powerful global movement in{' '}

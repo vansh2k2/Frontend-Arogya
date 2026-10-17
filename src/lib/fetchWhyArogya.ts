@@ -1,7 +1,7 @@
 /**
  * fetchWhyArogya — Server-side utility
  *
- * Loads the home "Why Arogya Sanghosthi? / Conference Tracks" section managed from
+ * Loads the home "Why Arogya Sangoshthi? / Conference Tracks" section managed from
  * arogya-admin (Pages & CMS → Home). Cached for 30 seconds. Returns null when the
  * backend is unreachable or nothing is saved — the section then shows its built-in content.
  */

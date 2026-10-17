@@ -13,9 +13,9 @@ import { API_URL } from "@/lib/api";
 import { toast } from "sonner";
 
 export const DAY_OPTIONS = [
-  { day: 1, label: "Day 1", date: "21 Aug (Fri)", bg: "#143111" },
-  { day: 2, label: "Day 2", date: "22 Aug (Sat)", bg: "#0B2C66" },
-  { day: 3, label: "Day 3", date: "23 Aug (Sun)", bg: "#6A3DF0" },
+  { day: 1, label: "Day 1", date: "19 Feb (Fri)", bg: "#143111" },
+  { day: 2, label: "Day 2", date: "20 Feb (Sat)", bg: "#0B2C66" },
+  { day: 3, label: "Day 3", date: "21 Feb (Sun)", bg: "#6A3DF0" },
 ];
 
 const formContainerVariants = {
@@ -566,7 +566,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_RTd9y3ngRanKxq",
         amount: orderData.amount,
         currency: orderData.currency,
-        name: "Arogya Sangosthi 2026",
+        name: "Arogya Sangoshthi 2026",
         description: `${currentPass.name} (${selectedDays.length} ${selectedDays.length === 1 ? 'Day' : 'Days'})`,
         image: window.location.origin + "/logo.png",
         order_id: orderData.orderId,
@@ -725,7 +725,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
         </h2>
 
         <p className="text-gray-700 text-xs md:text-sm max-w-lg mb-4 leading-relaxed">
-          Welcome <strong className="text-gray-900">{formData.title} {formData.fullName}</strong>! You are officially registered for the <strong>18th Integrated Arogya Sangosthi 2026</strong>.
+          Welcome <strong className="text-gray-900">{formData.title} {formData.fullName}</strong>! You are officially registered for the <strong>19th Integrated Arogya Sangoshthi 2026</strong>.
         </p>
 
         {/* DELEGATE ID HERO CARD */}
@@ -763,8 +763,8 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
             <span className="text-gray-500 font-medium">Conference Days:</span>
             <span className="font-bold text-[#0B2C66]">
               {selectedDays.length === 3 || selectedDays.length === 0
-                ? "All Days (21, 22, 23 Aug 2026)"
-                : selectedDays.map(d => d === 1 ? "Day 1 (21 Aug 2026)" : d === 2 ? "Day 2 (22 Aug 2026)" : "Day 3 (23 Aug 2026)").join(", ")}
+                ? "All Days (19, 20, 21 Feb 2027)"
+                : selectedDays.map(d => d === 1 ? "Day 1 (19 Feb 2027)" : d === 2 ? "Day 2 (20 Feb 2027)" : "Day 3 (21 Feb 2027)").join(", ")}
             </span>
           </div>
           <div className="flex justify-between py-1 border-b border-gray-100">
@@ -1106,12 +1106,12 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
               >
                 <option value="" disabled>Select Conference Day</option>
                 {is3DaysPass ? (
-                  <option value="all" className="text-gray-900 font-semibold" style={{ color: '#0f172a', fontWeight: 600 }}>All Days (21, 22, 23 Aug 2026)</option>
+                  <option value="all" className="text-gray-900 font-semibold" style={{ color: '#0f172a', fontWeight: 600 }}>All Days (19, 20, 21 Feb 2027)</option>
                 ) : (
                   <>
-                    <option value="1">Day 1 - 21 Aug 2026</option>
-                    <option value="2">Day 2 - 22 Aug 2026</option>
-                    <option value="3">Day 3 - 23 Aug 2026</option>
+                    <option value="1">Day 1 - 19 Feb 2027</option>
+                    <option value="2">Day 2 - 20 Feb 2027</option>
+                    <option value="3">Day 3 - 21 Feb 2027</option>
                   </>
                 )}
               </select>
@@ -1420,8 +1420,8 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
                       <span>Selected Days:</span>
                       <span className="font-bold text-blue-600 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded text-[11px]">
                         {selectedDays.length === 3 || selectedDays.length === 0
-                          ? "All Days (21, 22, 23 Aug 2026)"
-                          : selectedDays.map(d => d === 1 ? "Day 1 (21 Aug 2026)" : d === 2 ? "Day 2 (22 Aug 2026)" : "Day 3 (23 Aug 2026)").join(", ")}
+                          ? "All Days (19, 20, 21 Feb 2027)"
+                          : selectedDays.map(d => d === 1 ? "Day 1 (19 Feb 2027)" : d === 2 ? "Day 2 (20 Feb 2027)" : "Day 3 (21 Feb 2027)").join(", ")}
                       </span>
                     </div>
                     <div className="flex justify-between font-bold text-red-600">
@@ -1453,7 +1453,7 @@ const SingleDelegateForm: React.FC<SingleDelegateFormProps> = ({
           <div className="flex items-start gap-3 bg-[#edf4ff] p-4 rounded-xl border border-[#c7ddff] shadow-xs">
             <input type="checkbox" name="agreeTerms" checked={formData.agreeTerms} onChange={handleChange} className="mt-1 w-4 h-4 text-[#1b3c73] border-blue-300 rounded focus:ring-[#1b3c73] cursor-pointer" />
             <p className="text-sm text-[#1e3a8a] font-medium leading-relaxed">
-              I agree to the <a href="#" className="text-[#1b3c73] font-bold underline hover:text-[#1d4ed8]">Terms & Conditions</a> and <a href="#" className="text-[#1b3c73] font-bold underline hover:text-[#1d4ed8]">Privacy Policy</a> of the 18th Integrated Arogya Sangosthi.
+              I agree to the <a href="#" className="text-[#1b3c73] font-bold underline hover:text-[#1d4ed8]">Terms & Conditions</a> and <a href="#" className="text-[#1b3c73] font-bold underline hover:text-[#1d4ed8]">Privacy Policy</a> of the 19th Integrated Arogya Sangoshthi.
             </p>
           </div>
 

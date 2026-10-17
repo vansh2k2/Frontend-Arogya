@@ -11,7 +11,7 @@ import type { PaperWhyChooseData } from '@/lib/fetchPaperPresentation';
 
 /* Built-in content — shown when the admin-managed section (GET /api/paper-why-choose) is not available */
 const DEFAULTS = {
-  heading: 'WHY CHOOSE AROGYA SANGHOSTHI FOR YOUR RESEARCH?',
+  heading: 'WHY CHOOSE AROGYA SANGOSHTHI FOR YOUR RESEARCH?',
   features: [
     { title: 'Interdisciplinary\nPlatform', icon: w1.src },
     { title: 'Expert Review &\nFeedback', icon: w2.src },

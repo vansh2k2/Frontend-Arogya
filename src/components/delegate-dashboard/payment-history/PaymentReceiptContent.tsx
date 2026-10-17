@@ -113,7 +113,7 @@ export const PaymentReceiptContent: React.FC<PaymentReceiptContentProps> = ({
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: "Arogya Sangosthi 2026 Payment Receipt",
+        title: "Arogya Sangoshthi 2026 Payment Receipt",
         text: `Payment Receipt for ${fullName} - ${delegateId}`,
         url: window.location.href,
       }).catch(() => {});
@@ -227,7 +227,7 @@ export const PaymentReceiptContent: React.FC<PaymentReceiptContentProps> = ({
           <div className="flex items-center gap-3 shrink-0">
             <img
               src={logoUrl}
-              alt="Arogya Sangosthi"
+              alt="Arogya Sangoshthi"
               className="h-12 sm:h-16 md:h-18 w-auto object-contain"
               onError={(e) => {
                 e.currentTarget.src = "/logo.png";
@@ -238,7 +238,7 @@ export const PaymentReceiptContent: React.FC<PaymentReceiptContentProps> = ({
           {/* Center: Title & Subtitle matching typography with reduced top space */}
           <div className="flex flex-col items-center text-center px-1 -mt-2 sm:-mt-3">
             <h1 className="text-sm sm:text-lg md:text-xl font-semibold text-[#0a4019] tracking-wide uppercase font-inter leading-tight">
-              18TH AROGYA SANGOSTHI 2026
+              19TH AROGYA SANGOSHTHI 2026
             </h1>
             <div className="flex items-center justify-center gap-2 mt-1">
               <div className="h-[1px] w-6 sm:w-12 bg-slate-400" />
@@ -292,7 +292,7 @@ export const PaymentReceiptContent: React.FC<PaymentReceiptContentProps> = ({
                   Event Dates
                 </span>
                 <p className="font-bold text-slate-900 text-xs sm:text-sm">
-                  21 – 23 Aug 2026
+                  19 – 21 Feb 2027
                 </p>
                 <p className="text-[10px] font-semibold text-blue-600">
                   Friday – Sunday
@@ -482,7 +482,7 @@ export const PaymentReceiptContent: React.FC<PaymentReceiptContentProps> = ({
               </div>
               <div className="min-w-0">
                 <span className="text-[9px] font-semibold text-slate-400 uppercase block">Event</span>
-                <span className="font-bold text-slate-900 text-[10.5px] block whitespace-nowrap">Arogya Sangosthi 2026</span>
+                <span className="font-bold text-slate-900 text-[10.5px] block whitespace-nowrap">Arogya Sangoshthi 2026</span>
               </div>
             </div>
 
@@ -504,7 +504,7 @@ export const PaymentReceiptContent: React.FC<PaymentReceiptContentProps> = ({
               </div>
               <div className="min-w-0">
                 <span className="text-[9px] font-semibold text-slate-400 uppercase block">Valid From</span>
-                <span className="font-bold text-slate-900 text-[10.5px] truncate block">21 Aug 2026</span>
+                <span className="font-bold text-slate-900 text-[10.5px] truncate block">19 Feb 2027</span>
                 <span className="text-[9px] text-slate-500 font-medium">(Friday)</span>
               </div>
             </div>
@@ -516,7 +516,7 @@ export const PaymentReceiptContent: React.FC<PaymentReceiptContentProps> = ({
               </div>
               <div className="min-w-0">
                 <span className="text-[9px] font-semibold text-slate-400 uppercase block">Valid Till</span>
-                <span className="font-bold text-slate-900 text-[10.5px] truncate block">23 Aug 2026</span>
+                <span className="font-bold text-slate-900 text-[10.5px] truncate block">21 Feb 2027</span>
                 <span className="text-[9px] text-slate-500 font-medium">(Sunday)</span>
               </div>
             </div>
@@ -572,7 +572,7 @@ export const PaymentReceiptContent: React.FC<PaymentReceiptContentProps> = ({
               Thank You!
             </h3>
             <p className="text-[10px] text-slate-500 font-semibold mt-0.5">
-              We look forward to welcoming you at <span className="font-bold text-slate-800">18TH AROGYA SANGOSTHI 2026</span>.
+              We look forward to welcoming you at <span className="font-bold text-slate-800">19TH AROGYA SANGOSHTHI 2026</span>.
             </p>
           </div>
         </div>

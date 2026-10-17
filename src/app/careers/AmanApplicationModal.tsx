@@ -505,7 +505,7 @@ function AmanApplicationContent({ onClose }: { onClose: () => void }) {
 
           <div className="min-w-0">
             <div className="truncate text-[22px] font-semibold leading-[1] text-[#103f31]">
-              Bharat Organic Expo
+              Arogya Sangoshthi
             </div>
             <div className="mt-[2px] truncate text-[11.5px] font-semibold leading-[1.05] text-[#2d6f62]">
               People • Ideas • Partnerships for a Greener Tomorrow
@@ -531,7 +531,7 @@ function AmanApplicationContent({ onClose }: { onClose: () => void }) {
           <div className="mt-[3px] flex items-center gap-[10px] text-[14px] font-semibold text-[#254b70]">
             <span>Namo Gange Wellness Pvt. Ltd.</span>
             <span className="h-[14px] w-px bg-[#ccd7df]" />
-            <span>Bharat Organic Expo</span>
+            <span>Arogya Sangoshthi</span>
           </div>
         </div>
 

@@ -9,8 +9,8 @@ const BlogHero = () => {
   // Texts and background from arogya-admin → Pages & CMS → Blogs & News
   const [hero, setHero] = useState({
     title: 'Blog & News',
-    description: 'Stay updated with the latest insights, expert opinions, research breakthroughs and announcements from\nArogya Sanghosthi.',
-    descriptionHighlight: 'Arogya Sanghosthi',
+    description: 'Stay updated with the latest insights, expert opinions, research breakthroughs and announcements from\nArogya Sangoshthi.',
+    descriptionHighlight: 'Arogya Sangoshthi',
     searchPlaceholder: 'Search articles, news, topics...',
     bgImage: '',
     bgImageAlt: '',

@@ -139,7 +139,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
             <Link href="/" className="flex items-center justify-center">
               <img
                 src={logoUrl}
-                alt="Arogya Sangosthi"
+                alt="Arogya Sangoshthi"
                 style={{
                   filter:
                     "drop-shadow(1px 0px 0 #ffffff) drop-shadow(-1px 0px 0 #ffffff) drop-shadow(0px 1px 0 #ffffff) drop-shadow(0px -1px 0 #ffffff) drop-shadow(0 0 3px rgba(255,255,255,0.8))",
@@ -214,7 +214,7 @@ export const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
               Logout
             </button>
             <span className="text-[10px] text-gray-400">
-              v1.0.0 • Arogya Sangosthi
+              v1.0.0 • Arogya Sangoshthi
             </span>
           </div>
         </div>

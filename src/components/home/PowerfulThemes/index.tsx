@@ -34,7 +34,7 @@ const PowerfulThemes = () => {
             viewport={{ once: true }}
             className="bg-[#f8faec] p-5 sm:p-6 lg:p-8 rounded-2xl border border-[#e2e8c1] shadow-sm hover:shadow-md transition-shadow"
           >
-            <div className="inline-block bg-[#011a12] text-white text-xs font-bold px-3 py-1 rounded-full mb-4">DAY 1 | 21 AUGUST 2026</div>
+            <div className="inline-block bg-[#011a12] text-white text-xs font-bold px-3 py-1 rounded-full mb-4">DAY 1 | 19 FEBRUARY 2027</div>
             <h3 className="text-xl font-bold text-[#cb8134] mb-2 uppercase">INNOVATE</h3>
             <p className="text-[#011a12] font-semibold text-sm mb-6">Driving Healthcare Through Innovation</p>
             <ul className="space-y-3">
@@ -65,7 +65,7 @@ const PowerfulThemes = () => {
             transition={{ delay: 0.1 }}
             className="bg-[#eef5fa] p-5 sm:p-6 lg:p-8 rounded-2xl border border-[#c9def0] shadow-sm hover:shadow-md transition-shadow"
           >
-            <div className="inline-block bg-[#011a12] text-white text-xs font-bold px-3 py-1 rounded-full mb-4">DAY 2 | 22 AUGUST 2026</div>
+            <div className="inline-block bg-[#011a12] text-white text-xs font-bold px-3 py-1 rounded-full mb-4">DAY 2 | 20 FEBRUARY 2027</div>
             <h3 className="text-xl font-bold text-[#1a5c7a] mb-2 uppercase">COLLABORATE</h3>
             <p className="text-[#011a12] font-semibold text-sm mb-6">Building Partnerships for a Healthier World</p>
             <ul className="space-y-3">
@@ -96,7 +96,7 @@ const PowerfulThemes = () => {
             transition={{ delay: 0.2 }}
             className="bg-[#fcf0ed] p-5 sm:p-6 lg:p-8 rounded-2xl border border-[#f5d0c6] shadow-sm hover:shadow-md transition-shadow"
           >
-            <div className="inline-block bg-[#011a12] text-white text-xs font-bold px-3 py-1 rounded-full mb-4">DAY 3 | 23 AUGUST 2026</div>
+            <div className="inline-block bg-[#011a12] text-white text-xs font-bold px-3 py-1 rounded-full mb-4">DAY 3 | 21 FEBRUARY 2027</div>
             <h3 className="text-xl font-bold text-[#b54a32] mb-2 uppercase">SUSTAIN</h3>
             <p className="text-[#011a12] font-semibold text-sm mb-6">Sustainable Solutions for Long-Term Impact</p>
             <ul className="space-y-3">

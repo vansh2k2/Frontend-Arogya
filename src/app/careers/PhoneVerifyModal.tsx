@@ -134,7 +134,7 @@ export default function PhoneVerifyModal({
                 cleanedPhone,
                 "CAREER_CANDIDATE",
                 candidateName || "Candidate",
-                "BOE2027"
+                "AS2026"
             );
 
             // `msg` is present on failures too, so only `success` may advance the step.
@@ -255,7 +255,7 @@ export default function PhoneVerifyModal({
                             </h3>
                             <p className="mt-[3px] flex items-center gap-1.5 text-[12px] font-medium text-[#bfe6cf]">
                                 <span className="inline-block h-[7px] w-[7px] rounded-full bg-[#5df095]" />
-                                Bharat Organic Expo 2027
+                                Arogya Sangoshthi
                             </p>
                         </div>
                     </div>

@@ -9,9 +9,9 @@ import type { AboutNamoGangeData } from '@/lib/fetchAboutNamoGange';
 /* Built-in content — shown when the admin-managed section (GET /api/about-namo-gange) is not available */
 const DEFAULTS = {
   heading: 'ABOUT NAMO GANGE TRUST',
-  subheading: 'The Parent Organization Behind Arogya Sanghosthi',
+  subheading: 'The Parent Organization Behind Arogya Sangoshthi',
   paragraph:
-    'Namo Gange Trust is a registered non-profit organization committed to promoting holistic health, wellness and sustainability through integrated healthcare initiatives. Arogya Sanghosthi is its flagship mission that brings together healthcare leaders, experts and changemakers to shape a healthier and sustainable India.',
+    'Namo Gange Trust is a registered non-profit organization committed to promoting holistic health, wellness and sustainability through integrated healthcare initiatives. Arogya Sangoshthi is its flagship mission that brings together healthcare leaders, experts and changemakers to shape a healthier and sustainable India.',
   highlights: [
     'Established with a vision for healthier communities',
     'Working across India through impactful initiatives',

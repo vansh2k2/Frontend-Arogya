@@ -21,10 +21,10 @@ const JoinUsBanner = () => {
   // Texts, button link and image from arogya-admin → Pages & CMS → Gallery
   const [banner, setBanner] = useState({
     tagline: 'Be a Part of the Next Legacy',
-    title: 'Join Us at Arogya Sanghoshti 2026',
+    title: 'Join Us at Arogya Sangoshthi 2026',
     buttonLabel: 'REGISTER NOW',
     buttonHref: '/register-now',
-    date: '21 – 23 August 2026',
+    date: '19 – 21 February 2027',
     dateSub: '(Friday – Sunday)',
     location: 'Pragati Maidan',
     locationSub: 'New Delhi, India',

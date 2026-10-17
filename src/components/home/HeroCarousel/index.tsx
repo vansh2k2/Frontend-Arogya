@@ -43,8 +43,8 @@ const THEMES = {
    BUILT-IN CONTENT — shown when the admin-managed
    carousel (GET /api/home-hero) is not available
 ───────────────────────────────────────── */
-const DEFAULT_EDITION_TAG = '18th Edition of';
-const DEFAULT_EVENT_DATES = '21-23 August 2026';
+const DEFAULT_EDITION_TAG = '19th Edition of';
+const DEFAULT_EVENT_DATES = '19-21 February 2027';
 const DEFAULT_VENUE = 'Pragati Maidan, New Delhi';
 const DEFAULT_LOGO = '/logo1.png';
 const DEFAULT_LOGO_ALT = 'Arogya Sangoshthi Logo';

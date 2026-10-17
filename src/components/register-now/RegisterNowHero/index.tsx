@@ -93,8 +93,8 @@ const RegisterNowHero = ({ showThemesBand = false }: { showThemesBand?: boolean 
     titleLine1: "DELEGATE",
     titleLine2: "REGISTRATION",
     tagline: "Be part of Asia's premier platform for\nHealth, Wellness, Innovation & Collaboration.",
-    editionText: "18th Integrated Arogya Sangosthi",
-    dateText: "21 - 23 AUGUST 2026",
+    editionText: "19th Integrated Arogya Sangoshthi",
+    dateText: "19 - 21 FEBRUARY 2027",
     venueText: "PRAGATI MAIDAN, NEW DELHI",
     bgImage: "",
     bgImageAlt: "Delegate Registration Background",
@@ -130,7 +130,7 @@ const RegisterNowHero = ({ showThemesBand = false }: { showThemesBand?: boolean 
   const themes = [
     {
       day: "DAY 1",
-      date: "21 AUGUST 2026",
+      date: "19 FEBRUARY 2027",
       title: "INNOVATE",
       subtitle: "Driving Healthcare\nThrough Innovation",
       icon: <Lightbulb size={24} className="text-[#1a4a15]" strokeWidth={2.5} />,
@@ -139,7 +139,7 @@ const RegisterNowHero = ({ showThemesBand = false }: { showThemesBand?: boolean 
     },
     {
       day: "DAY 2",
-      date: "22 AUGUST 2026",
+      date: "20 FEBRUARY 2027",
       title: "COLLABORATE",
       subtitle: "Building Partnerships\nfor a Healthier World",
       icon: <Users size={24} className="text-white" strokeWidth={2.5} />,
@@ -148,7 +148,7 @@ const RegisterNowHero = ({ showThemesBand = false }: { showThemesBand?: boolean 
     },
     {
       day: "DAY 3",
-      date: "23 AUGUST 2026",
+      date: "21 FEBRUARY 2027",
       title: "SUSTAIN",
       subtitle: "Sustainable Solutions\nfor Long-Term Impact",
       icon: <Leaf size={24} className="text-white" strokeWidth={2.5} />,

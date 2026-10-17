@@ -146,7 +146,7 @@ export const MyPassDetailsContent: React.FC<MyPassDetailsContentProps> = ({
               EVENT DATES
             </span>
             <h4 className="text-[13px] font-semibold text-slate-800 truncate leading-tight mt-0.5">
-              21 - 23 Aug 2026
+              19 - 21 Feb 2027
             </h4>
             <p className="text-[10px] text-blue-600 font-semibold mt-0.5">
               Friday - Sunday
@@ -208,7 +208,7 @@ export const MyPassDetailsContent: React.FC<MyPassDetailsContentProps> = ({
             {/* Delegate Pass Badge Image (rr12.png) */}
             <img
               src={typeof rr12Icon === "string" ? rr12Icon : rr12Icon.src}
-              alt="18th Arogya Sangosthi 2026 Delegate Pass"
+              alt="19th Arogya Sangoshthi 2026 Delegate Pass"
               className="w-full sm:w-48 h-auto object-contain shrink-0 -mt-3 sm:-mt-5 self-start"
             />
 
@@ -252,7 +252,7 @@ export const MyPassDetailsContent: React.FC<MyPassDetailsContentProps> = ({
                   Valid From
                 </span>
                 <span className="text-slate-300 font-light">:</span>
-                <span className="font-bold text-slate-900 text-right">21 Aug 2026 (Friday)</span>
+                <span className="font-bold text-slate-900 text-right">19 Feb 2027 (Friday)</span>
               </div>
 
               {/* Valid Till */}
@@ -262,7 +262,7 @@ export const MyPassDetailsContent: React.FC<MyPassDetailsContentProps> = ({
                   Valid Till
                 </span>
                 <span className="text-slate-300 font-light">:</span>
-                <span className="font-bold text-slate-900 text-right">23 Aug 2026 (Sunday)</span>
+                <span className="font-bold text-slate-900 text-right">21 Feb 2027 (Sunday)</span>
               </div>
 
               {/* Access Type */}
@@ -351,7 +351,7 @@ export const MyPassDetailsContent: React.FC<MyPassDetailsContentProps> = ({
               </div>
               <div className="min-w-0">
                 <span className="text-[9.5px] font-semibold text-slate-400 uppercase block">Event</span>
-                <span className="font-bold text-slate-900 text-[11px] block whitespace-nowrap">Arogya Sangosthi 2026</span>
+                <span className="font-bold text-slate-900 text-[11px] block whitespace-nowrap">Arogya Sangoshthi 2026</span>
               </div>
             </div>
 
@@ -373,7 +373,7 @@ export const MyPassDetailsContent: React.FC<MyPassDetailsContentProps> = ({
               </div>
               <div className="min-w-0">
                 <span className="text-[9.5px] font-semibold text-slate-400 uppercase block">Valid From</span>
-                <span className="font-bold text-slate-900 text-[11px] truncate block">21 Aug 2026</span>
+                <span className="font-bold text-slate-900 text-[11px] truncate block">19 Feb 2027</span>
                 <span className="text-[9.5px] text-slate-500 font-medium">(Friday)</span>
               </div>
             </div>
@@ -385,7 +385,7 @@ export const MyPassDetailsContent: React.FC<MyPassDetailsContentProps> = ({
               </div>
               <div className="min-w-0">
                 <span className="text-[9.5px] font-semibold text-slate-400 uppercase block">Valid Till</span>
-                <span className="font-bold text-slate-900 text-[11px] truncate block">23 Aug 2026</span>
+                <span className="font-bold text-slate-900 text-[11px] truncate block">21 Feb 2027</span>
                 <span className="text-[9.5px] text-slate-500 font-medium">(Sunday)</span>
               </div>
             </div>

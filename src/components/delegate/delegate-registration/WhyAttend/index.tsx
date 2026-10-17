@@ -113,7 +113,7 @@ const WhyAttend = () => {
             <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />
             <div className="h-[1px] bg-gradient-to-r from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />
             <h3 className="text-[#032e1c] font-extrabold text-xs sm:text-sm tracking-wider uppercase whitespace-nowrap font-inter">
-              WHY ATTEND AROGYA SANGHOSHTI 2026?
+              WHY ATTEND AROGYA SANGOSHTHI 2026?
             </h3>
             <div className="h-[1px] bg-gradient-to-l from-[#a99539]/10 via-[#a99539]/60 to-[#a99539] flex-grow max-w-[80px]" />
             <div className="w-1.5 h-1.5 rounded-full bg-[#a99539] shrink-0" />

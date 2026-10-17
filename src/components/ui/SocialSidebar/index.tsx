@@ -9,7 +9,7 @@ const SocialSidebar = () => {
   const [liftedItems, setLiftedItems] = useState([]);
   const [socialLinks, setSocialLinks] = useState({
       whatsappNumber: "919876543210",
-      whatsappMessage: "Hello! I'm interested in Arogya Sangoshthi 2025.",
+      whatsappMessage: "Hello! I'm interested in Arogya Sangoshthi.",
       callNumber: "+919876543210",
       facebook: "https://www.facebook.com/ArogyaSangoshthi",
       instagram: "https://www.instagram.com/arogyasangoshthi/",

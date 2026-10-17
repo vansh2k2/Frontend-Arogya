@@ -92,7 +92,7 @@ export default function LoginPage() {
               {/* Badge */}
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#e1efe0] border border-[#b5dab3] text-[#1c4717] font-extrabold text-[10px] uppercase tracking-wider mb-4">
                 <Sparkles size={11} className="text-amber-600" />
-                18TH AROGYA SANGOSTIHI 2026
+                19TH AROGYA SANGOSHTHI 2026
               </div>
 
               {/* Title */}
@@ -122,7 +122,7 @@ export default function LoginPage() {
                     <Calendar size={16} />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-gray-900">21 - 23 AUGUST 2026</h4>
+                    <h4 className="text-xs font-bold text-gray-900">19 - 21 FEBRUARY 2027</h4>
                     <p className="text-[11px] text-blue-600 font-semibold">Friday - Sunday</p>
                   </div>
                 </div>
@@ -143,12 +143,12 @@ export default function LoginPage() {
                   </div>
                   <div>
                     <a
-                      href="https://www.ihwe.in"
+                      href="https://arogya.namogange.org"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs font-bold text-[#0f4d1e] hover:underline"
                     >
-                      www.ihwe.in
+                      arogya.namogange.org
                     </a>
                   </div>
                 </div>

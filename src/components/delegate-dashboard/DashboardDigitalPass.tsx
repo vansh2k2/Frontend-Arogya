@@ -45,7 +45,7 @@ export const DashboardDigitalPass: React.FC<DashboardDigitalPassProps> = ({
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-medium text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
               <Sparkles size={12} className="text-amber-400" />
-              18TH AROGYA SANGOSTHI 2026
+              19TH AROGYA SANGOSHTHI 2026
             </span>
             <span className="bg-[#0e4d25] border border-emerald-500/50 text-white text-[10px] font-semibold px-2.5 py-0.5 rounded-md">
               Active
@@ -107,14 +107,14 @@ export const DashboardDigitalPass: React.FC<DashboardDigitalPassProps> = ({
             <Calendar size={16} className="text-emerald-700 shrink-0" />
             <div className="text-left flex flex-col justify-center">
               <span className="block text-[8px] sm:text-[9px] text-slate-500 font-medium uppercase tracking-wider mb-0.5">Valid From</span>
-              <strong className="block text-[10px] sm:text-[11px] font-bold text-slate-800">21 Aug 2026</strong>
+              <strong className="block text-[10px] sm:text-[11px] font-bold text-slate-800">19 Feb 2027</strong>
             </div>
           </div>
           <div className="flex items-center justify-center gap-2 text-slate-700 px-2">
             <Calendar size={16} className="text-emerald-700 shrink-0" />
             <div className="text-left flex flex-col justify-center">
               <span className="block text-[8px] sm:text-[9px] text-slate-500 font-medium uppercase tracking-wider mb-0.5">Valid Till</span>
-              <strong className="block text-[10px] sm:text-[11px] font-bold text-slate-800">23 Aug 2026</strong>
+              <strong className="block text-[10px] sm:text-[11px] font-bold text-slate-800">21 Feb 2027</strong>
             </div>
           </div>
           <div className="flex items-center justify-center gap-2 text-slate-700 px-2">

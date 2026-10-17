@@ -325,7 +325,7 @@ const RegistrationFees = () => {
                 className="text-2xl md:text-[28px] text-green-900 font-bold"
                 style={{ fontFamily: 'var(--font-dancing-script, "Dancing Script"), cursive' }}
               >
-                18th Integrated Arogya Sanghosthi
+                19th Integrated Arogya Sangoshthi
               </span>
               <img src={(p1Leaf?.src || p1Leaf) as string} alt="leaf" className="w-6 h-6 object-contain rotate-12" />
             </div>
@@ -337,7 +337,7 @@ const RegistrationFees = () => {
             >
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-white" />
-                <span>21 - 23 AUGUST 2026</span>
+                <span>19 - 21 FEBRUARY 2027</span>
               </div>
               <div className="hidden sm:block w-px h-4 bg-white"></div>
               <div className="flex items-center gap-2">

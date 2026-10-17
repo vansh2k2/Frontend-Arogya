@@ -144,10 +144,11 @@ const PartnerSection = ({ name, color, items, direction }) => {
         <div className="marquee-container-custom">
           <div className={`marquee-track ${direction === 'ltr' ? 'marquee-ltr-anim' : 'marquee-rtl-anim'}`}>
             {repeatedItems.map((item, idx) => (
-              <div key={idx}
+              // Copies after the first set only keep the marquee loop filled
+              <div key={idx} aria-hidden={idx >= items.length || undefined}
                 className="bg-white rounded-xl p-4 flex flex-col items-center justify-center text-center transition-all duration-300 min-h-[140px] w-[180px] shrink-0 border border-gray-100 hover:shadow-lg"
                 style={{ boxShadow: 'rgba(9, 30, 66, 0.15) 0px 2px 4px 0px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px' }}>
-                {item.logo && <img src={(() => { const img = item.logo; const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })()} alt={item.logoAlt || item.name} className="w-22 h-20 object-contain mb-3" />}
+                {item.logo && <img src={(() => { const img = item.logo; const imgStr = img?.src || img; return typeof imgStr === 'string' && imgStr.startsWith('/uploads') ? `${SERVER_URL}${imgStr}` : imgStr; })()} alt={idx >= items.length ? "" : item.logoAlt || item.name} className="w-22 h-20 object-contain mb-3" />}
                 <h3 className="text-[#111844] font-semibold font-inter text-xs mb-1">{item.name}</h3>
                 {item.designation && <p className="text-gray-900 font-medium font-inter text-[10px] leading-tight px-1">{item.designation}</p>}
               </div>

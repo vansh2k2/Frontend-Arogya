@@ -337,7 +337,7 @@ export const PaymentHistoryContent: React.FC<PaymentHistoryContentProps> = ({
                 <td className="py-2.5 px-3">
                   <div className="font-semibold text-slate-800">Delegate Pass Payment</div>
                   <span className="inline-block mt-0.5 text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 rounded">
-                    Arogya Sangosthi 2026
+                    Arogya Sangoshthi 2026
                   </span>
                 </td>
 

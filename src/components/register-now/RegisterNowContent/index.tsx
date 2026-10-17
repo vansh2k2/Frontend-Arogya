@@ -126,7 +126,7 @@ const loadRazorpay = () => {
 const DEFAULT_SIDEBAR = {
   eventDetails: {
     heading: "EVENT DETAILS",
-    dateText: "21 - 23 AUGUST 2026",
+    dateText: "19 - 21 FEBRUARY 2027",
     dayText: "Friday - Sunday",
     venueText: "Pragati Maidan,\nNew Delhi",
     websiteLabel: "arogya.namogange.org",
@@ -292,9 +292,9 @@ const RegisterNowContent = () => {
   const [isCouponLoading, setIsCouponLoading] = useState(false);
 
   const DAY_OPTIONS = [
-    { day: 1, label: "Day 1", date: "21 Aug", bg: "#143111" },
-    { day: 2, label: "Day 2", date: "22 Aug", bg: "#0B2C66" },
-    { day: 3, label: "Day 3", date: "23 Aug", bg: "#6A3DF0" },
+    { day: 1, label: "Day 1", date: "19 Feb", bg: "#143111" },
+    { day: 2, label: "Day 2", date: "20 Feb", bg: "#0B2C66" },
+    { day: 3, label: "Day 3", date: "21 Feb", bg: "#6A3DF0" },
   ];
 
   const toggleDay = (dayNum) => {
@@ -527,7 +527,7 @@ const RegisterNowContent = () => {
         key: "rzp_test_RTd9y3ngRanKxq", // Forced test key as requested
         amount: orderData.amount,
         currency: orderData.currency,
-        name: "Arogya Sangosthi",
+        name: "Arogya Sangoshthi",
         description: formData.planName,
         image: window.location.origin + "/logo.png",
         order_id: orderData.orderId,
@@ -832,7 +832,7 @@ const RegisterNowContent = () => {
               </div>
             </div>
 
-            {/* WHY ATTEND IHWE 2026? */}
+            {/* WHY ATTEND AROGYA SANGOSHTHI? */}
             <div ref={whyAttendCardRef} style={{ opacity: 0, boxShadow: "rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em" }} className="bg-[#f7f8f2] rounded-xl border border-gray-100 p-5">
               <h3 className="text-[#092912] font-extrabold text-sm tracking-wider mb-5 font-inter">{whyAttend.heading}</h3>
               <div className="flex flex-col gap-5">
@@ -1096,7 +1096,7 @@ const RegisterNowContent = () => {
                           <label className="text-xs font-bold text-[#1a1a1a]">
                             Select Day(s) <span className="text-red-500">*</span>
                             <span className="ml-1.5 text-[9px] font-semibold" style={{ color: '#4B1426' }}>
-                              21–23 Aug {isOneDayPass ? `· ₹${basePriceNum.toLocaleString('en-IN')}/day` : ''}
+                              19–21 Feb {isOneDayPass ? `· ₹${basePriceNum.toLocaleString('en-IN')}/day` : ''}
                             </span>
                           </label>
                           <div className="flex gap-1.5">
@@ -1433,7 +1433,7 @@ const RegisterNowContent = () => {
 
                     {/* Row 6 */}
                     <motion.div variants={formRowVariants} style={{ transformOrigin: "top center" }} className="flex flex-col gap-1.5">
-                      <label className="text-xs font-bold text-[#1a1a1a]">How did you hear about Arogya Sangosthi 2026? <span className="text-red-500">*</span></label>
+                      <label className="text-xs font-bold text-[#1a1a1a]">How did you hear about Arogya Sangoshthi 2026? <span className="text-red-500">*</span></label>
                       <select name="source" value={formData.source} onChange={handleChange} required className="border border-gray-200 rounded-sm px-3 py-2 text-sm focus:outline-none focus:border-[#36682e] focus:ring-1 focus:ring-[#36682e] transition-all bg-white text-gray-700 w-full">
                         <option value="">Select an option</option>
                         <option>Social Media</option>

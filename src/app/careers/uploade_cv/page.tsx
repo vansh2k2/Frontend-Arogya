@@ -7,7 +7,7 @@ import UploadCvComponent from "@/components/careers/uploade_cv/page";
 const defaultJob = {
   title: "Sales Manager – Domestic Exhibition Sales & Sponsorships",
   company: "Namo Gange Wellness Pvt. Ltd.",
-  brand: "Bharat Organic Expo",
+  brand: "Arogya Sangoshthi",
   location: "Delhi NCR",
   type: "Full Time",
   experience: "3 – 6 Years",

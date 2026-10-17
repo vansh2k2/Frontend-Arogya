@@ -59,14 +59,14 @@ const DESIGN_HEIGHT = 900;
    ========================================================= */
 
 const brandHeader = {
-  title: "Bharat Organic Expo",
+  title: "Arogya Sangoshthi",
   tagline: "People • Ideas • Partnerships for a Greener Tomorrow",
 };
 
 const job = {
   title: "Sales Manager – Domestic Exhibition Sales & Sponsorships",
   company: "Namo Gange Wellness Pvt. Ltd.",
-  brand: "Bharat Organic Expo",
+  brand: "Arogya Sangoshthi",
 };
 
 const candidateProfile = {
@@ -857,7 +857,7 @@ export function ReviewSubmitModal({
             candidateId,
             jobId,
             cvAnalysisId,
-            whyInterested: candidateData?.summary || "Interested in joining Bharat Organic Expo team.",
+            whyInterested: candidateData?.summary || "Interested in joining Arogya Sangoshthi team.",
           }),
         });
 

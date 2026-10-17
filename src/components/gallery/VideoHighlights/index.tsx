@@ -30,7 +30,7 @@ const defaultVideos = [
   },
   {
     _id: 'default3',
-    title: 'Expo (IHWE 2025)',
+    title: 'Expo Highlights',
     thumbnail: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
     sourceType: 'YOUTUBE',
     videoUrl: '',
@@ -148,7 +148,7 @@ const VideoHighlights = () => {
   const [texts, setTexts] = useState({
     videoHeading: 'VIDEO HIGHLIGHTS',
     shareTitle: 'Share Your Moments',
-    shareDescription: 'Were you part of Arogya Sanghoshti?\nShare your photos!',
+    shareDescription: 'Were you part of Arogya Sangoshthi?\nShare your photos!',
     shareButton: 'Upload Your Photos',
   });
 

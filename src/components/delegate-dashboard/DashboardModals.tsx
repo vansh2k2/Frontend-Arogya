@@ -134,7 +134,7 @@ export const DashboardModals: React.FC<DashboardModalsProps> = ({
             <div className="space-y-3">
               <div className="p-3.5 bg-slate-50 border-l-4 border-emerald-600 rounded-r-xl">
                 <div className="flex items-center justify-between">
-                  <strong className="text-emerald-900 font-bold text-xs">Day 1: 21 August 2026 (Friday)</strong>
+                  <strong className="text-emerald-900 font-bold text-xs">Day 1: 19 February 2027 (Friday)</strong>
                   <span className="bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 rounded">Access Granted</span>
                 </div>
                 <p className="text-[11px] text-slate-600 mt-1">Inaugural Session, Integrated AYUSH Keynotes &amp; Pharma Tech Expo</p>
@@ -142,7 +142,7 @@ export const DashboardModals: React.FC<DashboardModalsProps> = ({
 
               <div className="p-3.5 bg-slate-50 border-l-4 border-blue-600 rounded-r-xl">
                 <div className="flex items-center justify-between">
-                  <strong className="text-blue-900 font-bold text-xs">Day 2: 22 August 2026 (Saturday)</strong>
+                  <strong className="text-blue-900 font-bold text-xs">Day 2: 20 February 2027 (Saturday)</strong>
                   <span className="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded">Access Granted</span>
                 </div>
                 <p className="text-[11px] text-slate-600 mt-1">Wellness &amp; Clinical Innovation, International Delegate Sessions</p>
@@ -150,7 +150,7 @@ export const DashboardModals: React.FC<DashboardModalsProps> = ({
 
               <div className="p-3.5 bg-slate-50 border-l-4 border-amber-600 rounded-r-xl">
                 <div className="flex items-center justify-between">
-                  <strong className="text-amber-900 font-bold text-xs">Day 3: 23 August 2026 (Sunday)</strong>
+                  <strong className="text-amber-900 font-bold text-xs">Day 3: 21 February 2027 (Sunday)</strong>
                   <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded">Access Granted</span>
                 </div>
                 <p className="text-[11px] text-slate-600 mt-1">Global Healthcare Research &amp; Official Valedictory Ceremony</p>

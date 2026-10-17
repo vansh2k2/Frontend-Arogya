@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { socialMediaApi } from "@/lib/api";
 import { Headphones, Phone, Mail, Globe, Facebook, Instagram, Youtube, Linkedin } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -19,13 +20,23 @@ const DelegateFooter = () => {
   const partOfRef     = useRef(null);
   const supportedRef  = useRef(null);
 
-  const socialLinks = {
-    facebook:  "https://www.facebook.com/namogangewellness.event",
-    instagram: "https://instagram.com",
-    twitter:   "https://twitter.com",
-    youtube:   "https://youtube.com",
-    linkedin:  "https://linkedin.com",
-  };
+  // Official profiles; replaced by the links saved in arogya-admin → Advanced SEO → Social Media Links
+  const [socialLinks, setSocialLinks] = useState({
+    facebook:  "https://www.facebook.com/ArogyaSangoshthi",
+    instagram: "https://www.instagram.com/arogyasangoshthi/",
+    twitter:   "",
+    youtube:   "https://www.youtube.com/@NamoGangeTrust",
+    linkedin:  "https://in.linkedin.com/showcase/arogya-sangoshthi/",
+  });
+
+  useEffect(() => {
+    socialMediaApi.get().then((data) => {
+      if (!data) return;
+      const keys = ["facebook", "instagram", "twitter", "youtube", "linkedin"] as const;
+      if (!keys.some((k) => data[k])) return;
+      setSocialLinks(Object.fromEntries(keys.map((k) => [k, data[k] || ""])) as typeof socialLinks);
+    });
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -187,7 +198,7 @@ const DelegateFooter = () => {
               <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-[#A3E635]">
                 <Mail className="w-4 h-4" />
               </div>
-              <span className="text-[13px] font-medium text-white tracking-tight">info@ihwe.in</span>
+              <span className="text-[13px] font-medium text-white tracking-tight">info@arogyasangoshthi.com</span>
             </div>
 
             <div className="hidden md:block h-8 w-[1px] bg-white/10" />
@@ -197,7 +208,7 @@ const DelegateFooter = () => {
               <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-[#A3E635]">
                 <Globe className="w-4 h-4" />
               </div>
-              <span className="text-[13px] font-medium text-white tracking-tight">www.ihwe.in</span>
+              <span className="text-[13px] font-medium text-white tracking-tight">arogya.namogange.org</span>
             </div>
           </div>
 
@@ -211,7 +222,7 @@ const DelegateFooter = () => {
                 { href: socialLinks.twitter,   bg: "bg-black",     el: <span className="font-black text-[10px]">X</span> },
                 { href: socialLinks.instagram, bg: "bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]", el: <Instagram className="w-4 h-4" /> },
                 { href: socialLinks.youtube,   bg: "bg-[#ff0000]", el: <Youtube   className="w-4 h-4" /> },
-              ].map((s, i) => (
+              ].filter((s) => s.href).map((s, i) => (
                 <a
                   key={i}
                   href={s.href}

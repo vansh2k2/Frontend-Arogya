@@ -142,7 +142,7 @@ const trackItemVariants = {
 };
 
 const WhyArogyaAndTracks = ({ data }: { data?: WhyArogyaData | null }) => {
-  const leftHeading = data?.leftHeading || 'WHY AROGYA SANGHOSTHI?';
+  const leftHeading = data?.leftHeading || 'WHY AROGYA SANGOSHTHI?';
   const rightHeading = data?.rightHeading || 'CONFERENCE TRACKS';
   const leftHeadingImage: ImageSrc = data ? data.leftHeadingImage || '' : mainIcon;
   const rightHeadingImage: ImageSrc = data ? data.rightHeadingImage || '' : mainIcon;
@@ -178,7 +178,7 @@ const WhyArogyaAndTracks = ({ data }: { data?: WhyArogyaData | null }) => {
       <SectionContainer className="relative z-10 font-inter">
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 xl:gap-6 items-stretch">
           
-          {/* LEFT PANEL - WHY AROGYA SANGHOSTHI */}
+          {/* LEFT PANEL - WHY AROGYA SANGOSHTHI */}
           <div className="xl:col-span-6 flex flex-col h-full justify-between">
             {/* Header */}
             <motion.div

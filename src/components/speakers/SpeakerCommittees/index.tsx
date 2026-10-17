@@ -132,15 +132,15 @@ const SpeakerCommittees = () => {
               <div className="flex flex-col gap-2 flex-1">
                 {/* Top Row: 3 images */}
                 <div className="grid grid-cols-3 gap-2">
-                  <img src={items.HIGHLIGHT[0]?.image ? (items.HIGHLIGHT[0].image.startsWith('http') ? items.HIGHLIGHT[0].image : `${SERVER_URL}${items.HIGHLIGHT[0].image}`) : about1} className="w-full aspect-[3/2] object-cover rounded shadow-sm bg-gray-200" alt={items.HIGHLIGHT[0]?.imageAltText || "Highlight 1"} />
-                  <img src={items.HIGHLIGHT[1]?.image ? (items.HIGHLIGHT[1].image.startsWith('http') ? items.HIGHLIGHT[1].image : `${SERVER_URL}${items.HIGHLIGHT[1].image}`) : about2} className="w-full aspect-[3/2] object-cover rounded shadow-sm bg-gray-200" alt={items.HIGHLIGHT[1]?.imageAltText || "Highlight 2"} />
-                  <img src={items.HIGHLIGHT[2]?.image ? (items.HIGHLIGHT[2].image.startsWith('http') ? items.HIGHLIGHT[2].image : `${SERVER_URL}${items.HIGHLIGHT[2].image}`) : about4} className="w-full aspect-[3/2] object-cover rounded shadow-sm bg-gray-200" alt={items.HIGHLIGHT[2]?.imageAltText || "Highlight 3"} />
+                  <img src={items.HIGHLIGHT[0]?.image ? (items.HIGHLIGHT[0].image.startsWith('http') ? items.HIGHLIGHT[0].image : `${SERVER_URL}${items.HIGHLIGHT[0].image}`) : about1.src} className="w-full aspect-[3/2] object-cover rounded shadow-sm bg-gray-200" alt={items.HIGHLIGHT[0]?.imageAltText || "Highlight 1"} />
+                  <img src={items.HIGHLIGHT[1]?.image ? (items.HIGHLIGHT[1].image.startsWith('http') ? items.HIGHLIGHT[1].image : `${SERVER_URL}${items.HIGHLIGHT[1].image}`) : about2.src} className="w-full aspect-[3/2] object-cover rounded shadow-sm bg-gray-200" alt={items.HIGHLIGHT[1]?.imageAltText || "Highlight 2"} />
+                  <img src={items.HIGHLIGHT[2]?.image ? (items.HIGHLIGHT[2].image.startsWith('http') ? items.HIGHLIGHT[2].image : `${SERVER_URL}${items.HIGHLIGHT[2].image}`) : about4.src} className="w-full aspect-[3/2] object-cover rounded shadow-sm bg-gray-200" alt={items.HIGHLIGHT[2]?.imageAltText || "Highlight 3"} />
                 </div>
                 {/* Bottom Row: 1 landscape (col-span-2) + 1 portrait (col-span-1) */}
                 <div className="grid grid-cols-3 gap-2">
-                  <img src={items.HIGHLIGHT[3]?.image ? (items.HIGHLIGHT[3].image.startsWith('http') ? items.HIGHLIGHT[3].image : `${SERVER_URL}${items.HIGHLIGHT[3].image}`) : about3} className="w-full h-28 md:h-32 object-cover rounded shadow-sm bg-gray-200 col-span-2" alt={items.HIGHLIGHT[3]?.imageAltText || "Highlight 4"} />
+                  <img src={items.HIGHLIGHT[3]?.image ? (items.HIGHLIGHT[3].image.startsWith('http') ? items.HIGHLIGHT[3].image : `${SERVER_URL}${items.HIGHLIGHT[3].image}`) : about3.src} className="w-full h-28 md:h-32 object-cover rounded shadow-sm bg-gray-200 col-span-2" alt={items.HIGHLIGHT[3]?.imageAltText || "Highlight 4"} />
                   <div className="relative col-span-1 h-28 md:h-32">
-                    <img src={items.HIGHLIGHT[4]?.image ? (items.HIGHLIGHT[4].image.startsWith('http') ? items.HIGHLIGHT[4].image : `${SERVER_URL}${items.HIGHLIGHT[4].image}`) : about4} className="w-full h-full object-cover rounded shadow-sm bg-gray-200" alt={items.HIGHLIGHT[4]?.imageAltText || "Highlight 5"} />
+                    <img src={items.HIGHLIGHT[4]?.image ? (items.HIGHLIGHT[4].image.startsWith('http') ? items.HIGHLIGHT[4].image : `${SERVER_URL}${items.HIGHLIGHT[4].image}`) : about4.src} className="w-full h-full object-cover rounded shadow-sm bg-gray-200" alt={items.HIGHLIGHT[4]?.imageAltText || "Highlight 5"} />
                     <div 
                       onClick={() => window.open('/gallery', '_blank')}
                       className="absolute inset-0 bg-black/40 rounded flex items-center justify-center cursor-pointer hover:bg-black/30 transition"

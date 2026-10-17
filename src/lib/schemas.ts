@@ -58,14 +58,14 @@ export const organizer = {
 export const mainEventSchema = {
   "@context": "https://schema.org",
   "@type": "Event",
-  name: "Arogya Sangoshthi 2026 — 18th International AYUSH & Integrated Healthcare Conference",
+  name: "Arogya Sangoshthi 2026 — 19th International AYUSH & Integrated Healthcare Conference",
   alternateName: "Arogya 2026",
   description:
     "Arogya Sangoshthi 2026 is India's premier 3-day international conference on Integrated Healthcare, AYUSH, Pharma, Wellness & Innovation. Uniting world-class experts, researchers, policy makers, and practitioners for knowledge exchange, innovation showcases, and holistic healthcare advancements.",
   url: SITE_URL,
   image: OG_IMAGE,
-  startDate: "2026-08-21",
-  endDate: "2026-08-23",
+  startDate: "2027-02-19",
+  endDate: "2027-02-21",
   eventStatus: "https://schema.org/EventScheduled",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
   location: eventPlace,

@@ -17,15 +17,15 @@ const getImageSrc = (img: any): string => {
 /* Built-in content — shown when the admin-managed section (GET /api/upcoming-event) is not available */
 const DEFAULTS: Required<Omit<UpcomingEventData, 'backgroundImage' | 'attendImage'>> = {
   eyebrow: 'Upcoming Event',
-  title: 'Arogya Sanghosthi 2026',
-  subtitle: "18TH EDITION — INDIA'S PREMIER INTEGRATED HEALTHCARE CONFERENCE",
+  title: 'Arogya Sangoshthi 2026',
+  subtitle: "19TH EDITION — INDIA'S PREMIER INTEGRATED HEALTHCARE CONFERENCE",
   description: 'A global platform bringing together the best minds from Medical, Pharma, Health Tech, AYUSH\nand Traditional Medical Systems to drive innovation, collaboration and a healthier tomorrow.',
-  dateInfo: '21ST – 23RD\nAUGUST 2026',
+  dateInfo: '19TH – 21ST\nFEBRUARY 2027',
   venueInfo: 'PRAGATI MAIDAN,\nNEW DELHI, INDIA',
   delegatesInfo: '1000+\nDELEGATES',
   countriesInfo: '25+\nCOUNTRIES',
   countdownHeading: 'The Countdown Has Begun!',
-  targetDate: '2026-08-21T09:00',
+  targetDate: '2027-02-19T09:00',
   attendHeading: 'Why You Should Attend',
   attendItems: [
     { text: 'Gain insights from global leaders' },
@@ -155,15 +155,18 @@ const UpcomingEventSection = ({ data }: { data?: UpcomingEventData | null }) => 
     minutes: 0,
     seconds: 0
   });
+  // The target time has passed — show a closing line instead of a 0:00:00 clock
+  const [eventStarted, setEventStarted] = useState(false);
 
   useEffect(() => {
-    // Admin saves India time ("2026-08-21T09:00") — count down to that moment for every visitor
+    // Admin saves India time ("2027-02-19T09:00") — count down to that moment for every visitor
     const targetDate = new Date(`${c.targetDate}:00+05:30`).getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
       const distance = targetDate - now;
 
+      setEventStarted(distance <= 0);
       if (distance > 0) {
         setTimeLeft({
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
@@ -276,7 +279,7 @@ const UpcomingEventSection = ({ data }: { data?: UpcomingEventData | null }) => 
               {/* Countdown Box */}
               <div className="bg-[#001810] rounded-xl p-5 flex flex-col shadow-xl w-full xl:w-[42%] shrink-0 border border-white/10 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#cba344] to-transparent opacity-50"></div>
-                <h3 className="text-[#F3B71B] text-center font-medium text-sm tracking-wider uppercase mb-5">{c.countdownHeading}</h3>
+                <h3 className="text-[#F3B71B] text-center font-medium text-sm tracking-wider uppercase mb-5">{eventStarted ? 'The event is underway — thank you for being part of it!' : c.countdownHeading}</h3>
                 <div className="flex justify-between items-center px-3 py-2 border border-[#F3B71B]/40 rounded-lg">
                   <div className="flex flex-col items-center">
                     <div className="text-2xl lg:text-3xl font-medium text-white leading-none mb-1">{timeLeft.days}</div>

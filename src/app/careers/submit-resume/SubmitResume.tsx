@@ -58,7 +58,7 @@ const separatedAssets = {
 };
 
 const brandHeader = {
-  title: "Bharat Organic Expo",
+  title: "Arogya Sangoshthi",
   tagline: "People • Ideas • Partnerships for a Greener Tomorrow",
 };
 
@@ -91,7 +91,7 @@ const profile = {
 const job = {
   title: "Sales Manager – Domestic Exhibition Sales & Sponsorships",
   company: "Namo Gange Wellness Pvt. Ltd.",
-  brand: "Bharat Organic Expo",
+  brand: "Arogya Sangoshthi",
 
   location: "Delhi NCR",
   type: "Full Time",
@@ -556,7 +556,7 @@ export function getMatchData(
       candidate_name: cleanFullName,
       first_name: firstName,
       job_title: candidate.jobDetails?.title || "this position",
-      company_name: "Bharat Organic Expo",
+      company_name: "Arogya Sangoshthi",
       current_ctc: "",
       expected_ctc: "",
       total_experience: "",
@@ -798,7 +798,7 @@ function ResultHero() {
               <p className="mt-[8px] text-[15px] italic leading-[1.18] text-[#164232]">
                 — Talent Acquisition Team
                 <br />
-                <span className="pl-[16px] font-semibold">Bharat Organic Expo</span>
+                <span className="pl-[16px] font-semibold">Arogya Sangoshthi</span>
               </p>
             </div>
           </div>
@@ -1916,7 +1916,7 @@ function SupportCard() {
           </h4>
 
           <p className="mt-[2px] text-[13px] font-medium leading-tight text-[#28425d]">
-            Explore other career opportunities at Bharat Organic Expo.
+            Explore other career opportunities at Arogya Sangoshthi.
           </p>
         </div>
       </div>
@@ -1948,7 +1948,7 @@ function SupportCard() {
         <p className="mt-[2px] text-[13px] font-medium leading-tight text-[#214368]">
           Feel free to reach out to our HR team at
           <br />
-          <strong className="font-semibold text-[#102d58]">careers@bharatorganicexpo.com</strong>
+          <strong className="font-semibold text-[#102d58]">info@arogyasangoshthi.com</strong>
         </p>
       </div>
     </div>
@@ -2070,7 +2070,7 @@ function Sidebar({
                 Looking for a Better Fit?
               </h4>
               <p className="mt-[3px] text-[14px] font-medium leading-[1.28] text-[#1c6448]">
-                Browse other career opportunities at<br />Bharat Organic Expo and find the right role for you.
+                Browse other career opportunities at<br />Arogya Sangoshthi and find the right role for you.
               </p>
             </div>
           </div>
@@ -2326,7 +2326,7 @@ export default function CareerEligibilityPage() {
           job={{
             title: "Sales Manager – Domestic Exhibition Sales & Sponsorships",
             company: "Namo Gange Wellness Pvt. Ltd.",
-            brand: "Bharat Organic Expo",
+            brand: "Arogya Sangoshthi",
             location: "Delhi NCR",
             type: "Full Time",
             experience: "3 – 6 Years",

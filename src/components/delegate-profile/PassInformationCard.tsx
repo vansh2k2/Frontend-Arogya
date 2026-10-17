@@ -7,9 +7,9 @@ interface PassInformationCardProps {
 }
 
 export const DAY_INFO: Record<number, { title: string; date: string; tag: string }> = {
-  1: { title: "Day 1", date: "21 August 2026 (Friday)", tag: "Integrated AYUSH & Pharma" },
-  2: { title: "Day 2", date: "22 August 2026 (Saturday)", tag: "Wellness & Clinical Innovation" },
-  3: { title: "Day 3", date: "23 August 2026 (Sunday)", tag: "Global Healthcare & Research" },
+  1: { title: "Day 1", date: "19 February 2027 (Friday)", tag: "Integrated AYUSH & Pharma" },
+  2: { title: "Day 2", date: "20 February 2027 (Saturday)", tag: "Wellness & Clinical Innovation" },
+  3: { title: "Day 3", date: "21 February 2027 (Sunday)", tag: "Global Healthcare & Research" },
 };
 
 export const PassInformationCard: React.FC<PassInformationCardProps> = ({ delegate }) => {

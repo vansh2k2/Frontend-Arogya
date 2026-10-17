@@ -472,8 +472,8 @@ const DelegateInfoSections = ({ middleComponent }) => {
                   ></span>
                   <img
                     ref={el => (themeIconRefs.current[idx] = el)}
-                    src={theme.image}
-                    alt="theme"
+                    src={theme.image.src}
+                    alt={theme.title.replace(/\s+/g, " ")}
                     className="theme-icon w-12 h-12 object-contain relative z-10"
                     style={{ opacity: 0 }}
                   />
@@ -497,11 +497,11 @@ const DelegateInfoSections = ({ middleComponent }) => {
         {/* Two Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
-          {/* Why Attend IHWE 2026? (Left) */}
+          {/* Why Attend Arogya Sangoshthi? (Left) */}
           <div ref={whyCardRef} className="lg:col-span-5 bg-[#f5f8f5] rounded-2xl overflow-hidden flex relative" style={{ boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px", opacity: 0 }}>
             <div className="px-5 pt-5 pb-5 md:px-6 md:pt-6 md:pb-6 w-full md:w-[55%] z-10 relative">
               <h3 ref={whyHeadingRef} style={{ opacity: 0 }} className="font-bold text-[#143111] text-lg md:text-[18px] uppercase mb-1 whitespace-nowrap">
-                WHY ATTEND IHWE 2026?
+                WHY ATTEND AROGYA SANGOSHTHI?
               </h3>
               <div ref={whyUnderlineRef} className="h-[2px] w-16 bg-[#4a7238] mb-5" style={{ transform: "scaleX(0)" }}></div>
               <ul className="space-y-4">

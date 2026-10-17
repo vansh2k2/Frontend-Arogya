@@ -17,11 +17,11 @@ import type { AboutFaqData, AboutFaqItem } from "@/lib/fetchAboutFaq";
 
 /* Built-in content — shown when the admin-managed section (GET /api/faq) is not available */
 const FALLBACK_ITEMS: AboutFaqItem[] = [
-  { question: "What is the 9th International Health & Wellness Expo 2026?", answer: "The 9th International Health & Wellness Expo (IHWE) is India's premier global platform for healthcare excellence, bringing together medical professionals, industry leaders, and wellness innovators.", image: faqImg1.src },
-  { question: "Who should participate in this Expo?", answer: "Medical device manufacturers, healthcare providers, hospital administrators, wellness practitioners, government health departments, and trade visitors.", image: faqImg2.src },
-  { question: "How can I register as a visitor or exhibitor?", answer: "Click the 'Register Now' button in the navigation menu and select your category (Visitor, Exhibitor, Buyer, or Speaker).", image: faqImg3.src },
-  { question: "What are the key focus areas of the event?", answer: "Our key focus areas include Holistic Health for All, Preventive Healthcare, Sustainable Environment, Healthy Communities, and Knowledge & Innovation.", image: faqImg4.src },
-  { question: "Can I present a research paper at the expo?", answer: "Yes, we welcome abstract submissions from researchers, doctors, and students. Please visit the Paper Presentation section for guidelines and submission details.", image: faqImg5.src },
+  { question: "What is Arogya Sangoshthi?", answer: "Arogya Sangoshthi is India's premier integrated healthcare conference, organised by Namo Gange Trust. Now in its 19th edition, it brings together doctors, AYUSH practitioners, researchers, industry leaders and policy makers across Modern Medicine, AYUSH, technology and traditional wisdom.", image: faqImg1.src },
+  { question: "When and where will it be held?", answer: "Arogya Sangoshthi will be held from 19 to 21 February 2027 at Pragati Maidan, New Delhi.", image: faqImg2.src },
+  { question: "Who should attend?", answer: "Doctors and clinicians, AYUSH practitioners, researchers and academicians, pharma and health-tech companies, policy makers, students and anyone working in healthcare and wellness.", image: faqImg3.src },
+  { question: "How can I register?", answer: "Click Register Now in the menu and choose Single Registration for yourself or Group Registration for your organisation or institution. You can pay online and receive your delegate pass by email.", image: faqImg4.src },
+  { question: "Can I present a research paper?", answer: "Yes. Researchers, doctors and students can submit an abstract. Visit the Paper Presentation page for the guidelines, topics and important dates.", image: faqImg5.src },
 ];
 
 // Cloudinary / site paths are used as they are; old "/uploads/..." paths live on the backend server
@@ -34,8 +34,8 @@ const FAQSection = ({ data }: { data?: AboutFaqData | null }) => {
     subheading: data ? data.subheading || "" : "Support & Info",
     heading: data?.heading || "Frequently Asked",
     highlightText: data ? data.highlightText || "" : "Questions",
-    description: data ? data.description || "" : "Find answers to common inquiries about the 9th International Health & Wellness Expo 2026.",
-    ctaQuestion: data ? data.ctaQuestion || "" : "Still have questions about exhibiting at IHWE 2026?",
+    description: data ? data.description || "" : "Find answers to common questions about Arogya Sangoshthi.",
+    ctaQuestion: data ? data.ctaQuestion || "" : "Still have questions about Arogya Sangoshthi?",
     ctaLabel: data ? data.ctaLabel || "" : "Contact Our Help Desk",
     ctaHref: data?.ctaHref || "/contact",
     ctaNewTab: Boolean(data?.ctaNewTab),

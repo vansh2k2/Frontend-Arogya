@@ -6,7 +6,7 @@ interface DashboardQuickMetricsProps {
   delegate: any;
 }
 
-const EVENT_DATE = new Date("2026-08-21T00:00:00");
+const EVENT_DATE = new Date("2027-02-19T00:00:00");
 
 function useCountdown() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -80,7 +80,7 @@ export const DashboardQuickMetrics: React.FC<DashboardQuickMetricsProps> = ({ de
             EVENT DATES
           </span>
           <h4 className="text-[13px] font-semibold text-slate-800 truncate leading-tight mt-0.5">
-            21 - 23 Aug 2026
+            19 - 21 Feb 2027
           </h4>
           <p className="text-[10px] text-blue-600 font-semibold mt-0.5">
             Friday - Sunday

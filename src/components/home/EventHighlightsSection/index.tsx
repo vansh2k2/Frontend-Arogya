@@ -83,9 +83,9 @@ const DEFAULT_HIGHLIGHTS: Highlight[] = [
   { title: 'NETWORKING OPPORTUNITIES', desc: 'Build meaningful connections\nthat last beyond the event', icon: 'network', image: c6, imageAlt: 'Healthcare professionals networking and talking at the event' },
 ];
 const DEFAULT_AGENDA: AgendaDay[] = [
-  { badge: 'DAY 1', date: '21 AUG 2026', text: 'Inauguration, Keynotes, Global Health Outlook, Modern Medicine Innovations', image: h1, imageAlt: 'Keynote speaker at Arogya Sangoshthi Day 1 inauguration' },
-  { badge: 'DAY 2', date: '22 AUG 2026', text: 'AYUSH Conclave, Pharma & Biotech, Health Tech & AI, Panel Discussions', image: h2, imageAlt: 'Panel discussion at Arogya Sangoshthi Day 2' },
-  { badge: 'DAY 3', date: '23 AUG 2026', text: 'Startup Pitch, Research Presentations, Workshops, Valedictory & Awards', image: h3, imageAlt: 'Awards ceremony at Arogya Sangoshthi Day 3 valedictory' },
+  { badge: 'DAY 1', date: '19 FEB 2027', text: 'Inauguration, Keynotes, Global Health Outlook, Modern Medicine Innovations', image: h1, imageAlt: 'Keynote speaker at Arogya Sangoshthi Day 1 inauguration' },
+  { badge: 'DAY 2', date: '20 FEB 2027', text: 'AYUSH Conclave, Pharma & Biotech, Health Tech & AI, Panel Discussions', image: h2, imageAlt: 'Panel discussion at Arogya Sangoshthi Day 2' },
+  { badge: 'DAY 3', date: '21 FEB 2027', text: 'Startup Pitch, Research Presentations, Workshops, Valedictory & Awards', image: h3, imageAlt: 'Awards ceremony at Arogya Sangoshthi Day 3 valedictory' },
 ];
 const DEFAULT_ATTENDEES = [
   { text: 'Doctors &\nClinicians', icon: 'stethoscope' },
@@ -150,10 +150,10 @@ const EventHighlightsSection = ({ data }: { data?: EventHighlightsData | null })
   const viewAgenda: EventHighlightsButton = data?.viewAgenda ?? { label: 'View Detailed Agenda', href: '/delegate-registration', newTab: true };
   const detailsHeading = data ? data.detailsHeading || '' : 'Event Details';
   const details = [
-    { label: 'Dates', value: data ? data.datesValue : '21ST – 23RD AUGUST 2026' },
+    { label: 'Dates', value: data ? data.datesValue : '19TH – 21ST FEBRUARY 2027' },
     { label: 'Venue', value: data ? data.venueValue : 'PRAGATI MAIDAN, NEW DELHI, INDIA' },
     { label: 'Format', value: data ? data.formatValue : 'IN-PERSON CONFERENCE & EXHIBITION' },
-    { label: 'Organized By', value: data ? data.organizerValue : 'AROGYA SANGHOSTHI FOUNDATION' },
+    { label: 'Organized By', value: data ? data.organizerValue : 'AROGYA SANGOSHTHI FOUNDATION' },
   ].filter((d) => d.value);
   const ctaIcon: ImageSrc = data ? data.ctaIcon || '' : t1;
   const ctaIconAlt = data?.ctaIconAlt || 'Registration ticket icon';

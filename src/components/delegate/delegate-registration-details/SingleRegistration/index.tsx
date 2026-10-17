@@ -174,7 +174,7 @@ const SingleRegistration = () => {
                   <Calendar size={18} className="text-[#1a5c1a]" />
                 </div>
                 <div>
-                  <p className="font-semibold text-sm text-blue-600">21 – 23 August 2026</p>
+                  <p className="font-semibold text-sm text-blue-600">19 – 21 February 2027</p>
                   <p className="text-sm font-medium text-blue-600">Friday – Sunday</p>
                 </div>
               </div>
@@ -191,7 +191,7 @@ const SingleRegistration = () => {
             </div>
 
             <div ref={illustrationRef} style={{ opacity: 0 }} className="flex items-end justify-start overflow-hidden">
-              <img src={typeof leftImg === "string" ? leftImg : leftImg.src} alt="IHWE" className="h-full object-contain" />
+              <img src={typeof leftImg === "string" ? leftImg : leftImg.src} alt="Arogya Sangoshthi" className="h-full object-contain" />
             </div>
 
             <div
@@ -199,7 +199,7 @@ const SingleRegistration = () => {
               style={{ opacity: 0, boxShadow: "rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px" }}
               className="bg-white rounded-2xl p-5"
             >
-              <h3 className="text-[#1a5c1a] font-semibold text-base mb-4">Why Attend IHWE 2026?</h3>
+              <h3 className="text-[#1a5c1a] font-semibold text-base mb-4">Why Attend Arogya Sangoshthi?</h3>
               {[
                 { icon: <Users size={18} className="text-[#1a5c1a]" />, title: "Connect", desc: "Network with global leaders, experts & professionals" },
                 { icon: <Lightbulb size={18} className="text-[#1a5c1a]" />, title: "Discover", desc: "Explore the latest products, technologies & innovations" },
@@ -321,7 +321,7 @@ const SingleRegistration = () => {
 
             {/* Row 6 */}
             <div ref={el => { formRowsRef.current[5] = el; }} style={{ opacity: 0 }} className="flex flex-col gap-1.5 mb-5">
-              <label className="text-sm font-medium text-gray-800">How did you hear about IHWE 2026? <span className="text-red-500">*</span></label>
+              <label className="text-sm font-medium text-gray-800">How did you hear about Arogya Sangoshthi? <span className="text-red-500">*</span></label>
               <select className="border border-gray-300 rounded-sm px-3 py-1.5 text-sm w-full focus:outline-none focus:border-[#1a5c1a]">
                 <option value="">Select an option</option>
                 <option>Social Media</option>
@@ -336,19 +336,19 @@ const SingleRegistration = () => {
               <label className="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded-sm cursor-pointer group hover:bg-slate-100 transition-all">
                 <Checkbox required className="mt-0.5 border-slate-400 peer-checked:bg-[#23471d]" />
                 <span className="text-[11px] font-medium text-black group-hover:text-black transition-colors leading-relaxed">
-                  I hereby confirm that the information provided is accurate. I have read and agree to the <Link href={`/terms-of-service?page=exhibitor-registration`} className="text-blue-600 font-bold hover:underline" target="_blank">Terms & Conditions</Link> and the exhibition policy for IHWE Stand Booking.
+                  I hereby confirm that the information provided is accurate. I have read and agree to the <Link href="/terms" className="text-blue-600 font-bold hover:underline" target="_blank">Terms & Conditions</Link> and the exhibition policy for IHWE Stand Booking.
                 </span>
               </label>
               <label className="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded-sm cursor-pointer group hover:bg-slate-100 transition-all">
                 <Checkbox required className="mt-0.5 border-slate-400 peer-checked:bg-[#23471d]" />
                 <span className="text-[11px] font-medium text-black group-hover:text-black transition-colors leading-relaxed">
-                  I have read and agree to the <Link href="/refund-policy" className="text-blue-600 font-bold hover:underline" target="_blank">Refund & Cancellation Policy</Link> for IHWE Stand Booking.
+                  I have read and agree to the <Link href="/refund" className="text-blue-600 font-bold hover:underline" target="_blank">Refund & Cancellation Policy</Link> for IHWE Stand Booking.
                 </span>
               </label>
               <label className="flex items-start gap-3 p-3 bg-slate-50 border border-slate-200 rounded-sm cursor-pointer group hover:bg-slate-100 transition-all">
                 <Checkbox required className="mt-0.5 border-slate-400 peer-checked:bg-[#23471d]" />
                 <span className="text-[11px] font-medium text-black group-hover:text-black transition-colors leading-relaxed">
-                  I have read and agree to the <Link href="/privacy-policy" className="text-blue-600 font-bold hover:underline" target="_blank">Privacy Policy</Link> of IHWE.
+                  I have read and agree to the <Link href="/privacy" className="text-blue-600 font-bold hover:underline" target="_blank">Privacy Policy</Link> of IHWE.
                 </span>
               </label>
             </div>

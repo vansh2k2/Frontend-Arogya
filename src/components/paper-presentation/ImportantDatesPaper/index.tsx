@@ -12,11 +12,11 @@ import type { PaperDate, PaperImportantDatesData } from '@/lib/fetchPaperPresent
 
 /* Built-in content — shown when the admin-managed section (GET /api/paper-important-dates) is not available */
 const DEFAULT_DATES: PaperDate[] = [
-  { label: 'Abstract Submission\nStarts', date: '25 May 2026', icon: d1.src },
-  { label: 'Last Date for\nAbstract Submission', date: '25 July 2026', icon: d2.src },
-  { label: 'Acceptance\nNotification', date: '10 August 2026', icon: d3.src },
-  { label: 'Full Paper Submission\n(If Selected)', date: '25 August 2026', icon: d4.src },
-  { label: 'Presentation\nDates', date: '10 - 12 Oct 2026', icon: d5.src },
+  { label: 'Abstract Submission\nStarts', date: '1 November 2026', icon: d1.src },
+  { label: 'Last Date for\nAbstract Submission', date: '15 December 2026', icon: d2.src },
+  { label: 'Acceptance\nNotification', date: '5 January 2027', icon: d3.src },
+  { label: 'Full Paper Submission\n(If Selected)', date: '31 January 2027', icon: d4.src },
+  { label: 'Presentation\nDates', date: '19 - 21 Feb 2027', icon: d5.src },
 ];
 const DEFAULT_REASONS = [
   'Share your innovative research with a global audience',

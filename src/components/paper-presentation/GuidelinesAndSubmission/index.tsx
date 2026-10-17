@@ -68,7 +68,7 @@ const DEFAULT_STEPS = [
   { num: '1', title: 'STEP 1', description: 'Submit your abstract through the online portal.' },
   { num: '2', title: 'STEP 2', description: 'Receive acceptance notification via email.' },
   { num: '3', title: 'STEP 3', description: 'Submit your full paper (if selected).' },
-  { num: '4', title: 'STEP 4', description: 'Present your paper at Arogya Sanghosthi 2026.' },
+  { num: '4', title: 'STEP 4', description: 'Present your paper at Arogya Sangoshthi 2026.' },
 ];
 
 const isUploadedPdf = (link: string) => /^https:\/\/res\.cloudinary\.com\/[^/]+\/raw\/upload\//.test(link);
