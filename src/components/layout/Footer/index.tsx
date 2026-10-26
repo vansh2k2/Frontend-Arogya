@@ -11,34 +11,18 @@ import foot4 from "@/assets/icons/foot4.webp";
 import foot11 from "@/assets/icons/foot11.webp";
 import foot22 from "@/assets/icons/foot22.webp";
 import foot33 from "@/assets/icons/foot33.webp";
-import footerRight from "@/assets/icons/footerright.webp";
-import footerBot from "@/assets/icons/footerbot.webp";
-import notesIcon from "@/assets/icons/notes.webp";
-import pdfIcon from "@/assets/icons/pdf.webp";
-import parliaIcon from "@/assets/icons/parlia.webp";
 import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-  Youtube,
   Phone,
   Mail,
   Globe,
-  MapPin,
-  Users,
-  Mic,
-  Lightbulb,
-  Handshake,
-  Rocket,
-  Headphones,
   ChevronRight,
-  MonitorPlay,
-  Heart,
-  FileText
+  Leaf,
+  Users,
+  Settings,
+  ArrowUp,
 } from "lucide-react";
 import { useQuery } from '@tanstack/react-query';
-import { settingsApi, socialMediaApi, SERVER_URL } from '@/lib/api';
+import { settingsApi, SERVER_URL } from '@/lib/api';
 
 // Sparkle component to enhance logo visibility
 const Sparkle = ({ style, color = '#F3B71B' }) => (
@@ -92,15 +76,47 @@ const CountUp = ({ end, duration = 2000 }) => {
   return <span ref={ref}>{count}</span>;
 };
 
+// Strip above the footer
+const FEATURES = [
+  { icon: Leaf, title: "India's Leading", text: "Integrated Healthcare Conference" },
+  { icon: Users, title: "Knowledge Sharing", text: "by Global Experts" },
+  { icon: Globe, title: "Policy • Innovation", text: "Technology • Tradition" },
+  { icon: Settings, title: "End to End Support", text: "From Planning to Execution" },
+];
+
+// Offices of the organiser (Namo Gange Wellness Pvt. Ltd.)
+const OFFICES = [
+  {
+    title: "Head Office",
+    lines: [
+      "Namo Gange Wellness Pvt. Ltd.",
+      "Plot No. 12/29, Site II Industrial Area",
+      "Mohan Nagar, Ghaziabad 201007",
+      "Uttar Pradesh, India",
+    ],
+    emails: ["info@ihwe.in", "info@namogangewellness.com"],
+  },
+  {
+    title: "Regional Office",
+    lines: [
+      "Namo Gange Wellness Pvt. Ltd.",
+      "Door No. 36-46-51, 2nd Floor, Main Road",
+      "Kancharapalem, Visakhapatnam 530008",
+      "Andhra Pradesh, India",
+    ],
+    emails: ["srujana@namogangewellness.com"],
+  },
+];
+
 const Footer = () => {
   const getHighlightIcon = (iconType) => {
     switch (iconType) {
-      case "Keynote": return <img src={foot2?.src || foot2} alt="Keynote" className="h-[28px] w-[28px] object-contain" />;
-      case "Panel Discussions": return <img src={foot1?.src || foot1} alt="Panel Discussions" className="h-[28px] w-[28px] object-contain" />;
-      case "Workshops": return <img src={foot11?.src || foot11} alt="Workshops" className="h-[28px] w-[28px] object-contain" />;
-      case "Networking": return <img src={foot22?.src || foot22} alt="Networking" className="h-[28px] w-[28px] object-contain" />;
-      case "Innovation Showcase": return <img src={foot33?.src || foot33} alt="Innovation Showcase" className="h-[28px] w-[28px] object-contain" />;
-      default: return <img src={foot2?.src || foot2} alt="Highlight" className="h-[28px] w-[28px] object-contain" />;
+      case "Keynote": return <img src={foot2?.src || foot2} alt="Keynote" className="h-[30px] w-[30px] object-contain" />;
+      case "Panel Discussions": return <img src={foot1?.src || foot1} alt="Panel Discussions" className="h-[30px] w-[30px] object-contain" />;
+      case "Workshops": return <img src={foot11?.src || foot11} alt="Workshops" className="h-[30px] w-[30px] object-contain" />;
+      case "Networking": return <img src={foot22?.src || foot22} alt="Networking" className="h-[30px] w-[30px] object-contain" />;
+      case "Innovation Showcase": return <img src={foot33?.src || foot33} alt="Innovation Showcase" className="h-[30px] w-[30px] object-contain" />;
+      default: return <img src={foot2?.src || foot2} alt="Highlight" className="h-[30px] w-[30px] object-contain" />;
     }
   };
 
@@ -108,11 +124,6 @@ const Footer = () => {
     queryKey: ['settings'],
     queryFn: settingsApi.get,
     staleTime: 5 * 60 * 1000,
-  });
-
-  const { data: socialMedia } = useQuery({
-    queryKey: ['socialMedia'],
-    queryFn: socialMediaApi.get,
   });
 
   const getImageUrl = (url) => {
@@ -125,16 +136,12 @@ const Footer = () => {
   const logoAlt = settings?.footerLogo?.alt || "Arogya Sangoshthi Logo";
 
   const footerEmails = settings?.footerEmails?.length > 0 ? settings.footerEmails : ['info@arogyasangoshthi.com'];
-  const footerPhones = settings?.footerPhones?.length > 0 ? settings.footerPhones : ['9654900525'];
-
-  const footerWebsite = settings?.footerWebsite || "arogya.namogange.org";
-  const footerAddress = settings?.footerAddress || "12/29, Site 2 Industrial Area,\nMohan Nagar, Ghaziabad - 201007,\nUttar Pradesh, India";
-  const footerHelplineTitle = settings?.footerHelplineTitle || "Conference Helpline";
-  const footerHelplinePhone = settings?.footerHelplinePhone || "9654900525";
-  const footerHelplineTiming = settings?.footerHelplineTiming || "Mon - Sat: 9:00 AM - 6:00 PM (IST)";
-  
+  const footerPhones = settings?.footerPhones?.length > 0 ? settings.footerPhones : ['9810247319', '9310608427'];
+  // The old saved value (arogya.namogange.org) is the staging address — show the official site instead
+  const savedWebsite = settings?.footerWebsite;
+  const footerWebsite = savedWebsite && !/namogange\.org/i.test(savedWebsite) ? savedWebsite : "arogyasangoshthi.com";
   const footerGetInTouchTitle = settings?.footerGetInTouchTitle || "Get In Touch";
-  
+
   const footerQuickLinksTitle = settings?.footerQuickLinksTitle || "Quick Links";
   // Pages set to Draft in arogya-admin are left out of the quick links
   const unpublishedPaths = useUnpublishedPaths();
@@ -142,16 +149,15 @@ const Footer = () => {
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
     { name: "Conference Tracks", path: "/tracks" },
-    { name: "Speakers", path: "/speakers" },
     { name: "Agenda", path: "/agenda" },
     { name: "Registration", path: "/register-now" },
     { name: "Exhibition", path: "/exhibition" },
     { name: "Partners & Supporters", path: "/partners" },
     { name: "Venue", path: "/venue" },
     { name: "Media & Gallery", path: "/gallery" },
-    { name: "Careers", path: "/careers" },
     { name: "Contact Us", path: "/contact" },
-    { name: "FAQ's", path: "/faqs" }
+    { name: "FAQ's", path: "/faqs" },
+    { name: "Speakers", path: "/speakers" }
   ];
 
   const footerHighlightsTitle = settings?.footerHighlightsTitle || "Conference Highlights";
@@ -163,35 +169,36 @@ const Footer = () => {
     { iconType: "Innovation Showcase", title: "Innovation Showcase", desc: "Discover breakthrough ideas & solutions" }
   ];
 
-  const footerAboutText = settings?.footerAboutText || "India's Premier Integrated Healthcare Conference\nuniting Modern Medicine, AYUSH, Technology\nand Traditional Wisdom for a healthier tomorrow.";
+  const footerAboutText = settings?.footerAboutText || "India's Premier Integrated\nHealthcare Conference uniting\nModern Medicine, AYUSH, Technology\nand Traditional Wisdom for a healthier tomorrow.";
   const footerAboutHighlighted = settings?.footerAboutHighlighted || "healthier tomorrow.";
 
   const renderFooterAboutText = () => {
     if (!footerAboutText) return null;
-    
+
     const parts = footerAboutHighlighted ? footerAboutText.split(footerAboutHighlighted) : [footerAboutText];
-    
+
     return parts.map((part, index) => (
       <React.Fragment key={`part-${index}`}>
-        {part.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').map((line, i, arr) => (
+        {part.replace(/\s*[\r\n]+\s*/g, ' ').split('\n').map((line, i, arr) => (
           <React.Fragment key={`line-${index}-${i}`}>
             {line}
             {i < arr.length - 1 && <br />}
           </React.Fragment>
         ))}
         {index < parts.length - 1 && (
-          <span className="text-[#F3B71B]">{footerAboutHighlighted}</span>
+          <span className="text-[#F3B71B] font-semibold">{footerAboutHighlighted}</span>
         )}
       </React.Fragment>
     ));
   };
 
-  const footerStats = settings?.footerStats?.length === 4 ? settings.footerStats : [
+  // Delegates, Speakers and Sessions (the "Countries" stat is not shown in the footer)
+  const savedStats = settings?.footerStats?.length ? settings.footerStats : [];
+  const footerStats = (savedStats.length ? savedStats : [
     { icon: "foot1", number: 1000, label: "Delegates" },
     { icon: "foot2", number: 150, label: "Speakers" },
-    { icon: "foot3", number: 25, label: "Countries" },
     { icon: "foot4", number: 100, label: "Sessions" }
-  ];
+  ]).filter((stat) => !/countr/i.test(stat.label || '')).slice(0, 3);
 
   // Rest of the footer (arogya-admin → Pages & CMS → Footer). Empty values use the built-in ones.
   const ex = settings?.footerExtras || {};
@@ -206,10 +213,13 @@ const Footer = () => {
     ));
   const divider = srcOf(ex.dividerImage, main22);
   const dividerAlt = ex.dividerImageAlt || 'Gold lotus divider';
-  const policyLinks = ex.policyLinks?.length ? ex.policyLinks : [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms & Conditions', href: '/terms' },
-    { label: 'Refund Policy', href: '/refund' },
+  const policyLinks = [
+    { label: 'Sitemap', href: '/sitemap.xml' },
+    ...(ex.policyLinks?.length ? ex.policyLinks : [
+      { label: 'Privacy Policy', href: '/privacy' },
+      { label: 'Terms & Conditions', href: '/terms' },
+      { label: 'Refund Policy', href: '/refund' },
+    ]),
   ];
 
   const getStatIcon = (iconName) => {
@@ -222,8 +232,12 @@ const Footer = () => {
     }
   };
 
+  const columnBorder = "lg:border-l lg:border-white/20 lg:pl-4 xl:pl-5";
+  const headingClass = "text-[#F3B71B] font-bold font-inter text-[14px] mb-2 uppercase tracking-wider";
+  const iconCircle = "w-7 h-7 rounded-full border border-[#F3B71B] flex items-center justify-center shrink-0";
+
   return (
-    <footer className="bg-[#001810] text-white font-inter text-sm w-full relative overflow-hidden">
+    <footer className="text-white font-inter text-sm w-full relative overflow-hidden">
       <style>{`
         @keyframes sparkleAnim {
           0%   { opacity: 0; transform: scale(0.5) translateY(0); }
@@ -231,380 +245,268 @@ const Footer = () => {
           80%  { opacity: 0.6; transform: scale(0.9) translateY(-6px); }
           100% { opacity: 0; transform: scale(0.5) translateY(-8px); }
         }
-        @keyframes goldShift {
-          0%   { background-position: 0% 50%; }
-          50%  { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @keyframes shimmer {
-          0%   { left: -75%; }
-          100% { left: 150%; }
-        }
-        .golden-btn-footer {
-          background: linear-gradient(135deg, #f5c842 0%, #ffdd00 30%, #ffa500 60%, #f5c842 100%);
-          background-size: 200% 200%;
-          animation: goldShift 2.5s ease infinite;
-          box-shadow: 0 0 20px 5px rgba(255,200,0,0.25), 0 4px 20px rgba(255,165,0,0.15);
-          position: relative;
-          overflow: hidden;
-          border: 2px solid white !important;
-        }
-        .golden-btn-footer::before {
-          content: '';
-          position: absolute;
-          top: -50%;
-          left: -75%;
-          width: 50%;
-          height: 200%;
-          background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
-          transform: skewX(-20deg);
-          animation: shimmer 2s infinite;
-        }
       `}</style>
-      
-      {/* Top Grid Section */}
-      <div className="container mx-auto px-4 md:px-8 xl:px-12 pt-8 pb-8 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.25fr_0.85fr_0.95fr_0.95fr_0.95fr] gap-8 lg:gap-2 xl:gap-2 pb-4">
-          
-          {/* Column 1: Logo & Stats */}
-          <div className="flex flex-col gap-6 lg:pr-0 xl:pr-2">
-            <div className="w-48 sm:w-56 relative inline-block">
-              {/* Sparkles around the logo */}
-              <Sparkle style={{ top: '-10px', left: '10%', animationDelay: '0s' }} />
-              <Sparkle style={{ top: '20px', left: '-15px', animationDelay: '0.4s' }} />
-              <Sparkle style={{ top: '-15px', right: '15%', animationDelay: '0.8s' }} />
-              <Sparkle style={{ bottom: '10px', left: '5%', animationDelay: '0.2s' }} />
-              <Sparkle style={{ bottom: '-10px', right: '20%', animationDelay: '0.6s' }} />
-              <Sparkle style={{ top: '40%', right: '-20px', animationDelay: '0.3s' }} />
-              
-              <Image
-                src={logoUrl?.src || logoUrl}
-                alt={logoAlt}
-                width={300}
-                height={80}
-                unoptimized
-                className="w-full h-auto object-contain brightness-0 invert sepia(1) saturate(5) hue-rotate(5deg) contrast(1.2)"
-                style={{ filter: "drop-shadow(0 0 15px rgba(243,183,27,0.6))" }}
-              />
-            </div>
-            <p className="text-white text-[13px] leading-relaxed whitespace-nowrap">
-              {renderFooterAboutText()}
-            </p>
-            
-            <div className="flex items-center gap-2 w-full -mt-2 mb-5">
-              <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#F3B71B]/80" />
-              <img src={divider} alt={dividerAlt} className="h-5 w-auto object-contain" />
-              <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#F3B71B]/80" />
-            </div>
-            
-            <div className="flex justify-between items-center w-full -mt-8 mb-5">
-              {footerStats.map((stat, index) => (
-                <React.Fragment key={`stat-${index}`}>
-                  <div className="flex flex-col items-center gap-1 w-1/4">
-                    <img src={srcOf(stat.image, getStatIcon(stat.icon))} alt={stat.imageAlt || stat.label} className="h-7 w-auto object-contain" />
-                    <span className="font-medium font-inter tracking-wider text-[#F3B71B] text-[16px] mt-1">
-                      <CountUp end={stat.number || 0} />+
-                    </span>
-                    <span className="text-[10px] text-white uppercase tracking-wider font-medium text-center">{stat.label}</span>
-                  </div>
-                  {index < footerStats.length - 1 && (
-                    <div className="w-[1px] h-14 bg-gradient-to-b from-transparent via-[#F3B71B]/60 to-transparent shrink-0" />
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
-          </div>
 
-          {/* Column 2: Quick Links */}
-          <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerQuickLinksTitle}</h2>
-            <ul className="grid grid-cols-1 gap-y-1.5">
-              {quickLinks.filter((link) => !unpublishedPaths.has(pagePathOf(link.path))).map((link, index) => (
-                <li key={`${link.path}-${index}`}>
-                  <Link href={link.path} target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors flex items-center gap-2 group text-[13px]">
-                    <ChevronRight size={14} className="text-[#F3B71B] group-hover:translate-x-1 transition-transform" />
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Column 3: Conference Highlights */}
-          <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider whitespace-nowrap">{footerHighlightsTitle}</h2>
-            <div className="flex flex-col gap-3">
-              {highlights.map((item, idx) => (
-                <div key={idx} className="flex gap-3 items-center">
-                  <div className="w-11 h-11 rounded-full border border-[#F3B71B] flex items-center justify-center shrink-0">
-                    {item.image
-                      ? <img src={item.image} alt={item.imageAlt || item.title} className="h-[28px] w-[28px] object-contain" />
-                      : getHighlightIcon(item.iconType)}
-                  </div>
-                  <div>
-                    <h3 className="text-white text-[13px] font-normal">{item.title}</h3>
-                    <p className="text-gray-400 text-[11px] leading-tight mt-0.5">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
+      {/* ── Feature strip ─────────────────────────────────────────── */}
+      <div className="bg-[#f7f2e8] border-b border-[#e8dfca]">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {FEATURES.map(({ icon: Icon, title, text }, i) => (
+            <div
+              key={title}
+              className={`flex items-center gap-3 py-2 lg:py-2.5 lg:justify-center ${i > 0 ? 'lg:border-l lg:border-[#d9cfb8]' : ''}`}
+            >
+              <Icon size={30} strokeWidth={1.4} className="text-[#F39C12] shrink-0" />
+              <div className="leading-snug">
+                <p className="text-[#1d2b22] text-[14px] font-semibold">{title}</p>
+                <p className="text-[#3b4a40] text-[13px]">{text}</p>
+              </div>
             </div>
-          </div>
+          ))}
+        </div>
+      </div>
 
-          {/* Column 4: Get In Touch */}
-          <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{footerGetInTouchTitle}</h2>
-            <div className="flex flex-col gap-3 mb-2">
-              {footerPhones.length > 0 && (
+      {/* ── Main footer ───────────────────────────────────────────── */}
+      <div className="bg-[#001810] relative">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 pt-4 pb-4 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_0.9fr_1.05fr_1.3fr_1.1fr] gap-8 lg:gap-0">
+
+            {/* Column 1: Logo, about & stats */}
+            <div className="flex flex-col gap-3 lg:pr-5">
+              <div className="w-48 sm:w-56 relative inline-block">
+                <Sparkle style={{ top: '-10px', left: '10%', animationDelay: '0s' }} />
+                <Sparkle style={{ top: '20px', left: '-15px', animationDelay: '0.4s' }} />
+                <Sparkle style={{ top: '-15px', right: '15%', animationDelay: '0.8s' }} />
+                <Sparkle style={{ bottom: '10px', left: '5%', animationDelay: '0.2s' }} />
+                <Sparkle style={{ bottom: '-10px', right: '20%', animationDelay: '0.6s' }} />
+                <Sparkle style={{ top: '40%', right: '-20px', animationDelay: '0.3s' }} />
+                <Image
+                  src={logoUrl?.src || logoUrl}
+                  alt={logoAlt}
+                  width={300}
+                  height={80}
+                  unoptimized
+                  className="w-full h-auto object-contain"
+                  style={{ filter: "drop-shadow(0 0 10px rgba(243,183,27,0.35))" }}
+                />
+              </div>
+              <p className="text-white text-[13px] leading-relaxed">
+                {renderFooterAboutText()}
+              </p>
+
+              <div className="flex items-center gap-2 w-full">
+                <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#F3B71B]/80" />
+                <img src={divider} alt={dividerAlt} className="h-5 w-auto object-contain" />
+                <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#F3B71B]/80" />
+              </div>
+
+              <div className="flex justify-between items-start w-full">
+                {footerStats.map((stat, index) => (
+                  <React.Fragment key={`stat-${index}`}>
+                    <div className="flex flex-col items-center gap-1 flex-1">
+                      <div className="w-10 h-10 rounded-full border border-[#F3B71B] flex items-center justify-center">
+                        <img src={srcOf(stat.image, getStatIcon(stat.icon))} alt={stat.imageAlt || stat.label} className="h-5 w-auto object-contain" />
+                      </div>
+                      <span className="font-bold font-inter text-[#F3B71B] text-[16px] leading-none mt-1">
+                        <CountUp end={stat.number || 0} />+
+                      </span>
+                      <span className="text-[10px] text-white uppercase tracking-wider font-medium text-center">{stat.label}</span>
+                    </div>
+                    {index < footerStats.length - 1 && (
+                      <div className="w-[1px] h-14 bg-gradient-to-b from-transparent via-[#F3B71B]/50 to-transparent shrink-0 self-center" />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+
+            {/* Column 2: Quick Links */}
+            <div className={columnBorder}>
+              <h2 className={headingClass}>{footerQuickLinksTitle}</h2>
+              <ul className="grid grid-cols-1 gap-y-2">
+                {quickLinks.filter((link) => !unpublishedPaths.has(pagePathOf(link.path))).map((link, index) => (
+                  <li key={`${link.path}-${index}`}>
+                    <Link href={link.path} className="text-gray-300 hover:text-white transition-colors flex items-center gap-2 group text-[13px]">
+                      <ChevronRight size={14} className="text-[#F3B71B] group-hover:translate-x-1 transition-transform" />
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 3: Conference Highlights */}
+            <div className={columnBorder}>
+              <h2 className={`${headingClass} whitespace-nowrap`}>{footerHighlightsTitle}</h2>
+              <div className="flex flex-col gap-4">
+                {highlights.map((item, idx) => (
+                  <div key={idx} className="flex gap-3 items-center">
+                    <div className="w-11 h-11 rounded-full border border-[#F3B71B] flex items-center justify-center shrink-0">
+                      {item.image
+                        ? <img src={item.image} alt={item.imageAlt || item.title} className="h-[30px] w-[30px] object-contain" />
+                        : getHighlightIcon(item.iconType)}
+                    </div>
+                    <div>
+                      <h3 className="text-white text-[13px] font-normal">{item.title}</h3>
+                      <p className="text-gray-400 text-[11px] leading-tight mt-0.5">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Column 4: Get In Touch */}
+            <div className={columnBorder}>
+              <h2 className={headingClass}>{footerGetInTouchTitle}</h2>
+              <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-3 text-gray-300">
-                  <div className="w-7 h-7 rounded-full border border-[#F3B71B] flex items-center justify-center shrink-0">
-                    <Phone size={14} className="text-[#F3B71B]" />
-                  </div>
+                  <div className={iconCircle}><Phone size={14} className="text-[#F3B71B]" /></div>
                   <div className="flex flex-wrap items-center text-[13px]">
                     {footerPhones.map((phone, idx) => (
                       <React.Fragment key={`phone-${idx}`}>
-                        <a href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="hover:text-white transition-colors">
-                          {phone}
-                        </a>
-                        {idx < footerPhones.length - 1 && <span className="mx-1">,</span>}
+                        <a href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="hover:text-white transition-colors">{phone}</a>
+                        {idx < footerPhones.length - 1 && <span className="mr-1">,</span>}
                       </React.Fragment>
                     ))}
                   </div>
                 </div>
-              )}
-              {footerEmails.length > 0 && (
                 <div className="flex items-center gap-3 text-gray-300">
-                  <div className="w-7 h-7 rounded-full border border-[#F3B71B] flex items-center justify-center shrink-0">
-                    <Mail size={14} className="text-[#F3B71B]" />
-                  </div>
+                  <div className={iconCircle}><Mail size={14} className="text-[#F3B71B]" /></div>
                   <div className="flex flex-wrap items-center text-[13px]">
                     {footerEmails.map((email, idx) => (
                       <React.Fragment key={`email-${idx}`}>
-                        <a href={`mailto:${email}`} className="hover:text-white transition-colors">
-                          {email}
-                        </a>
-                        {idx < footerEmails.length - 1 && <span className="mx-1">,</span>}
+                        <a href={`mailto:${email}`} className="hover:text-white transition-colors">{email}</a>
+                        {idx < footerEmails.length - 1 && <span className="mr-1">,</span>}
                       </React.Fragment>
                     ))}
                   </div>
                 </div>
-              )}
-              <a href={`https://${footerWebsite.replace(/^https?:\/\//, '')}`} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
-                <div className="w-7 h-7 rounded-full border border-[#F3B71B] flex items-center justify-center shrink-0">
-                  <Globe size={14} className="text-[#F3B71B]" />
-                </div>
-                <span className="text-[13px]">{footerWebsite}</span>
-              </a>
-              <div className="flex items-start gap-3 text-gray-300">
-                <div className="w-7 h-7 rounded-full border border-[#F3B71B] flex items-center justify-center shrink-0 mt-0.5">
-                  <MapPin size={14} className="text-[#F3B71B]" />
-                </div>
-                <span className="text-[11px] leading-relaxed pr-4 whitespace-pre-line">
-                  {footerAddress}
-                </span>
-              </div>
-            </div>
-
-            <div className="border border-[#F3B71B]/40 rounded-lg py-2.5 px-3 bg-[#F3B71B]/5 flex items-center gap-2 relative w-full">
-              <div className="text-[#F3B71B]">
-                <Headphones size={24} />
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="text-[#F3B71B] text-[11px] font-semibold uppercase tracking-wider mb-0.5">{footerHelplineTitle}</p>
-                <p className="text-white font-semibold text-[16px] leading-tight mb-0.5">{footerHelplinePhone}</p>
-                <p className="text-white text-[10px] leading-tight whitespace-nowrap">{footerHelplineTiming}</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Column 5: Connect With Us */}
-          <div className="lg:border-l lg:border-white/20 lg:pl-3 xl:pl-4">
-            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{textOr(ex.connectTitle, 'Connect With Us')}</h2>
-            <div className="flex gap-2 mb-4">
-              <a href={socialMedia?.facebook || "https://www.facebook.com/ArogyaSangoshthi"} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
-                <Facebook size={14} />
-              </a>
-              {socialMedia?.twitter && (
-              <a href={socialMedia.twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
-                <Twitter size={14} />
-              </a>
-              )}
-              <a href={socialMedia?.linkedin || "https://in.linkedin.com/showcase/arogya-sangoshthi/"} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
-                <Linkedin size={14} />
-              </a>
-              <a href={socialMedia?.instagram || "https://www.instagram.com/arogyasangoshthi/"} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
-                <Instagram size={14} />
-              </a>
-              <a href={socialMedia?.youtube || "https://www.youtube.com/@NamoGangeTrust"} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="w-8 h-8 rounded-full border border-[#F3B71B] flex items-center justify-center text-[#F3B71B] hover:bg-[#F3B71B] hover:text-[#001810] transition-colors">
-                <Youtube size={14} />
-              </a>
-            </div>
-
-            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{textOr(ex.appTitle, 'Download Our App')}</h2>
-            <p className="text-gray-300 text-[11px] mb-4 leading-relaxed whitespace-nowrap">
-              {lines(textOr(ex.appText, 'Your conference companion for agenda,\nupdates and networking.'))}
-            </p>
-            <div className="flex gap-2 mb-5">
-              {/* Play Store */}
-              <a href={ex.googlePlayUrl || undefined} target={ex.googlePlayUrl ? '_blank' : undefined} rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-black border border-white/20 rounded-md px-2 py-1.5 hover:border-white/40 transition-colors flex-1">
-                <div className="text-white shrink-0 pl-1"><svg viewBox="0 0 512 512" width="14" fill="currentColor" aria-hidden="true"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg></div>
-                <div className="flex flex-col items-start leading-none">
-                  <span className="text-[7px] text-white/80">GET IT ON</span>
-                  <span className="text-[12px] font-semibold text-white">Google Play</span>
-                </div>
-              </a>
-              {/* App Store */}
-              <a href={ex.appStoreUrl || undefined} target={ex.appStoreUrl ? '_blank' : undefined} rel="noopener noreferrer"
-                className="flex items-center gap-2 bg-black border border-white/20 rounded-md px-2 py-1.5 hover:border-white/40 transition-colors flex-1">
-                <div className="text-white shrink-0 pl-1"><svg viewBox="0 0 384 512" width="14" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></div>
-                <div className="flex flex-col items-start leading-none">
-                  <span className="text-[7px] text-white/80">Download on the</span>
-                  <span className="text-[12px] font-semibold text-white">App Store</span>
-                </div>
-              </a>
-            </div>
-            {!ex.googlePlayUrl && !ex.appStoreUrl && (
-              <p className="-mt-3 mb-5 text-[10px] text-gray-400">App coming soon.</p>
-            )}
-
-            <h2 className="text-[#F3B71B] font-bold font-inter text-[14px] mb-3 uppercase tracking-wider">{textOr(ex.organizedByTitle, 'Organized By')}</h2>
-            <div className="flex items-start">
-              <div className="relative inline-block w-32 md:w-40">
-                <Sparkle color="#FFFFFF" style={{ top: '-10px', left: '10%', animationDelay: '0s' }} />
-                <Sparkle color="#FFFFFF" style={{ top: '15px', left: '-10px', animationDelay: '0.4s' }} />
-                <Sparkle color="#FFFFFF" style={{ top: '-10px', right: '15%', animationDelay: '0.8s' }} />
-                <Sparkle color="#FFFFFF" style={{ bottom: '5px', left: '5%', animationDelay: '0.2s' }} />
-                <Sparkle color="#FFFFFF" style={{ bottom: '-10px', right: '10%', animationDelay: '0.6s' }} />
-                <Sparkle color="#FFFFFF" style={{ top: '40%', right: '-15px', animationDelay: '0.3s' }} />
-                {(() => {
-                  const organiser = (
-                    <Image src={ex.organizedByLogo || "/namo.webp"} alt={ex.organizedByLogoAlt || "Namo Gange"} width={256} height={105} className="w-full h-auto object-contain" style={{ filter: "drop-shadow(-1px 0px 2px rgba(255,255,255,0.25))" }} />
-                  );
-                  return ex.organizedByLink
-                    ? <a href={ex.organizedByLink} target="_blank" rel="noopener noreferrer">{organiser}</a>
-                    : organiser;
-                })()}
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      {/* Middle Banner: Newsletter & Brochure */}
-      <div className="container mx-auto px-4 md:px-8 xl:px-12 pb-4 relative z-10 -mt-8">
-        <div className="relative w-full flex items-center">
-          
-          {/* Parlia Image stuck to the far right corner */}
-          <img src={srcOf(ex.buildingImage, parliaIcon)} alt={ex.buildingImageAlt || "Parliament building illustration"} className="absolute -right-6 md:-right-12 lg:-right-20 xl:-right-32 top-1/2 -translate-y-1/2 -mt-2 md:-mt-4 h-24 md:h-32 lg:h-40 w-auto object-contain z-0 pointer-events-none" />
-
-          {/* Banner Band with gradient fading out on the right to overlap Parlia */}
-          <div className="bg-gradient-to-r from-[#f5f0e1] via-[#e8dfc8] to-transparent rounded-l-[2rem] rounded-r-none xl:rounded-l-full xl:rounded-r-none flex flex-col xl:flex-row items-center justify-start pl-4 md:pl-6 pr-8 border-y border-l border-r-0 border-white/20 gap-2 xl:gap-0 w-full lg:w-[92%] xl:w-[85%] relative z-10 py-0">
-          
-          <div className="flex flex-col md:flex-row items-center w-full xl:w-auto py-0">
-            {/* Newsletter Info */}
-            <div className="flex items-center gap-3 pr-2 xl:pr-4">
-              <img src={srcOf(ex.newsletterIcon, notesIcon)} alt={ex.newsletterIconAlt || "Newsletter"} className="h-9 w-auto object-contain shrink-0" />
-              <div>
-                <p className="font-poppins text-[#001810] font-medium text-[13px] leading-tight -mt-0.5">{textOr(ex.newsletterTitle, 'STAY CONNECTED. STAY INFORMED.')}</p>
-                <p className="text-black text-[10px] leading-tight -mt-1 whitespace-nowrap">
-                  {lines(textOr(ex.newsletterText, 'Subscribe to get the latest updates, speaker announcements,\nagenda highlights and exclusive offers.'))}
-                </p>
-              </div>
-            </div>
-
-            {/* Sub-divider */}
-            <div className="hidden md:block w-[1px] h-12 bg-black/20 shrink-0 ml-0 mr-4"></div>
-
-            {/* Input & Button */}
-            <div className="flex w-full md:w-[350px] h-9 bg-[#001810] rounded-lg overflow-hidden shrink-0">
-              <div className="flex-1 flex items-center px-4 gap-2">
-                <Mail size={14} className="text-gray-400" />
-                <input 
-                  type="email" 
-                  placeholder="Enter your email address" 
-                  className="bg-transparent text-white text-[11px] w-full focus:outline-none placeholder:text-gray-400"
-                />
-              </div>
-              <button className="bg-[#cba344] hover:bg-[#b58c35] text-[#001810] font-bold text-[11px] px-5 transition-colors flex items-center gap-2 uppercase">
-                Subscribe <ChevronRight size={14} />
-              </button>
-            </div>
-            {/* Main Divider */}
-            <div className="hidden xl:block w-[1px] h-12 bg-black/20 ml-2 mr-6 shrink-0" />
-          </div>
-
-          {/* Brochure */}
-          <div className="flex items-center gap-3 w-full xl:w-auto justify-start xl:justify-end py-1 xl:py-0 border-t xl:border-t-0 border-black/10 mt-1 xl:mt-0 pt-1 xl:pt-0">
-            <img src={srcOf(ex.brochureIcon, pdfIcon)} alt={ex.brochureIconAlt || "PDF icon"} className="h-9 w-auto object-contain shrink-0" />
-            <div className="flex flex-col items-start mr-2">
-              <p className="font-poppins text-[#F3B71B] font-medium text-[12px] whitespace-nowrap mb-0.5">{textOr(ex.brochureTitle, 'DOWNLOAD BROCHURE')}</p>
-              <div style={{ position: 'relative', display: 'inline-block' }} className="shrink-0 -mt-0.5">
-                <Sparkle color="#541A1A" style={{ top: '-12px', left: '10%', animationDelay: '0s' }} />
-                <Sparkle color="#541A1A" style={{ top: '-8px', left: '45%', animationDelay: '0.4s' }} />
-                <Sparkle color="#541A1A" style={{ top: '-14px', right: '15%', animationDelay: '0.8s' }} />
-                <Sparkle color="#541A1A" style={{ bottom: '-12px', left: '20%', animationDelay: '0.2s' }} />
-                <Sparkle color="#541A1A" style={{ bottom: '-8px', right: '25%', animationDelay: '0.6s' }} />
-                <Sparkle color="#541A1A" style={{ top: '20%', left: '-8px', animationDelay: '0.3s' }} />
-                <Sparkle color="#541A1A" style={{ top: '60%', right: '-8px', animationDelay: '0.7s' }} />
-                
-                <a href="/brochure" target="_blank" rel="noopener noreferrer">
-                  <button className="bg-[#541A1A] hover:bg-[#3b1212] border border-white shadow-md group rounded-full px-2.5 py-1 text-white font-bold text-[9px] uppercase tracking-[0.05em] transition-all duration-300 flex items-center gap-1 relative z-10">
-                    {textOr(ex.brochureButtonLabel, 'Download PDF')} <svg className="w-2.5 h-2.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                  </button>
+                <a href={`https://${footerWebsite.replace(/^https?:\/\//, '')}`} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors">
+                  <div className={iconCircle}><Globe size={14} className="text-[#F3B71B]" /></div>
+                  <span className="text-[13px]">{footerWebsite}</span>
                 </a>
+
+                {OFFICES.map((office) => (
+                  <div key={office.title} className="flex items-start gap-2">
+                    <img src="/l1.png" alt="" aria-hidden="true" className="w-[42px] h-auto object-contain shrink-0 mt-0.5" />
+                    <div className="text-[11px] leading-snug text-gray-300">
+                      <p className="text-[#F3B71B] font-semibold text-[12px] mb-0.5">{office.title}</p>
+                      {office.lines.map((line) => <p key={line}>{line}</p>)}
+                      {office.emails.map((email) => (
+                        <a key={email} href={`mailto:${email}`} className="block hover:text-white transition-colors">{email}</a>
+                      ))}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
+
+            {/* Column 5: App & Organised By — India Gate behind it */}
+            <div className={`${columnBorder} relative min-h-[300px] lg:min-h-0`}>
+              <div className="relative z-10">
+                <h2 className={headingClass}>{textOr(ex.appTitle, 'Download Our App')}</h2>
+                <p className="text-gray-300 text-[11px] mb-3 leading-relaxed">
+                  {lines(textOr(ex.appText, 'Your conference companion for agenda,\nupdates and networking.'))}
+                </p>
+                <div className="flex gap-2 mb-2 max-w-[280px]">
+                  <a href={ex.googlePlayUrl || undefined} target={ex.googlePlayUrl ? '_blank' : undefined} rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-black border border-white/30 rounded-md px-2.5 py-1.5 hover:border-white/60 transition-colors flex-1">
+                    <div className="text-white shrink-0"><svg viewBox="0 0 512 512" width="16" fill="currentColor" aria-hidden="true"><path d="M325.3 234.3 104.6 13l280.8 161.2-60.1 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l280.8-161.2-60.1-60.1L104.6 499z"/></svg></div>
+                    <div className="flex flex-col items-start leading-none">
+                      <span className="text-[8px] text-white/80">GET IT ON</span>
+                      <span className="text-[12px] font-semibold text-white">Google Play</span>
+                    </div>
+                  </a>
+                  <a href={ex.appStoreUrl || undefined} target={ex.appStoreUrl ? '_blank' : undefined} rel="noopener noreferrer"
+                    className="flex items-center gap-2 bg-black border border-white/30 rounded-md px-2.5 py-1.5 hover:border-white/60 transition-colors flex-1">
+                    <div className="text-white shrink-0"><svg viewBox="0 0 384 512" width="15" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></div>
+                    <div className="flex flex-col items-start leading-none">
+                      <span className="text-[8px] text-white/80">Download on the</span>
+                      <span className="text-[12px] font-semibold text-white">App Store</span>
+                    </div>
+                  </a>
+                </div>
+
+                <h2 className={`${headingClass} mt-5`}>{textOr(ex.organizedByTitle, 'Organised By')}</h2>
+                <div className="relative inline-block w-36 md:w-44 mt-4">
+                  <Sparkle color="#FFFFFF" style={{ top: '-10px', left: '10%', animationDelay: '0s' }} />
+                  <Sparkle color="#FFFFFF" style={{ top: '15px', left: '-10px', animationDelay: '0.4s' }} />
+                  <Sparkle color="#FFFFFF" style={{ bottom: '5px', left: '5%', animationDelay: '0.2s' }} />
+                  <Sparkle color="#FFFFFF" style={{ top: '40%', right: '-15px', animationDelay: '0.3s' }} />
+                  {(() => {
+                    const organiserSrc = ex.organizedByLogo || "/namo.webp";
+                    // Thin white outline so the logo reads on the bright India Gate photo.
+                    // The default logo's tagline (bottom ~9%) gets a fainter outline, drawn as a second layer.
+                    const outline = (w, colour) =>
+                      `drop-shadow(${w}px 0 0 ${colour}) drop-shadow(-${w}px 0 0 ${colour}) drop-shadow(0 ${w}px 0 ${colour}) drop-shadow(0 -${w}px 0 ${colour})`;
+                    const splitTagline = !ex.organizedByLogo;
+                    const organiser = (
+                      <span className="relative block">
+                        <Image src={organiserSrc} alt={ex.organizedByLogoAlt || "Namo Gange"} width={256} height={105} className="w-full h-auto object-contain"
+                          style={{ filter: `${outline(0.5, '#fff')} drop-shadow(0 2px 4px rgba(0,0,0,0.45))`, clipPath: splitTagline ? 'inset(0 0 9.5% 0)' : undefined }} />
+                        {splitTagline && (
+                          <Image src={organiserSrc} alt="" aria-hidden="true" width={256} height={105} className="absolute inset-0 w-full h-auto object-contain"
+                            style={{ filter: `${outline(0.3, 'rgba(255,255,255,0.55)')} drop-shadow(0 1px 2px rgba(0,0,0,0.5))`, clipPath: 'inset(90.5% 0 0 0)' }} />
+                        )}
+                      </span>
+                    );
+                    return ex.organizedByLink
+                      ? <a href={ex.organizedByLink} target="_blank" rel="noopener noreferrer">{organiser}</a>
+                      : organiser;
+                  })()}
+                </div>
+              </div>
+            </div>
+
           </div>
-          
-          </div>
+        </div>
+
+        {/* India Gate at sunset behind "Organised By", fading into the footer colour */}
+        <div className="pointer-events-none absolute bottom-0 right-0 h-[300px] lg:h-[60%] w-full md:w-[60%] lg:w-[27%] z-0">
+          <img
+            src="/footb.webp"
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover object-[88%_center]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#001810] via-[#001810]/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#001810] via-transparent to-transparent" />
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/20 py-2.5 bg-[#00100a] relative z-10">
-        <div className="container mx-auto px-4 md:px-8 xl:px-12 flex flex-col lg:flex-row items-center justify-between gap-4 text-[11px] text-gray-400">
-          
-          <div className="flex items-center gap-3">
-            <span className="text-white font-normal tracking-wide">{textOr(ex.brandName, 'Arogya Sangoshthi')}</span>
-            <div className="w-[1px] h-3 bg-white/30" />
-            <span className="text-[#F3B71B] font-normal tracking-widest">{textOr(ex.editionText, '19TH EDITION')}</span>
-            <img src={divider} alt={dividerAlt} className="h-5 md:h-6 w-auto object-contain" />
+      {/* ── Bottom bar ────────────────────────────────────────────── */}
+      <div className="bg-black border-t border-white/10 py-2">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col xl:flex-row items-center justify-between gap-2 xl:gap-3 text-[11px] text-gray-300">
+          <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-x-2 gap-y-1 text-center lg:whitespace-nowrap">
+            <span>© 2026 Arogya Sangoshthi – Bridging AYUSH &amp; Modern Medicine</span>
+            <span className="text-gray-500">|</span>
+            <span>An Initiative of Namo Gange Trust</span>
+            <span className="text-gray-500">|</span>
+            <span>All Rights Reserved.</span>
           </div>
 
-          <div className="text-center">
-            {textOr(ex.copyrightText, '© 2026 Arogya Sangoshthi. All Rights Reserved.')}
-          </div>
-
-          <div className="flex items-center gap-4 xl:gap-8">
+          <div className="flex flex-wrap lg:flex-nowrap items-center justify-center gap-x-2 gap-y-2 lg:whitespace-nowrap">
             {policyLinks.map((link, i) => (
               <React.Fragment key={`${link.href}-${i}`}>
-                {i > 0 && <span className="text-gray-600">|</span>}
+                {i > 0 && <span className="text-gray-500">|</span>}
                 <a href={link.href} className="hover:text-white transition-colors">{link.label}</a>
               </React.Fragment>
             ))}
+            <span className="text-gray-500">|</span>
+            <span className="flex items-center gap-2">
+              Designed &amp; Developed by
+              <img src="/encodencylogo.jpeg" alt="enCodency Pvt. Ltd." width={100} height={28} className="h-7 w-auto rounded" />
+            </span>
+            <button
+              type="button"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              aria-label="Back to top"
+              className="ml-1 w-8 h-8 rounded-full border-2 border-[#F3B71B] text-[#F3B71B] flex items-center justify-center hover:bg-[#F3B71B] hover:text-black transition-colors"
+            >
+              <ArrowUp size={14} />
+            </button>
           </div>
-
-          <div className="flex items-center gap-1.5">
-            Designed with <Heart size={12} className="text-[#cba344] fill-[#cba344]" /> {textOr(ex.designedByText, 'for a healthier tomorrow')}
-          </div>
-          
         </div>
       </div>
-
-      {/* Decorative Right Corner Image */}
-      <img
-        src={srcOf(ex.leafImage, footerRight)}
-        alt={ex.leafImageAlt || "Gold leaf decoration"}
-        className="absolute top-0 right-0 z-0 w-16 md:w-20 lg:w-24 h-auto object-contain pointer-events-none"
-      />
-
-      {/* Decorative Left Corner Image (Footer Bot) */}
-      <img
-        src={srcOf(ex.bottomImage, footerBot)}
-        alt={ex.bottomImageAlt || "Decorative footer border"}
-        className="absolute bottom-0 -left-6 md:-left-10 lg:-left-12 z-0 w-32 md:w-48 lg:w-64 h-auto object-contain pointer-events-none opacity-20" 
-      />
     </footer>
   );
 };
