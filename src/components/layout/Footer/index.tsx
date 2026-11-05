@@ -20,6 +20,7 @@ import {
   Users,
   Settings,
   ArrowUp,
+  ArrowRight,
 } from "lucide-react";
 import { useQuery } from '@tanstack/react-query';
 import { settingsApi, SERVER_URL } from '@/lib/api';
@@ -84,12 +85,12 @@ const FEATURES = [
   { icon: Settings, title: "End to End Support", text: "From Planning to Execution" },
 ];
 
-// Offices of the organiser (Namo Gange Wellness Pvt. Ltd.)
+// Offices of the organiser (Namo Gange Trust)
 const OFFICES = [
   {
     title: "Head Office",
     lines: [
-      "Namo Gange Wellness Pvt. Ltd.",
+      "Namo Gange Trust",
       "Plot No. 12/29, Site II Industrial Area",
       "Mohan Nagar, Ghaziabad 201007",
       "Uttar Pradesh, India",
@@ -99,7 +100,7 @@ const OFFICES = [
   {
     title: "Regional Office",
     lines: [
-      "Namo Gange Wellness Pvt. Ltd.",
+      "Namo Gange Trust",
       "Door No. 36-46-51, 2nd Floor, Main Road",
       "Kancharapalem, Visakhapatnam 530008",
       "Andhra Pradesh, India",
@@ -136,9 +137,13 @@ const Footer = () => {
   const logoAlt = settings?.footerLogo?.alt || "Arogya Sangoshthi Logo";
 
   const footerEmails = settings?.footerEmails?.length > 0 ? settings.footerEmails : ['info@arogyasangoshthi.com'];
-  const footerPhones = settings?.footerPhones?.length > 0 ? settings.footerPhones : ['9810247319', '9310608427'];
+  const footerPhones = settings?.footerPhones?.length > 0 ? settings.footerPhones : ['9220149237', '9220408160'];
   // The old saved value (arogya.namogange.org) is the staging address — show the official site instead
   const savedWebsite = settings?.footerWebsite;
+  const formatPhone = (phone) => {
+    const digits = String(phone).replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '');
+    return digits.length === 10 ? `+91 ${digits.slice(0, 5)} ${digits.slice(5)}` : phone;
+  };
   const footerWebsite = savedWebsite && !/namogange\.org/i.test(savedWebsite) ? savedWebsite : "arogyasangoshthi.com";
   const footerGetInTouchTitle = settings?.footerGetInTouchTitle || "Get In Touch";
 
@@ -271,8 +276,8 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.3fr_0.9fr_1.05fr_1.3fr_1.1fr] gap-8 lg:gap-0">
 
             {/* Column 1: Logo, about & stats */}
-            <div className="flex flex-col gap-3 lg:pr-5">
-              <div className="w-48 sm:w-56 relative inline-block">
+            <div className="flex flex-col gap-2 lg:pr-5">
+              <div className="w-40 sm:w-44 relative inline-block">
                 <Sparkle style={{ top: '-10px', left: '10%', animationDelay: '0s' }} />
                 <Sparkle style={{ top: '20px', left: '-15px', animationDelay: '0.4s' }} />
                 <Sparkle style={{ top: '-15px', right: '15%', animationDelay: '0.8s' }} />
@@ -289,13 +294,13 @@ const Footer = () => {
                   style={{ filter: "drop-shadow(0 0 10px rgba(243,183,27,0.35))" }}
                 />
               </div>
-              <p className="text-white text-[13px] leading-relaxed">
+              <p className="text-white text-[13px] leading-snug">
                 {renderFooterAboutText()}
               </p>
 
               <div className="flex items-center gap-2 w-full">
                 <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-[#F3B71B]/80" />
-                <img src={divider} alt={dividerAlt} className="h-5 w-auto object-contain" />
+                <img src={divider} alt={dividerAlt} className="h-4 w-auto object-contain" />
                 <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-[#F3B71B]/80" />
               </div>
 
@@ -303,8 +308,8 @@ const Footer = () => {
                 {footerStats.map((stat, index) => (
                   <React.Fragment key={`stat-${index}`}>
                     <div className="flex flex-col items-center gap-1 flex-1">
-                      <div className="w-10 h-10 rounded-full border border-[#F3B71B] flex items-center justify-center">
-                        <img src={srcOf(stat.image, getStatIcon(stat.icon))} alt={stat.imageAlt || stat.label} className="h-5 w-auto object-contain" />
+                      <div className="w-9 h-9 rounded-full border border-[#F3B71B] flex items-center justify-center">
+                        <img src={srcOf(stat.image, getStatIcon(stat.icon))} alt={stat.imageAlt || stat.label} className="h-[18px] w-auto object-contain" />
                       </div>
                       <span className="font-bold font-inter text-[#F3B71B] text-[16px] leading-none mt-1">
                         <CountUp end={stat.number || 0} />+
@@ -312,17 +317,39 @@ const Footer = () => {
                       <span className="text-[10px] text-white uppercase tracking-wider font-medium text-center">{stat.label}</span>
                     </div>
                     {index < footerStats.length - 1 && (
-                      <div className="w-[1px] h-14 bg-gradient-to-b from-transparent via-[#F3B71B]/50 to-transparent shrink-0 self-center" />
+                      <div className="w-[1px] h-12 bg-gradient-to-b from-transparent via-[#F3B71B]/50 to-transparent shrink-0 self-center" />
                     )}
                   </React.Fragment>
                 ))}
+              </div>
+
+              {/* Call Us Today: orange phone disc, the numbers, and an arrow that dials the first one */}
+              <div className="self-start mt-2 inline-flex items-center gap-2.5 rounded-xl border-[1.5px] border-[#F3B71B] bg-[#001810]/70 pl-2.5 pr-3 py-1.5 shadow-[0_0_16px_-2px_rgba(243,183,27,0.35)]">
+                <span className="w-8 h-8 rounded-full bg-gradient-to-b from-[#FFC15A] to-[#F08A1C] flex items-center justify-center shrink-0 shadow-[0_4px_12px_-4px_rgba(240,138,28,0.8)]">
+                  <Phone className="w-4 h-4 text-[#001810]" fill="currentColor" strokeWidth={1.5} />
+                </span>
+                <div className="leading-tight">
+                  <p className="text-[11px] font-medium text-[#F3B71B] mb-0.5">Call Us Today</p>
+                  {footerPhones.map((phone) => (
+                    <a
+                      key={phone}
+                      href={`tel:${String(phone).replace(/[^0-9+]/g, '')}`}
+                      className="block whitespace-nowrap font-bold text-[13px] tracking-tight text-white hover:text-[#F3B71B] transition-colors"
+                    >
+                      {formatPhone(phone)}
+                    </a>
+                  ))}
+                </div>
+                <a href={`tel:${String(footerPhones[0]).replace(/[^0-9+]/g, '')}`} aria-label={`Call ${formatPhone(footerPhones[0])}`} className="ml-0.5 text-white hover:text-[#F3B71B] transition-colors">
+                  <ArrowRight className="w-4 h-4" />
+                </a>
               </div>
             </div>
 
             {/* Column 2: Quick Links */}
             <div className={columnBorder}>
               <h2 className={headingClass}>{footerQuickLinksTitle}</h2>
-              <ul className="grid grid-cols-1 gap-y-2">
+              <ul className="grid grid-cols-1 gap-y-1.5">
                 {quickLinks.filter((link) => !unpublishedPaths.has(pagePathOf(link.path))).map((link, index) => (
                   <li key={`${link.path}-${index}`}>
                     <Link href={link.path} className="text-gray-300 hover:text-white transition-colors flex items-center gap-2 group text-[13px]">

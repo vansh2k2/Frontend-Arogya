@@ -24,6 +24,10 @@ export interface HeroSlideData {
   button2Label?: string;
   button2Link?: string;
   button2NewTab?: boolean;
+  /** Scheduled banner from the admin: image only (no texts/buttons), optional link on the whole slide */
+  imageOnly?: boolean;
+  link?: string;
+  linkNewTab?: boolean;
 }
 
 export interface HeroCarouselData {

@@ -96,6 +96,9 @@ const buildSlides = (input: SlideInput[]) =>
     const theme = THEMES[slide.theme ?? 'green'] ?? THEMES.green;
     return {
       id,
+      imageOnly: Boolean(slide.imageOnly),
+      link: slide.link || '',
+      linkNewTab: Boolean(slide.linkNewTab),
       img: slide.image,
       alt: slide.imageAlt || `Arogya Banner ${id + 1}`,
       logo: slide.logo || DEFAULT_LOGO,
@@ -136,6 +139,7 @@ const HeroCarousel = ({ data }: { data?: HeroCarouselData | null }) => {
   const venue = data ? data.venue ?? '' : DEFAULT_VENUE;
 
   const [cur, setCur] = useState(0);
+  const curSlide = SLIDES[cur] ?? SLIDES[0];
   const curRef   = useRef(0);
   const busyRef  = useRef(false);
   const timerRef = useRef(null);
@@ -463,8 +467,9 @@ const HeroCarousel = ({ data }: { data?: HeroCarouselData | null }) => {
           </div>
         ))}
 
-        {/* ── CINEMATIC VIGNETTE (always on) ── */}
+        {/* ── CINEMATIC VIGNETTE (not on image-only scheduled banners) ── */}
         <div
+          hidden={curSlide.imageOnly}
           className="absolute inset-0 pointer-events-none"
           style={{
             zIndex:6,
@@ -506,12 +511,17 @@ const HeroCarousel = ({ data }: { data?: HeroCarouselData | null }) => {
         />
 
         {/* ── MOBILE GRADIENT ── */}
-        <div className="absolute inset-0 bg-gradient-to-r from-white/65 via-white/20 to-transparent pointer-events-none md:hidden" style={{zIndex:9}} />
+        {!curSlide.imageOnly && (
+          <div className="absolute inset-0 bg-gradient-to-r from-white/65 via-white/20 to-transparent pointer-events-none md:hidden" style={{zIndex:9}} />
+        )}
 
         {/* ── CONTENT PANELS ── */}
         <div className="relative container mx-auto px-6 md:px-16 max-w-[1400px] w-full h-full grid items-center justify-items-start" style={{zIndex:10}}>
 
-          {SLIDES.map((slide) => (
+          {SLIDES.map((slide) => slide.imageOnly ? (
+            /* Scheduled banner: the image says it all — no texts or buttons */
+            <div key={slide.id} ref={el => { panels.current[slide.id] = el as any; }} className="col-start-1 row-start-1" />
+          ) : (
             <div
               key={slide.id}
               ref={el => { panels.current[slide.id] = el as any; }}
@@ -617,6 +627,18 @@ const HeroCarousel = ({ data }: { data?: HeroCarouselData | null }) => {
             </div>
           ))}
         </div>
+
+        {/* ── CLICKABLE SCHEDULED BANNER ── */}
+        {curSlide.imageOnly && curSlide.link && (
+          <Link
+            href={curSlide.link}
+            target={curSlide.linkNewTab ? '_blank' : undefined}
+            rel={curSlide.linkNewTab ? 'noopener noreferrer' : undefined}
+            aria-label={curSlide.alt}
+            className="absolute inset-0"
+            style={{ zIndex: 20 }}
+          />
+        )}
 
         {/* ── PROGRESS BAR ── */}
         <ProgressBar cur={cur} total={SLIDES.length} duration={5000} key={cur} />
